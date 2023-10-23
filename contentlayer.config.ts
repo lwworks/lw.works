@@ -22,7 +22,7 @@ const Author = defineNestedType(() => ({
 const computedFields = {
   slug: {
     type: 'string',
-    resolve: (post: any) => post._raw.flattenedPath
+    resolve: (post: any) => post._raw.sourceFileName.replace('.mdx', '')
   },
   writtenDate: {
     type: 'string',
@@ -48,7 +48,7 @@ const computedFields = {
 
 export const BlogPost = defineDocumentType(() => ({
   name: 'BlogPost',
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `blog/**/*.mdx`,
   contentType: 'mdx',
   fields: {
     title: {
@@ -94,6 +94,6 @@ const tocPlugin =
   }
 
 export default makeSource({
-  contentDirPath: 'content/blog',
+  contentDirPath: 'content',
   documentTypes: [BlogPost]
 })

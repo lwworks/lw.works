@@ -12,7 +12,7 @@ import {CloseIcon} from '@/components/icons/close'
 import {CartIcon} from '@/components/icons/cart'
 
 const links = [
-  {href: 'https://lukaswiesehan.de/work', caption: 'Work'},
+  {href: '/work', caption: 'Work'},
   {href: '/blog', caption: 'Blog'},
   {href: '/hardware', caption: 'Hardware'}
 ]
@@ -48,7 +48,7 @@ export const Navigation = () => {
     <nav className="relative z-50 w-full pt-4 md:pt-6 lg:pt-10">
       <div className="fixed top-4 w-full px-4 sm:px-6 md:hidden">
         <div className="relative z-50 flex h-12 items-center justify-between rounded-3xl border border-slate-200 bg-slate-100/60 pl-5 pr-1.5 shadow-lg shadow-black/5 backdrop-blur-lg dark:border-slate-700 dark:bg-black/70 dark:shadow-black/10">
-          <Link href="/hardware">
+          <Link href="/">
             <Logo className="h-5 text-black dark:text-white md:h-8" />
           </Link>
           <div className="absolute -bottom-px h-px w-8 overflow-y-hidden">
@@ -105,7 +105,7 @@ export const Navigation = () => {
       </div>
       <div className="relative mx-auto hidden w-full max-w-screen-xl items-center justify-end px-8 md:flex lg:px-12">
         <div className="absolute top-0 left-8 flex h-12 items-center lg:left-12">
-          <Link href="/hardware">
+          <Link href="/">
             <Logo className="h-8 text-black dark:text-white md:h-8" />
           </Link>
         </div>
@@ -147,9 +147,9 @@ export const Navigation = () => {
             <ThemeButton />
           </div>
           {pathname?.split('/')[1] !== 'hardware' ? (
-            <Button href="https://lukaswiesehan.de/contact">Gespräch vereinbaren</Button>
+            <Button href="/call/meet-with-lukas">Gespräch vereinbaren</Button>
           ) : cart === null || cart?.totalQuantity === 0 ? (
-            <Button href="https://lukaswiesehan.de/contact">Gespräch vereinbaren</Button>
+            <Button href="/call/meet-with-lukas">Gespräch vereinbaren</Button>
           ) : (
             <Button hideArrow href="/hardware/cart">
               <div className="-mr-1.5 flex items-center space-x-2">
