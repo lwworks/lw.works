@@ -6,7 +6,7 @@ import {getSharedCalendar} from '@/utils/amie/get-shared-calendar'
 import {getSlotsByWeek} from '@/utils/amie/get-slots-by-week'
 import {notFound} from 'next/navigation'
 
-export default async function BookingPage({params}: {params: {slug: string}}) {
+export default async function Page({params}: {params: {slug: string}}) {
   const {sharedCalendar} = await getSharedCalendar(params.slug)
   if (!sharedCalendar) notFound()
   const weeks = getSlotsByWeek(sharedCalendar)

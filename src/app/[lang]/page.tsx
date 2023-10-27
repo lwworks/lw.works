@@ -4,7 +4,7 @@ import {LogoCloud} from '@/components/sections/logo-cloud'
 import {PainPoints} from '@/components/sections/pain-points'
 import {Locale} from '@/i18n.config'
 
-export const Home = async ({params: {lang}}: {params: {lang: Locale}}) => {
+export default async function Page({params: {lang}}: {params: {lang: Locale}}) {
   const dictionary = await getDictionary(lang)
 
   return (
@@ -15,5 +15,3 @@ export const Home = async ({params: {lang}}: {params: {lang: Locale}}) => {
     </main>
   )
 }
-
-export default Home

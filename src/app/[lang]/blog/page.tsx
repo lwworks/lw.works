@@ -3,7 +3,7 @@ import {PostPreview} from '@/components/content/post-preview'
 import {Section} from '@/components/layout/section'
 import {allBlogPosts} from 'contentlayer/generated'
 
-export default async function Blog() {
+export default async function Page() {
   return (
     <main>
       <Section className="pt-32 pb-20 sm:pb-28 md:pb-32 md:pt-40 lg:pt-48 lg:pb-40 xl:pb-48">

@@ -13,7 +13,7 @@ const mono = JetBrains_Mono({weight: '300', subsets: ['latin'], display: 'swap',
 
 export const metadata = getMetadata({}).metadata
 
-export const Layout = async ({children}: {children: React.ReactNode}) => {
+export default async function Layout({children}: {children: React.ReactNode}) {
   return (
     <html lang="de" className={`${lato.variable} ${sora.variable} ${mono.variable}`}>
       <head />
@@ -42,5 +42,3 @@ export const Layout = async ({children}: {children: React.ReactNode}) => {
     </html>
   )
 }
-
-export default Layout
