@@ -12,10 +12,10 @@ export const LanguageButton = () => {
   const [locale, setLocale] = useState<string>(pathName ? pathName.split('/')[1] : i18n.defaultLocale)
 
   useEffect(() => {
-    if (!pathName) router.push('/')
+    if (!pathName) window.location.href = '/'
     const segments = pathName!.split('/')
     segments[1] = locale
-    if (pathName?.split('/')[1] != locale) router.push(segments.join('/'))
+    if (pathName?.split('/')[1] != locale) window.location.href = segments.join('/')
   }, [locale, pathName, router])
 
   return (
