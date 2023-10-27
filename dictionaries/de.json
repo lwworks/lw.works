@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "subheading": "Frontend Subscription",
+    "heading": "Deine Next-Level<br/>SaaS Website ist nur einen Klick entfernt",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    "cta": {
+      "primary": "Jetzt Starten",
+      "secondary": "Secondary Button"
+    },
+    "socialProof": "Empfohlen von"
+  },
+  "painPoints": {
+    "painPoints": [
+      {
+        "icon": "time-fast",
+        "heading": "Probleme, deine Seite<br/>up-to-date zu halten?",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "heart-stash",
+        "heading": "Unzufrieden mit <br/>dem Design/der Struktur?",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "wallet",
+        "heading": "Kein Budget für ein<br/>extra In-House-Team?",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ]
+  }
+}

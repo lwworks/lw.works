@@ -1,4 +1,5 @@
 'use client'
+
 import {Button} from '@/components/atoms/button'
 import {Logo} from '@/components/visuals/logo'
 import Link from 'next/link'

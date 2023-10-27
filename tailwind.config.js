@@ -8,6 +8,9 @@ module.exports = {
         sans: ['var(--font-lato)'],
         display: ['var(--font-sora)'],
         mono: ['var(--font-mono)']
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
       }
     }
   },

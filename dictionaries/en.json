@@ -1,0 +1,31 @@
+{
+  "hero": {
+    "subheading": "Frontend Subscription",
+    "heading": "Your Next-Level<br/>SaaS Website is only one click away",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    "cta": {
+      "primary": "Get Started",
+      "secondary": "Secondary Button"
+    },
+    "socialProof": "Trusted by great builders like"
+  },
+  "painPoints": {
+    "painPoints": [
+      {
+        "icon": "time-fast",
+        "heading": "Struggling to keep<br/>your site up-to-date?",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "heart-stash",
+        "heading": "Unhappy with your<br/>current design/structure?",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "wallet",
+        "heading": "No budget for an<br/>entire in-house team?",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ]
+  }
+}
