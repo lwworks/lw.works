@@ -14,7 +14,7 @@ export const PainPoints: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Divider />
-      <Section className="mb-96 py-16 sm:py-24">
+      <Section className="pt-16 sm:pt-24">
         <div className="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3">
           {content.painPoints.map(({icon, heading, text}, index) => (
             <div key={index}>

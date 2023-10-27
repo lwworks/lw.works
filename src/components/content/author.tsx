@@ -1,16 +1,14 @@
-import {InstagramIcon} from '@/components/icons/instagram'
 import {LinkedinIcon} from '@/components/icons/linkedin'
 import {TwitterIcon} from '@/components/icons/twitter'
 import Image from 'next/image'
 import Link from 'next/link'
 import {FC} from 'react'
 
-export const Author: FC<{name: string; description: string; avatar: string; linkedin?: string; instagram?: string; twitter?: string}> = ({
+export const Author: FC<{name: string; description: string; avatar: string; linkedin?: string; twitter?: string}> = ({
   name,
   description,
   avatar,
   linkedin,
-  instagram,
   twitter
 }) => {
   return (
@@ -22,19 +20,14 @@ export const Author: FC<{name: string; description: string; avatar: string; link
         <p className="pt-1 font-semibold leading-none text-black dark:text-white">{name}</p>
         <p className="leading-snug text-slate-600 dark:text-slate-300">{description}</p>
         <p className="pt-1 text-black dark:text-white">
-          {linkedin && (
-            <Link href={linkedin} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
-              <LinkedinIcon className="h-4" />
-            </Link>
-          )}
-          {instagram && (
-            <Link href={instagram} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
-              <InstagramIcon className="h-4" />
-            </Link>
-          )}
           {twitter && (
             <Link href={twitter} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
               <TwitterIcon className="h-4" />
+            </Link>
+          )}
+          {linkedin && (
+            <Link href={linkedin} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
+              <LinkedinIcon className="h-4" />
             </Link>
           )}
         </p>
