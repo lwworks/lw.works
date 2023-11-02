@@ -16,7 +16,7 @@ const logos = [
 
 export const LogoCloud = () => {
   return (
-    <Section className="pb-12 sm:pb-20 -mt-4">
+    <Section className="pb-4 -mt-4">
       <div className="relative overflow-x-hidden -mx-16">
         <div>
           <div className="flex animate-scroll py-4">

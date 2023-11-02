@@ -14,7 +14,6 @@ export const Rotate: FC<{children: ReactNode; speed?: number; className?: string
 
   return (
     <div className={`relative ${className}`}>
-      <div className="opacity-0">{array[0]}</div>
       <AnimatePresence initial={false}>
         {Children.map(children, (child, index) => {
           if (index === currentIndex)
@@ -26,7 +25,7 @@ export const Rotate: FC<{children: ReactNode; speed?: number; className?: string
                 exit={{opacity: 0, transition: {duration: 0.2}}}
                 className="absolute whitespace-nowrap top-0 left-0"
               >
-                {array[index]}
+                {child}
               </motion.div>
             )
         })}

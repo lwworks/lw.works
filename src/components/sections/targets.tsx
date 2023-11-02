@@ -7,19 +7,19 @@ import {IconName} from '../icons'
 import {Paragraph} from '../atoms/paragraph'
 
 type Content = {
-  painPoints: {icon: string; heading: string; text: string}[]
+  targets: {icon: string; heading: string; text: string}[]
 }
 
-export const PainPoints: FC<{content: Content}> = ({content}) => {
+export const Targets: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Divider />
-      <Section className="pt-16 sm:pt-24 lg:pt-36">
+      <Section className="pt-16 sm:pt-24 lg:pt-40">
         <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16 md:grid-cols-2 lg:grid-cols-3">
-          {content.painPoints.map(({icon, heading, text}, index) => (
+          {content.targets.map(({icon, heading, text}, index) => (
             <div key={index}>
               <div className="mb-4 flex flex-col gap-6 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row">
-                <IconBox icon={icon as IconName} color="rose" />
+                <IconBox icon={icon as IconName} />
                 <Heading level={3} size="sm" html={heading} />
               </div>
               <Paragraph className="max-w-md">{text}</Paragraph>

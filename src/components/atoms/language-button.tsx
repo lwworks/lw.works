@@ -33,7 +33,7 @@ export const LanguageButton = () => {
               <DropdownMenu.RadioItem
                 key={locale}
                 value={locale}
-                className={`relative flex h-9 items-center rounded border border-transparent px-3 font-mono uppercase focus:bg-white/30 focus:outline-none data-[state=checked]:text-indigo-500 dark:focus:bg-white/10 dark:data-[state=checked]:text-indigo-300 md:h-7 md:px-2 md:text-sm`}
+                className={`cursor-pointer relative flex h-9 items-center rounded border border-transparent px-3 font-mono uppercase focus:bg-white/30 focus:outline-none data-[state=checked]:text-indigo-500 dark:focus:bg-white/10 dark:data-[state=checked]:text-indigo-300 md:h-7 md:px-2 md:text-sm`}
               >
                 <DropdownMenu.ItemIndicator className="absolute inset-2 bg-indigo-400/80 blur-md" />
                 <span className="relative">{locale}</span>

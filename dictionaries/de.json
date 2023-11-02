@@ -27,5 +27,52 @@
         "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
       }
     ]
+  },
+  "trust": {
+    "heading": "Entwickle dein Produkt –<br/>wir handlen die Website",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat."
+  },
+  "targets": {
+    "targets": [
+      {
+        "icon": "rocket",
+        "heading": "Platziere dein Produkt<br/>vor der Konkurrenz",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "user-plus",
+        "heading": "Generiere mehr Nutzer<br/>oder Waitlist-Signups",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "lightning",
+        "heading": "Die Website wächst von<br/>allein mit deinem Produkt",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ]
+  },
+  "process": {
+    "heading": "This is a headline",
+    "steps": [
+      {
+        "id": "001",
+        "heading": "Subscribe & Request",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "id": "002",
+        "heading": "Design & Development",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "id": "003",
+        "heading": "Revisions & Evolution",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ],
+    "cta": {
+      "primary": "Jetzt Starten",
+      "secondary": "Call Vereinbaren"
+    }
   }
 }

@@ -24,6 +24,8 @@ import {TargetIcon} from './target'
 import {TimeFastIcon} from './time-fast'
 import {WalletIcon} from './wallet'
 import {HeartStashIcon} from './heart-stash'
+import {RocketIcon} from './rocket'
+import {LightningIcon} from './lightning'
 
 const icons = {
   alert: AlertIcon,
@@ -37,11 +39,13 @@ const icons = {
   globe: GlobeIcon,
   'heart-stash': HeartStashIcon,
   instagram: InstagramIcon,
+  lightning: LightningIcon,
   linkedin: LinkedinIcon,
   lock: LockIcon,
   menu: MenuIcon,
   moon: MoonIcon,
   planet: PlanetIcon,
+  rocket: RocketIcon,
   star: StarIcon,
   sun: SunIcon,
   target: TargetIcon,

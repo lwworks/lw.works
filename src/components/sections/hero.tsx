@@ -53,9 +53,9 @@ export const Hero: FC<{content: Content}> = ({content}) => {
         <span dangerouslySetInnerHTML={{__html: content.heading}} />
       </Heading>
       <Paragraph size="lg" className="mt-12 max-w-xl">
-        {content.text}
+        <span dangerouslySetInnerHTML={{__html: content.text}}></span>
       </Paragraph>
-      <div className="flex space-x-2 mt-8">
+      <div className="flex gap-x-2 mt-8">
         <Button>{content.cta.primary}</Button>
         <Button secondary>{content.cta.secondary}</Button>
       </div>
@@ -63,7 +63,7 @@ export const Hero: FC<{content: Content}> = ({content}) => {
         <Avatars avatars={avatars} plus={7} />
         <div>
           <p className="leading-none">{content.socialProof}</p>
-          <Rotate className="font-bold text-black dark:text-white" speed={2000}>
+          <Rotate className="h-5 font-bold text-black dark:text-white" speed={2000}>
             {avatars.map(({alt}, index) => (
               <div key={index}>{alt}</div>
             ))}

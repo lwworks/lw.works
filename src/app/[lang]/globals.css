@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply antialiased relative h-full min-h-screen w-full bg-white dark:bg-[#0E1117] text-slate-500 overflow-x-hidden dark:text-slate-300;
+    @apply antialiased relative h-full min-h-screen w-full bg-white dark:bg-[#0E1117] text-slate-500 dark:text-slate-300;
   }
 
   p > b {
@@ -46,5 +46,9 @@
 
   .animate-scroll {
     animation: scroll 30s linear infinite;
+  }
+
+  .paragraph b {
+    @apply text-black dark:text-white;
   }
 }

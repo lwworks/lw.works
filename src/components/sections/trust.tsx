@@ -1,23 +1,22 @@
 import Image from 'next/image'
 import {Heading} from '../atoms/heading'
 import {Section} from '../layout/section'
-import {Divider} from '../atoms/divider'
 import {Paragraph} from '../atoms/paragraph'
 import {Author} from '../content/author'
+import {FC} from 'react'
 
-export const Trust = () => {
+type Content = {
+  heading: string
+  text: string
+}
+
+export const Trust: FC<{content: Content}> = ({content}) => {
   return (
     <>
-      <Section className="group pt-16 sm:pt-24 lg:pt-32 grid grid-cols-2">
-        <div>
-          <Heading level={2}>
-            Focus on your product –<br />
-            {`we'll handle your website`}
-          </Heading>
-          <Paragraph className="mt-8 max-w-lg">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. Lorem
-            ipsum dolor sit amet, consetetur sadipscing elitr.
-          </Paragraph>
+      <Section className="group pt-16 sm:pt-24 lg:pt-40 grid grid-cols-1 gap-y-16 md:grid-cols-2">
+        <div className="md:pb-8">
+          <Heading level={2} html={content.heading} />
+          <Paragraph className="mt-7 max-w-lg">{content.text}</Paragraph>
           <div className="mt-8">
             <Author
               name="Lukas Wiesehan"
@@ -52,7 +51,6 @@ export const Trust = () => {
           />
         </div>
       </Section>
-      <Divider />
     </>
   )
 }

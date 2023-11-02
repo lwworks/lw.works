@@ -2,10 +2,10 @@
   "hero": {
     "subheading": "Frontend Subscription",
     "heading": "Your Next-Level<br/>SaaS Website is only one click away",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    "text": "The first ever <b>design and development subscription</b> for SaaS companies. Get <b>highly detailed designs and cutting-edge Next.js development</b> without hiring an in-house team.",
     "cta": {
       "primary": "Get Started",
-      "secondary": "Secondary Button"
+      "secondary": "Schedule a Call"
     },
     "socialProof": "Trusted by great builders like"
   },
@@ -27,5 +27,52 @@
         "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
       }
     ]
+  },
+  "trust": {
+    "heading": "Focus on your product –<br/>let us handle your website",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat."
+  },
+  "targets": {
+    "targets": [
+      {
+        "icon": "rocket",
+        "heading": "Put your product ahead<br/>of your competition",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "user-plus",
+        "heading": "Generate more users<br/>or waitlist signups",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "lightning",
+        "heading": "Let your site magically<br/>grow with your product",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ]
+  },
+  "process": {
+    "heading": "This is a headline",
+    "steps": [
+      {
+        "id": "001",
+        "heading": "Subscribe & Request",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "id": "002",
+        "heading": "Design & Development",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "id": "003",
+        "heading": "Revisions & Evolution",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ],
+    "cta": {
+      "primary": "Get Started",
+      "secondary": "Schedule a Call"
+    }
   }
 }

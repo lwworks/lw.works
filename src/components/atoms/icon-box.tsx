@@ -1,10 +1,11 @@
 import {FC} from 'react'
 import {Icon, IconName} from '../icons'
 
-export const IconBox: FC<{icon: IconName; color?: 'indigo' | 'rose'}> = ({icon, color = 'indigo'}) => {
+export const IconBox: FC<{icon: IconName; color?: 'indigo' | 'rose' | 'emerald'}> = ({icon, color = 'indigo'}) => {
   const colors = {
     indigo: {bg: 'bg-indigo-400', text: 'text-indigo-400'},
-    rose: {bg: 'bg-rose-400', text: 'text-rose-400'}
+    rose: {bg: 'bg-rose-400', text: 'text-rose-400'},
+    emerald: {bg: 'bg-emerald-400', text: 'text-emerald-400'}
   }
 
   return (
