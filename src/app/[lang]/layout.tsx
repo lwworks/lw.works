@@ -15,9 +15,9 @@ export const metadata = getMetadata({}).metadata
 
 export default async function Layout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="de" className={`${lato.variable} ${sora.variable} ${mono.variable}`}>
+    <html lang="de" className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
       <head />
-      <body>
+      <body className="overflow-x-hidden">
         {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
         <Script
           id="check-theme"

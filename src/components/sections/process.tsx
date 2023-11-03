@@ -6,6 +6,9 @@ import {Subheading} from '../atoms/subheading'
 import {Section} from '../layout/section'
 import Image from 'next/image'
 import {Button} from '../atoms/button'
+import {RequestAnimation} from '../animation/process/request'
+import {DesignDevAnimation} from '../animation/process/design-dev'
+import {EvolutionAnimation} from '../animation/process/evolution'
 
 type Content = {
   heading: string
@@ -29,7 +32,8 @@ export const Process: FC<{content: Content}> = ({content}) => {
         </Heading>
       </div>
       {content.steps.map(({id, heading, text}, index) => (
-        <div key={index} className="sticky mt-16" style={{top: `${15 + index * 7}rem`}}>
+        <div key={index} className="sticky mt-12" style={{top: `${15 + index * 5}rem`}}>
+          <div className="absolute -top-16 h-32 w-full bg-gradient-to-t from-white via-white/80 dark:from-[#0E1117] dark:via-[#0E1117]" />
           <Card className="grid grid-cols-1 gap-y-16 md:grid-cols-2">
             <div className="p-16 pr-0">
               <div className="flex items-start gap-4 mb-1">
@@ -42,19 +46,22 @@ export const Process: FC<{content: Content}> = ({content}) => {
                 <span dangerouslySetInnerHTML={{__html: text}} />
               </Paragraph>
             </div>
-            <div className="relative overflow-visible">
-              <div className="absolute top-0 left-0 -bottom-32 -right-56">
-                <Image src="/images/background-grid.png" alt="Background Grid" fill className="object-cover object-left-top" />
+            <div className="relative overflow-hidden">
+              <div className="absolute h-2/3 left-0 bottom-0 -right-64">
+                <Image src="/images/background-grid.png" alt="Background Grid" fill className="object-cover object-left-top opacity-50" />
                 <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-indigo-400 w-3/4 h-32 blur-3xl opacity-50"
+                  className="absolute -bottom-16 left-1/2 -translate-x-1/2 bg-indigo-400 w-3/4 h-32 blur-3xl opacity-30"
                   style={{borderRadius: '50% 50%'}}
                 />
               </div>
+              {index === 0 && <RequestAnimation />}
+              {index === 1 && <DesignDevAnimation />}
+              {index === 2 && <EvolutionAnimation />}
             </div>
           </Card>
         </div>
       ))}
-      <div className="sticky h-96 bg-gradient-to-t from-white dark:from-[#0E1117] pb-24 flex items-end justify-center gap-x-2">
+      <div className="sticky h-64 bg-gradient-to-t from-white via-white dark:from-[#0E1117] dark:via-[#0E1117] pb-24 flex items-end justify-center gap-x-2">
         <Button>{content.cta.primary}</Button>
         <Button secondary>{content.cta.secondary}</Button>
       </div>
