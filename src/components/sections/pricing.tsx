@@ -18,7 +18,7 @@ type Content = {
     pricePerMonth: number
     checklist: string[]
     cta: {caption: string; href: string}
-    scarcity: {color: 'emerald' | 'amber'; text: string}
+    scarcity: {color: string; text: string}
   }[]
   call: {heading: string; text: string; cta: {caption: string; href: string}}
 }
