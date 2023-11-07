@@ -2,11 +2,11 @@
   "navigation": {
     "pageLinks": [
       {
-        "caption": "Über",
+        "caption": "About",
         "href": "#about"
       },
       {
-        "caption": "Prozess",
+        "caption": "Process",
         "href": "#process"
       },
       {
@@ -14,160 +14,160 @@
         "href": "#work"
       },
       {
-        "caption": "Preise",
+        "caption": "Pricing",
         "href": "#pricing"
       }
     ],
     "cta": {
-      "caption": "Jetzt Starten",
+      "caption": "Get Started",
       "href": "#pricing"
     }
   },
   "footer": {
-    "copyright": "© LW Works",
+    "copyright": "© Lukas Wiesehan",
     "menus": [
       {
         "heading": "Frontend",
         "items": [
           {"caption": "Start", "href": "/"},
-          {"caption": "Über", "href": "/#about"},
-          {"caption": "Prozess", "href": "/#process"},
+          {"caption": "About", "href": "/#about"},
+          {"caption": "Process", "href": "/#process"},
           {"caption": "Work", "href": "/#work"},
-          {"caption": "Preise", "href": "/#pricing"}
+          {"caption": "Pricing", "href": "/#pricing"}
         ]
       },
       {
-        "heading": "Mehr",
+        "heading": "More",
         "items": [
-          {"caption": "Call vereinbaren", "href": "/"},
+          {"caption": "Schedule a Call", "href": "/"},
           {"caption": "Blog", "href": "/blog"},
           {"caption": "Work", "href": "/work"},
           {"caption": "Hardware", "href": "/hardware"}
         ]
       },
       {
-        "heading": "Rechtliches",
+        "heading": "Legal",
         "items": [
-          {"caption": "Kontakt", "href": "/contact"},
-          {"caption": "Impressum", "href": "/legal"},
-          {"caption": "Datenschutz", "href": "/privacy"}
+          {"caption": "Contact", "href": "/contact"},
+          {"caption": "Legal Information", "href": "/legal"},
+          {"caption": "Privacy Policy", "href": "/privacy"}
         ]
       }
     ]
   },
   "hero": {
     "subheading": "Frontend Subscription",
-    "heading": "Deine Next-Level<br/>SaaS Website ist nur einen Klick entfernt",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    "heading": "Your Next-Level<br/>SaaS Website is only one click away",
+    "text": "The first ever <b>design and development subscription</b> for SaaS companies. Get <b>highly detailed designs and modern frontend development</b> without hiring an in-house team.",
     "cta": {
       "primary": {
         "caption": "Get Started",
-        "href": "#prcing"
+        "href": "#pricing"
       },
       "secondary": {
         "caption": "Schedule a Call",
         "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
       }
     },
-    "socialProof": "Empfohlen von"
+    "socialProof": "Trusted by great builders like"
   },
   "painPoints": {
     "painPoints": [
       {
         "icon": "time-fast",
-        "heading": "Probleme, deine Seite<br/>up-to-date zu halten?",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "heading": "Struggling to keep<br/>your site up-to-date?",
+        "text": "When your product evolves, it can be hard to keep your website up-to-date whilst maintaining highest design standards."
       },
       {
         "icon": "heart-stash",
-        "heading": "Unzufrieden mit <br/>dem Design/der Struktur?",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "heading": "Unhappy with your<br/>current design/structure?",
+        "text": "When focussing on your product, your website can sometimes become unstructured and heavy over time, which also impacts the design."
       },
       {
         "icon": "wallet",
-        "heading": "Kein Budget für ein<br/>extra In-House-Team?",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "heading": "No budget for an<br/>entire in-house team?",
+        "text": "Great designers and developers are expensive. Who can afford A-players to build and maintain their products website?"
       }
     ]
   },
   "trust": {
-    "heading": "Entwickle dein Produkt –<br/>wir handlen die Website",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat."
+    "heading": "Focus on your product –<br/>let us handle your website",
+    "text": "We'll take care of designing your <b>top-tier website</b> including graphics, animations and docs pages. And we'll build it out using the <b>latest frontend technologies</b> – no Webflow, no Framer."
   },
   "targets": {
     "targets": [
       {
         "icon": "rocket",
-        "heading": "Platziere dein Produkt<br/>vor der Konkurrenz",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "heading": "Put your product ahead<br/>of your competition",
+        "text": "Your perfectly crafted website will place your product on a level with big players like Linear<br/>or Stripe."
       },
       {
         "icon": "user-plus",
-        "heading": "Generiere mehr Nutzer<br/>oder Waitlist-Signups",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "heading": "Generate more users<br/>or waitlist signups",
+        "text": "Compelling landing pages will attract more potential users and bring you lots of attention on Twitter, ProductHunt, etc."
       },
       {
         "icon": "lightning",
-        "heading": "Die Website wächst von<br/>allein mit deinem Produkt",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "heading": "Let your site magically<br/>grow with your product",
+        "text": "While you develop new product features,<br/>we'll take care of adding great feature pages to your website."
       }
     ]
   },
   "process": {
-    "heading": "This is a headline",
+    "heading": "Unlock your products potential",
     "steps": [
       {
         "id": "001",
         "heading": "Subscribe & Request",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "Subscribe in just a minute and get access to your own request board with instructions on how to get the most out of your subscription. When you're ready for a top-tier website, <b>add as many requests as you like</b> – we'll tackle them one by one."
       },
       {
         "id": "002",
         "heading": "Design & Development",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "We'll get to work on your active request on the same or the next business day, monday to friday. You will receive a note when we're finished – this normally takes us around <b>48h for design requests</b> and around <b>96h for development requests</b>, depending on the task of course."
       },
       {
         "id": "003",
         "heading": "Revisions & Evolution",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "After completing a request, you can leave feedback and we'll revise our work until you're <b>100% satisfied</b>. When developing new features for your product, just add requests for us to add them to your website or build out entire feature pages. That's how <b>your website will magically grow with your product</b>."
       }
     ]
   },
   "design": {
     "heading": "Cutting-edge design,<br/>crafted for your product",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+    "text": "We value great design because we know it will not only attract more potential users. It can also bring you lots of attention for your product on social media.<br/>We have optimized our design process to work with Figma, so you can view previews and prototypes easily.",
     "categories": [
       {
         "icon": "rocket",
         "heading": "Compelling landing &<br/>feature pages",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "With great conversion-optimized landing pages, your potential users will understand why they <b>need your product and be motivated to sign up</b>."
       },
       {
         "icon": "atom",
         "heading": "Beautifully composed<br/>graphics & animations",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "<b>Show, don't tell</b>: To quickly explain your product and its benefits, we need to have great (animated) graphics on your site."
       },
       {
         "icon": "folder",
         "heading": "Helpfully organized<br/>documentation sites",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "It can be hard to structure and build great documentation sites. We'll find the best way to <b>design your docs and build them out</b>."
       }
     ]
   },
   "development": {
     "heading": "No Webflow, no Framer,<br/>but real Next.js development",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+    "text": "Yep. Low code website builders might be great for getting a landing page up quickly. But we believe that <b>in the long run, nothing beats a modern frontend stack</b>. It allows full control over design and animations, as well as providing a solid base to fully integrate services like payments, content, search, booking and many more."
   },
   "projects": {
     "heading": "Recent<br/>work",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.",
+    "text": "This is some of our latest design and/or development work.",
     "cta": {
       "caption": "See more",
-      "href": "/"
+      "href": "/work"
     }
   },
   "testimonial": {
-    "quote": "An insider's tip with attention to detail.",
+    "quote": "A true insider tip with attention to detail.",
     "author": "Johannes Schickling",
     "role": "Founder of Prisma"
   },
@@ -176,23 +176,23 @@
       {
         "icon": "infinity",
         "heading": "Unlimited requests <br/>and team members",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "Invite as many team members and add as many requests to your board as you like."
       },
       {
         "icon": "time-fast",
         "heading": "Blazing fast design &<br/>development delivery",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "Receive your finished design or code in just a few business days."
       },
       {
         "icon": "pause",
         "heading": "As flexible as it gets: pause or cancel anytime",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "text": "Pause or cancel the subscription if you don't have enough design/development work."
       }
     ],
     "prices": [
       {
         "heading": "Design<br/>only",
-        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        "description": "Get everything you need for a Next-Level SaaS Website.",
         "pricePerMonth": 2995,
         "checklist": [
           "Unlimited design requests",
@@ -204,17 +204,17 @@
         ],
         "cta": {
           "caption": "Get Started",
-          "href": "/"
+          "href": "https://buy.stripe.com/00gdTw50S5uibNS5kl"
         },
         "scarcity": {
-          "color": "amber",
-          "text": "3 slots available"
+          "color": "emerald",
+          "text": "4 slots left"
         }
       },
       {
-        "badge": "Empfohlen",
+        "badge": "Popular",
         "heading": "Design &<br/>Development",
-        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        "description": "Get your Next-Level SaaS Website completely built & maintained.",
         "pricePerMonth": 4995,
         "checklist": [
           "Unlimited design & dev requests",
@@ -227,67 +227,71 @@
         ],
         "cta": {
           "caption": "Get Started",
-          "href": "/"
+          "href": "https://buy.stripe.com/14kbLogJAe0O3hmfYY"
         },
         "scarcity": {
           "color": "amber",
-          "text": "3 slots available"
+          "text": "3 slots left"
         }
       }
     ],
     "call": {
       "heading": "Not sure if this is<br/>right for you?",
-      "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.",
+      "text": "We offer premium services that aren't affordable for everyone. If you're not sure wether our service is the right fit for your company or product, feel free to schedule a call with our founder Lukas.",
       "cta": {
-        "caption": "Schedule a call",
-        "href": "/"
+        "caption": "Schedule a Call",
+        "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
       }
     }
   },
   "faq": {
-    "heading": "Frequently asked questions",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.",
+    "heading": "FAQs",
+    "text": "We always aim to be completely clear and transparent with our services. If there's anything left unclear, feel free to schedule a call with our founder Lukas.",
     "cta": {
-      "caption": "Schedule a call",
-      "href": "/"
+      "caption": "Schedule a Call",
+      "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
     },
     "questions": [
       {
-        "q": "Lorem ipsum dolor sit amet?",
-        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "q": "Is there a request limit?",
+        "a": "No – you can add as many requests to your board as you like. But we will always only work on one active request at a time."
       },
       {
-        "q": "Lorem ipsum dolor sit amet?",
-        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "q": "What design work do you cover?",
+        "a": "We cover everything related to your website. That usually includes the UI, graphics, icons, illustrations. If you don't have any branding in place, we can cover that, too."
       },
       {
-        "q": "Lorem ipsum dolor sit amet?",
-        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "q": "What technologies do you use in development?",
+        "a": "Your website will be built using Next.js and TailwindCSS. We believe that a modern tech stack builds a more solid base for future updates or additions than Webflow or Framer can."
       },
       {
-        "q": "Lorem ipsum dolor sit amet?",
-        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "q": "Can you integrate external services?",
+        "a": "Totally. We can integrate basically anything that has an API. For example, we often work with payment providers, CMS, search and Google services."
       },
       {
-        "q": "Lorem ipsum dolor sit amet?",
-        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "q": "Can you also build our product?",
+        "a": "No. Building products really takes a lot of time and passion. We have that passion for building great websites. That's why we aim to take everything website-related from your shoulders, so you can focus on building the best product for your users."
       },
       {
-        "q": "Lorem ipsum dolor sit amet?",
-        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+        "q": "Why wouldn't I just hire designers/devs?",
+        "a": "We offer these services because we know how hard it is to find A-players and how expensive it is to hire them full-time. Our subscription is a cheaper and more flexible solution to getting a top-tier website for your software product."
+      },
+      {
+        "q": "What sets you apart from other services?",
+        "a": "There are lots of new subscription-based agencies lately – which is great because the subscription model is a win-win for you and for us. We are the first to offer first-class design <i>and</i> professional development instead of Webflow/Framer."
       }
     ]
   },
   "cta": {
-    "heading": "Start leveling up your SaaS website",
-    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet.",
+    "heading": "Level up your SaaS website",
+    "text": "What are you waiting for? Let's build a beautiful, compelling website and raise your product to the level of big players.",
     "primary": {
       "caption": "Get Started",
       "href": "#pricing"
     },
     "secondary": {
       "caption": "Schedule a Call",
-      "href": "/"
+      "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
     }
   }
 }
