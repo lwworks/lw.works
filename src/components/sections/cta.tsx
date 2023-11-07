@@ -16,14 +16,14 @@ export const CTA: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Divider />
-      <Section className="group relative overflow-hidden pt-24 pb-48 flex flex-col items-center">
+      <Section className="group relative overflow-hidden pt-16 lg:pt-24 pb-24 lg:pb-48 flex flex-col items-start lg:items-center">
         <div
           className="absolute -top-12 left-1/2 -translate-x-1/2 bg-indigo-400 w-1/2 h-32 blur-3xl sm:blur-4xl transition-opacity duration-500 opacity-40 group-hover:opacity-60"
           style={{borderRadius: '50% 50%'}}
         />
-        <Heading level={2} size="xl" html={content.heading} />
-        <Paragraph className="mt-7 mb-8 max-w-lg text-center" html={content.text} />
-        <div className="flex gap-x-2">
+        <Heading level={2} size="xl" className="lg:text-center" html={content.heading} />
+        <Paragraph className="mt-7 mb-8 max-w-lg lg:text-center" html={content.text} />
+        <div className="flex flex-wrap gap-2">
           <Button href={content.primary.href}>{content.primary.caption}</Button>
           <Button href={content.secondary.href} secondary>
             {content.secondary.caption}

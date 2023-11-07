@@ -14,8 +14,8 @@ export const Targets: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Divider />
-      <Section className="pt-16 sm:pt-24 lg:pt-24">
-        <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16 md:grid-cols-2 lg:grid-cols-3">
+      <Section className="pt-16 lg:pt-24">
+        <div className="grid grid-cols-1 gap-12 lg:gap-x-16 md:grid-cols-2 lg:grid-cols-3">
           {content.targets.map(({icon, heading, text}, index) => (
             <div key={index}>
               <div className="mb-4 flex flex-col gap-6 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row">

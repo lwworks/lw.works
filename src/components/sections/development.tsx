@@ -22,10 +22,10 @@ export const Development: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Divider />
-      <Section className="pt-24">
+      <Section className="pt-16 lg:pt-24">
         <Heading level={2} html={content.heading} />
-        <Paragraph className="mt-7 mb-16 max-w-xl" html={content.text} />
-        <div className="col-span-2 flex flex-wrap justify-between -ml-3 items-end gap-x-16 gap-y-8">
+        <Paragraph className="mt-7 mb-12 lg:mb-16 max-w-xl" html={content.text} />
+        <div className="col-span-2 flex flex-col items-center sm:flex-row flex-wrap justify-between sm:-ml-3 gap-x-16 gap-y-8">
           {logos.map(({src, alt, width, height, scale}, index) => (
             <div key={index} className="relative" style={{scale}}>
               <Image src={src.replace('.svg', '-black.svg')} alt={alt} width={width} height={height} className="h-8 w-auto dark:hidden" />

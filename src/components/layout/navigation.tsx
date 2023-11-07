@@ -77,31 +77,47 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
         {open && (
           <>
             <div className="fixed inset-0 bg-white/40 backdrop-blur-lg dark:bg-black/20" onClick={() => setOpen((open) => !open)} />
-            <div className="fixed inset-x-4 mt-2 flex h-48 flex-col items-center justify-between rounded-3xl border border-slate-200 bg-slate-200/50 p-4 pb-6 shadow-lg shadow-black/5 dark:border-slate-700 dark:bg-black/70 dark:shadow-black/10 sm:inset-x-6">
-              <ul className="relative flex items-center justify-center space-x-4">
+            <div className="fixed inset-x-4 mt-2 flex flex-col items-center justify-between rounded-3xl border border-slate-200 bg-slate-200/50 p-4 py-6 shadow-lg shadow-black/5 dark:border-slate-700 dark:bg-black/70 dark:shadow-black/10 sm:inset-x-6">
+              <ul className="relative flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
                 {content.pageLinks.map(({href, caption}, index) => {
                   const active = pathname?.split('/')[1] === href.split('/')[1]
-                  return (
-                    <li key={index} className="relative">
-                      <Link
-                        href={href}
-                        className={`relative flex h-7 items-center rounded px-2 font-bold focus:bg-white/10 focus:outline-none ${
-                          active ? 'text-black dark:text-white' : 'text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white'
-                        }`}
-                      >
-                        {caption}
-                      </Link>
-                      {active && (
-                        <div className="absolute -inset-x-2 -top-[17px] h-px overflow-y-hidden">
-                          <div className="mx-auto -mt-6 h-12 w-2/3 bg-white opacity-80 blur" />
-                        </div>
-                      )}
-                    </li>
-                  )
+                  if (href.startsWith('#')) {
+                    return (
+                      <li key={index} className="relative">
+                        <button
+                          onClick={() => {
+                            setOpen(false)
+                            document.getElementById(href.replace('#', ''))?.scrollIntoView({behavior: 'smooth'})
+                          }}
+                          className={`relative flex h-7 items-center rounded px-2 font-bold focus:bg-white/10 focus:outline-none dark:focus:bg-white/10 text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white`}
+                        >
+                          {caption}
+                        </button>
+                      </li>
+                    )
+                  } else {
+                    return (
+                      <li key={index} className="relative">
+                        <Link
+                          href={href}
+                          className={`relative flex h-7 items-center rounded px-2 font-bold focus:bg-white/10 focus:outline-none ${
+                            active ? 'text-black dark:text-white' : 'text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white'
+                          }`}
+                        >
+                          {caption}
+                        </Link>
+                        {active && (
+                          <div className="absolute -inset-x-2 -top-[17px] h-px overflow-y-hidden">
+                            <div className="mx-auto -mt-6 h-12 w-2/3 bg-white opacity-80 blur" />
+                          </div>
+                        )}
+                      </li>
+                    )
+                  }
                 })}
               </ul>
-              <Button href="https://lukaswiesehan.de/contact">Gespräch vereinbaren</Button>
-              <div className="relative flex h-5 items-center">
+              <Button href={content.cta.href}>{content.cta.caption}</Button>
+              <div className="mt-6 relative flex h-5 items-center">
                 <LanguageButton />
                 <ThemeButton />
               </div>

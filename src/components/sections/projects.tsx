@@ -14,7 +14,7 @@ type Content = {
 export const Projects: FC<{content: Content}> = ({content}) => {
   return (
     <>
-      <Section id="work" className="relative group pt-16 sm:pt-24 lg:pt-48 grid grid-cols-1 gap-y-16 md:grid-cols-3">
+      <Section id="work" className="relative group pt-24 lg:pt-48 grid grid-cols-1 gap-y-16 md:grid-cols-3 items-end">
         <div className="absolute bottom-0 h-96 inset-x-0">
           <div
             className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-indigo-400 w-1/2 h-32 blur-3xl sm:blur-4xl transition-opacity duration-500 opacity-70 group-hover:opacity-90"
@@ -28,13 +28,13 @@ export const Projects: FC<{content: Content}> = ({content}) => {
             className="h-full w-auto mx-auto opacity-50 pointer-events-none"
           />
         </div>
-        <div>
+        <div className="hidden md:block">
           <Image src="/images/projects/clearyst-light.png" alt="Clearyst Website" width={1200} height={748} className="dark:hidden relative w-full" />
           <Image src="/images/projects/clearyst-dark.png" alt="Clearyst Website" width={1200} height={748} className="hidden dark:block relative w-full" />
         </div>
-        <div className="relative flex flex-col items-center justify-end pb-24">
-          <Heading level={2} size="xl" className="text-center" html={content.heading} />
-          <Paragraph className="my-7 max-w-xs text-center">{content.text}</Paragraph>
+        <div className="relative flex flex-col items-start md:items-center justify-end md:pb-16 lg:pb-24">
+          <Heading level={2} size="xl" className="md:text-center" html={content.heading} />
+          <Paragraph className="mt-7 mb-8 max-w-xs md:text-center">{content.text}</Paragraph>
           <Button href={content.cta.href}>{content.cta.caption}</Button>
         </div>
         <div>

@@ -47,19 +47,19 @@ const avatars = [
 
 export const Hero: FC<{content: Content}> = ({content}) => {
   return (
-    <Section className="pt-32 pb-16 md:pt-40 md:pb-24 lg:pt-48">
+    <Section className="pt-32 pb-16 lg:pt-48">
       <Subheading>{content.subheading}</Subheading>
       <Heading level={1} className="max-w-lg">
         <span dangerouslySetInnerHTML={{__html: content.heading}} />
       </Heading>
-      <Paragraph size="lg" className="mt-12 max-w-xl" html={content.text} />
-      <div className="flex gap-x-2 mt-8">
+      <Paragraph size="lg" className="mt-8 lg:mt-12 max-w-xl" html={content.text} />
+      <div className="flex flex-wrap gap-2 mt-8">
         <Button href={content.cta.primary.href}>{content.cta.primary.caption}</Button>
         <Button href={content.cta.secondary.href} secondary>
           {content.cta.secondary.caption}
         </Button>
       </div>
-      <div className="flex items-center gap-4 mt-8 text-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8 text-sm">
         <Avatars avatars={avatars} plus={7} />
         <div>
           <p className="leading-none">{content.socialProof}</p>

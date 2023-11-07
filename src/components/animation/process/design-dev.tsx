@@ -48,7 +48,10 @@ export const DesignDevAnimation = () => {
     <div id="design-dev-animation" className="relative m-16">
       <motion.div className="relative origin-top-left" style={{scale}}>
         <Image src="/images/process/design-dev-background.png" alt="Request Background" width="1460" height="1139" />
-        <div className="absolute text-[0.61rem] font-mono text-white px-2 py-1" style={{left: '28%', right: '2%', top: '35%', bottom: '18%'}}>
+        <div
+          className="absolute text-[0.61rem] lg:text-[0.5rem] xl:text-[0.61rem] font-mono text-white px-2 py-1"
+          style={{left: '28%', right: '2%', top: '35%', bottom: '18%'}}
+        >
           <p>
             <span className="text-slate-400">{'> '}</span>
             <span>{typingLine.substring(0, typingProgress)}</span>

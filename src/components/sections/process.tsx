@@ -21,25 +21,25 @@ type Content = {
 export const Process: FC<{content: Content}> = ({content}) => {
   return (
     <Section id="process">
-      <div className="sticky -top-8 pt-16 sm:pt-24 lg:pt-48 mb-16">
-        <Heading level={2} size="xl" className="text-center">
+      <div className="lg:sticky lg:-top-8 pt-24 lg:pt-48 mb-12 lg:mb-16">
+        <Heading level={2} size="xl" className="lg:text-center">
           {content.heading}
         </Heading>
       </div>
       {content.steps.map(({id, heading, text}, index) => (
         <div
           key={index}
-          className="sticky"
+          className="lg:sticky"
           style={{
             top: `${17 + index * 6}rem`,
             marginBottom: `${(content.steps.length - index - 1) * 6}rem`,
             marginTop: index > 0 ? `-${(content.steps.length - index) * 6 - 3}rem` : 0
           }}
         >
-          <div className="absolute -top-16 h-32 w-full bg-gradient-to-t from-white via-white/80 dark:from-[#0E1117] dark:via-[#0E1117]" />
-          <Card className="grid grid-cols-1 gap-y-16 md:grid-cols-2">
-            <div className="p-16 pr-0">
-              <div className="flex items-start gap-4 mb-1">
+          <div className="hidden lg:block absolute -top-16 h-32 w-full bg-gradient-to-t from-white via-white/80 dark:from-[#0E1117] dark:via-[#0E1117]" />
+          <Card className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="px-6 py-8 lg:p-16 lg:pr-0">
+              <div className="flex flex-col lg:flex-row items-start gap-x-4 gap-y-2 mb-1">
                 <Subheading>{id}</Subheading>
                 <Heading level={3} size="sm" className="-mt-0.5 mb-3">
                   {heading}
@@ -47,7 +47,7 @@ export const Process: FC<{content: Content}> = ({content}) => {
               </div>
               <Paragraph className="max-w-md" html={text} />
             </div>
-            <div className="relative overflow-hidden">
+            <div className="hidden sm:block relative overflow-hidden">
               <div className="absolute h-2/3 left-0 bottom-0 -right-64">
                 <Image src="/images/background-grid.png" alt="Background Grid" fill className="object-cover object-left-top opacity-50" />
                 <div
@@ -62,10 +62,6 @@ export const Process: FC<{content: Content}> = ({content}) => {
           </Card>
         </div>
       ))}
-      {/* <div className="sticky h-64 bg-gradient-to-t from-white via-white dark:from-[#0E1117] dark:via-[#0E1117] pb-24 flex items-end justify-center gap-x-2">
-        <Button>{content.cta.primary}</Button>
-        <Button secondary>{content.cta.secondary}</Button>
-      </div> */}
     </Section>
   )
 }

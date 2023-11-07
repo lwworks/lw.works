@@ -13,10 +13,10 @@ type Content = {
 
 export const Design: FC<{content: Content}> = ({content}) => {
   return (
-    <Section className="pt-16 sm:pt-24 lg:pt-48 pb-24">
+    <Section className="pt-24 lg:pt-48 pb-16 lg:pb-24">
       <Heading level={2} html={content.heading} />
-      <Paragraph className="mt-7 mb-16 max-w-xl" html={content.text} />
-      <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16 md:grid-cols-2 lg:grid-cols-3">
+      <Paragraph className="mt-7 mb-12 lg:mb-16 max-w-xl" html={content.text} />
+      <div className="grid grid-cols-1 gap-12 lg:gap-x-16 md:grid-cols-2 lg:grid-cols-3">
         {content.categories.map(({icon, heading, text}, index) => (
           <div key={index}>
             <div className="mb-4 flex flex-col gap-6 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row">

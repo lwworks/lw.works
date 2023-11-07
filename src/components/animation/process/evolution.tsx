@@ -53,7 +53,10 @@ export const EvolutionAnimation = () => {
       </motion.div>
       <motion.div className="absolute inset-0 origin-top-left" style={{y, scale}}>
         <Image src="/images/process/evolution-figma.png" alt="Evolution Figma Window" width="1460" height="1139" />
-        <div className="absolute flex items-center px-1.5 text-[0.7rem] text-black" style={{left: '38%', right: '37%', top: '53%', bottom: '40%'}}>
+        <div
+          className="absolute flex items-center px-1.5 text-[0.7rem] lg:text-[0.5rem] xl:text-[0.7rem] text-black"
+          style={{left: '38%', right: '37%', top: '53%', bottom: '40%'}}
+        >
           <p>
             <span>{typingLine.substring(0, typingProgress)}</span>
             {typingProgress < 16 && <span>|</span>}

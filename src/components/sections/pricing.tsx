@@ -26,11 +26,11 @@ type Content = {
 export const Pricing: FC<{content: Content}> = ({content}) => {
   return (
     <>
-      <Section id="pricing" className="pt-16 sm:pt-24 lg:pt-48 pb-16 sm:pb-20">
-        <Heading level={2} size="xl" className="text-center mb-16">
+      <Section id="pricing" className="pt-24 lg:pt-48 pb-16 lg:pb-20">
+        <Heading level={2} size="xl" className="lg:text-center mb-12 lg:mb-16">
           Fitted to your needs
         </Heading>
-        <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-12 lg:gap-x-16 md:grid-cols-2 lg:grid-cols-3">
           {content.features.map(({icon, heading, text}, index) => (
             <div key={index}>
               <div className="mb-4 flex flex-col gap-6 sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row">
@@ -43,7 +43,7 @@ export const Pricing: FC<{content: Content}> = ({content}) => {
         </div>
       </Section>
       <Divider />
-      <Section className="pt-24 grid grid-cols-1 lg:grid-cols-3 gap-x-12">
+      <Section className="pt-16 lg:pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {content.prices.map(({badge, heading, description, pricePerMonth, checklist, cta, scarcity}, index) => (
           <div key={index} className="relative">
             {badge && (
@@ -51,7 +51,7 @@ export const Pricing: FC<{content: Content}> = ({content}) => {
                 {badge}
               </div>
             )}
-            <Card className="group relative p-12 flex flex-col justify-between items-start" borderAnimation={badge ? true : false}>
+            <Card className="group relative px-6 py-8 lg:p-12 flex flex-col justify-between items-start" borderAnimation={badge ? true : false}>
               {badge && (
                 <div
                   className="absolute left-12 right-12 h-12 -top-6 blur-3xl bg-indigo-500 opacity-70 transition-opacity duration-300 group-hover:opacity-90"
@@ -74,16 +74,16 @@ export const Pricing: FC<{content: Content}> = ({content}) => {
                 </div>
                 <ul className="space-y-2 my-8">
                   {checklist.map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
+                    <li key={index} className="flex gap-3">
                       <CheckIcon
-                        className={`h-3.5 mt-px shrink-0 ${badge ? 'text-indigo-500 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}
+                        className={`h-3.5 mt-[0.3rem] shrink-0 ${badge ? 'text-indigo-500 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'}`}
                       />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="flex items-center gap-x-6">
+              <div className="flex flex-wrap items-center gap-y-4 gap-x-6">
                 <Button href={cta.href} secondary={badge ? false : true}>
                   {cta.caption}
                 </Button>
@@ -95,15 +95,15 @@ export const Pricing: FC<{content: Content}> = ({content}) => {
                   >
                     <span className={`block w-full h-full rounded-full ${scarcity.color === 'emerald' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
                   </span>
-                  <span>{scarcity.text}</span>
+                  <span className="whitespace-nowrap">{scarcity.text}</span>
                 </div>
               </div>
             </Card>
           </div>
         ))}
-        <div className="py-12 pl-3">
+        <div className="md:col-span-2 lg:col-span-1 lg:py-12 lg:pl-3">
           <Heading level={2} html={content.call.heading} />
-          <Paragraph className="my-7" html={content.call.text} />
+          <Paragraph className="my-7 max-w-lg" html={content.call.text} />
           <Button href={content.call.cta.href} secondary>
             {content.call.cta.caption}
           </Button>
