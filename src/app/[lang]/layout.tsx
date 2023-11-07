@@ -6,6 +6,8 @@ import {BlurBackground} from '@/components/visuals/blur-background'
 import {Navigation} from '@/components/layout/navigation'
 import {Footer} from '@/components/layout/footer'
 import Analytics from '@/components/functional/analytics'
+import {getDictionary} from '@/utils/get-dictionary'
+import {Locale} from '@/i18n.config'
 
 const lato = Lato({weight: ['400', '700'], subsets: ['latin'], display: 'swap', variable: '--font-lato'})
 const sora = Sora({weight: '800', subsets: ['latin'], display: 'swap', variable: '--font-sora'})
@@ -13,7 +15,9 @@ const mono = JetBrains_Mono({weight: '300', subsets: ['latin'], display: 'swap',
 
 export const metadata = getMetadata({}).metadata
 
-export default async function Layout({children}: {children: React.ReactNode}) {
+export default async function Layout({params: {lang}, children}: {params: {lang: Locale}; children: React.ReactNode}) {
+  const dictionary = await getDictionary(lang)
+
   return (
     <html lang="de" className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
       <head />
@@ -34,9 +38,9 @@ export default async function Layout({children}: {children: React.ReactNode}) {
           }}
         />
         <BlurBackground />
-        <Navigation />
+        <Navigation content={dictionary.navigation} />
         <div className="relative">{children}</div>
-        <Footer />
+        <Footer content={dictionary.footer} />
       </body>
       <Analytics />
     </html>

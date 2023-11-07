@@ -14,9 +14,9 @@ export const Rotate: FC<{children: ReactNode; speed?: number; className?: string
 
   return (
     <div className={`relative ${className}`}>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         <motion.div
-          key={index}
+          key={index + 1}
           initial={{y: '-100%', opacity: 0}}
           animate={{y: 0, opacity: 1}}
           exit={{opacity: 0, transition: {duration: 0.2}}}

@@ -11,6 +11,12 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
+      },
+      animation: {
+        'spin-slow': 'spin 8s linear infinite'
+      },
+      blur: {
+        '4xl': '96px'
       }
     }
   },

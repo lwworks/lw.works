@@ -1,11 +1,73 @@
 {
+  "navigation": {
+    "pageLinks": [
+      {
+        "caption": "Über",
+        "href": "#about"
+      },
+      {
+        "caption": "Prozess",
+        "href": "#process"
+      },
+      {
+        "caption": "Work",
+        "href": "#work"
+      },
+      {
+        "caption": "Preise",
+        "href": "#pricing"
+      }
+    ],
+    "cta": {
+      "caption": "Jetzt Starten",
+      "href": "#pricing"
+    }
+  },
+  "footer": {
+    "copyright": "© LW Works",
+    "menus": [
+      {
+        "heading": "Frontend",
+        "items": [
+          {"caption": "Start", "href": "/"},
+          {"caption": "Über", "href": "/#about"},
+          {"caption": "Prozess", "href": "/#process"},
+          {"caption": "Work", "href": "/#work"},
+          {"caption": "Preise", "href": "/#pricing"}
+        ]
+      },
+      {
+        "heading": "Mehr",
+        "items": [
+          {"caption": "Call vereinbaren", "href": "/"},
+          {"caption": "Blog", "href": "/blog"},
+          {"caption": "Work", "href": "/work"},
+          {"caption": "Hardware", "href": "/hardware"}
+        ]
+      },
+      {
+        "heading": "Rechtliches",
+        "items": [
+          {"caption": "Kontakt", "href": "/contact"},
+          {"caption": "Impressum", "href": "/legal"},
+          {"caption": "Datenschutz", "href": "/privacy"}
+        ]
+      }
+    ]
+  },
   "hero": {
     "subheading": "Frontend Subscription",
     "heading": "Deine Next-Level<br/>SaaS Website ist nur einen Klick entfernt",
     "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
     "cta": {
-      "primary": "Jetzt Starten",
-      "secondary": "Secondary Button"
+      "primary": {
+        "caption": "Get Started",
+        "href": "#prcing"
+      },
+      "secondary": {
+        "caption": "Schedule a Call",
+        "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+      }
     },
     "socialProof": "Empfohlen von"
   },
@@ -69,10 +131,163 @@
         "heading": "Revisions & Evolution",
         "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
       }
-    ],
+    ]
+  },
+  "design": {
+    "heading": "Cutting-edge design,<br/>crafted for your product",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+    "categories": [
+      {
+        "icon": "rocket",
+        "heading": "Compelling landing &<br/>feature pages",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "atom",
+        "heading": "Beautifully composed<br/>graphics & animations",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "folder",
+        "heading": "Helpfully organized<br/>documentation sites",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ]
+  },
+  "development": {
+    "heading": "No Webflow, no Framer,<br/>but real Next.js development",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+  },
+  "projects": {
+    "heading": "Recent<br/>work",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.",
     "cta": {
-      "primary": "Jetzt Starten",
-      "secondary": "Call Vereinbaren"
+      "caption": "See more",
+      "href": "/"
+    }
+  },
+  "testimonial": {
+    "quote": "An insider's tip with attention to detail.",
+    "author": "Johannes Schickling",
+    "role": "Founder of Prisma"
+  },
+  "pricing": {
+    "features": [
+      {
+        "icon": "infinity",
+        "heading": "Unlimited requests <br/>and team members",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "time-fast",
+        "heading": "Blazing fast design &<br/>development delivery",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "icon": "pause",
+        "heading": "As flexible as it gets: pause or cancel anytime",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ],
+    "prices": [
+      {
+        "heading": "Design<br/>only",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        "pricePerMonth": 2995,
+        "checklist": [
+          "Unlimited design requests",
+          "One active request",
+          "48h average return time",
+          "Unlimited team members",
+          "Easy credit card payments",
+          "Pause or cancel anytime"
+        ],
+        "cta": {
+          "caption": "Get Started",
+          "href": "/"
+        },
+        "scarcity": {
+          "color": "amber",
+          "text": "3 slots available"
+        }
+      },
+      {
+        "badge": "Empfohlen",
+        "heading": "Design &<br/>Development",
+        "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+        "pricePerMonth": 4995,
+        "checklist": [
+          "Unlimited design & dev requests",
+          "One active request",
+          "48h average design return time",
+          "96h development return time",
+          "Unlimited team members",
+          "Easy credit card payments",
+          "Pause or cancel anytime"
+        ],
+        "cta": {
+          "caption": "Get Started",
+          "href": "/"
+        },
+        "scarcity": {
+          "color": "amber",
+          "text": "3 slots available"
+        }
+      }
+    ],
+    "call": {
+      "heading": "Not sure if this is<br/>right for you?",
+      "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.",
+      "cta": {
+        "caption": "Schedule a call",
+        "href": "/"
+      }
+    }
+  },
+  "faq": {
+    "heading": "Frequently asked questions",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.",
+    "cta": {
+      "caption": "Schedule a call",
+      "href": "/"
+    },
+    "questions": [
+      {
+        "q": "Lorem ipsum dolor sit amet?",
+        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "q": "Lorem ipsum dolor sit amet?",
+        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "q": "Lorem ipsum dolor sit amet?",
+        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "q": "Lorem ipsum dolor sit amet?",
+        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "q": "Lorem ipsum dolor sit amet?",
+        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      },
+      {
+        "q": "Lorem ipsum dolor sit amet?",
+        "a": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt."
+      }
+    ]
+  },
+  "cta": {
+    "heading": "Start leveling up your SaaS website",
+    "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt. Lorem ipsum dolor sit amet.",
+    "primary": {
+      "caption": "Get Started",
+      "href": "#pricing"
+    },
+    "secondary": {
+      "caption": "Schedule a Call",
+      "href": "/"
     }
   }
 }

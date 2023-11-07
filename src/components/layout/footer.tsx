@@ -1,25 +1,15 @@
 import Link from 'next/link'
+import {FC} from 'react'
 
-const menus = [
-  {
-    title: 'Seiten',
-    elements: [
-      {caption: 'Home', href: 'https://lukaswiesehan.de/'},
-      {caption: 'Blog', href: '/blog'},
-      {caption: 'Work', href: 'https://lukaswiesehan.de/work'}
-    ]
-  },
-  {
-    title: 'Rechtliches',
-    elements: [
-      {caption: 'Kontakt', href: 'https://lukaswiesehan.de/contact'},
-      {caption: 'Impressum', href: 'https://lukaswiesehan.de/legal'},
-      {caption: 'Datenschutz', href: 'https://lukaswiesehan.de/privacy'}
-    ]
-  }
-]
+type Content = {
+  copyright: string
+  menus: {
+    heading: string
+    items: {caption: string; href: string}[]
+  }[]
+}
 
-export const Footer = () => {
+export const Footer: FC<{content: Content}> = ({content}) => {
   return (
     <section className="pt-3">
       <div className="relative z-10 mx-auto -mb-4 w-full max-w-screen-xl px-6 sm:px-8 lg:px-12">
@@ -57,14 +47,14 @@ export const Footer = () => {
         </div>
         <div className="relative mx-auto mt-12 flex w-full max-w-screen-xl flex-col justify-between px-6 text-sm text-slate-400 dark:text-slate-500 sm:-mt-8 sm:flex-row sm:space-y-0 sm:px-8 lg:px-12">
           <div className="order-2 mt-12 sm:order-1 sm:mt-16">
-            <p className="font-mono text-xs uppercase">&copy; Lukas Wiesehan 2023</p>
+            <p className="font-mono text-xs uppercase">{`${content.copyright} ${new Date().getFullYear()}`}</p>
           </div>
           <div className="order-1 flex space-x-8 sm:order-2 sm:space-x-16">
-            {menus.map(({title, elements}, index) => (
+            {content.menus.map(({heading, items}, index) => (
               <div key={index}>
-                <h4 className="mb-6 text-xs font-bold uppercase tracking-wider text-indigo-500/70 dark:text-indigo-400/70 sm:mb-12">{title}</h4>
+                <h4 className="mb-6 text-xs font-bold uppercase tracking-wider text-indigo-500/70 dark:text-indigo-400/70 sm:mb-12">{heading}</h4>
                 <ul className="space-y-2">
-                  {elements.map(({caption, href}, index) => (
+                  {items.map(({caption, href}, index) => (
                     <li key={index}>
                       <Link href={href} className="hover:text-slate-500 dark:hover:text-slate-400">
                         {caption}

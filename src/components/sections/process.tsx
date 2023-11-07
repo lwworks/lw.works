@@ -5,7 +5,6 @@ import {Paragraph} from '../atoms/paragraph'
 import {Subheading} from '../atoms/subheading'
 import {Section} from '../layout/section'
 import Image from 'next/image'
-import {Button} from '../atoms/button'
 import {RequestAnimation} from '../animation/process/request'
 import {DesignDevAnimation} from '../animation/process/design-dev'
 import {EvolutionAnimation} from '../animation/process/evolution'
@@ -17,22 +16,26 @@ type Content = {
     heading: string
     text: string
   }[]
-  cta: {
-    primary: string
-    secondary: string
-  }
 }
 
 export const Process: FC<{content: Content}> = ({content}) => {
   return (
-    <Section>
-      <div className="sticky -top-8 pt-16 sm:pt-24 lg:pt-40 mb-16">
-        <Heading level={2} size="xl">
+    <Section id="process">
+      <div className="sticky -top-8 pt-16 sm:pt-24 lg:pt-48 mb-16">
+        <Heading level={2} size="xl" className="text-center">
           {content.heading}
         </Heading>
       </div>
       {content.steps.map(({id, heading, text}, index) => (
-        <div key={index} className="sticky mt-12" style={{top: `${15 + index * 5}rem`}}>
+        <div
+          key={index}
+          className="sticky"
+          style={{
+            top: `${17 + index * 6}rem`,
+            marginBottom: `${(content.steps.length - index - 1) * 6}rem`,
+            marginTop: index > 0 ? `-${(content.steps.length - index) * 6 - 3}rem` : 0
+          }}
+        >
           <div className="absolute -top-16 h-32 w-full bg-gradient-to-t from-white via-white/80 dark:from-[#0E1117] dark:via-[#0E1117]" />
           <Card className="grid grid-cols-1 gap-y-16 md:grid-cols-2">
             <div className="p-16 pr-0">
@@ -42,9 +45,7 @@ export const Process: FC<{content: Content}> = ({content}) => {
                   {heading}
                 </Heading>
               </div>
-              <Paragraph className="max-w-md">
-                <span dangerouslySetInnerHTML={{__html: text}} />
-              </Paragraph>
+              <Paragraph className="max-w-md" html={text} />
             </div>
             <div className="relative overflow-hidden">
               <div className="absolute h-2/3 left-0 bottom-0 -right-64">
@@ -61,10 +62,10 @@ export const Process: FC<{content: Content}> = ({content}) => {
           </Card>
         </div>
       ))}
-      <div className="sticky h-64 bg-gradient-to-t from-white via-white dark:from-[#0E1117] dark:via-[#0E1117] pb-24 flex items-end justify-center gap-x-2">
+      {/* <div className="sticky h-64 bg-gradient-to-t from-white via-white dark:from-[#0E1117] dark:via-[#0E1117] pb-24 flex items-end justify-center gap-x-2">
         <Button>{content.cta.primary}</Button>
         <Button secondary>{content.cta.secondary}</Button>
-      </div>
+      </div> */}
     </Section>
   )
 }

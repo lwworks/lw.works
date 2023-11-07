@@ -12,8 +12,8 @@ type Content = {
   heading: string
   text: string
   cta: {
-    primary: string
-    secondary: string
+    primary: {caption: string; href: string}
+    secondary: {caption: string; href: string}
   }
   socialProof: string
 }
@@ -52,12 +52,12 @@ export const Hero: FC<{content: Content}> = ({content}) => {
       <Heading level={1} className="max-w-lg">
         <span dangerouslySetInnerHTML={{__html: content.heading}} />
       </Heading>
-      <Paragraph size="lg" className="mt-12 max-w-xl">
-        <span dangerouslySetInnerHTML={{__html: content.text}}></span>
-      </Paragraph>
+      <Paragraph size="lg" className="mt-12 max-w-xl" html={content.text} />
       <div className="flex gap-x-2 mt-8">
-        <Button>{content.cta.primary}</Button>
-        <Button secondary>{content.cta.secondary}</Button>
+        <Button href={content.cta.primary.href}>{content.cta.primary.caption}</Button>
+        <Button href={content.cta.secondary.href} secondary>
+          {content.cta.secondary.caption}
+        </Button>
       </div>
       <div className="flex items-center gap-4 mt-8 text-sm">
         <Avatars avatars={avatars} plus={7} />

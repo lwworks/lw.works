@@ -26,25 +26,35 @@ import {WalletIcon} from './wallet'
 import {HeartStashIcon} from './heart-stash'
 import {RocketIcon} from './rocket'
 import {LightningIcon} from './lightning'
+import {QuotesIcon} from './quotes'
+import {InfinityIcon} from './infinity'
+import {PauseIcon} from './pause'
+import {AtomIcon} from './atom'
+import {FolderIcon} from './folder'
 
 const icons = {
   alert: AlertIcon,
+  atom: AtomIcon,
   arrow: ArrowIcon,
   calendar: CalendarIcon,
   cart: CartIcon,
   'check-square': CheckSquareIcon,
   check: CheckIcon,
   close: CloseIcon,
+  folder: FolderIcon,
   gear: GearIcon,
   globe: GlobeIcon,
   'heart-stash': HeartStashIcon,
+  infinity: InfinityIcon,
   instagram: InstagramIcon,
   lightning: LightningIcon,
   linkedin: LinkedinIcon,
   lock: LockIcon,
   menu: MenuIcon,
   moon: MoonIcon,
+  pause: PauseIcon,
   planet: PlanetIcon,
+  quotes: QuotesIcon,
   rocket: RocketIcon,
   star: StarIcon,
   sun: SunIcon,

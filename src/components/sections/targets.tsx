@@ -14,7 +14,7 @@ export const Targets: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Divider />
-      <Section className="pt-16 sm:pt-24 lg:pt-40">
+      <Section className="pt-16 sm:pt-24 lg:pt-24">
         <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16 md:grid-cols-2 lg:grid-cols-3">
           {content.targets.map(({icon, heading, text}, index) => (
             <div key={index}>
@@ -22,7 +22,7 @@ export const Targets: FC<{content: Content}> = ({content}) => {
                 <IconBox icon={icon as IconName} />
                 <Heading level={3} size="sm" html={heading} />
               </div>
-              <Paragraph className="max-w-md">{text}</Paragraph>
+              <Paragraph className="max-w-md" html={text} />
             </div>
           ))}
         </div>

@@ -13,10 +13,10 @@ type Content = {
 export const Trust: FC<{content: Content}> = ({content}) => {
   return (
     <>
-      <Section className="group pt-16 sm:pt-24 lg:pt-40 grid grid-cols-1 gap-y-16 md:grid-cols-2">
+      <Section id="about" className="group pt-16 sm:pt-24 lg:pt-48 grid grid-cols-1 gap-y-16 md:grid-cols-2">
         <div className="md:pb-8">
           <Heading level={2} html={content.heading} />
-          <Paragraph className="mt-7 max-w-lg">{content.text}</Paragraph>
+          <Paragraph className="mt-7 max-w-lg" html={content.text} />
           <div className="mt-8">
             <Author
               name="Lukas Wiesehan"
@@ -27,13 +27,13 @@ export const Trust: FC<{content: Content}> = ({content}) => {
             />
           </div>
         </div>
-        <div className="relative flex items-end flex-row-reverse">
+        <div className="relative">
           <div className="absolute -inset-x-24 bottom-0 overflow-hidden">
             <div
               className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-indigo-400 w-3/4 h-1/2 blur-3xl transition-opacity duration-500 opacity-50 group-hover:opacity-80"
               style={{borderRadius: '50% 50%'}}
             />
-            <Image src="/images/background-grid.png" alt="Background Grid" width={1920} height={1080} className="w-full" />
+            <Image src="/images/background-grid.png" alt="Background Grid" width={1920} height={1080} className="w-full opacity-50" />
           </div>
           <Image
             src="/images/projects/urlbox-contentlayer-light.png"

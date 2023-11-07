@@ -39,7 +39,24 @@ export const Button: FC<{
       initial="rest"
       whileHover="hover"
       animate="rest"
-      onClick={href ? () => router.push(href) : action ? action : undefined}
+      onClick={
+        href
+          ? () => {
+              if (href.startsWith('#')) {
+                console.log(href)
+                document.getElementById(href.replace('#', ''))?.scrollIntoView({behavior: 'smooth'})
+              } else {
+                if (href.startsWith('https')) {
+                  window.open(href, '_blank')
+                } else {
+                  router.push(href)
+                }
+              }
+            }
+          : action
+          ? action
+          : undefined
+      }
       disabled={loading || disabled}
     >
       <div
