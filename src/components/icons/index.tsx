@@ -31,6 +31,7 @@ import {InfinityIcon} from './infinity'
 import {PauseIcon} from './pause'
 import {AtomIcon} from './atom'
 import {FolderIcon} from './folder'
+import {EmailIcon} from './email'
 
 const icons = {
   alert: AlertIcon,
@@ -41,6 +42,7 @@ const icons = {
   'check-square': CheckSquareIcon,
   check: CheckIcon,
   close: CloseIcon,
+  email: EmailIcon,
   folder: FolderIcon,
   gear: GearIcon,
   globe: GlobeIcon,

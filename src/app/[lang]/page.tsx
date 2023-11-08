@@ -19,19 +19,19 @@ export default async function Page({params: {lang}}: {params: {lang: Locale}}) {
 
   return (
     <main>
-      <Hero content={dictionary.hero} />
+      <Hero content={dictionary.index.hero} />
       <LogoCloud />
-      <PainPoints content={dictionary.painPoints} />
-      <Trust content={dictionary.trust} />
-      <Targets content={dictionary.targets} />
-      <Process content={dictionary.process} />
-      <Design content={dictionary.design} />
-      <Development content={dictionary.development} />
-      <Projects content={dictionary.projects} />
-      <Testimonial content={dictionary.testimonial} />
-      <Pricing content={dictionary.pricing} />
-      <FAQ content={dictionary.faq} />
-      <CTA content={dictionary.cta} />
+      <PainPoints content={dictionary.index.painPoints} />
+      <Trust content={dictionary.index.trust} />
+      <Targets content={dictionary.index.targets} />
+      <Process content={dictionary.index.process} />
+      <Design content={dictionary.index.design} />
+      <Development content={dictionary.index.development} />
+      <Projects content={dictionary.index.projects} />
+      <Testimonial content={dictionary.index.testimonial} />
+      <Pricing content={dictionary.index.pricing} />
+      <FAQ content={dictionary.index.faq} />
+      <CTA content={dictionary.index.cta} />
     </main>
   )
 }

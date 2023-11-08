@@ -10,6 +10,7 @@ import {IconBox} from '../atoms/icon-box'
 import {IconName} from '../icons'
 
 type Content = {
+  heading: string
   features: {icon: string; heading: string; text: string}[]
   prices: {
     badge?: string
@@ -27,9 +28,7 @@ export const Pricing: FC<{content: Content}> = ({content}) => {
   return (
     <>
       <Section id="pricing" className="pt-24 lg:pt-48 pb-16 lg:pb-20">
-        <Heading level={2} size="xl" className="lg:text-center mb-12 lg:mb-16">
-          Fitted to your needs
-        </Heading>
+        <Heading level={2} size="xl" className="lg:text-center mb-12 lg:mb-16" html={content.heading} />
         <div className="grid grid-cols-1 gap-12 lg:gap-x-16 md:grid-cols-2 lg:grid-cols-3">
           {content.features.map(({icon, heading, text}, index) => (
             <div key={index}>

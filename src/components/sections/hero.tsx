@@ -15,7 +15,10 @@ type Content = {
     primary: {caption: string; href: string}
     secondary: {caption: string; href: string}
   }
-  socialProof: string
+  socialProof: {
+    text: string
+    count: number
+  }
 }
 
 const avatars = [
@@ -60,9 +63,9 @@ export const Hero: FC<{content: Content}> = ({content}) => {
         </Button>
       </div>
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8 text-sm">
-        <Avatars avatars={avatars} plus={7} />
+        <Avatars avatars={avatars} plus={content.socialProof.count} />
         <div>
-          <p className="leading-none">{content.socialProof}</p>
+          <p className="leading-none">{content.socialProof.text}</p>
           <Rotate className="h-5 font-bold text-black dark:text-white" speed={2000}>
             {avatars.map(({alt}, index) => (
               <div key={index}>{alt}</div>

@@ -7,6 +7,7 @@ import {ArrowIcon} from '@/components/icons/arrow'
 import {CalendarIcon} from '@/components/icons/calendar'
 import {Section} from '@/components/layout/section'
 import {allBlogPosts} from 'contentlayer/generated'
+import {Locale} from '@/i18n.config'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
 
@@ -16,8 +17,8 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function Page({params}: {params: {slug: string}}) {
-  const post = allBlogPosts.find((post) => post.slug === params.slug)
+export default async function Page({params}: {params: {slug: string; lang: Locale}}) {
+  const post = allBlogPosts.find((post) => post.slug === params.slug && post.language === params.lang)
   if (!post) notFound()
 
   return (
@@ -62,7 +63,7 @@ export default async function Page({params}: {params: {slug: string}}) {
         <div className="relative mx-auto flex w-full max-w-screen-xl items-start justify-between px-6 sm:px-8 lg:px-12" id="article">
           <MDX code={post.body.code} />
           <div className="sticky top-32 hidden lg:block lg:w-80" style={{maxHeight: 'calc(100vh - 400px)'}}>
-            <TOC post={post} />
+            <TOC headings={post.headings} />
           </div>
         </div>
       </section>

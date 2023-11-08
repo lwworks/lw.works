@@ -1,0 +1,79 @@
+---
+title: 'JamStack: web technology of the future'
+author:
+  name: Lukas Wiesehan
+  description: Designer & Developer
+  avatar: https://pbs.twimg.com/profile_images/1552660486428282880/BlvLtgJe_400x400.jpg
+  linkedin: https://www.linkedin.com/in/lukas-wiesehan-74931b1bb/
+  twitter: https://twitter.com/lukaswiesehan
+date: 2022-02-16
+excerpt: Two years ago, I started jumping on a trend in web development that promises to make websites and web apps faster, more secure, cheaper and more scalable. Let's take a look at what this so-called JamStack is, how it came about and why it's just right for your product website.
+---
+
+## What Is JamStack?
+
+The term JamStack refers to an architecture used to build websites and web apps. Such an architecture describes the technologies that are commonly used for the development of a website or web app, often referred to as a technology stack. The JamStack is composed of the following technologies:
+
+- **Javascript**: A programming language that can be executed in any browser and is crucial for developing dynamic websites and apps.
+- **APIs**: Interfaces used to integrate individual functions into the website. I'll dive deeper into this later.
+- **Markup**: The structure of a website and its content is made up of specifically formatted text known as markup. Creating this text is a fundamental difference compared to conventional systems like WordPress. I'll discuss this further later.
+
+JamStack websites differ significantly in their architecture from conventional systems like WordPress.
+
+## How Does It Differ from Traditional Websites?
+
+To understand the differences between JamStack and traditional architecture, let's first examine the structure of traditional systems. This will quickly highlight the advantages of this new technology.
+
+### The Architecture of Wordpress & Others
+
+Approximately 43% of all websites use WordPress as their foundation. This is mainly due to its user-friendliness and the availability of plugins to address almost any use case. Running a WordPress website requires a server or hosting contract on which the system can be installed. This is known as a monolithic system because all functions, data, content, etc., reside on this server or web space.
+
+When a visitor accesses a WordPress website, the server registers the request. Subsequently, code is executed to assemble the requested page based on the content and data on the server, then sends it back to the visitor's browser. However, when content doesn't change frequently, this process results in unnecessary computational effort since the page is regenerated with each visit.
+
+![Traditional Web Architecture](/images/blog/what-is-jamstack/scheme-legacy-web-architecture.jpg)
+
+This also means that websites based on such architecture are not very scalable. Because each page request needs to be processed on the server, it can quickly reach its limits when the website experiences high traffic.
+
+Additionally, such an architecture can pose security risks when the system and all plugins are not regularly updated. This is primarily because every website request leads to the execution of code on the server where all (sometimes personally identifiable) data resides. Since WordPress is popular, and many website owners irregularly perform updates, the system becomes a prime target for hackers.
+
+### Enhanced Performance with Static Hosting
+
+JamStack websites are not regenerated on every page visit; they are only regenerated when necessary. The code for your website, i.e., the markup, is prebuilt and stored on a Content Delivery Network (CDN). A CDN is a network of servers distributed worldwide. When a visitor accesses your website, it loads the prebuilt version from the server closest to the visitor's location. This results in lightning-fast load times and saves computing power and money since CDNs typically offer free hosting for static data and code.
+
+When you modify your website's content, the code is regenerated and distributed across the CDN to ensure visitors always see the latest content.
+
+![Innovative JamStack Architecture](/images/blog/what-is-jamstack/scheme-jamstack-architecture.jpg)
+
+### Microservices for Dynamic Functions and Content
+
+To allow your website to be dynamic and include features such as a blog, a shop, or a contact form, microservices are integrated through APIs (Application Programming Interfaces). They are named "microservices" because they provide specific functions only. This approach ensures that such functions work reliably since the developers of these services focus solely on them. Furthermore, your website becomes a cohesive system, unlike monolithic systems, including only the functions you require. This makes the system more manageable, user-friendly, and generally cost-effective.
+
+A tangible example of how different microservices can interact is the Moin Skydive project.
+
+### Improved Security and Scalability
+
+By hosting the website statically, the frontend (the part of the website seen by visitors) is decoupled from the backend (databases, functions, etc.). This makes it virtually impossible for hackers to access the contents of databases or similar components. Moreover, microservices are typically cloud-based and don't require regular manual updates. Any security vulnerabilities are addressed promptly, allowing you to rest easy.
+
+## The JamStack Architecture for Your Product Website
+
+In addition to the general benefits of the JamStack architecture discussed above, it provides an excellent foundation for the custom development of a design tailored to your brand. Let me briefly describe some possibilities for using microservices on your website.
+
+### Shop & Payment Systems
+
+Depending on the requirements for the functionality of your shop system, you can integrate e-commerce systems like Shopify or Shopware that can be used in a headless manner thanks to their APIs.
+
+For cases where no physical products need to be shipped, you can also consider integrating a payment system like Stripe or PayPal to simplify the complexity of the overall system.
+
+### Product Configurator
+
+The complexity of the configurations is crucial when developing a product configurator. For straightforward configurations, you can often use product variants within the shop system. More extensive configuration options can be provided through product metadata in the shop system or via a Headless CMS (Content Management System).
+
+Thanks to the latest advancements in frontend development, product configurators can be implemented in the form of a 3D environment or even in augmented reality.
+
+### Retailer Map
+
+To make it easier for your customers to find local retailers for your product, you can integrate an interactive map that displays nearby shops. The underlying map can be provided by services like Google Maps. The Google Maps API even allows customization of the map's color scheme to match your branding. For efficient location-based searches using GPS coordinates, you can use services like Algolia's Search Service.
+
+### Content Management System
+
+You don't have to sacrifice the ability to update your website's content easily via a user-friendly interface without programming knowledge. Depending on your requirements, we can find a suitable Headless CMS that provides all the features you need. Additionally, the CMS is selected to be easy to use, allowing you to focus on what matters most.
