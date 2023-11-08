@@ -1,25 +1,20 @@
 import {Heading} from '@/components/atoms/heading'
-import {Paragraph} from '@/components/atoms/paragraph'
 import {Author} from '@/components/content/author'
 import {MDX} from '@/components/content/mdx'
 import {TOC} from '@/components/content/toc'
-import {ArrowIcon} from '@/components/icons/arrow'
-import {CalendarIcon} from '@/components/icons/calendar'
 import {Section} from '@/components/layout/section'
 import {allBlogPosts, allTextPages} from 'contentlayer/generated'
-import Link from 'next/link'
 import {notFound} from 'next/navigation'
 
-// export async function generateStaticParams() {
-//   return allBlogPosts.map((post) => ({
-//     slug: post.slug
-//   }))
-// }
+export async function generateStaticParams() {
+  return allTextPages.map((page) => ({
+    slug: page.slug
+  }))
+}
 
 export default async function Page({params}: {params: {lang: string; slug: string}}) {
   const page = allTextPages.find((page) => page.slug === params.slug && page.language === params.lang)
   if (!page) notFound()
-  // console.log(page)
 
   return (
     <main>
