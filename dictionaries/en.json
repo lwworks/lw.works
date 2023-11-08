@@ -39,7 +39,7 @@
       {
         "heading": "More",
         "items": [
-          {"caption": "Schedule a Call", "href": "https://cron.com/lukaswiesehan/ss3nj4esr"},
+          {"caption": "Schedule a Call", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
           {"caption": "Blog", "href": "/blog"},
           {"caption": "Work", "href": "/work"},
           {"caption": "Hardware", "href": "/hardware"}
@@ -67,7 +67,7 @@
         },
         "secondary": {
           "caption": "Schedule a Call",
-          "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+          "href": "https://calendar.app.google/m311QiiQeSD29urm6"
         }
       },
       "socialProof": {
@@ -245,7 +245,7 @@
         "text": "We offer premium services that aren't affordable for everyone. If you're not sure wether our service is the right fit for your company or product, feel free to schedule a call with our founder Lukas.",
         "cta": {
           "caption": "Schedule a Call",
-          "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+          "href": "https://calendar.app.google/m311QiiQeSD29urm6"
         }
       }
     },
@@ -254,7 +254,7 @@
       "text": "We always aim to be completely clear and transparent with our services. If there's anything left unclear, feel free to schedule a call with our founder Lukas.",
       "cta": {
         "caption": "Schedule a Call",
-        "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       },
       "questions": [
         {
@@ -296,7 +296,7 @@
       },
       "secondary": {
         "caption": "Schedule a Call",
-        "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       }
     }
   },

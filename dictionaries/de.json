@@ -39,7 +39,7 @@
       {
         "heading": "Mehr",
         "items": [
-          {"caption": "Call vereinbaren", "href": "https://cron.com/lukaswiesehan/ss3nj4esr"},
+          {"caption": "Call vereinbaren", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
           {"caption": "Blog", "href": "/blog"},
           {"caption": "Work", "href": "/work"},
           {"caption": "Hardware", "href": "/hardware"}
@@ -67,7 +67,7 @@
         },
         "secondary": {
           "caption": "Call vereinbaren",
-          "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+          "href": "https://calendar.app.google/m311QiiQeSD29urm6"
         }
       },
       "socialProof": {
@@ -245,7 +245,7 @@
         "text": "Wir bieten Premium-Services an, die nicht für jeden erschwinglich sind. Wenn du dir nicht sicher bist, ob unser Service zu deinem Unternehmen oder Produkt passt, buche dir gerne einen Call mit unserem Gründer Lukas.",
         "cta": {
           "caption": "Call vereinbaren",
-          "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+          "href": "https://calendar.app.google/m311QiiQeSD29urm6"
         }
       }
     },
@@ -254,7 +254,7 @@
       "text": "Wir wollen mit unseren Services immer 100% offen und transparent sein. Wenn noch etwas unklar ist, buche dir gerne einen Call mit unserem Gründer Lukas.",
       "cta": {
         "caption": "Einen Anruf vereinbaren",
-        "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       },
       "questions": [
         {
@@ -296,7 +296,7 @@
       },
       "secondary": {
         "caption": "Call vereinbaren",
-        "href": "https://cron.com/lukaswiesehan/ss3nj4esr"
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       }
     }
   },
