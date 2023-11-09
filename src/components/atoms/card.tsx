@@ -6,7 +6,10 @@ export const Card: FC<{children: ReactNode; className?: string; borderAnimation?
       <div className="absolute w-1/2 h-32 -right-8 dark:right-auto dark:-left-8 -top-16 bg-indigo-500 dark:bg-white blur-3xl opacity-25" />
       {borderAnimation && (
         <div className="absolute inset-0 border border-red-500 animate-spin-slow blur-3xl">
-          <div className="absolute h-1/2 w-1/2 -right-1/4 bottom-0 bg-indigo-500 dark:bg-indigo-400" style={{borderRadius: '50% 50%'}} />
+          <div
+            className="absolute h-1/2 w-1/2 -right-1/4 bottom-0 bg-indigo-500 dark:bg-indigo-400"
+            style={{borderRadius: '50% 50%', transform: 'translate3d(0, 0, 0)'}}
+          />
         </div>
       )}
       <div className={`relative w-full rounded-[23px] lg:rounded-[39px] bg-[#F9FAFB] dark:bg-[#101318] h-full ${className}`}>{children}</div>

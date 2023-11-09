@@ -67,7 +67,7 @@ export default async function Page({params}: {params: {slug: string; lang: Local
         <div className="absolute inset-0 overflow-hidden">
           <div
             className="mx-auto -mt-48 h-96 w-full max-w-screen-xl bg-[#F9FAFB] blur-3xl dark:bg-[#15191F] sm:blur-4xl"
-            style={{borderRadius: '50% 50%'}}
+            style={{borderRadius: '50% 50%', transform: 'translate3d(0, 0, 0)'}}
           />
         </div>
         <div className="relative mx-auto flex w-full max-w-screen-xl items-start justify-between px-6 sm:px-8 lg:px-12" id="article">

@@ -23,8 +23,8 @@ export const CTA: FC<{content: Content; hideGlow?: boolean | false}> = ({content
       >
         {!hideGlow && (
           <div
-            className="absolute -top-12 left-1/2 -translate-x-1/2 bg-indigo-400 w-1/2 h-32 blur-3xl sm:blur-4xl transition-opacity duration-500 opacity-40 group-hover:opacity-60"
-            style={{borderRadius: '50% 50%'}}
+            className="absolute -top-12 left-1/2 bg-indigo-400 w-1/2 h-32 blur-3xl sm:blur-4xl transition-opacity duration-500 opacity-40 group-hover:opacity-60"
+            style={{borderRadius: '50% 50%', transform: 'translate3d(-50%, 0, 0)'}}
           />
         )}
         <Heading level={2} size="xl" className="lg:text-center" html={content.heading} />

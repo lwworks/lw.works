@@ -76,7 +76,7 @@ export default function Page() {
               <Card className="group relative h-full flex flex-col justify-between px-6 pt-8 lg:p-12 lg:pb-0">
                 <div
                   className="absolute left-12 right-12 h-12 -bottom-6 blur-3xl bg-indigo-500 opacity-70 transition-opacity duration-300 group-hover:opacity-90"
-                  style={{borderRadius: '50% 50%'}}
+                  style={{borderRadius: '50% 50%', transform: 'translate3d(0, 0, 0)'}}
                 />
                 <Heading level={2} size="sm">
                   {heading}
