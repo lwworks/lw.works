@@ -22,6 +22,17 @@ export const Project = defineDocumentType(() => ({
       description: 'Tag/Category of the project',
       options: ['Software/SaaS', 'eCommerce', 'Other'],
       required: true
+    },
+    image: {
+      type: 'string',
+      description: 'Path to the project image',
+      required: true
+    },
+    logos: {
+      type: 'list',
+      of: {type: 'string'},
+      description: 'Path to the client logo',
+      required: true
     }
   },
   computedFields: {

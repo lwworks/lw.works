@@ -288,7 +288,7 @@
       ]
     },
     "cta": {
-      "heading": "Deine Next-Level SaaS-Website",
+      "heading": "Deine Next-Level SaaS Website",
       "text": "Worauf wartest du? Lass uns eine perfekte, überzeugende Website erstellen und dein SaaS auf das Level der Big Player heben.",
       "primary": {
         "caption": "Jetzt starten",
@@ -303,6 +303,22 @@
   "blog": {
     "postPreview": {
       "readMore": "Weiterlesen"
+    }
+  },
+  "work": {
+    "heading": "Work",
+    "text": "Schau dir an, was wir in letzter Zeit für unsere Kunden designed und gebaut haben.",
+    "cta": {
+      "heading": "Was ist mit dir?",
+      "text": "Gefällt dir, was du siehst? Dann lass uns deine Website auf eine neues Level bringen und dich in diesen großartigen Cases einreihen.",
+      "primary": {
+        "caption": "Jetzt starten",
+        "href": "/#pricing"
+      },
+      "secondary": {
+        "caption": "Call vereinbaren",
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+      }
     }
   }
 }

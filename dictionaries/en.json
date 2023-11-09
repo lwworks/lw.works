@@ -304,5 +304,21 @@
     "postPreview": {
       "readMore": "Read more"
     }
+  },
+  "work": {
+    "heading": "Work",
+    "text": "Have a look at what we've designed and/or built for our client recently.",
+    "cta": {
+      "heading": "What about you?",
+      "text": "Like what you see? Let's bring your website to the next level – you're in great company with all these cases.",
+      "primary": {
+        "caption": "Get Started",
+        "href": "/#pricing"
+      },
+      "secondary": {
+        "caption": "Schedule a Call",
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+      }
+    }
   }
 }
