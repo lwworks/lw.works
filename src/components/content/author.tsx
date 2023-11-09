@@ -1,17 +1,17 @@
-import {InstagramIcon} from '@/components/icons/instagram'
-import {LinkedinIcon} from '@/components/icons/linkedin'
-import {TwitterIcon} from '@/components/icons/twitter'
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import {FC} from 'react'
+import {Icon} from '../icons'
 
-export const Author: FC<{name: string; description: string; avatar: string; linkedin?: string; instagram?: string; twitter?: string}> = ({
+export const Author: FC<{name: string; description: string; avatar: string; linkedin?: string; twitter?: string; email?: string}> = ({
   name,
   description,
   avatar,
   linkedin,
-  instagram,
-  twitter
+  twitter,
+  email
 }) => {
   return (
     <div className="flex items-center space-x-4">
@@ -22,20 +22,20 @@ export const Author: FC<{name: string; description: string; avatar: string; link
         <p className="pt-1 font-semibold leading-none text-black dark:text-white">{name}</p>
         <p className="leading-snug text-slate-600 dark:text-slate-300">{description}</p>
         <p className="pt-1 text-black dark:text-white">
-          {linkedin && (
-            <Link href={linkedin} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
-              <LinkedinIcon className="h-4" />
-            </Link>
-          )}
-          {instagram && (
-            <Link href={instagram} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
-              <InstagramIcon className="h-4" />
-            </Link>
-          )}
           {twitter && (
             <Link href={twitter} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
-              <TwitterIcon className="h-4" />
+              <Icon name="twitter" className="h-4" />
             </Link>
+          )}
+          {linkedin && (
+            <Link href={linkedin} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300" rel="noreferrer" target="_blank">
+              <Icon name="linkedin" className="h-4" />
+            </Link>
+          )}
+          {email && (
+            <button onClick={() => window.open(`mailto:${email}`, '_blank')} className="mr-2 inline-block hover:text-slate-700 dark:hover:text-slate-300">
+              <Icon name="email" className="h-4" />
+            </button>
           )}
         </p>
       </div>

@@ -7,7 +7,11 @@ import {BlogPost} from 'contentlayer/generated'
 import Link from 'next/link'
 import {FC} from 'react'
 
-export const PostPreview: FC<{post: BlogPost}> = ({post}) => {
+type Content = {
+  readMore: string
+}
+
+export const PostPreview: FC<{post: BlogPost; content: Content}> = ({post, content}) => {
   return (
     <Link href={`/blog/${post.slug}`} className=" space-y-4">
       <Heading level={3}>{post.title}</Heading>
@@ -24,7 +28,7 @@ export const PostPreview: FC<{post: BlogPost}> = ({post}) => {
         </div>
         <Paragraph className="line-clamp-3">{post.excerpt}</Paragraph>
         <p className="flex items-center space-x-2 font-semibold text-indigo-500 dark:text-indigo-400">
-          <span>Weiterlesen</span>
+          <span>{content.readMore}</span>
           <ArrowIcon className="w-4" />
         </p>
       </div>

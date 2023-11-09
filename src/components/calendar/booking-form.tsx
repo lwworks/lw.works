@@ -6,7 +6,7 @@ import {format} from 'date-fns'
 import {Button} from '@/components/atoms/button'
 import {TextArea} from '@/components/atoms/textarea'
 import {Checkbox} from '@/components/atoms/checkbox'
-import {findFirstSlot} from '@/utils/dates/fint-first-slot'
+import {findFirstSlot} from '@/utils/dates/find-first-slot'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import {Input} from '@/components/atoms/input'
 

@@ -1,0 +1,336 @@
+{
+  "navigation": {
+    "pageLinks": [
+      {
+        "caption": "Über",
+        "href": "/#about"
+      },
+      {
+        "caption": "Prozess",
+        "href": "/#process"
+      },
+      {
+        "caption": "Work",
+        "href": "/#work"
+      },
+      {
+        "caption": "Preise",
+        "href": "/#pricing"
+      }
+    ],
+    "cta": {
+      "caption": "Jetzt starten",
+      "href": "/#pricing"
+    }
+  },
+  "footer": {
+    "copyright": "© Lukas Wiesehan",
+    "menus": [
+      {
+        "heading": "Frontend",
+        "items": [
+          {"caption": "Start", "href": "/"},
+          {"caption": "Über", "href": "/#about"},
+          {"caption": "Prozess", "href": "/#process"},
+          {"caption": "Work", "href": "/#work"},
+          {"caption": "Preise", "href": "/#pricing"}
+        ]
+      },
+      {
+        "heading": "Mehr",
+        "items": [
+          {"caption": "Call vereinbaren", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
+          {"caption": "Blog", "href": "/blog"},
+          {"caption": "Work", "href": "/work"},
+          {"caption": "Hardware", "href": "/hardware"}
+        ]
+      },
+      {
+        "heading": "Legal",
+        "items": [
+          {"caption": "Kontakt", "href": "/kontakt"},
+          {"caption": "Impressum", "href": "/impressum"},
+          {"caption": "Datenschutz", "href": "/datenschutz"}
+        ]
+      }
+    ]
+  },
+  "index": {
+    "meta": {
+      "title": "Frontend Subscription für SaaS Unternehmen – LW Works",
+      "description": "Das erste Design & Development Abo für SaaS Unternehmen. High-End Design und moderne Frontend-Entwicklung auch ohne ein eigenes In-House-Team."
+    },
+    "hero": {
+      "subheading": "Frontend Subscription",
+      "heading": "Deine Next-Level<br/>SaaS Website ist nur einen Klick entfernt",
+      "text": "Das erste <b>Design & Development Abo</b> für SaaS Unternehmen. <b>High-End Design und moderne Frontend-Entwicklung</b> auch ohne ein eigenes In-House-Team.",
+      "cta": {
+        "primary": {
+          "caption": "Jetzt starten",
+          "href": "#pricing"
+        },
+        "secondary": {
+          "caption": "Call vereinbaren",
+          "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+        }
+      },
+      "socialProof": {
+        "text": "Empfohlen von",
+        "count": 12
+      }
+    },
+    "painPoints": {
+      "painPoints": [
+        {
+          "icon": "time-fast",
+          "heading": "Schwierigkeiten, Deine Website aktuell zu halten?",
+          "text": "Wenn sich dein Produkt ständig weiterentwickelt, ist es oft schwierig, die Website up-to-date zu halten und gleichzeitig höchste Designstandards zu wahren."
+        },
+        {
+          "icon": "heart-stash",
+          "heading": "Unzufrieden mit dem aktuellen Design/Aufbau?",
+          "text": "Wenn du dich voll auf das Produkt konzentrierst, kann deine Website im Laufe der Zeit unstrukturiert werden, was sich auch auf das Design auswirkt."
+        },
+        {
+          "icon": "wallet",
+          "heading": "Kein Budget für ein eigenes In-House-Team?",
+          "text": "Großartige Designer und Entwickler sind teuer. Wer kann sich schon leisten, A-Player einzustellen um an der Websites seines Produkts zu arbeiten?"
+        }
+      ]
+    },
+    "trust": {
+      "heading": "Konzentrier dich auf dein Produkt –<br/>wir kümmern uns um die Website",
+      "text": "Wir kümmern uns um das Design deiner <b>High-End Website</b> inklusive Grafiken, Animationen und Dokumentationsseiten. Und wir setzen sie mit <b>aktuellen Frontend-Technologien</b> um – kein Webflow, kein Framer."
+    },
+    "targets": {
+      "targets": [
+        {
+          "icon": "rocket",
+          "heading": "Lass die Konkurrenz alt aussehen",
+          "text": "Deine perfekt gestaltete Website wird dein SaaS auf das Level der Big Player wie Linear oder Stripe heben."
+        },
+        {
+          "icon": "user-plus",
+          "heading": "Generiere mehr Nutzer oder Waitlist Signups",
+          "text": "Großartige Landing Pages sprechen potenzielle Nutzer besser an und bringen dir Aufmerksamkeit auf Twitter, ProductHunt usw."
+        },
+        {
+          "icon": "lightning",
+          "heading": "Deine Website wächst magisch mit dem Produkt",
+          "text": "Während du neue Produkt Features entwickelst, kümmern wir uns um die dazugehörigen Feature Pages auf deiner Website."
+        }
+      ]
+    },
+    "process": {
+      "heading": "Der Boost für dein SaaS Produkt",
+      "steps": [
+        {
+          "id": "001",
+          "heading": "Abonnieren & Requests stellen",
+          "text": "Subscribe in nur einer Minute und erhalte den Zugang zu deinem eigenen Request-Board. Dort findest du zunächst Tipps, wie du das Beste aus deinem Abo herausholen kannst. Wenn du bereit für eine Top-Tier-Website bist, <b>trage Sie so viele Requests ein, wie du möchtest</b> – wir arbeiten einen nach dem anderen ab."
+        },
+        {
+          "id": "002",
+          "heading": "Design & Entwicklung",
+          "text": "Wir kümmern uns direkt heute oder morgen um deinen aktiven Request (natürlich nur an Werktagen). Du erhältst eine Benachrichtigung, wenn wir fertig sind – normalerweise dauert das etwa <b>48 Stunden für Design Requests</b> und etwa <b>96 Stunden für Development Requests</b>. Das kann je nach Umfang des Requests natürlich ein wenig variieren."
+        },
+        {
+          "id": "003",
+          "heading": "Optimierung & Erweiterung",
+          "text": "Sobald ein Request abgearbeitet ist, kannst du Feedback geben. Wir überarbeiten das Ergebnis, bis du zu <b>100 % zufrieden</b> bist. Wenn du neue Funktionen für dein Produkt entwickelst, schreibe einfach neue Requests, um die Features auf der Website ergänzen zu lassen oder komplette Feature Pages erstellen zu lassen. So <b>wächst deine Website magisch mit deinem Produkt</b>."
+        }
+      ]
+    },
+    "design": {
+      "heading": "Cutting-Edge-Design,<br/>speziell für dein SaaS Produkt",
+      "text": "Wir legen großen Wert auf großartiges Design, da wir wissen, dass es nicht nur mehr potenzielle Benutzer anzieht. Es kann auch viel Aufmerksamkeit für Ihr Produkt in den sozialen Medien generieren. Unser Designprozess wurde für die Zusammenarbeit mit Figma optimiert, damit Sie Vorschauen und Prototypen leicht anzeigen können.",
+      "categories": [
+        {
+          "icon": "rocket",
+          "heading": "Überzeugende Landing &<br/>Feature Pages",
+          "text": "Mit großartigen, Conversion-optimierten Landing Pages verstehen dein potenziellen Nutzer, warum sie <b>dein Produkt brauchen</b> und werden <b>motiviert, sich anzumelden</b>."
+        },
+        {
+          "icon": "atom",
+          "heading": "Schön komponierte<br/>Grafiken & Animationen",
+          "text": "<b>Show, don't tell</b>: Um dein Produkt und seine Vorteile verständlich zu erklären, benötigen wir hochwertige Grafiken & Animationen auf deiner Website."
+        },
+        {
+          "icon": "folder",
+          "heading": "Übersichtliche<br/>Dokumentationsseiten",
+          "text": "Es kann schwierig sein, Dokumentationsseiten zu strukturieren und aufzubauen. Wir finden den besten Weg, <b>deine Docs zu designen und aufzubauen</b>."
+        }
+      ]
+    },
+    "development": {
+      "heading": "Kein Webflow, kein Framer,<br/>sondern echte Next.js-Entwicklung",
+      "text": "Ja, Low-Code-Website-Builder sind großartig, um schnell mal eine Landing Page zu erstellen. Aber wir glauben, dass <b>einen modernen Frontend-Stack auf lange Sicht nichts übertrifft</b>. Damit haben wir volle Kontrolle über Design und Animationen und vor allem die Möglichkeit, Services wie Payments, CMS, Search, Buchungen usw. vollständig zu integrieren."
+    },
+    "projects": {
+      "heading": "Recent<br/>Work",
+      "text": "Das sind einige unserer aktuellen Design- und/oder Development-Arbeiten.",
+      "cta": {
+        "caption": "Mehr ansehen",
+        "href": "/work"
+      }
+    },
+    "testimonial": {
+      "quote": "Ein echter Geheimtipp mit Liebe zum Detail.",
+      "author": "Johannes Schickling",
+      "role": "Gründer von Prisma"
+    },
+    "pricing": {
+      "heading": "Maßgeschneiderte Lösungen",
+      "features": [
+        {
+          "icon": "infinity",
+          "heading": "Unbegrenzte Requests <br/>und Teammitglieder",
+          "text": "Füge so viele Teammitglieder und Design/Dev Requests zu deinem Board hinzu, wie du möchtest."
+        },
+        {
+          "icon": "time-fast",
+          "heading": "Blitzschnelle Design &<br/>Development Ergebnisse",
+          "text": "Du erhältst dein fertiges Design oder deinen Code in der Regel in wenigen Werktagen."
+        },
+        {
+          "icon": "pause",
+          "heading": "100% flexibel: Jederzeit pausieren oder kündigen",
+          "text": "Du kannst jederzeit pausieren oder kündigen, wenn du mal nicht so viele Requests hast."
+        }
+      ],
+      "prices": [
+        {
+          "heading": "Design<br/>only",
+          "description": "Du bekommst alles, was du für deine Next-Level SaaS Website brauchst.",
+          "pricePerMonth": 2995,
+          "checklist": [
+            "Unbegrenzt Design Requests",
+            "Eine aktiver Request zur Zeit",
+            "Ergebnisse in durchschnittlich 48 Stunden",
+            "Unbegrenzte Teammitglieder",
+            "Einfache Zahlung per Stripe",
+            "Jederzeit pausieren/kündigen"
+          ],
+          "cta": {
+            "caption": "Jetzt starten",
+            "href": "https://buy.stripe.com/00gdTw50S5uibNS5kl"
+          },
+          "scarcity": {
+            "color": "emerald",
+            "text": "4 Slots frei"
+          }
+        },
+        {
+          "badge": "Beliebt",
+          "heading": "Design &<br/>Development",
+          "description": "Deine Next-Level SaaS Website wächst magisch mit deinem Produkt.",
+          "pricePerMonth": 4995,
+          "checklist": [
+            "Unbegrenzte Design & Development Requests",
+            "Ein aktiver Request zur Zeit",
+            "Design-Ergebnisse in durchschnittlich 48 Stunden",
+            "Development-Ergebnisse in durchschnittlich 96 Stunden",
+            "Unbegrenzte Teammitglieder",
+            "Einfache Zahlung per Stripe",
+            "Jederzeit pausieren/kündigen"
+          ],
+          "cta": {
+            "caption": "Jetzt starten",
+            "href": "https://buy.stripe.com/14kbLogJAe0O3hmfYY"
+          },
+          "scarcity": {
+            "color": "amber",
+            "text": "3 Slots frei"
+          }
+        }
+      ],
+      "call": {
+        "heading": "Unsicher, was das Richtige ist?",
+        "text": "Wir bieten Premium-Services an, die nicht für jeden erschwinglich sind. Wenn du dir nicht sicher bist, ob unser Service zu deinem Unternehmen oder Produkt passt, buche dir gerne einen Call mit unserem Gründer Lukas.",
+        "cta": {
+          "caption": "Call vereinbaren",
+          "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+        }
+      }
+    },
+    "faq": {
+      "heading": "Häufig gestellte Fragen",
+      "text": "Wir wollen mit unseren Services immer 100% offen und transparent sein. Wenn noch etwas unklar ist, buche dir gerne einen Call mit unserem Gründer Lukas.",
+      "cta": {
+        "caption": "Einen Anruf vereinbaren",
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+      },
+      "questions": [
+        {
+          "q": "Sind die monatlichen Requests begrenzt?",
+          "a": "Nein - du kannst so viele Requests zu deinem Board hinzufügen, wie du möchten. Wir arbeiten aber immer nur an einem aktiven Request zur Zeit."
+        },
+        {
+          "q": "Was für Designs sind inklusive?",
+          "a": "Alles, was mit deiner Website zu tun hat. Das umfasst in der Regel das UI, Grafiken, Icons und Illustrationen. Wenn du noch kein Branding hast, können wir das ebenfalls übernehmen."
+        },
+        {
+          "q": "Welchen Tech-Stack verwendet Ihr?",
+          "a": "Deine Website wird grundsätzlich mit Next.js und TailwindCSS umgesetzt. Wir glauben, dass ein moderner Stack die beste Grundlage für zukünftige Updates oder Ergänzungen bietet."
+        },
+        {
+          "q": "Können externe Services integriert werden?",
+          "a": "Klar. Wir können grundsätzlich alles integrieren, was eine API hat. Wir arbeiten zum Beispiel oft mit Zahlungsanbietern, CMS, Such- und Google-Diensten."
+        },
+        {
+          "q": "Entwickelt ihr auch unser Produkt?",
+          "a": "Nein. Die Entwicklung eines Produkts erfordert viel Zeit und Hingabe. Unsere Leidenschaft ist der Aufbau großartiger Websites. Deshalb nehmen wir dir alles Website-bezogene ab, sodass du dich um die Entwicklung des besten Produkts für deine Nutzer kümmern kannst."
+        },
+        {
+          "q": "Warum stelle nicht einfach eine Vollzeitkraft ein?",
+          "a": "Wir bieten diese Services an, weil wir wissen, wie schwer es ist, A-Player zu finden und wie teuer es ist, sie Vollzeit einzustellen. Unser Abonnement ist eine günstigere und flexiblere Lösung, eine erstklassige Website für dein Produkt zu bauen."
+        },
+        {
+          "q": "Was unterscheidet euch von ähnlichen Services?",
+          "a": "Es gibt aktuell viele Abo-basierte Agenturen - was gut ist, weil das Abomodell ein Win für alle ist. Wir sind der erste Service, der erstklassiges Design <i>und</i> professionelle Entwicklung anstelle von Webflow/Framer bietet."
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Deine Next-Level SaaS Website",
+      "text": "Worauf wartest du? Lass uns eine perfekte, überzeugende Website erstellen und dein SaaS auf das Level der Big Player heben.",
+      "primary": {
+        "caption": "Jetzt starten",
+        "href": "#pricing"
+      },
+      "secondary": {
+        "caption": "Call vereinbaren",
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+      }
+    }
+  },
+  "blog": {
+    "meta": {
+      "title": "Blog – LW Works",
+      "description": "Lies über aktuelle Entwicklungen in Design und Entwicklung für SaaS Unternehmen."
+    },
+    "postPreview": {
+      "readMore": "Weiterlesen"
+    }
+  },
+  "work": {
+    "meta": {
+      "title": "Recent Work – LW Works",
+      "description": "Schau dir an, was wir in letzter Zeit für unsere Kunden designed und gebaut haben."
+    },
+    "heading": "Work",
+    "text": "Schau dir an, was wir in letzter Zeit für unsere Kunden designed und gebaut haben.",
+    "cta": {
+      "heading": "Was ist mit dir?",
+      "text": "Gefällt dir, was du siehst? Dann lass uns deine Website auf eine neues Level bringen und dich in diesen großartigen Cases einreihen.",
+      "primary": {
+        "caption": "Jetzt starten",
+        "href": "/#pricing"
+      },
+      "secondary": {
+        "caption": "Call vereinbaren",
+        "href": "https://calendar.app.google/m311QiiQeSD29urm6"
+      }
+    }
+  }
+}
