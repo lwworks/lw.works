@@ -3,24 +3,24 @@
     "pageLinks": [
       {
         "caption": "About",
-        "href": "#about"
+        "href": "/#about"
       },
       {
         "caption": "Process",
-        "href": "#process"
+        "href": "/#process"
       },
       {
         "caption": "Work",
-        "href": "#work"
+        "href": "/#work"
       },
       {
         "caption": "Pricing",
-        "href": "#pricing"
+        "href": "/#pricing"
       }
     ],
     "cta": {
       "caption": "Get Started",
-      "href": "#pricing"
+      "href": "/#pricing"
     }
   },
   "footer": {

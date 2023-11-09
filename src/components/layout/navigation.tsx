@@ -81,13 +81,13 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
               <ul className="relative flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
                 {content.pageLinks.map(({href, caption}, index) => {
                   const active = pathname?.split('/')[1] === href.split('/')[1]
-                  if (href.startsWith('#')) {
+                  if (href.startsWith('/#') && pathname?.length === 3) {
                     return (
                       <li key={index} className="relative">
                         <button
                           onClick={() => {
                             setOpen(false)
-                            document.getElementById(href.replace('#', ''))?.scrollIntoView({behavior: 'smooth'})
+                            document.getElementById(href.replace('/#', ''))?.scrollIntoView({behavior: 'smooth'})
                           }}
                           className={`relative flex h-7 items-center rounded px-2 font-bold focus:bg-white/10 focus:outline-none dark:focus:bg-white/10 text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white`}
                         >
@@ -145,11 +145,11 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
           <ul className="relative flex items-center space-x-4 pl-4">
             {content.pageLinks.map(({href, caption}, index) => {
               const active = pathname?.split('/')[1] === href.split('/')[1]
-              if (href.startsWith('#')) {
+              if (href.startsWith('/#') && pathname?.length === 3) {
                 return (
                   <li key={index} className="relative">
                     <button
-                      onClick={() => document.getElementById(href.replace('#', ''))?.scrollIntoView({behavior: 'smooth'})}
+                      onClick={() => document.getElementById(href.replace('/#', ''))?.scrollIntoView({behavior: 'smooth'})}
                       className={`relative flex h-7 items-center rounded px-2 font-bold focus:bg-white/30 focus:outline-none dark:focus:bg-white/10 text-slate-600 hover:text-black dark:text-slate-300 dark:hover:text-white`}
                     >
                       {caption}
