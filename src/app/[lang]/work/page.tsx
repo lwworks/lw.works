@@ -16,13 +16,13 @@ export default async function Page({params}: {params: {lang: Locale}}) {
         <Heading level={1}>{dictionary.work.heading}</Heading>
         <Paragraph size="lg" className="mt-7 max-w-sm" html={dictionary.work.text} />
       </Section>
-      {/* {allProjects
+      {allProjects
         .filter((post) => post.language === params.lang)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .map((project, index) => (
           <Project key={index} project={project} reverse={index % 2 === 0} hideDivider={index === 0} />
         ))}
-      <CTA content={dictionary.work.cta} hideGlow /> */}
+      <CTA content={dictionary.work.cta} hideGlow />
     </main>
   )
 }
