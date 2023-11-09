@@ -56,6 +56,10 @@
     ]
   },
   "index": {
+    "meta": {
+      "title": "Frontend Subscription for SaaS Companies – LW Works",
+      "description": "The first ever design and development subscription for SaaS companies. Get highly detailed designs and modern frontend development without hiring an in-house team."
+    },
     "hero": {
       "subheading": "Frontend Subscription",
       "heading": "Your Next-Level<br/>SaaS Website is only one click away",
@@ -301,11 +305,19 @@
     }
   },
   "blog": {
+    "meta": {
+      "title": "Blog – LW Works",
+      "description": "Read about relevant trends for design and development of SaaS websites."
+    },
     "postPreview": {
       "readMore": "Read more"
     }
   },
   "work": {
+    "meta": {
+      "title": "Recent Work – LW Works",
+      "description": "Have a look at what we've designed and/or built for our client recently."
+    },
     "heading": "Work",
     "text": "Have a look at what we've designed and/or built for our client recently.",
     "cta": {

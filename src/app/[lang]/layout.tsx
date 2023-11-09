@@ -1,5 +1,5 @@
-import {getMetadata} from '@/utils/get-metadata'
 import './globals.css'
+import {Metadata} from 'next'
 import {Lato, Sora, JetBrains_Mono} from 'next/font/google'
 import Script from 'next/script'
 import {BlurBackground} from '@/components/visuals/blur-background'
@@ -13,7 +13,10 @@ const lato = Lato({weight: ['400', '700'], subsets: ['latin'], display: 'swap', 
 const sora = Sora({weight: '800', subsets: ['latin'], display: 'swap', variable: '--font-sora'})
 const mono = JetBrains_Mono({weight: '300', subsets: ['latin'], display: 'swap', variable: '--font-mono'})
 
-export const metadata = getMetadata({}).metadata
+export async function generateMetadata({params: {lang}}: {params: {lang: Locale}}): Promise<Metadata> {
+  const dictionary = await getDictionary(lang)
+  return dictionary.index.meta
+}
 
 export default async function Layout({params: {lang}, children}: {params: {lang: Locale}; children: React.ReactNode}) {
   const dictionary = await getDictionary(lang)

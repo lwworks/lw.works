@@ -4,6 +4,12 @@ import {Section} from '@/components/layout/section'
 import {getDictionary} from '@/utils/get-dictionary'
 import {Locale} from '@/i18n.config'
 import {allBlogPosts} from 'contentlayer/generated'
+import {Metadata} from 'next'
+
+export async function generateMetadata({params: {lang}}: {params: {lang: Locale}}): Promise<Metadata> {
+  const dictionary = await getDictionary(lang)
+  return dictionary.blog.meta
+}
 
 export default async function Page({params}: {params: {lang: Locale}}) {
   const dictionary = await getDictionary(params.lang)

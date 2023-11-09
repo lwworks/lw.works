@@ -10,11 +10,21 @@ import {allBlogPosts} from 'contentlayer/generated'
 import {Locale} from '@/i18n.config'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
+import {Metadata} from 'next'
 
 export async function generateStaticParams() {
   return allBlogPosts.map((post) => ({
     slug: post.slug
   }))
+}
+
+export async function generateMetadata({params: {lang, slug}}: {params: {lang: Locale; slug: string}}): Promise<Metadata> {
+  const post = allBlogPosts.find((post) => post.slug === slug && post.language === lang)
+  if (!post) notFound()
+  return {
+    title: `${post.title} – LW Works`,
+    description: post.excerpt
+  }
 }
 
 export default async function Page({params}: {params: {slug: string; lang: Locale}}) {

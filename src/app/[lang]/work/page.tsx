@@ -6,6 +6,12 @@ import {allProjects} from 'contentlayer/generated'
 import {Project} from '@/components/content/project'
 import {Paragraph} from '@/components/atoms/paragraph'
 import {CTA} from '@/components/sections/cta'
+import {Metadata} from 'next'
+
+export async function generateMetadata({params: {lang}}: {params: {lang: Locale}}): Promise<Metadata> {
+  const dictionary = await getDictionary(lang)
+  return dictionary.work.meta
+}
 
 export default async function Page({params}: {params: {lang: Locale}}) {
   const dictionary = await getDictionary(params.lang)

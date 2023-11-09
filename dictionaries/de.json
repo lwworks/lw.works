@@ -56,10 +56,14 @@
     ]
   },
   "index": {
+    "meta": {
+      "title": "Frontend Subscription für SaaS Unternehmen – LW Works",
+      "description": "Das erste Design & Development Abo für SaaS Unternehmen. High-End Design und moderne Frontend-Entwicklung auch ohne ein eigenes In-House-Team."
+    },
     "hero": {
       "subheading": "Frontend Subscription",
       "heading": "Deine Next-Level<br/>SaaS Website ist nur einen Klick entfernt",
-      "text": "Das erste <b>Design & Development Abo</b> für SaaS Unternehmen. <b>High-End Design und moderne Frontend-Entwicklung</b> auch ohne ein eigenen In-House-Team.",
+      "text": "Das erste <b>Design & Development Abo</b> für SaaS Unternehmen. <b>High-End Design und moderne Frontend-Entwicklung</b> auch ohne ein eigenes In-House-Team.",
       "cta": {
         "primary": {
           "caption": "Jetzt starten",
@@ -301,11 +305,19 @@
     }
   },
   "blog": {
+    "meta": {
+      "title": "Blog – LW Works",
+      "description": "Lies über aktuelle Entwicklungen in Design und Entwicklung für SaaS Unternehmen."
+    },
     "postPreview": {
       "readMore": "Weiterlesen"
     }
   },
   "work": {
+    "meta": {
+      "title": "Recent Work – LW Works",
+      "description": "Schau dir an, was wir in letzter Zeit für unsere Kunden designed und gebaut haben."
+    },
     "heading": "Work",
     "text": "Schau dir an, was wir in letzter Zeit für unsere Kunden designed und gebaut haben.",
     "cta": {

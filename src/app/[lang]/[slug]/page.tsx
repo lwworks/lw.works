@@ -3,13 +3,23 @@ import {Author} from '@/components/content/author'
 import {MDX} from '@/components/content/mdx'
 import {TOC} from '@/components/content/toc'
 import {Section} from '@/components/layout/section'
-import {allBlogPosts, allTextPages} from 'contentlayer/generated'
+import {Locale} from '@/i18n.config'
+import {allTextPages} from 'contentlayer/generated'
+import {Metadata} from 'next'
 import {notFound} from 'next/navigation'
 
 export async function generateStaticParams() {
   return allTextPages.map((page) => ({
     slug: page.slug
   }))
+}
+
+export async function generateMetadata({params: {lang, slug}}: {params: {lang: Locale; slug: string}}): Promise<Metadata> {
+  const page = allTextPages.find((page) => page.slug === slug && page.language === lang)
+  if (!page) notFound()
+  return {
+    title: `${page.title} – LW Works`
+  }
 }
 
 export default async function Page({params}: {params: {lang: string; slug: string}}) {
