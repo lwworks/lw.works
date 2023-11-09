@@ -24,7 +24,7 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
   return (
     <html lang="de" className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
       <head />
-      <body className="overflow-x-hidden">
+      <body className="relative overflow-x-hidden">
         {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
         <Script
           id="check-theme"

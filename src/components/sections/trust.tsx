@@ -12,7 +12,7 @@ type Content = {
 
 export const Trust: FC<{content: Content}> = ({content}) => {
   return (
-    <>
+    <div className="overflow-x-hidden">
       <Section id="about" className="group pt-24 lg:pt-48 grid grid-cols-1 gap-y-24 md:grid-cols-2">
         <div className="md:pr-4 md:pb-8">
           <Heading level={2} html={content.heading} />
@@ -51,6 +51,6 @@ export const Trust: FC<{content: Content}> = ({content}) => {
           />
         </div>
       </Section>
-    </>
+    </div>
   )
 }
