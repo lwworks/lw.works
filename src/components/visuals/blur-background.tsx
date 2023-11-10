@@ -1,20 +1,35 @@
 'use client'
-import {BlobLarge} from '@/components/visuals/svg-blobs/blob-large'
-import {Ellipse} from '@/components/visuals/svg-blobs/ellipse'
-import {Triangle} from '@/components/visuals/svg-blobs/triangle'
 import Image from 'next/image'
 
 export const BlurBackground = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       <div className="absolute top-0 h-screen -left-32 -right-8 sm:inset-x-0">
-        <Image src="/images/background-light.jpg" alt="Background" width="2000" height="1160" className="w-full h-auto dark:hidden" />
-        <Image src="/images/background-dark.jpg" alt="Background" width="2000" height="1160" className="w-full h-auto hidden dark:block" />
-        {/* <BlobLarge className="absolute -right-8 -top-8 w-1/2 text-[#AAACFF] blur-3xl dark:text-[#8182C8] md:-right-48 md:-top-40 md:blur-4xl" />
-      <Ellipse className="absolute left-32 -top-4 w-7/12 rotate-6 text-[#DCBAFF] blur-3xl dark:text-[#AA8FC5] md:-top-32 md:left-auto md:right-16 md:blur-4xl" />
-      <Ellipse className="absolute left-32 top-12 w-5/12 text-[#FFB800] mix-blend-overlay blur-2xl dark:text-[#A2B976] md:-top-8 md:left-1/4 md:blur-4xl" />
-      <Triangle className="absolute -top-12 right-12 w-5/12 text-[#47FFAA] mix-blend-overlay blur-2xl dark:text-[#B0F4D5] md:-top-36 md:opacity-80 md:blur-4xl" /> */}
+        <Image
+          src="/images/background-light.jpg"
+          alt="Background"
+          width="2000"
+          height="1160"
+          placeholder="blur"
+          blurDataURL={lightBlurHash}
+          className="w-full h-auto dark:hidden"
+        />
+        <Image
+          src="/images/background-dark.jpg"
+          alt="Background"
+          width="2000"
+          height="1160"
+          placeholder="blur"
+          blurDataURL={darkBlurHash}
+          className="w-full h-auto hidden dark:block"
+        />
       </div>
     </div>
   )
 }
+
+const lightBlurHash =
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAA+AGsDASIAAhEBAxEB/8QAGgABAQEBAAMAAAAAAAAAAAAAAAECAwQFBv/EABYQAQEBAAAAAAAAAAAAAAAAAAABEf/EABgBAQEBAQEAAAAAAAAAAAAAAAABAgME/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwD7MAEqNMglRpMaGWa3iWKjnWa6WMWNQcqxXWxzsbiOdRuxMbHtAHkaEUBEaAZxLGjFHOxix1sZsalHGxix2sYsblRysTHSxMXR5wDgoAAAAACVmxpKoxYxY6WJYujlYY3hjWjuA5gAAAgCCioAM1K0ijJioD//2Q=='
+
+const darkBlurHash =
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAA+AGsDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAMBAgQFBv/EAB8QAQACAQUBAQEAAAAAAAAAAAABAgMEERITQWFRMf/EABgBAQEBAQEAAAAAAAAAAAAAAAABAgQD/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oADAMBAAIRAxEAPwDhwZQiLG0lpqtND6M1JPpLUZaam1Z6ybWWkPhaColaJVDApuN1VaUI3RuokK7jcV5aMh1LubF5g7Hm/XPK06dLH0s5+PL9aKZGoy3VubW7FXIbXI0jZFlouyxkWjIo08xyZ+xPNQ/kjkTzRzUP5I5E8xzNHkwA51Wre1f5LRj1P6yhZR0qaiJ9Orm+uRFpheuW0etyxXZjN9WjL9ciuotHpkaqWjHVjKntcyNVC8aiJ9DHR7B2MMZ4/U9301lt7B2Mfb9HamjkAB5KAAAAAAAAncbygLtFovaPUxltHqgNobGaU98kg2pj/9k='
