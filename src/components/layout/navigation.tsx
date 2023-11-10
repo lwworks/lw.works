@@ -39,6 +39,11 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
   }, [pathname])
 
   useEffect(() => {
+    if (open) document.body.classList.add('no-scroll')
+    else document.body.classList.remove('no-scroll')
+  }, [open])
+
+  useEffect(() => {
     const onStorageChange = () => {
       if ('cart' in localStorage) {
         const cart = JSON.parse(localStorage.cart)
@@ -86,6 +91,7 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
                       <li key={index} className="relative">
                         <button
                           onClick={() => {
+                            document.body.classList.remove('no-scroll')
                             setOpen(false)
                             document.getElementById(href.replace('/#', ''))?.scrollIntoView({behavior: 'smooth'})
                           }}

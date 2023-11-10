@@ -25,6 +25,10 @@
     @apply hidden;
   }
 
+  body.no-scroll {
+    @apply fixed w-full h-full overflow-hidden;
+  }
+
   .prose :where(ul > li):not(:where([class~='not-prose'] *))::marker {
     @apply dark:text-slate-600 !important;
   }
