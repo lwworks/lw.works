@@ -5,7 +5,6 @@ import Script from 'next/script'
 import {BlurBackground} from '@/components/visuals/blur-background'
 import {Navigation} from '@/components/layout/navigation'
 import {Footer} from '@/components/layout/footer'
-import Analytics from '@/components/functional/analytics'
 import {getDictionary} from '@/utils/get-dictionary'
 import {Locale} from '@/i18n.config'
 
@@ -45,8 +44,7 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              if (!('theme' in localStorage)) localStorage.theme = 'system'
-              if (localStorage.theme === 'dark' || (localStorage.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              if ((!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) || localStorage.theme === 'dark') {
                 document.documentElement.classList.add('dark')
               } else {
                 document.documentElement.classList.remove('dark')
@@ -54,12 +52,12 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
             `
           }}
         />
+
         <BlurBackground />
         <Navigation content={dictionary.navigation} />
         <div className="relative">{children}</div>
         <Footer content={dictionary.footer} />
       </body>
-      <Analytics />
     </html>
   )
 }
