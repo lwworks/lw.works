@@ -15,14 +15,28 @@ const mono = JetBrains_Mono({weight: '300', subsets: ['latin'], display: 'swap',
 
 export async function generateMetadata({params: {lang}}: {params: {lang: Locale}}): Promise<Metadata> {
   const dictionary = await getDictionary(lang)
-  return dictionary.index.meta
+  return {
+    ...dictionary.index.meta,
+    icons: {
+      icon: [
+        {
+          url: '/favicon-black.ico',
+          media: '(prefers-color-scheme: light)'
+        },
+        {
+          url: '/favicon-white.ico',
+          media: '(prefers-color-scheme: dark)'
+        }
+      ]
+    }
+  }
 }
 
 export default async function Layout({params: {lang}, children}: {params: {lang: Locale}; children: React.ReactNode}) {
   const dictionary = await getDictionary(lang)
 
   return (
-    <html lang="de" className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
+    <html lang={lang} className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
       <head />
       <body className="relative overflow-x-hidden">
         {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}

@@ -1,5 +1,6 @@
 'use client'
 
+import './globals.css'
 import {Locale} from '@/i18n.config'
 import {Heading} from '@/components/atoms/heading'
 import {Paragraph} from '@/components/atoms/paragraph'
