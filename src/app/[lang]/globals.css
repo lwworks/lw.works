@@ -51,4 +51,11 @@
   .paragraph b {
     @apply text-black dark:text-white;
   }
+
+  details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
 }

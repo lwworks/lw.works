@@ -32,6 +32,8 @@ import {PauseIcon} from './pause'
 import {AtomIcon} from './atom'
 import {FolderIcon} from './folder'
 import {EmailIcon} from './email'
+import {FingerprintIcon} from './fingerprint'
+import {ChevronDownIcon} from './chevron-down'
 
 const icons = {
   alert: AlertIcon,
@@ -41,8 +43,10 @@ const icons = {
   cart: CartIcon,
   'check-square': CheckSquareIcon,
   check: CheckIcon,
+  'chevron-down': ChevronDownIcon,
   close: CloseIcon,
   email: EmailIcon,
+  fingerprint: FingerprintIcon,
   folder: FolderIcon,
   gear: GearIcon,
   globe: GlobeIcon,

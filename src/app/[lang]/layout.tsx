@@ -52,7 +52,6 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
             `
           }}
         />
-
         <BlurBackground />
         <Navigation content={dictionary.navigation} />
         <div className="relative">{children}</div>
