@@ -36,6 +36,19 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
     }
   }, [content, pathname])
 
+  useEffect(() => {
+    if (consent === 'all') {
+      let script = document.createElement('script')
+      script.type = 'text/javascript'
+      script.textContent = `(function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "jo8njmj2sk");`
+      document.head.appendChild(script)
+    }
+  }, [consent])
+
   return (
     <>
       <button
@@ -76,6 +89,7 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
                       setShowConsentBanner(false)
                       setConsent('necessary')
                       localStorage.setItem('consent', 'necessary')
+                      location.reload()
                     }}
                   >
                     {content.decline}
@@ -85,6 +99,7 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
                       setShowConsentBanner(false)
                       setConsent('all')
                       localStorage.setItem('consent', 'all')
+                      location.reload()
                     }}
                   >
                     {content.accept}
@@ -104,21 +119,6 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
             </div>
           </div>
         </div>
-      )}
-      {consent === 'all' && (
-        <Script
-          id="clarity"
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(c,l,a,r,i,t,y){
-                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-              })(window, document, "clarity", "script", "jo8njmj2sk");
-            `
-          }}
-        />
       )}
     </>
   )
