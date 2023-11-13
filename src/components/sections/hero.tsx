@@ -1,11 +1,13 @@
+'use client'
+
 import {Button} from '@/components/atoms/button'
 import {Heading} from '@/components/atoms/heading'
 import {Paragraph} from '@/components/atoms/paragraph'
 import {Section} from '@/components/layout/section'
 import {Avatars} from '../atoms/avatars'
-import {Rotate} from '../animation/rotate'
 import {Subheading} from '../atoms/subheading'
-import {FC} from 'react'
+import {FC, useEffect, useState} from 'react'
+import {motion, AnimatePresence} from 'framer-motion'
 
 type Content = {
   subheading: string
@@ -49,6 +51,14 @@ const avatars = [
 ]
 
 export const Hero: FC<{content: Content}> = ({content}) => {
+  const [index, setIndex] = useState<number>(0)
+  useEffect(() => {
+    const id = setInterval(() => setIndex((id) => (id === avatars.length - 1 ? 0 : id + 1)), 2000)
+    return () => {
+      clearInterval(id)
+    }
+  }, [])
+
   return (
     <Section className="pt-32 pb-16 lg:pt-48">
       <Subheading>{content.subheading}</Subheading>
@@ -66,11 +76,24 @@ export const Hero: FC<{content: Content}> = ({content}) => {
         <Avatars avatars={avatars} plus={content.socialProof.count} />
         <div>
           <p className="leading-none">{content.socialProof.text}</p>
-          <Rotate className="h-5 font-bold text-black dark:text-white" speed={2000}>
+          {/* <Rotate className="h-5 font-bold text-black dark:text-white" speed={2000}>
             {avatars.map(({alt}, index) => (
               <div key={index}>{alt}</div>
             ))}
-          </Rotate>
+          </Rotate> */}
+          <div className="relative h-5 font-bold text-black dark:text-white">
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={index}
+                initial={{y: '-100%', opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                exit={{opacity: 0, transition: {duration: 0.2}}}
+                className="absolute whitespace-nowrap top-0 left-0"
+              >
+                {avatars[index].alt}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </Section>
