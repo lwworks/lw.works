@@ -7,6 +7,7 @@ import {Navigation} from '@/components/layout/navigation'
 import {Footer} from '@/components/layout/footer'
 import {getDictionary} from '@/utils/get-dictionary'
 import {Locale} from '@/i18n.config'
+import Fathom from '@/components/functional/fathom'
 
 const lato = Lato({weight: ['400', '700'], subsets: ['latin'], display: 'swap', variable: '--font-lato'})
 const sora = Sora({weight: '800', subsets: ['latin'], display: 'swap', variable: '--font-sora'})
@@ -57,6 +58,7 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
         <div className="relative">{children}</div>
         <Footer content={dictionary.footer} />
       </body>
+      <Fathom />
     </html>
   )
 }

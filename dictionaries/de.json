@@ -21,7 +21,8 @@
     "cta": {
       "caption": "Jetzt starten",
       "href": "/#pricing"
-    }
+    },
+    "cart": "Warenkorb"
   },
   "footer": {
     "copyright": "© Lukas Wiesehan",
@@ -46,7 +47,7 @@
         ]
       },
       {
-        "heading": "Legal",
+        "heading": "Rechtliches",
         "items": [
           {"caption": "Kontakt", "href": "/kontakt"},
           {"caption": "Impressum", "href": "/impressum"},
@@ -351,6 +352,52 @@
         "caption": "Call vereinbaren",
         "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       }
+    }
+  },
+  "hardware": {
+    "meta": {
+      "title": "Hardware | LW Works",
+      "description": "Bring mit unseren Hardware-Produkten großartiges Design in deinen Alltag."
+    },
+    "heading": "Hardware",
+    "text": "Bring mit unseren Hardware-Produkten großartiges Design in deinen Alltag.",
+    "variantSelection": {
+      "availability": {
+        "select": "Bitte auswählen.",
+        "notAvailable": "Leider nicht verfügbar.",
+        "inStock": "Auf Lager.",
+        "notInStock": "Wird für dich produziert."
+      },
+      "priceNote": "inkl. MwSt.<br/>zzgl. Versand",
+      "addToCart": "In den Warenkorb",
+      "addedToCart": "Zum Warenkorb hinzugefügt."
+    },
+    "productInfo": {
+      "shipping": "Versand",
+      "sizing": "Maße & Größen",
+      "sustainability": "Material & Nachhaltigkeit",
+      "transparency": "Transparenz"
+    },
+    "cart": {
+      "heading": "Warenkorb",
+      "error": "Beim Laden des Warenkorbs ist ein Fehler aufgetreten...",
+      "empty": "Dein Warenkorb ist leer.",
+      "seeProducts": "Produkte ansehen",
+      "table": {
+        "deleteItem": "Löschen",
+        "total": "Summe"
+      },
+      "form": {
+        "comment": "Dein Kommentar zur Bestellung",
+        "checkout": "Zum sicheren Checkout"
+      }
+    },
+    "thanks": {
+      "heading": "Danke!",
+      "paragraphs": [
+        "Ich weiß sehr zu schätzen, dass Du mich supportest. <b>Ganz herzlichen Dank dafür!</b>",
+        "Du erhältst gleich eine Bestellbestätigung per Email."
+      ]
     }
   }
 }

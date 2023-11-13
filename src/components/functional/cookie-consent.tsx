@@ -66,7 +66,7 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
       {showConsentBanner && (
         <div className="fixed top-0 left-0 h-screen w-screen overflow-y-auto py-16 sm:py-24 lg:py-48 bg-white/50 dark:bg-[#0E1117]/50 backdrop-blur z-50">
           <div className="w-full max-w-2xl mx-auto px-6 sm:px-8 lg:px-12">
-            <div className="rounded-3xl lg:rounded-[2.5rem] shadow-xl">
+            <div className="rounded-3xl lg:rounded-[2.5rem] overflow-hidden shadow-xl">
               <Card className="px-6 py-8 lg:p-12" borderAnimation>
                 <Heading level={2} html={content.heading} />
                 <Paragraph className="mt-7" html={content.text} />

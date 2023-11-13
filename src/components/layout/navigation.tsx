@@ -12,15 +12,10 @@ import {MenuIcon} from '@/components/icons/menu'
 import {CloseIcon} from '@/components/icons/close'
 import {CartIcon} from '@/components/icons/cart'
 
-const links = [
-  {href: '/work', caption: 'Work'},
-  {href: '/blog', caption: 'Blog'},
-  {href: '/hardware', caption: 'Hardware'}
-]
-
 type Content = {
   pageLinks: {caption: string; href: string}[]
   cta: {caption: string; href: string}
+  cart: string
 }
 
 export const Navigation: FC<{content: Content}> = ({content}) => {
@@ -66,7 +61,7 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
             <div className="mx-auto -mt-6 h-12 w-1/3 bg-white opacity-80 blur" />
           </div>
           <div className="flex space-x-2">
-            {pathname?.split('/')[1] === 'hardware' && cart !== null && cart.totalQuantity > 0 && (
+            {pathname?.split('/')[2] === 'hardware' && cart !== null && cart.totalQuantity > 0 && (
               <Button hideArrow secondary href="/hardware/cart">
                 <div className="flex items-center space-x-2">
                   <CartIcon className="h-4 opacity-70" />
@@ -187,7 +182,7 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
             <LanguageButton />
             <ThemeButton />
           </div>
-          {pathname?.split('/')[1] !== 'hardware' ? (
+          {pathname?.split('/')[2] !== 'hardware' ? (
             <Button href={content.cta.href}>{content.cta.caption}</Button>
           ) : cart === null || cart?.totalQuantity === 0 ? (
             <Button href={content.cta.href}>{content.cta.caption}</Button>
@@ -195,7 +190,7 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
             <Button hideArrow href="/hardware/cart">
               <div className="-mr-1.5 flex items-center space-x-2">
                 <CartIcon className="h-4 opacity-70" />
-                <span>Warenkorb</span>
+                <span>{content.cart}</span>
                 <span className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-white/25 px-1 font-mono text-xs leading-none text-white opacity-70">
                   {cart.totalQuantity}
                 </span>

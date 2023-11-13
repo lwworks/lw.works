@@ -10,6 +10,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'pbs.twimg.com',
         port: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.shopify.com',
+        port: ''
       }
     ]
   }

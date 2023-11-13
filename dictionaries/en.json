@@ -21,7 +21,8 @@
     "cta": {
       "caption": "Get Started",
       "href": "/#pricing"
-    }
+    },
+    "cart": "Cart"
   },
   "footer": {
     "copyright": "© Lukas Wiesehan",
@@ -351,6 +352,49 @@
         "caption": "Schedule a Call",
         "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       }
+    }
+  },
+  "hardware": {
+    "meta": {
+      "title": "Hardware | LW Works",
+      "description": "Bring great design into your everyday life with our hardware products."
+    },
+    "heading": "Hardware",
+    "text": "Bring great design into your everyday life with our hardware products.",
+    "variantSelection": {
+      "availability": {
+        "select": "Bitte auswählen.",
+        "notAvailable": "Leider nicht verfügbar.",
+        "inStock": "Auf Lager.",
+        "notInStock": "Wird für dich produziert."
+      },
+      "priceNote": "inkl. MwSt.<br/>zzgl. Versand",
+      "addToCart": "In den Warenkorb",
+      "addedToCart": "Zum Warenkorb hinzugefügt."
+    },
+    "productInfo": {
+      "shipping": "Shipping",
+      "sizing": "Sizing",
+      "sustainability": "Material & Sustainability",
+      "transparency": "Transparency"
+    },
+    "cart": {
+      "heading": "Cart",
+      "error": "There was an error loading your cart...",
+      "empty": "Your cart is empty.",
+      "seeProducts": "See products",
+      "table": {
+        "deleteItem": "Delete",
+        "total": "Total"
+      },
+      "form": {
+        "comment": "Message to your order",
+        "checkout": "Secure Checkout"
+      }
+    },
+    "thanks": {
+      "heading": "Thank you!",
+      "paragraphs": ["I really appreciate your support. <b>Thanks a lot!</b>", "You will receive an email with your order confirmation."]
     }
   }
 }
