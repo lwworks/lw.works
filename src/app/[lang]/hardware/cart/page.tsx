@@ -6,7 +6,7 @@ import {Locale} from '@/i18n.config'
 import {getDictionary} from '@/utils/get-dictionary'
 import Link from 'next/link'
 
-export default async function Layout({params: {lang}, children}: {params: {lang: Locale}; children: React.ReactNode}) {
+export default async function Layout({params: {lang}}: {params: {lang: Locale}}) {
   const dictionary = await getDictionary(lang)
 
   return (
