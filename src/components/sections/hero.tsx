@@ -76,11 +76,6 @@ export const Hero: FC<{content: Content}> = ({content}) => {
         <Avatars avatars={avatars} plus={content.socialProof.count} />
         <div>
           <p className="leading-none">{content.socialProof.text}</p>
-          {/* <Rotate className="h-5 font-bold text-black dark:text-white" speed={2000}>
-            {avatars.map(({alt}, index) => (
-              <div key={index}>{alt}</div>
-            ))}
-          </Rotate> */}
           <div className="relative h-5 font-bold text-black dark:text-white">
             <AnimatePresence initial={false}>
               <motion.div

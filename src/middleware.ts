@@ -5,7 +5,7 @@ import {match as matchLocale} from '@formatjs/intl-localematcher' //@ts-ignore
 import Negotiator from 'negotiator'
 
 function getLocale(request: NextRequest): string | undefined {
-  const currentLocale = request.headers.get('next-url')?.split('/')[1]
+  const currentLocale = request.cookies.get('language') ?? request.headers.get('next-url')?.split('/')[1]
   // @ts-ignore
   if (i18n.locales.includes(currentLocale)) return currentLocale
   const negotiatorHeaders: Record<string, string> = {}

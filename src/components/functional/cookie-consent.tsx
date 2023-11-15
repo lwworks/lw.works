@@ -79,7 +79,7 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
                     {content.list.map(({text, tag}, index) => (
                       <li key={index}>
                         <span dangerouslySetInnerHTML={{__html: text}} />
-                        <span className="inline-block rounded-full px-1.5 text-xs ml-1.5 mt-1.5 absolute h-4 bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-300">
+                        <span className="inline-block rounded-full px-1.5 text-xs ml-1.5 mt-1 h-4 bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-300">
                           {tag}
                         </span>
                       </li>
