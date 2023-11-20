@@ -1,17 +1,25 @@
+'use client'
+
 import Image from 'next/image'
 import {Heading} from '../atoms/heading'
 import {Section} from '../layout/section'
 import {Paragraph} from '../atoms/paragraph'
-import {FC} from 'react'
+import {FC, useState} from 'react'
 import {Button} from '../atoms/button'
+import {Locale} from '@/i18n.config'
+import {AllProjects} from './all-projects'
+import {AnimatePresence, motion} from 'framer-motion'
 
 type Content = {
   heading: string
   text: string
-  cta: {caption: string; href: string}
+  showMore: string
+  showLess: string
 }
 
-export const Projects: FC<{content: Content}> = ({content}) => {
+export const Projects: FC<{content: Content; language: Locale}> = ({content, language}) => {
+  const [showMore, setShowMore] = useState<boolean>(false)
+
   return (
     <>
       <Section id="work" className="relative group pt-24 lg:pt-48 grid grid-cols-1 gap-y-16 md:grid-cols-3 items-end">
@@ -35,13 +43,20 @@ export const Projects: FC<{content: Content}> = ({content}) => {
         <div className="relative flex flex-col items-start md:items-center justify-end md:pb-16 lg:pb-24">
           <Heading level={2} size="xl" className="md:text-center" html={content.heading} />
           <Paragraph className="mt-7 mb-8 max-w-xs md:text-center">{content.text}</Paragraph>
-          <Button href={content.cta.href}>{content.cta.caption}</Button>
+          <Button action={() => setShowMore((show) => !show)}>{showMore ? content.showLess : content.showMore}</Button>
         </div>
         <div>
           <Image src="/images/projects/effect-light.png" alt="Clearyst Website" width={1200} height={748} className="dark:hidden relative w-full" />
           <Image src="/images/projects/effect-dark.png" alt="Clearyst Website" width={1200} height={748} className="hidden dark:block relative w-full" />
         </div>
       </Section>
+      <AnimatePresence>
+        {showMore && (
+          <motion.div initial={{height: 0}} animate={{height: 'auto'}} exit={{height: 0}} className="overflow-hidden">
+            <AllProjects language={language} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

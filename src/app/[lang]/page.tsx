@@ -27,7 +27,7 @@ export default async function Page({params: {lang}}: {params: {lang: Locale}}) {
       <Process content={dictionary.index.process} />
       <Design content={dictionary.index.design} />
       <Development content={dictionary.index.development} />
-      <Projects content={dictionary.index.projects} />
+      <Projects content={dictionary.index.projects} language={lang} />
       <Testimonial content={dictionary.index.testimonial} />
       <Pricing content={dictionary.index.pricing} />
       <FAQ content={dictionary.index.faq} />

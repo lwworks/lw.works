@@ -190,10 +190,8 @@
     "projects": {
       "heading": "Recent<br/>Work",
       "text": "Das sind einige unserer aktuellen Design- und/oder Development-Arbeiten.",
-      "cta": {
-        "caption": "Mehr ansehen",
-        "href": "/work"
-      }
+      "showMore": "Mehr ansehen",
+      "showLess": "Weniger zeigen"
     },
     "testimonial": {
       "quote": "Ein echter Geheimtipp mit Liebe zum Detail.",

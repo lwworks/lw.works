@@ -1,5 +1,5 @@
 import {Project as ProjectType} from 'contentlayer/generated'
-import {FC} from 'react'
+import {FC, ReactNode} from 'react'
 import {Section} from '../layout/section'
 import {Heading} from '../atoms/heading'
 import {MDX} from './mdx'
@@ -8,7 +8,13 @@ import {Subheading} from '../atoms/subheading'
 import {Divider} from '../atoms/divider'
 import {ProjectHeading} from './headings'
 
-export const Project: FC<{project: ProjectType; reverse?: boolean | false; hideDivider?: boolean | false}> = ({project, reverse, hideDivider}) => {
+export const Project: FC<{
+  project: ProjectType
+  reverse?: boolean | false
+  hideDivider?: boolean | false
+  hideLink?: boolean | false
+  children?: ReactNode
+}> = ({project, reverse, hideDivider, hideLink, children}) => {
   return (
     <div id={project.slug} className="w-full overflow-y-hidden">
       {!hideDivider && <Divider />}
@@ -28,10 +34,15 @@ export const Project: FC<{project: ProjectType; reverse?: boolean | false; hideD
             className="relative w-full h-auto md:h-3/4 md:w-auto opacity-50 pointer-events-none"
           />
         </div>
-        <div className="pt-9 pb-12">
-          <Subheading>{project.tag}</Subheading>
-          <ProjectHeading slug={project.slug}>{project.name}</ProjectHeading>
-          <MDX code={project.body.code} />
+        <div className="pt-9 pb-12 flex flex-col justify-between">
+          <div>
+            <Subheading>{project.tag}</Subheading>
+            <ProjectHeading slug={project.slug} hideLink={hideLink}>
+              {project.name}
+            </ProjectHeading>
+            <MDX code={project.body.code} />
+          </div>
+          {children}
         </div>
         <div className="relative w-full md:w-5/12 shrink-0 aspect-square">
           <Image src={project.image} alt={project.name} fill className="object-contain object-bottom" />
