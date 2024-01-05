@@ -1,7 +1,7 @@
 export const getProduct = async ({handle, lang}: {lang: 'de' | 'en'; handle: string}): Promise<{product?: Product; error?: string}> => {
   const language = {de: 'DE', en: 'EN'}
   const res = await fetch('https://lukaswiesehan.myshopify.com/api/2023-10/graphql.json', {
-    next: { revalidate: 60 }
+    next: { revalidate: 60 },
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
