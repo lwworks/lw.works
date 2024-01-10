@@ -25,7 +25,7 @@
     "cart": "Cart"
   },
   "footer": {
-    "copyright": "© Lukas Wiesehan",
+    "copyright": "© LW Works GmbH i.G.",
     "menus": [
       {
         "heading": "Frontend",
@@ -232,7 +232,7 @@
           ],
           "cta": {
             "caption": "Get Started",
-            "href": "https://buy.stripe.com/00gdTw50S5uibNS5kl"
+            "href": "/get-started"
           },
           "scarcity": {
             "color": "emerald",
@@ -255,7 +255,7 @@
           ],
           "cta": {
             "caption": "Get Started",
-            "href": "https://buy.stripe.com/14kbLogJAe0O3hmfYY"
+            "href": "/get-started"
           },
           "scarcity": {
             "color": "amber",
@@ -393,6 +393,22 @@
     "thanks": {
       "heading": "Thank you!",
       "paragraphs": ["I really appreciate your support. <b>Thanks a lot!</b>", "You will receive an email with your order confirmation."]
+    }
+  },
+  "getStarted": {
+    "meta": {
+      "title": "Get started | LW Works",
+      "description": "We're currently reworking our payment process. In the meantime, get in touch with our founder Lukas to get started."
+    },
+    "heading": "Get started",
+    "text": "We're currently reworking our payment process. In the meantime, get in touch with our founder Lukas to get started:",
+    "contact": {
+      "name": "Lukas Wiesehan",
+      "description": "Designer & Developer",
+      "avatar": "https://pbs.twimg.com/profile_images/1552660486428282880/BlvLtgJe_400x400.jpg",
+      "linkedin": "https://www.linkedin.com/in/lukas-wiesehan-74931b1bb/",
+      "twitter": "https://twitter.com/lukaswiesehan",
+      "email": "lukas@lw.works"
     }
   }
 }

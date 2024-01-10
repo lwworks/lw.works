@@ -25,7 +25,7 @@
     "cart": "Warenkorb"
   },
   "footer": {
-    "copyright": "© Lukas Wiesehan",
+    "copyright": "© LW Works GmbH i.G.",
     "menus": [
       {
         "heading": "Frontend",
@@ -232,7 +232,7 @@
           ],
           "cta": {
             "caption": "Jetzt starten",
-            "href": "https://buy.stripe.com/00gdTw50S5uibNS5kl"
+            "href": "/get-started"
           },
           "scarcity": {
             "color": "emerald",
@@ -255,7 +255,7 @@
           ],
           "cta": {
             "caption": "Jetzt starten",
-            "href": "https://buy.stripe.com/14kbLogJAe0O3hmfYY"
+            "href": "/get-started"
           },
           "scarcity": {
             "color": "amber",
@@ -396,6 +396,22 @@
         "Ich weiß sehr zu schätzen, dass Du mich supportest. <b>Ganz herzlichen Dank dafür!</b>",
         "Du erhältst gleich eine Bestellbestätigung per Email."
       ]
+    }
+  },
+  "getStarted": {
+    "meta": {
+      "title": "Jetzt starten | LW Works",
+      "description": "Wir überarbeiten aktuell unseren Payment Prozess. Um in der Zwischenzeit mit uns durchzustarten, kontaktiere unseren Gründer Lukas."
+    },
+    "heading": "Jetzt starten",
+    "text": "Wir überarbeiten aktuell unseren Zahlungsprozess. Um in der Zwischenzeit mit uns durchzustarten, kontaktiere unseren Gründer Lukas:",
+    "contact": {
+      "name": "Lukas Wiesehan",
+      "description": "Designer & Developer",
+      "avatar": "https://pbs.twimg.com/profile_images/1552660486428282880/BlvLtgJe_400x400.jpg",
+      "linkedin": "https://www.linkedin.com/in/lukas-wiesehan-74931b1bb/",
+      "twitter": "https://twitter.com/lukaswiesehan",
+      "email": "lukas@lw.works"
     }
   }
 }
