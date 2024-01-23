@@ -62,7 +62,7 @@ export const Hero: FC<{content: Content}> = ({content}) => {
   return (
     <Section className="pt-32 pb-16 lg:pt-48">
       <Subheading>{content.subheading}</Subheading>
-      <Heading level={1} className="max-w-lg">
+      <Heading level={1} className="max-w-2xl">
         <span dangerouslySetInnerHTML={{__html: content.heading}} />
       </Heading>
       <Paragraph size="lg" className="mt-8 lg:mt-12 max-w-xl" html={content.text} />
