@@ -232,7 +232,7 @@
           ],
           "cta": {
             "caption": "Jetzt starten",
-            "href": "/get-started"
+            "href": "https://buy.stripe.com/00gdTw50S5uibNS5kl"
           },
           "scarcity": {
             "color": "emerald",
@@ -255,7 +255,7 @@
           ],
           "cta": {
             "caption": "Jetzt starten",
-            "href": "/get-started"
+            "href": "https://buy.stripe.com/14kbLogJAe0O3hmfYY"
           },
           "scarcity": {
             "color": "amber",
@@ -276,7 +276,7 @@
       "heading": "Häufig gestellte Fragen",
       "text": "Wir wollen mit unseren Services immer 100% offen und transparent sein. Wenn noch etwas unklar ist, buche dir gerne einen Call mit unserem Gründer Lukas.",
       "cta": {
-        "caption": "Einen Anruf vereinbaren",
+        "caption": "Call vereinbaren",
         "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       },
       "questions": [
