@@ -27,7 +27,7 @@ type Content = {
 export const Pricing: FC<{content: Content}> = ({content}) => {
   return (
     <>
-      <Section id="pricing" className="pt-24 lg:pt-48 pb-16 lg:pb-20">
+      <Section className="pt-24 lg:pt-48 pb-16 lg:pb-20">
         <Heading level={2} size="xl" className="lg:text-center mb-12 lg:mb-16" html={content.heading} />
         <div className="grid grid-cols-1 gap-12 lg:gap-x-16 md:grid-cols-2 lg:grid-cols-3">
           {content.features.map(({icon, heading, text}, index) => (
@@ -42,7 +42,7 @@ export const Pricing: FC<{content: Content}> = ({content}) => {
         </div>
       </Section>
       <Divider />
-      <Section className="pt-16 lg:pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <Section id="pricing" className="pt-16 lg:pt-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {content.prices.map(({badge, heading, description, pricePerMonth, checklist, cta, scarcity}, index) => (
           <div key={index} className="relative">
             {badge && (
