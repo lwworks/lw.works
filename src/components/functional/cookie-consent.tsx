@@ -44,11 +44,6 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
     checkCookie()
   }, [content, pathname])
 
-  // useEffect(() => {
-  //   if (showConsentBanner) document.body.classList.add('no-scroll')
-  //   else document.body.classList.remove('no-scroll')
-  // }, [showConsentBanner])
-
   useEffect(() => {
     if (consent === 'all') {
       let script = document.createElement('script')
