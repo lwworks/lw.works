@@ -56,7 +56,6 @@
       }
     ],
     "cookies": {
-      "excludedPaths": ["/de/kontakt", "/de/impressum", "/de/datenschutz", "/en/contact", "/en/legal", "/en/privacy"],
       "button": "Cookies & Daten",
       "heading": "Cookies<br/>& Daten",
       "text": "Für einige Funktionen unserer Website müssen in deinem Browser Cookies gespeichert werden, wofür wir deine Zustimmung brauchen. Mehr dazu in unserer <b><a href='/datenschutz'>Datenschutzerklärung</a></b>.",

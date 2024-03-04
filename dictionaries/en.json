@@ -56,7 +56,6 @@
       }
     ],
     "cookies": {
-      "excludedPaths": ["/de/kontakt", "/de/impressum", "/de/datenschutz", "/en/contact", "/en/legal", "/en/privacy"],
       "button": "Cookies & Data",
       "heading": "Cookies<br/>& Data",
       "text": "For some functionalities of our website, we need to store cookies in your browser, for which we need your consent. Learn more in our <b><a href=`/legal`>Privacy Policy</a></b>.",

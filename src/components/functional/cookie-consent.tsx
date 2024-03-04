@@ -11,7 +11,6 @@ import {getCookie, setCookie} from '@/app/actions'
 import {AnimatePresence, motion} from 'framer-motion'
 
 export type Content = {
-  excludedPaths: string[]
   button: string
   heading: string
   text: string
@@ -36,7 +35,7 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
   useEffect(() => {
     const checkCookie = async () => {
       const cookie = await getCookie('consent')
-      if (!cookie && !content.excludedPaths.includes(pathname)) setShowConsentBanner(true)
+      if (!cookie) setShowConsentBanner(true)
       else {
         setShowConsentBanner(false)
         setConsent(localStorage.consent)
