@@ -4,7 +4,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import {useEffect, useState} from 'react'
 import {usePathname} from 'next/navigation'
 import {Locale, i18n} from '@/i18n.config'
-import {setCookie} from '@/app/actions'
+import {getCookie, setCookie} from '@/app/actions'
 import {getEquivalentPathname} from '@/utils/i18n/get-equivalent-pathname'
 
 export const LanguageButton = () => {
@@ -20,7 +20,10 @@ export const LanguageButton = () => {
   }, [locale, pathname])
 
   const onChange = async (value: string) => {
-    await setCookie('locale', value)
+    const consent = await getCookie('consent')
+    if (consent?.value) {
+      await setCookie('locale', value)
+    }
     setLocale(value as Locale)
   }
 

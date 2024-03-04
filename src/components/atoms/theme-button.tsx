@@ -1,4 +1,5 @@
 'use client'
+import {deleteCookie, getCookie, setCookie} from '@/app/actions'
 import {GearIcon} from '@/components/icons/gear'
 import {MoonIcon} from '@/components/icons/moon'
 import {SunIcon} from '@/components/icons/sun'
@@ -15,20 +16,28 @@ export const ThemeButton = () => {
   const [theme, setTheme] = useState<string>()
 
   useEffect(() => {
-    const handleEvent = () => setTheme(localStorage?.theme || 'system')
-    handleEvent()
-    window.addEventListener('storage', handleEvent)
-    return () => window.removeEventListener('storage', handleEvent)
+    const checkCookie = async () => {
+      const cookie = await getCookie('theme')
+      setTheme(cookie?.value ?? 'system')
+    }
+    checkCookie()
   }, [])
 
   useEffect(() => {
     if (!theme) return
-    if (theme === 'system') localStorage.removeItem('theme')
-    else localStorage.theme = theme
     if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches))
       document.documentElement.classList.add('dark')
     else document.documentElement.classList.remove('dark')
   }, [theme])
+
+  const onChange = async (value: string) => {
+    const consent = await getCookie('consent')
+    if (consent?.value) {
+      if (value === 'system') await deleteCookie('theme')
+      else await setCookie('theme', value)
+    }
+    setTheme(value)
+  }
 
   return (
     <DropdownMenu.Root>
@@ -43,7 +52,7 @@ export const ThemeButton = () => {
           sideOffset={10}
           className="relative z-50 mt-3.5 rounded-lg border border-slate-200 bg-slate-100/60 p-2 shadow-lg backdrop-blur-lg dark:border-slate-700 dark:bg-black/70 md:mt-0"
         >
-          <DropdownMenu.RadioGroup value={theme} onValueChange={setTheme}>
+          <DropdownMenu.RadioGroup value={theme} onValueChange={onChange}>
             {themes.map(({id, icon}, index) => {
               const Icon = icon
               return (
