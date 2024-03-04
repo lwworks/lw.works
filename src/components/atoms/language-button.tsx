@@ -3,20 +3,29 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import {useEffect, useState} from 'react'
 import {usePathname} from 'next/navigation'
-import {useRouter} from 'next/navigation'
-import {i18n} from '@/i18n.config'
+import {Locale, i18n} from '@/i18n.config'
+import {getCookie, setCookie} from '@/app/actions'
+import {getEquivalentPathname} from '@/utils/i18n/get-equivalent-pathname'
 
 export const LanguageButton = () => {
-  const pathName = usePathname()
-  const router = useRouter()
-  const [locale, setLocale] = useState<string>(pathName ? pathName.split('/')[1] : i18n.defaultLocale)
+  const pathname = usePathname()
+  const [locale, setLocale] = useState<Locale>(pathname.split('/')[1] as Locale)
 
   useEffect(() => {
-    if (!pathName) window.location.href = '/'
-    const segments = pathName!.split('/')
-    segments[1] = locale
-    if (pathName?.split('/')[1] != locale) window.location.href = segments.join('/')
-  }, [locale, pathName, router])
+    const equivalentPathname = getEquivalentPathname(pathname, locale)
+    const currentLocale = pathname!.split('/')[1]
+    if (currentLocale !== locale) {
+      window.location.href = equivalentPathname === pathname ? pathname.replace(currentLocale, locale) : equivalentPathname
+    }
+  }, [locale, pathname])
+
+  const onChange = async (value: string) => {
+    const consent = await getCookie('consent')
+    if (consent?.value) {
+      await setCookie('locale', value)
+    }
+    setLocale(value as Locale)
+  }
 
   return (
     <DropdownMenu.Root>
@@ -28,7 +37,7 @@ export const LanguageButton = () => {
           sideOffset={10}
           className="relative z-50 mt-3.5 rounded-lg border border-slate-200 bg-slate-100/60 p-2 shadow-lg backdrop-blur-lg dark:border-slate-700 dark:bg-black/70 md:mt-0"
         >
-          <DropdownMenu.RadioGroup value={locale} onValueChange={(locale) => setLocale(locale)}>
+          <DropdownMenu.RadioGroup value={locale} onValueChange={onChange}>
             {i18n.locales.map((locale) => (
               <DropdownMenu.RadioItem
                 key={locale}

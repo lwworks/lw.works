@@ -56,24 +56,19 @@
       }
     ],
     "cookies": {
-      "excludedPaths": ["/de/kontakt", "/de/impressum", "/de/datenschutz", "/en/contact", "/en/legal", "/en/privacy"],
       "button": "Cookies & Data",
-      "heading": "Cookies & Data",
-      "text": "For some functionalities of our website, we need to store cookies and/or local data in your browser, for which we need your consent. You can change your selection at any time using the link in the footer of the page.",
-      "showList": "Show List",
+      "heading": "Cookies<br/>& Data",
+      "text": "For some functionalities of our website, we need to store cookies in your browser, for which we need your consent. Learn more in our <b><a href=`/legal`>Privacy Policy</a></b>.",
+      "showList": "Show details",
       "list": [
-        {"text": "<b>Consent:</b> we store, what selection you make here.", "tag": "Essential"},
-        {"text": "<b>Theme:</b> we store your selection, when you choose light oder dark mode.", "tag": "Essential"},
-        {"text": "<b>Stripe & Shopify:</b> these service providers may use cookies during the payment process.", "tag": "Essential"},
-        {"text": "<b>Clarity:</b> this tool helps us to better understand the use of this site.", "tag": "Marketing/Analytics"}
+        "<b>Consent</b> (essential): we store, what selection you make here.",
+        "<b>Theme</b> (essential): we store your selection, when you choose light oder dark mode.",
+        "<b>Language</b> (essential): we store your language selection.",
+        "<b>Stripe & Shopify</b> (essential): these service providers may use cookies during the payment process.",
+        "<b>Clarity</b> (non-essential): this tool helps us to better understand the use of this site."
       ],
       "decline": "Accept Essential Cookies only",
-      "accept": "Accept All",
-      "links": [
-        {"caption": "Contact", "href": "/contact"},
-        {"caption": "Legal Information", "href": "/legal"},
-        {"caption": "Privacy Policy", "href": "/privacy"}
-      ]
+      "accept": "Accept All"
     }
   },
   "index": {

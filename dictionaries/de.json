@@ -56,24 +56,19 @@
       }
     ],
     "cookies": {
-      "excludedPaths": ["/de/kontakt", "/de/impressum", "/de/datenschutz", "/en/contact", "/en/legal", "/en/privacy"],
       "button": "Cookies & Daten",
-      "heading": "Cookies & Daten",
-      "text": "Für einige Funktionen unserer Website müssen in deinem Browser Cookies und/oder lokale Daten gespeichert werden, wofür wir deine Zustimmung brauchen. Du kannst deine Auswahl jederzeit über den Button in der Fußzeile ändern.",
-      "showList": "Liste anzeigen",
+      "heading": "Cookies<br/>& Daten",
+      "text": "Für einige Funktionen unserer Website müssen in deinem Browser Cookies gespeichert werden, wofür wir deine Zustimmung brauchen. Mehr dazu in unserer <b><a href='/datenschutz'>Datenschutzerklärung</a></b>.",
+      "showList": "Details anzeigen",
       "list": [
-        {"text": "<b>Consent:</b> wir speichern die Auswahl, die du hier triffst.", "tag": "Essenziell"},
-        {"text": "<b>Theme:</b> wir speichern, ob du den Dark- oder Light-Mode ausgewählt hast.", "tag": "Essenziell"},
-        {"text": "<b>Stripe & Shopify:</b> während der Zahlung verwenden die Dienstleister evtl. Cookies.", "tag": "Essenziell"},
-        {"text": "<b>Clarity:</b> das Analystetool hilft uns dabei, die Nutzung dieser Seite besser zu vestehen.", "tag": "Marketing/Analyse"}
+        "<b>Consent</b> (essenziell): wir speichern die Auswahl, die du hier triffst.",
+        "<b>Theme</b> (essenziell): wir speichern, ob du den Dark- oder Light-Mode ausgewählt hast.",
+        "<b>Sprache</b> (essenziell): wir speichern, welche Sprache du ausgewählt hast.",
+        "<b>Stripe & Shopify</b> (essenziell): während der Zahlung verwenden die Dienstleister evtl. Cookies.",
+        "<b>Clarity</b> (nicht essenziell): das Analystetool hilft uns dabei, die Nutzung dieser Seite besser zu vestehen."
       ],
       "decline": "Nur essenzielle Cookies zulassen",
-      "accept": "Alles akzeptieren",
-      "links": [
-        {"caption": "Kontakt", "href": "/kontakt"},
-        {"caption": "Impressum", "href": "/impressum"},
-        {"caption": "Datenschutz", "href": "/datenschutz"}
-      ]
+      "accept": "Alles akzeptieren"
     }
   },
   "index": {
