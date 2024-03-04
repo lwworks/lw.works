@@ -69,12 +69,7 @@
         "<b>Clarity</b> (non-essential): this tool helps us to better understand the use of this site."
       ],
       "decline": "Accept Essential Cookies only",
-      "accept": "Accept All",
-      "links": [
-        {"caption": "Contact", "href": "/contact"},
-        {"caption": "Legal Information", "href": "/legal"},
-        {"caption": "Privacy Policy", "href": "/privacy"}
-      ]
+      "accept": "Accept All"
     }
   },
   "index": {

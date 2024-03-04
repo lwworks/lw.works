@@ -16,10 +16,9 @@ export type Content = {
   heading: string
   text: string
   showList: string
-  list: {text: string; tag: string}[]
+  list: string[]
   decline: string
   accept: string
-  links: {caption: string; href: string}[]
 }
 
 export const CookieConsent: FC<{content: Content}> = ({content}) => {

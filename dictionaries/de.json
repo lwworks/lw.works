@@ -69,12 +69,7 @@
         "<b>Clarity</b> (nicht essenziell): das Analystetool hilft uns dabei, die Nutzung dieser Seite besser zu vestehen."
       ],
       "decline": "Nur essenzielle Cookies zulassen",
-      "accept": "Alles akzeptieren",
-      "links": [
-        {"caption": "Kontakt", "href": "/kontakt"},
-        {"caption": "Impressum", "href": "/impressum"},
-        {"caption": "Datenschutz", "href": "/datenschutz"}
-      ]
+      "accept": "Alles akzeptieren"
     }
   },
   "index": {
