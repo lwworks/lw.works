@@ -74,7 +74,7 @@ export default function Page() {
         <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
           {dictionary[lang as Locale].cards.map(({href, heading, text, image}, index) => (
             <Link key={index} href={href}>
-              <Card className="group relative h-full flex flex-col justify-between px-6 pt-8 lg:p-12 lg:pb-0">
+              <Card className="group relative h-full flex flex-col justify-between overflow-hidden px-6 pt-8 lg:p-12 lg:pb-0">
                 <div
                   className="absolute left-12 right-12 h-12 -bottom-6 blur-3xl bg-indigo-500 opacity-70 transition-opacity duration-300 group-hover:opacity-90"
                   style={{borderRadius: '50% 50%', transform: 'translate3d(0, 0, 0)'}}

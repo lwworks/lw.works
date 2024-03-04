@@ -1,6 +1,5 @@
 'use client'
 
-import Script from 'next/script'
 import {FC, Fragment, useEffect, useState} from 'react'
 import {Icon} from '../icons'
 import {Card} from '../atoms/card'
@@ -9,6 +8,7 @@ import {Paragraph} from '../atoms/paragraph'
 import {Button} from '../atoms/button'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
+import {getCookie, setCookie} from '@/app/actions'
 
 export type Content = {
   excludedPaths: string[]
@@ -27,13 +27,23 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
   const [showConsentBanner, setShowConsentBanner] = useState<boolean>(false)
   const [consent, setConsent] = useState<undefined | 'necessary' | 'all'>(undefined)
 
+  const updateConsent = async (consent: 'necessary' | 'all') => {
+    setShowConsentBanner(false)
+    setConsent(consent)
+    await setCookie('consent', consent)
+    location.reload()
+  }
+
   useEffect(() => {
-    if (!('consent' in localStorage) && !content.excludedPaths.includes(pathname)) {
-      setShowConsentBanner(true)
-    } else {
-      setShowConsentBanner(false)
-      setConsent(localStorage.consent)
+    const checkCookie = async () => {
+      const cookie = await getCookie('consent')
+      if (!cookie && !content.excludedPaths.includes(pathname)) setShowConsentBanner(true)
+      else {
+        setShowConsentBanner(false)
+        setConsent(localStorage.consent)
+      }
     }
+    checkCookie()
   }, [content, pathname])
 
   useEffect(() => {
@@ -87,28 +97,10 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
                   </ul>
                 </details>
                 <div className="mt-8 flex flex-wrap gap-2">
-                  <Button
-                    secondary
-                    hideArrow
-                    action={() => {
-                      setShowConsentBanner(false)
-                      setConsent('necessary')
-                      localStorage.setItem('consent', 'necessary')
-                      location.reload()
-                    }}
-                  >
+                  <Button secondary hideArrow action={() => updateConsent('necessary')}>
                     {content.decline}
                   </Button>
-                  <Button
-                    action={() => {
-                      setShowConsentBanner(false)
-                      setConsent('all')
-                      localStorage.setItem('consent', 'all')
-                      location.reload()
-                    }}
-                  >
-                    {content.accept}
-                  </Button>
+                  <Button action={() => updateConsent('all')}>{content.accept}</Button>
                 </div>
                 <div className="mt-8">
                   {content.links.map(({caption, href}, index) => (

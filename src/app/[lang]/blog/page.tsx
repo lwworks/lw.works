@@ -16,7 +16,7 @@ export default async function Page({params}: {params: {lang: Locale}}) {
 
   return (
     <main>
-      <Section className="pt-32 lg:pt-48">
+      <Section className="pt-32 pb-24 lg:py-48">
         <Heading level={1}>Blog</Heading>
         <div className="mt-24 grid max-w-xl grid-cols-1 gap-16 md:max-w-none md:grid-cols-2">
           {allBlogPosts
