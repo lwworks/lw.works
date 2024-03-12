@@ -1,6 +1,5 @@
 import {Heading} from '@/components/atoms/heading'
 import {Section} from '@/components/layout/section'
-import {getDictionary} from '@/utils/get-dictionary'
 import {Locale} from '@/i18n.config'
 import {Metadata} from 'next'
 import {allProfiles} from 'contentlayer/generated'
@@ -26,7 +25,6 @@ export async function generateMetadata({params: {lang, slug}}: {params: {lang: L
 }
 
 export default async function Page({params: {lang, slug}}: {params: {lang: Locale; slug: string}}) {
-  const dictionary = await getDictionary(lang)
   const profile = allProfiles.find((profile) => profile.slug === slug && profile.language === lang)
   if (!profile) notFound()
 
