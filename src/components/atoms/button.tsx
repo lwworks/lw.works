@@ -60,7 +60,7 @@ export const Button: FC<{
       disabled={loading || disabled}
     >
       <div
-        className={`flex h-full items-center space-x-2 rounded-full ${
+        className={`flex h-full items-center justify-center space-x-2 rounded-full ${
           disabled
             ? 'bg-[#F9FAFB] text-black/50 dark:bg-[#171C23] dark:text-white/50'
             : secondary

@@ -51,7 +51,9 @@ export const Footer: FC<{content: Content}> = ({content}) => {
         <div className="relative mx-auto mt-12 flex w-full max-w-screen-xl flex-col items-stretch justify-between px-6 text-sm text-slate-400 dark:text-slate-500 sm:-mt-8 sm:flex-row sm:space-y-0 sm:px-8 lg:px-12">
           <div className="order-2 mt-12 sm:order-1 sm:mt-16 flex flex-col justify-between">
             <p className="font-mono text-xs uppercase">{`${content.copyright} ${new Date().getFullYear()}`}</p>
-            <CookieConsent content={content.cookies} />
+            <div className="flex pt-4">
+              <CookieConsent content={content.cookies} />
+            </div>
           </div>
           <div className="order-1 flex space-x-8 sm:order-2 sm:space-x-16">
             {content.menus.map(({heading, items}, index) => (

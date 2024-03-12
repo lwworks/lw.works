@@ -1,7 +1,6 @@
 import './globals.css'
 import {Metadata} from 'next'
 import {Lato, Sora, JetBrains_Mono} from 'next/font/google'
-import Script from 'next/script'
 import {BlurBackground} from '@/components/visuals/blur-background'
 import {Navigation} from '@/components/layout/navigation'
 import {Footer} from '@/components/layout/footer'
@@ -39,23 +38,8 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
     <html lang={lang} className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
       <head />
       <body className="relative overflow-x-hidden">
-        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
-        <Script
-          id="check-theme"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              if ((!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) || localStorage.theme === 'dark') {
-                document.documentElement.classList.add('dark')
-              } else {
-                document.documentElement.classList.remove('dark')
-              }
-            `
-          }}
-        />
         <BlurBackground />
-        <Navigation content={dictionary.navigation} />
-        <div className="relative">{children}</div>
+        {children}
         <Footer content={dictionary.footer} />
       </body>
       <Fathom />

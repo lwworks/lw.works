@@ -5,7 +5,16 @@ import {match as matchLocale} from '@formatjs/intl-localematcher' //@ts-ignore
 import Negotiator from 'negotiator'
 import {getEquivalentPathname} from './utils/i18n/get-equivalent-pathname'
 
+const redirects = [
+  {from: '/h', to: '/hardware'},
+  {from: '/l', to: '/contact/lukas'}
+]
+
 export function middleware(request: NextRequest) {
+  if (redirects.find(({from}) => from === request.nextUrl.pathname)) {
+    request.nextUrl.pathname = redirects.find(({from}) => from === request.nextUrl.pathname)!.to
+    return NextResponse.redirect(request.nextUrl)
+  }
   const consent = request.cookies.get('consent')?.value
   const cookieLocale = request.cookies.get('locale')?.value
   const {pathname} = request.nextUrl

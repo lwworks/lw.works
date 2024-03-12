@@ -18,7 +18,7 @@ type Content = {
   cart: string
 }
 
-export const Navigation: FC<{content: Content}> = ({content}) => {
+export const Navigation: FC<{content?: Content}> = ({content}) => {
   const [offsetX, setOffsetX] = useState<number>(0)
   const container = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
@@ -49,6 +49,49 @@ export const Navigation: FC<{content: Content}> = ({content}) => {
     window.addEventListener('storage', onStorageChange, false)
     return () => window.removeEventListener('storage', onStorageChange)
   }, [])
+
+  if (!content)
+    return (
+      <nav className="relative z-50 w-full pt-4 md:pt-6 lg:pt-10">
+        <div className="fixed top-4 w-full px-4 sm:px-6 md:hidden">
+          <div className="relative z-50 flex h-12 items-center justify-between rounded-3xl border border-slate-200 bg-slate-100/60 pl-5 pr-1.5 shadow-lg shadow-black/5 backdrop-blur-lg dark:border-slate-700 dark:bg-black/70 dark:shadow-black/10">
+            <Link href="/">
+              <Logo className="h-5 text-black dark:text-white md:h-8" />
+            </Link>
+            <div className="absolute -bottom-px h-px w-8 overflow-y-hidden">
+              <div className="mx-auto -mt-6 h-12 w-1/3 bg-white opacity-80 blur" />
+            </div>
+            <div className="relative flex items-center pr-2">
+              <LanguageButton />
+              <ThemeButton />
+            </div>
+          </div>
+        </div>
+        <div className="relative mx-auto hidden w-full max-w-screen-xl items-center justify-end px-8 md:flex lg:px-12">
+          <div className="absolute top-0 left-8 flex h-12 items-center lg:left-12">
+            <Link href="/">
+              <Logo className="h-8 text-black dark:text-white md:h-8" />
+            </Link>
+          </div>
+          <motion.div
+            onMouseMove={onMouseMove}
+            ref={container}
+            className="group fixed top-6 flex h-12 items-center rounded-3xl border border-slate-200 bg-slate-100/60 shadow-lg px-2 shadow-black/5 backdrop-blur-lg dark:border-slate-700 dark:bg-black/70 dark:shadow-black/10 lg:top-10"
+          >
+            <div className="absolute inset-0 overflow-hidden rounded-full">
+              <motion.div
+                className="absolute -bottom-3 -left-10 h-6 w-20 rounded-full bg-white/70 opacity-0 blur-lg transition-opacity duration-200 group-hover:opacity-100 dark:bg-white/30"
+                style={{translateX: offsetX}}
+              />
+            </div>
+            <div className="relative flex h-5 items-center px-3">
+              <LanguageButton />
+              <ThemeButton />
+            </div>
+          </motion.div>
+        </div>
+      </nav>
+    )
 
   return (
     <nav className="relative z-50 w-full pt-4 md:pt-6 lg:pt-10">
