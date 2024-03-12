@@ -40,6 +40,7 @@ import {HouseIcon} from './house'
 import {WhatsappIcon} from './whatsapp'
 import {CalendarSolidIcon} from './calendar-solid'
 import {LocationIcon} from './location'
+import {EmailSolidIcon} from './email-solid'
 
 const icons = {
   alert: AlertIcon,
@@ -53,6 +54,7 @@ const icons = {
   'chevron-down': ChevronDownIcon,
   close: CloseIcon,
   email: EmailIcon,
+  'email-solid': EmailSolidIcon,
   fingerprint: FingerprintIcon,
   folder: FolderIcon,
   gear: GearIcon,

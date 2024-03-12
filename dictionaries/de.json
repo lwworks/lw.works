@@ -393,20 +393,9 @@
       ]
     }
   },
-  "getStarted": {
-    "meta": {
-      "title": "Jetzt starten | LW Works",
-      "description": "Wir überarbeiten aktuell unseren Payment Prozess. Um in der Zwischenzeit mit uns durchzustarten, kontaktiere unseren Gründer Lukas."
-    },
-    "heading": "Jetzt starten",
-    "text": "Wir überarbeiten aktuell unseren Zahlungsprozess. Um in der Zwischenzeit mit uns durchzustarten, kontaktiere unseren Gründer Lukas:",
-    "contact": {
-      "name": "Lukas Wiesehan",
-      "description": "Designer & Developer",
-      "avatar": "https://pbs.twimg.com/profile_images/1552660486428282880/BlvLtgJe_400x400.jpg",
-      "linkedin": "https://www.linkedin.com/in/lukas-wiesehan-74931b1bb/",
-      "twitter": "https://twitter.com/lukaswiesehan",
-      "email": "lukas@lw.works"
-    }
+  "contact": {
+    "call": "Anrufen",
+    "email": "Email",
+    "storeContact": "Kontakt speichern"
   }
 }
