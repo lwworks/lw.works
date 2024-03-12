@@ -74,7 +74,7 @@ export const CookieConsent: FC<{content: Content}> = ({content}) => {
             className="fixed inset-x-0 bottom-0 max-h-screen overflow-y-auto py-6 sm:py-8 lg:py-12 z-50 bg-gradient-to-b from-white/0 to-white dark:from-[#0E1117]/0 dark:to-[#0E1117]"
           >
             <div className="mx-auto w-full max-w-screen-xl px-6 sm:px-8 lg:px-12">
-              <Card className="p-8 flex flex-col gap-8 md:flex-row md:gap-12" borderAnimation>
+              <Card className="p-6 sm:p-8 flex flex-col gap-8 md:flex-row md:gap-12" borderAnimation>
                 <div className="shrink-0">
                   <Heading level={2} html={content.heading} />
                 </div>

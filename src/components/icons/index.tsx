@@ -34,12 +34,18 @@ import {FolderIcon} from './folder'
 import {EmailIcon} from './email'
 import {FingerprintIcon} from './fingerprint'
 import {ChevronDownIcon} from './chevron-down'
+import {PhoneIcon} from './phone'
+import {SendIcon} from './send'
+import {HouseIcon} from './house'
+import {WhatsappIcon} from './whatsapp'
+import {CalendarSolidIcon} from './calendar-solid'
 
 const icons = {
   alert: AlertIcon,
   atom: AtomIcon,
   arrow: ArrowIcon,
   calendar: CalendarIcon,
+  'calendar-solid': CalendarSolidIcon,
   cart: CartIcon,
   'check-square': CheckSquareIcon,
   check: CheckIcon,
@@ -51,6 +57,7 @@ const icons = {
   gear: GearIcon,
   globe: GlobeIcon,
   'heart-stash': HeartStashIcon,
+  house: HouseIcon,
   infinity: InfinityIcon,
   instagram: InstagramIcon,
   lightning: LightningIcon,
@@ -59,9 +66,11 @@ const icons = {
   menu: MenuIcon,
   moon: MoonIcon,
   pause: PauseIcon,
+  phone: PhoneIcon,
   planet: PlanetIcon,
   quotes: QuotesIcon,
   rocket: RocketIcon,
+  send: SendIcon,
   star: StarIcon,
   sun: SunIcon,
   target: TargetIcon,
@@ -70,7 +79,8 @@ const icons = {
   twitter: TwitterIcon,
   user: UserIcon,
   'user-plus': UserPlusIcon,
-  wallet: WalletIcon
+  wallet: WalletIcon,
+  whatsapp: WhatsappIcon
 }
 
 export type IconName = keyof typeof icons

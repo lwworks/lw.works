@@ -41,16 +41,16 @@ export const ThemeButton = () => {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex h-9 items-center rounded px-3 text-indigo-500 hover:text-indigo-700 focus:bg-white/30 focus:outline-none dark:text-indigo-300 dark:hover:text-indigo-200 dark:focus:bg-white/10 md:h-7 md:px-2">
+      <DropdownMenu.Trigger className="flex h-7 items-center rounded-md px-2 text-indigo-500 hover:text-indigo-700 focus:bg-white/30 focus:outline-none dark:text-indigo-300 dark:hover:text-indigo-200 dark:focus:bg-white/10">
         <span className="">
-          <MoonIcon className="theme-icon-dark h-5 md:h-4" />
-          <SunIcon className="theme-icon-light h-5 md:h-4" />
+          <MoonIcon className="theme-icon-dark h-4" />
+          <SunIcon className="theme-icon-light h-4" />
         </span>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           sideOffset={10}
-          className="relative z-50 mt-3.5 rounded-lg border border-slate-200 bg-slate-100/60 p-2 shadow-lg backdrop-blur-lg dark:border-slate-700 dark:bg-black/70 md:mt-0"
+          className="relative z-50 rounded-lg border border-slate-200 bg-slate-100/60 p-2 shadow-lg backdrop-blur-lg dark:border-slate-700 dark:bg-black/70"
         >
           <DropdownMenu.RadioGroup value={theme} onValueChange={onChange}>
             {themes.map(({id, icon}, index) => {
@@ -59,15 +59,15 @@ export const ThemeButton = () => {
                 <DropdownMenu.RadioItem
                   key={index}
                   value={id}
-                  className="relative flex h-9 cursor-pointer items-center rounded border border-transparent px-3 focus:bg-white/30 focus:outline-none data-[state=checked]:text-indigo-500 dark:focus:bg-white/10 dark:data-[state=checked]:text-indigo-300 md:h-7 md:px-2"
+                  className="relative flex h-7 cursor-pointer items-center rounded-md border border-transparent px-2 focus:bg-white/30 focus:outline-none data-[state=checked]:text-indigo-500 dark:focus:bg-white/10 dark:data-[state=checked]:text-indigo-300"
                 >
                   <DropdownMenu.ItemIndicator className="absolute inset-2 bg-indigo-400/80 blur-md" />
-                  <Icon className="relative h-5 md:h-4" />
+                  <Icon className="relative h-4" />
                 </DropdownMenu.RadioItem>
               )
             })}
           </DropdownMenu.RadioGroup>
-          <DropdownMenu.Arrow className="relative z-10 -mb-px h-1.5 w-3 fill-current text-transparent md:text-slate-200 dark:md:text-slate-700" />
+          <DropdownMenu.Arrow className="relative z-10 -mb-px h-1.5 w-3 fill-current text-slate-200 dark:text-slate-700" />
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
