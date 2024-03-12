@@ -40,6 +40,7 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
       <body className="relative overflow-x-hidden">
         <BlurBackground />
         {children}
+        <Footer content={dictionary.footer} />
       </body>
       <Fathom />
     </html>

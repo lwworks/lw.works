@@ -39,6 +39,7 @@ import {SendIcon} from './send'
 import {HouseIcon} from './house'
 import {WhatsappIcon} from './whatsapp'
 import {CalendarSolidIcon} from './calendar-solid'
+import {LocationIcon} from './location'
 
 const icons = {
   alert: AlertIcon,
@@ -62,6 +63,7 @@ const icons = {
   instagram: InstagramIcon,
   lightning: LightningIcon,
   linkedin: LinkedinIcon,
+  location: LocationIcon,
   lock: LockIcon,
   menu: MenuIcon,
   moon: MoonIcon,
