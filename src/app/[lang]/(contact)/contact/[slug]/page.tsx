@@ -30,9 +30,21 @@ export default async function Page({params: {lang, slug}}: {params: {lang: Local
   const profile = allProfiles.find((profile) => profile.slug === slug && profile.language === lang)
   if (!profile) notFound()
   const dictionary = await getDictionary(lang)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: `${profile.firstname} ${profile.lastname}`,
+      identifier: profile.slug,
+      description: profile.description,
+      image: profile.avatar
+    }
+  }
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
       <Navigation />
       <div className="relative">
         <main>
