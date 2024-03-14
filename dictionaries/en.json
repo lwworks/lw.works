@@ -394,5 +394,29 @@
     "call": "Call",
     "email": "Email",
     "storeContact": "Add contact"
+  },
+  "notFound": {
+    "heading": "Page not found",
+    "text": "The page you are looking for does not exist. Maybe you have a typo in the URL? Otherwise, you may find what you were looking for here:",
+    "cards": [
+      {
+        "href": "/",
+        "heading": "Frontend Subscription",
+        "text": "The first ever design and development subscription for SaaS companies.",
+        "image": "/images/not-found/frontend-subscription.png"
+      },
+      {
+        "href": "/work",
+        "heading": "Recent Work",
+        "text": "Have a look at what we&apos;ve designed and built for our clients.",
+        "image": "/images/not-found/recent-work.png"
+      },
+      {
+        "href": "/hardware",
+        "heading": "Hardware",
+        "text": "Bring great design into your everyday life with our hardware products.",
+        "image": "/images/not-found/hardware.png"
+      }
+    ]
   }
 }

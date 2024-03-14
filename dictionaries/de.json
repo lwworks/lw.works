@@ -397,5 +397,29 @@
     "call": "Anrufen",
     "email": "Email",
     "storeContact": "Kontakt speichern"
+  },
+  "notFound": {
+    "heading": "Seite nicht gefunden",
+    "text": "Die Seite, die du gesucht hast, existiert nicht. Vielleicht hast Du einen Tippfehler in der URL? Ansonsten findest du hier vielleicht, was du gesucht hast:",
+    "cards": [
+      {
+        "href": "/",
+        "heading": "Frontend Subscription",
+        "text": "Das erste Design & Development Abo für SaaS Unternehmen.",
+        "image": "/images/not-found/frontend-subscription.png"
+      },
+      {
+        "href": "/work",
+        "heading": "Recent Work",
+        "text": "Schau dir an, was wir für unsere Kunden designed und gebaut haben.",
+        "image": "/images/not-found/recent-work.png"
+      },
+      {
+        "href": "/hardware",
+        "heading": "Hardware",
+        "text": "Bring mit unseren Hardware-Produkten großartiges Design in deinen Alltag.",
+        "image": "/images/not-found/hardware.png"
+      }
+    ]
   }
 }
