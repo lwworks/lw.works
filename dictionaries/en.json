@@ -3,24 +3,24 @@
     "pageLinks": [
       {
         "caption": "About",
-        "href": "/#about"
+        "href": "/en#about"
       },
       {
         "caption": "Process",
-        "href": "/#process"
+        "href": "/en#process"
       },
       {
         "caption": "Work",
-        "href": "/#work"
+        "href": "/en#work"
       },
       {
         "caption": "Pricing",
-        "href": "/#pricing"
+        "href": "/en#pricing"
       }
     ],
     "cta": {
       "caption": "Get Started",
-      "href": "/#pricing"
+      "href": "/en#pricing"
     },
     "cart": "Cart"
   },
@@ -30,35 +30,35 @@
       {
         "heading": "Frontend",
         "items": [
-          {"caption": "Start", "href": "/"},
-          {"caption": "About", "href": "/#about"},
-          {"caption": "Process", "href": "/#process"},
-          {"caption": "Work", "href": "/#work"},
-          {"caption": "Pricing", "href": "/#pricing"}
+          {"caption": "Start", "href": "/en"},
+          {"caption": "About", "href": "/en#about"},
+          {"caption": "Process", "href": "/en#process"},
+          {"caption": "Work", "href": "/en#work"},
+          {"caption": "Pricing", "href": "/en#pricing"}
         ]
       },
       {
         "heading": "More",
         "items": [
           {"caption": "Schedule a Call", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
-          {"caption": "Blog", "href": "/blog"},
-          {"caption": "Work", "href": "/work"},
-          {"caption": "Hardware", "href": "/hardware"}
+          {"caption": "Blog", "href": "/en/blog"},
+          {"caption": "Work", "href": "/en/work"},
+          {"caption": "Hardware", "href": "/en/hardware"}
         ]
       },
       {
         "heading": "Legal",
         "items": [
-          {"caption": "Contact", "href": "/contact"},
-          {"caption": "Legal Information", "href": "/legal"},
-          {"caption": "Privacy Policy", "href": "/privacy"}
+          {"caption": "Contact", "href": "/en/contact"},
+          {"caption": "Legal Information", "href": "/en/legal"},
+          {"caption": "Privacy Policy", "href": "/en/privacy"}
         ]
       }
     ],
     "cookies": {
       "button": "Cookies & Data",
       "heading": "Cookies<br/>& Data",
-      "text": "For some functionalities of our website, we need to store cookies in your browser, for which we need your consent. Learn more in our <b><a href=`/legal`>Privacy Policy</a></b>.",
+      "text": "For some functionalities of our website, we need to store cookies in your browser, for which we need your consent. Learn more in our <b><a href=`/en/privacy`>Privacy Policy</a></b>.",
       "showList": "Show details",
       "list": [
         "<b>Consent</b> (essential): we store, what selection you make here.",
@@ -83,7 +83,7 @@
       "cta": {
         "primary": {
           "caption": "Get Started",
-          "href": "#pricing"
+          "href": "/en#pricing"
         },
         "secondary": {
           "caption": "Schedule a Call",
@@ -310,7 +310,7 @@
       "text": "What are you waiting for? Let's build a beautiful, compelling website and raise your product to the level of big players.",
       "primary": {
         "caption": "Get Started",
-        "href": "#pricing"
+        "href": "/en#pricing"
       },
       "secondary": {
         "caption": "Schedule a Call",
@@ -339,7 +339,7 @@
       "text": "Like what you see? Let's bring your website to the next level – you're in great company with all these cases.",
       "primary": {
         "caption": "Get Started",
-        "href": "/#pricing"
+        "href": "/en#pricing"
       },
       "secondary": {
         "caption": "Schedule a Call",
@@ -356,14 +356,14 @@
     "text": "Bring great design into your everyday life with our hardware products.",
     "variantSelection": {
       "availability": {
-        "select": "Bitte auswählen.",
-        "notAvailable": "Leider nicht verfügbar.",
-        "inStock": "Auf Lager.",
-        "notInStock": "Wird für dich produziert."
+        "select": "Please select.",
+        "notAvailable": "Not available.",
+        "inStock": "In stock.",
+        "notInStock": "Produced for you."
       },
-      "priceNote": "inkl. MwSt.<br/>zzgl. Versand",
-      "addToCart": "In den Warenkorb",
-      "addedToCart": "Zum Warenkorb hinzugefügt."
+      "priceNote": "incl. VAT<br/>excl. Shipping",
+      "addToCart": "Add to cart",
+      "addedToCart": "Added to cart."
     },
     "productInfo": {
       "shipping": "Shipping",
@@ -400,19 +400,19 @@
     "text": "The page you are looking for does not exist. Maybe you have a typo in the URL? Otherwise, you may find what you were looking for here:",
     "cards": [
       {
-        "href": "/",
+        "href": "/en",
         "heading": "Frontend Subscription",
         "text": "The first ever design and development subscription for SaaS companies.",
         "image": "/images/not-found/frontend-subscription.png"
       },
       {
-        "href": "/work",
+        "href": "/en/work",
         "heading": "Recent Work",
         "text": "Have a look at what we&apos;ve designed and built for our clients.",
         "image": "/images/not-found/recent-work.png"
       },
       {
-        "href": "/hardware",
+        "href": "/en/hardware",
         "heading": "Hardware",
         "text": "Bring great design into your everyday life with our hardware products.",
         "image": "/images/not-found/hardware.png"

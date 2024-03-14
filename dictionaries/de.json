@@ -3,24 +3,24 @@
     "pageLinks": [
       {
         "caption": "Über",
-        "href": "/#about"
+        "href": "/de#about"
       },
       {
         "caption": "Prozess",
-        "href": "/#process"
+        "href": "/de#process"
       },
       {
         "caption": "Work",
-        "href": "/#work"
+        "href": "/de#work"
       },
       {
         "caption": "Preise",
-        "href": "/#pricing"
+        "href": "/de#pricing"
       }
     ],
     "cta": {
       "caption": "Jetzt starten",
-      "href": "/#pricing"
+      "href": "/de#pricing"
     },
     "cart": "Warenkorb"
   },
@@ -30,35 +30,35 @@
       {
         "heading": "Frontend",
         "items": [
-          {"caption": "Start", "href": "/"},
-          {"caption": "Über", "href": "/#about"},
-          {"caption": "Prozess", "href": "/#process"},
-          {"caption": "Work", "href": "/#work"},
-          {"caption": "Preise", "href": "/#pricing"}
+          {"caption": "Start", "href": "/de"},
+          {"caption": "Über", "href": "/de#about"},
+          {"caption": "Prozess", "href": "/de#process"},
+          {"caption": "Work", "href": "/de#work"},
+          {"caption": "Preise", "href": "/de#pricing"}
         ]
       },
       {
         "heading": "Mehr",
         "items": [
           {"caption": "Call vereinbaren", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
-          {"caption": "Blog", "href": "/blog"},
-          {"caption": "Work", "href": "/work"},
-          {"caption": "Hardware", "href": "/hardware"}
+          {"caption": "Blog", "href": "/de/blog"},
+          {"caption": "Work", "href": "/de/work"},
+          {"caption": "Hardware", "href": "/de/hardware"}
         ]
       },
       {
         "heading": "Rechtliches",
         "items": [
-          {"caption": "Kontakt", "href": "/kontakt"},
-          {"caption": "Impressum", "href": "/impressum"},
-          {"caption": "Datenschutz", "href": "/datenschutz"}
+          {"caption": "Kontakt", "href": "/de/kontakt"},
+          {"caption": "Impressum", "href": "/de/impressum"},
+          {"caption": "Datenschutz", "href": "/de/datenschutz"}
         ]
       }
     ],
     "cookies": {
       "button": "Cookies & Daten",
       "heading": "Cookies<br/>& Daten",
-      "text": "Für einige Funktionen unserer Website müssen in deinem Browser Cookies gespeichert werden, wofür wir deine Zustimmung brauchen. Mehr dazu in unserer <b><a href='/datenschutz'>Datenschutzerklärung</a></b>.",
+      "text": "Für einige Funktionen unserer Website müssen in deinem Browser Cookies gespeichert werden, wofür wir deine Zustimmung brauchen. Mehr dazu in unserer <b><a href='/de/datenschutz'>Datenschutzerklärung</a></b>.",
       "showList": "Details anzeigen",
       "list": [
         "<b>Consent</b> (essenziell): wir speichern die Auswahl, die du hier triffst.",
@@ -83,7 +83,7 @@
       "cta": {
         "primary": {
           "caption": "Jetzt starten",
-          "href": "#pricing"
+          "href": "/de#pricing"
         },
         "secondary": {
           "caption": "Call vereinbaren",
@@ -310,7 +310,7 @@
       "text": "Worauf wartest du? Lass uns eine perfekte, überzeugende Website erstellen und dein SaaS auf das Level der Big Player heben.",
       "primary": {
         "caption": "Jetzt starten",
-        "href": "#pricing"
+        "href": "/de#pricing"
       },
       "secondary": {
         "caption": "Call vereinbaren",
@@ -339,7 +339,7 @@
       "text": "Gefällt dir, was du siehst? Dann lass uns deine Website auf eine neues Level bringen und dich in diesen großartigen Cases einreihen.",
       "primary": {
         "caption": "Jetzt starten",
-        "href": "/#pricing"
+        "href": "/de#pricing"
       },
       "secondary": {
         "caption": "Call vereinbaren",
@@ -403,19 +403,19 @@
     "text": "Die Seite, die du gesucht hast, existiert nicht. Vielleicht hast Du einen Tippfehler in der URL? Ansonsten findest du hier vielleicht, was du gesucht hast:",
     "cards": [
       {
-        "href": "/",
+        "href": "/de",
         "heading": "Frontend Subscription",
         "text": "Das erste Design & Development Abo für SaaS Unternehmen.",
         "image": "/images/not-found/frontend-subscription.png"
       },
       {
-        "href": "/work",
+        "href": "/de/work",
         "heading": "Recent Work",
         "text": "Schau dir an, was wir für unsere Kunden designed und gebaut haben.",
         "image": "/images/not-found/recent-work.png"
       },
       {
-        "href": "/hardware",
+        "href": "/de/hardware",
         "heading": "Hardware",
         "text": "Bring mit unseren Hardware-Produkten großartiges Design in deinen Alltag.",
         "image": "/images/not-found/hardware.png"
