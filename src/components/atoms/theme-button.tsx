@@ -1,10 +1,24 @@
 'use client'
-import {deleteCookie, getCookie, setCookie} from '@/app/actions'
+
+import {getCookie} from '@/app/actions'
 import {GearIcon} from '@/components/icons/gear'
 import {MoonIcon} from '@/components/icons/moon'
 import {SunIcon} from '@/components/icons/sun'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import {useTheme} from 'next-themes'
 import {useEffect, useState} from 'react'
+import {PopoverNote} from './popover-note'
+import {usePathname} from 'next/navigation'
+import {Locale} from '@/i18n.config'
+
+const dictionary = {
+  en: {
+    cookieNote: 'Accept essential Cookies to use themes.'
+  },
+  de: {
+    cookieNote: 'Akzeptiere essenzielle cookies, um Themes zu nutzen.'
+  }
+}
 
 const themes = [
   {id: 'light', name: 'Light Mode', icon: SunIcon},
@@ -13,40 +27,48 @@ const themes = [
 ]
 
 export const ThemeButton = () => {
-  const [theme, setTheme] = useState<string>()
+  const [consent, setConsent] = useState<boolean>(false)
+  const [showNote, setShowNote] = useState<boolean>(false)
+  const {theme, setTheme} = useTheme()
+  const lang = usePathname()!.split('/')[1] as Locale
+
+  const onChange = async (value: string) => {
+    setTheme(value)
+  }
 
   useEffect(() => {
     const checkCookie = async () => {
-      const cookie = await getCookie('theme')
-      setTheme(cookie?.value ?? 'system')
+      const cookie = await getCookie('consent')
+      if (cookie?.value) setConsent(true)
     }
     checkCookie()
   }, [])
 
-  useEffect(() => {
-    if (!theme) return
-    if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches))
-      document.documentElement.classList.add('dark')
-    else document.documentElement.classList.remove('dark')
-  }, [theme])
-
-  const onChange = async (value: string) => {
-    const consent = await getCookie('consent')
-    if (consent?.value) {
-      if (value === 'system') await deleteCookie('theme')
-      else await setCookie('theme', value)
-    }
-    setTheme(value)
-  }
-
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex h-7 items-center rounded-md px-2 text-indigo-500 hover:text-indigo-700 focus:bg-white/30 focus:outline-none dark:text-indigo-300 dark:hover:text-indigo-200 dark:focus:bg-white/10">
-        <span className="">
-          <MoonIcon className="theme-icon-dark h-4" />
-          <SunIcon className="theme-icon-light h-4" />
-        </span>
-      </DropdownMenu.Trigger>
+      <div className="relative">
+        {consent ? (
+          <DropdownMenu.Trigger
+            disabled={!consent}
+            className="flex h-7 items-center rounded-md px-2 text-indigo-500 hover:text-indigo-700 focus:bg-white/30 focus:outline-none dark:text-indigo-300 dark:hover:text-indigo-200 dark:focus:bg-white/10 disabled:opacity-50"
+          >
+            <MoonIcon className="theme-icon-dark h-4" />
+            <SunIcon className="theme-icon-light h-4" />
+          </DropdownMenu.Trigger>
+        ) : (
+          <button
+            onClick={() => {
+              setShowNote(true)
+              setTimeout(() => setShowNote(false), 3000)
+            }}
+            className="flex h-7 items-center rounded-md px-2 text-indigo-500 hover:text-indigo-700 focus:bg-white/30 focus:outline-none dark:text-indigo-300 dark:hover:text-indigo-200 dark:focus:bg-white/10"
+          >
+            <MoonIcon className="theme-icon-dark h-4" />
+            <SunIcon className="theme-icon-light h-4" />
+          </button>
+        )}
+        {showNote && <PopoverNote>{dictionary[lang].cookieNote}</PopoverNote>}
+      </div>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           sideOffset={10}

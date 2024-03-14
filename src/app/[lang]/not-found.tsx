@@ -64,7 +64,7 @@ const dictionary = {
 }
 
 export default function Page() {
-  const lang = usePathname()!.split('/')[1]
+  const lang = usePathname()!.split('/')[1] as Locale
 
   return (
     <>
@@ -73,10 +73,10 @@ export default function Page() {
         <main>
           <Section className="pt-32 pb-24 lg:py-48">
             <Subheading>Error 404</Subheading>
-            <Heading level={1} html={dictionary[lang as Locale].heading} />
-            <Paragraph size="lg" className="mt-12 max-w-lg" html={dictionary[lang as Locale].text} />
+            <Heading level={1} html={dictionary[lang].heading} />
+            <Paragraph size="lg" className="mt-12 max-w-lg" html={dictionary[lang].text} />
             <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-              {dictionary[lang as Locale].cards.map(({href, heading, text, image}, index) => (
+              {dictionary[lang].cards.map(({href, heading, text, image}, index) => (
                 <Link key={index} href={href}>
                   <Card className="group relative h-full flex flex-col justify-between overflow-hidden px-6 pt-8 lg:p-12 lg:pb-0">
                     <div

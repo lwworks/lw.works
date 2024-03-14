@@ -7,6 +7,7 @@ import {Footer} from '@/components/layout/footer'
 import {getDictionary} from '@/utils/get-dictionary'
 import {Locale} from '@/i18n.config'
 import Fathom from '@/components/functional/fathom'
+import {ThemeProvider} from '@/components/functional/theme-provider'
 
 const lato = Lato({weight: ['400', '700'], subsets: ['latin'], display: 'swap', variable: '--font-lato'})
 const sora = Sora({weight: '800', subsets: ['latin'], display: 'swap', variable: '--font-sora'})
@@ -35,12 +36,14 @@ export default async function Layout({params: {lang}, children}: {params: {lang:
   const dictionary = await getDictionary(lang)
 
   return (
-    <html lang={lang} className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`}>
+    <html lang={lang} className={`relative ${lato.variable} ${sora.variable} ${mono.variable}`} suppressHydrationWarning>
       <head />
       <body className="relative overflow-x-hidden">
-        <BlurBackground />
-        {children}
-        <Footer content={dictionary.footer} />
+        <ThemeProvider>
+          <BlurBackground />
+          {children}
+          <Footer content={dictionary.footer} />
+        </ThemeProvider>
       </body>
       <Fathom />
     </html>

@@ -2,7 +2,7 @@ import {FC, ReactNode} from 'react'
 import {motion} from 'framer-motion'
 import {Icon} from '../icons'
 
-export const PopoverNote: FC<{type: 'success' | 'error'; children: ReactNode}> = ({type, children}) => {
+export const PopoverNote: FC<{type?: 'success' | 'error'; children: ReactNode}> = ({type, children}) => {
   return (
     <motion.div
       className="absolute left-1/2 -bottom-8 z-10 whitespace-nowrap rounded-md bg-black px-2 py-1.5 text-sm leading-none text-white shadow-md dark:bg-white dark:text-black"
@@ -19,7 +19,7 @@ export const PopoverNote: FC<{type: 'success' | 'error'; children: ReactNode}> =
         <polygon points="0,0 30,0 15,10"></polygon>
       </svg>
       <div className="flex items-center space-x-2">
-        <Icon name={type === 'error' ? 'alert' : 'check'} className={`h-3 ${type === 'error' ? 'text-rose-400' : 'text-emerald-400'}`} />
+        {type && <Icon name={type === 'error' ? 'alert' : 'check'} className={`h-3 ${type === 'error' ? 'text-rose-400' : 'text-emerald-400'}`} />}
         <div>{children}</div>
       </div>
     </motion.div>
