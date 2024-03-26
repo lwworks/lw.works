@@ -22,7 +22,7 @@ export async function generateMetadata({params: {lang, slug}}: {params: {lang: L
   const post = allBlogPosts.find((post) => post.slug === slug && post.language === lang)
   if (!post) notFound()
   return {
-    title: `${post.title} – LW Works`,
+    title: post.title,
     description: post.excerpt
   }
 }

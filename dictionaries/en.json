@@ -73,13 +73,16 @@
   },
   "index": {
     "meta": {
-      "title": "LW Works | Frontend Subscription for SaaS Companies",
-      "description": "The first ever design and development subscription for SaaS companies. Get highly detailed designs and modern frontend development without hiring an in-house team."
+      "title": {
+        "template": "%s – LW Works GmbH",
+        "default": "Frontend Subscription for SaaS Companies"
+      },
+      "description": "The first ever design and development subscription for SaaS companies. Get highly detailed designs and modern frontend development without hiring an expensive in-house team."
     },
     "hero": {
-      "subheading": "Frontend Subscription",
-      "heading": "Increase SaaS signups<br/>in just one month while focussing on your product",
-      "text": "The first ever <b>design and development subscription</b> for SaaS companies. Get <b>highly detailed designs and modern frontend development</b> without hiring an in-house team.",
+      "subheading": "Design Engineering as a Service",
+      "heading": "Make people fall in love with your SaaS product",
+      "text": "The first ever <b>design and development subscription</b> for SaaS companies. Get <b>highly detailed designs and modern frontend development</b> without hiring expensive in-house teams.",
       "cta": {
         "primary": {
           "caption": "Get Started",
@@ -320,7 +323,7 @@
   },
   "blog": {
     "meta": {
-      "title": "Blog | LW Works",
+      "title": "Blog",
       "description": "Read about relevant trends for design and development of SaaS websites."
     },
     "postPreview": {
@@ -329,7 +332,7 @@
   },
   "work": {
     "meta": {
-      "title": "Recent Work | LW Works",
+      "title": "Recent Work",
       "description": "Have a look at what we've designed and/or built for our client recently."
     },
     "heading": "Work",
@@ -349,7 +352,7 @@
   },
   "hardware": {
     "meta": {
-      "title": "Hardware | LW Works",
+      "title": "Hardware",
       "description": "Bring great design into your everyday life with our hardware products."
     },
     "heading": "Hardware",

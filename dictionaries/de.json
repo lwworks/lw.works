@@ -73,13 +73,16 @@
   },
   "index": {
     "meta": {
-      "title": "LW Works | Frontend Subscription für SaaS Unternehmen",
-      "description": "Das erste Design & Development Abo für SaaS Unternehmen. High-End Design und moderne Frontend-Entwicklung auch ohne ein eigenes In-House-Team."
+      "title": {
+        "template": "%s – LW Works GmbH",
+        "default": "Frontend Subscription für SaaS Unternehmen"
+      },
+      "description": "Das erste Design & Development Abo für SaaS Unternehmen. High-End Design und moderne Frontend-Entwicklung auch ohne ein teures In-House-Team."
     },
     "hero": {
-      "subheading": "Frontend Subscription",
-      "heading": "Mehr SaaS Signups in nur einem Monat, während Du dich aufs Produkt konzentrierst",
-      "text": "Das erste <b>Design & Development Abo</b> für SaaS Unternehmen. <b>High-End Design und moderne Frontend-Entwicklung</b> auch ohne ein eigenes In-House-Team.",
+      "subheading": "Design Engineering as a Service",
+      "heading": "Mach dein SaaS Produkt unwiderstehlich",
+      "text": "Das erste <b>Design & Development Abo</b> für SaaS Unternehmen. <b>High-End Design und moderne Frontend-Entwicklung</b> auch ohne ein teures In-House-Team.",
       "cta": {
         "primary": {
           "caption": "Jetzt starten",
@@ -320,7 +323,7 @@
   },
   "blog": {
     "meta": {
-      "title": "Blog | LW Works",
+      "title": "Blog",
       "description": "Lies über aktuelle Entwicklungen in Design und Entwicklung für SaaS Unternehmen."
     },
     "postPreview": {
@@ -329,7 +332,7 @@
   },
   "work": {
     "meta": {
-      "title": "Recent Work | LW Works",
+      "title": "Recent Work",
       "description": "Schau dir an, was wir in letzter Zeit für unsere Kunden designed und gebaut haben."
     },
     "heading": "Work",
@@ -349,7 +352,7 @@
   },
   "hardware": {
     "meta": {
-      "title": "Hardware | LW Works",
+      "title": "Hardware",
       "description": "Bring mit unseren Hardware-Produkten großartiges Design in deinen Alltag."
     },
     "heading": "Hardware",

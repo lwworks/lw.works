@@ -8,9 +8,18 @@ import {Section} from '@/components/layout/section'
 import {Locale} from '@/i18n.config'
 import {getDictionary} from '@/utils/get-dictionary'
 import {getProduct} from '@/utils/shopify/get-product'
+import {Metadata} from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import {notFound} from 'next/navigation'
+
+export async function generateMetadata({params: {lang, handle}}: {params: {lang: Locale; handle: string}}): Promise<Metadata> {
+  const {product} = await getProduct({lang, handle})
+  if (!product) notFound()
+  return {
+    title: product.title
+  }
+}
 
 export default async function Product({params: {lang, handle}}: {params: {lang: Locale; handle: string}}) {
   const dictionary = await getDictionary(lang)

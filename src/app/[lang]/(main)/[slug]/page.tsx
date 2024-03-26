@@ -18,7 +18,7 @@ export async function generateMetadata({params: {lang, slug}}: {params: {lang: L
   const page = allTextPages.find((page) => page.slug === slug && page.language === lang)
   if (!page) notFound()
   return {
-    title: `${page.title} – LW Works`
+    title: page.title
   }
 }
 

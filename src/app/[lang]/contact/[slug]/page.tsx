@@ -21,7 +21,7 @@ export async function generateMetadata({params: {lang, slug}}: {params: {lang: L
   const profile = allProfiles.find((profile) => profile.slug === slug && profile.language === lang)
   if (!profile) notFound()
   return {
-    title: `${profile.firstname} ${profile.lastname} – LW Works`,
+    title: `${profile.firstname} ${profile.lastname}`,
     description: `${profile.description} @ LW Works GmbH`
   }
 }
@@ -48,7 +48,7 @@ export default async function Page({params: {lang, slug}}: {params: {lang: Local
       <Navigation />
       <div className="relative">
         <main>
-          <Section className="pt-32 pb-24 lg:py-48 min-h-screen flex flex-col items-center">
+          <Section className="pt-32 pb-24 lg:py-48 flex flex-col items-center">
             <div className="flex flex-col gap-12 w-full max-w-md sm:max-w-sm">
               <div className="flex items-center gap-4">
                 <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-full border-2 border-black dark:border-white">
