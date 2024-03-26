@@ -77,12 +77,12 @@
         "template": "%s – LW Works GmbH",
         "default": "Frontend Subscription for SaaS Companies"
       },
-      "description": "The first ever design and development subscription for SaaS companies. Get highly detailed designs and modern frontend development without hiring an expensive in-house team."
+      "description": "The first ever design engineering subscription for SaaS companies. Thoughtfully crafting compelling sites your visitors won't want to leave."
     },
     "hero": {
       "subheading": "Design Engineering as a Service",
       "heading": "Make people fall in love with your SaaS product",
-      "text": "The first ever <b>design and development subscription</b> for SaaS companies. Get <b>highly detailed designs and modern frontend development</b> without hiring expensive in-house teams.",
+      "text": "The first-ever <b>design engineering subscription for SaaS</b> companies. Thoughtfully crafting compelling sites your visitors won't want to leave.",
       "cta": {
         "primary": {
           "caption": "Get Started",
