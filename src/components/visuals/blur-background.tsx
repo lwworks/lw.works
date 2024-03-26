@@ -1,10 +1,16 @@
 'use client'
+
 import Image from 'next/image'
+import {motion} from 'framer-motion'
 
 export const BlurBackground = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <div className="absolute top-0 h-screen -left-32 -right-8 sm:inset-x-0">
+      <motion.div
+        initial={{opacity: 0}}
+        animate={{opacity: 1, transition: {duration: 1.5}}}
+        className="absolute -top-6 h-screen -left-32 -right-8 sm:left-0 sm:-right-6 blur"
+      >
         <Image
           src="/images/background-light.jpg"
           alt="Background"
@@ -23,7 +29,7 @@ export const BlurBackground = () => {
           blurDataURL={darkBlurHash}
           className="w-full h-auto hidden dark:block"
         />
-      </div>
+      </motion.div>
     </div>
   )
 }
