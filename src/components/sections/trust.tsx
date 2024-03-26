@@ -20,7 +20,7 @@ export const Trust: FC<{content: Content}> = ({content}) => {
           <div className="mt-8">
             <Author
               name="Lukas Wiesehan"
-              description="Designer & Developer"
+              description="Lead Design Engineer"
               avatar="/images/avatars/lukas-wiesehan.jpg"
               linkedin="https://www.linkedin.com/in/lukas-wiesehan-74931b1bb/"
               twitter="https://twitter.com/lukaswiesehan"
