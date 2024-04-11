@@ -26,6 +26,11 @@ const nextConfig = {
         permanent: true
       },
       {
+        source: '/q',
+        destination: '/hardware',
+        permanent: false
+      },
+      {
         source: '/l',
         destination: '/contact/lukas',
         permanent: true
