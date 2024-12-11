@@ -36,11 +36,10 @@ const dictionary = (username?: string) => ({
         <span> is now connected to our database and ready to be used on your website and in automations.</span>
       </>,
       <>
-        <span>Um einen weiteren Account zu verknüpfen, </span>
         <Link className="text-black dark:text-white font-semibold" href="/integrations/instagram">
-          klicke hier
+          Click here
         </Link>
-        <span>.</span>
+        <span> to connect another account.</span>
       </>
     ]
   }
