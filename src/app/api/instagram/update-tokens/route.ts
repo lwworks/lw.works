@@ -12,8 +12,9 @@ export async function GET(request: NextRequest) {
       const {longLivedAccessToken, expires} = await refreshLongLivedAccessToken(account.token)
       await updateAccount({userId: account.user_id, data: {token: longLivedAccessToken, expires}})
     }
+    console.log('Updated accounts: ', accounts.map((account) => `@${account.username}`).join(', '))
 
-    return NextResponse.json({ok: true, updated_accounts: accounts.map((account) => `@${account.username}`)})
+    return NextResponse.json({ok: true})
   } catch (error) {
     console.error(error)
     return new NextResponse('Internal server error.', {status: 500})
