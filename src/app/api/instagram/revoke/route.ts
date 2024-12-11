@@ -1,23 +1,15 @@
+import {parseSignedRequest} from '@/utils/instagram/parse-signed-request'
 import {NextResponse, type NextRequest} from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    // Get the raw form data
+    if (!process.env.INSTAGRAM_APP_SECRET) throw new Error('Missing Instagram credentials.')
+
     const formData = await request.formData()
-
-    // Convert formData to a regular object
     const body = Object.fromEntries(formData)
+    const data = parseSignedRequest(body.signed_request as string, process.env.INSTAGRAM_APP_SECRET)
 
-    // Get the signature from headers
-    const signature = request.headers.get('x-hub-signature')
-
-    // TODO: Verify signature here
-    // const isValid = verifySignature(rawBody, signature, webhookSecret)
-    // if (!isValid) {
-    //   return new NextResponse('Invalid signature', { status: 401 })
-    // }
-
-    console.log('Webhook body:', body)
+    console.log('Data:', data)
     return new NextResponse('Webhook received', {status: 200})
   } catch (error) {
     console.error('Webhook error:', error)
