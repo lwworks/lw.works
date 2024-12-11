@@ -8,7 +8,7 @@ import Link from 'next/link'
 const dictionary = {
   de: {
     heading: 'Instagram-Account verknüpfen',
-    text: 'Damit wir deinen Instagram-Account auf deiner Website und in Automationen einbinden können, musst du ihn zunächst mit unserer Datenbank verknüpfen. Klicke auf den Button, um den Verknüpfungsprozess zu starten. Du wirst zu Instagram weitergeleitet, um dich einzuloggen und dieVerknüpfung zu autorisieren. Keine Sorge: wir erhalten dabei zu keinem Zeitpunkt Zugriff auf dein Passwort.',
+    text: 'Damit wir deinen Instagram-Account auf deiner Website und in Automationen einbinden können, musst du ihn zunächst mit unserer Datenbank verknüpfen. Klicke auf den Button, um den Verknüpfungsprozess zu starten. Du wirst zu Instagram weitergeleitet, um dich einzuloggen und die Verknüpfung zu autorisieren. Keine Sorge: wir erhalten dabei zu keinem Zeitpunkt Zugriff auf dein Passwort.',
     cta: 'Instagram-Account verknüpfen'
   },
   en: {
