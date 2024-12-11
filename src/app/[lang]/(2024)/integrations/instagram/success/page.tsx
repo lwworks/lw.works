@@ -2,6 +2,7 @@ import {Paragraph} from '@/components/2024/atoms/paragraph'
 import {Header} from '@/components/2024/header'
 import {Heading} from '@/components/atoms/heading'
 import {Locale} from '@/i18n.config'
+import Link from 'next/link'
 import {notFound} from 'next/navigation'
 
 const dictionary = (username?: string) => ({
@@ -10,7 +11,9 @@ const dictionary = (username?: string) => ({
     text: (
       <>
         <span>Danke! Dein Instagram-Account </span>
-        <span className="text-black dark:text-white font-semibold">@{username ?? ''}</span>
+        <Link href={`https://instagram.com/${username}`} className="text-black dark:text-white font-semibold">
+          @{username ?? ''}
+        </Link>
         <span> ist jetzt mit unserer Datenbank verknüpft, sodass wir ihn auf deiner Website und in Automationen einbinden können.</span>
       </>
     )
@@ -20,7 +23,9 @@ const dictionary = (username?: string) => ({
     text: (
       <>
         <span>Thanks! Your Instagram account </span>
-        <span className="text-black dark:text-white font-semibold">@{username ?? ''}</span>
+        <Link href={`https://instagram.com/${username}`} className="text-black dark:text-white font-semibold">
+          @{username ?? ''}
+        </Link>
         <span> is now connected to our database and ready to be used on your website and in automations.</span>
       </>
     )
