@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
       const {longLivedAccessToken, expires} = await refreshLongLivedAccessToken(account.token)
       await updateAccount({userId: account.user_id, data: {token: longLivedAccessToken, expires}})
     }
+    console.log('Tokens updated:', accounts.map((account) => `@${account.username}`).join(', '))
 
     return NextResponse.json({ok: true})
   } catch (error) {
