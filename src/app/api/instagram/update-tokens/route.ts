@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       await updateAccount({userId: account.user_id, data: {token: longLivedAccessToken, expires}})
     }
 
-    return NextResponse.json({ok: true})
+    return NextResponse.json({ok: true, updated_accounts: accounts.map((account) => `@${account.username}`)})
   } catch (error) {
     console.error(error)
     return new NextResponse('Internal server error.', {status: 500})
