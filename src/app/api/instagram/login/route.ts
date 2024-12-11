@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     const {shortLivedAccessToken} = await getShortLivedAccessToken(data.code.replace('#_', ''))
     const {longLivedAccessToken, expires} = await getLongLivedAccessToken(shortLivedAccessToken)
     const {username, name, userId} = await getUserData(longLivedAccessToken)
-    const {account} = await getAccount(userId)
+    const {account} = await getAccount({userId})
 
     if (account) await updateAccount({userId, data: {active: true, token: longLivedAccessToken, expires}})
     else await createAccount({userId, username, name, token: longLivedAccessToken, expires})
