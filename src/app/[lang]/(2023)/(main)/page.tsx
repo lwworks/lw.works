@@ -1,4 +1,4 @@
-import {getDictionary} from '../../../utils/get-dictionary'
+import {getDictionary} from '@/utils/get-dictionary'
 import {Hero} from '@/components/sections/hero'
 import {LogoCloud} from '@/components/sections/logo-cloud'
 import {PainPoints} from '@/components/sections/pain-points'
