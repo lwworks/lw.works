@@ -1,8 +1,9 @@
 import {NextResponse, type NextRequest} from 'next/server'
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
-  console.log(searchParams)
+  console.log('params', searchParams)
+  console.log('body', request.body)
 
   try {
     return new NextResponse('Signup successful.', {status: 200})
