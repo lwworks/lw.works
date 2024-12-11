@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
     error: searchParams.get('error')
   }
 
+  if (data.error) return NextResponse.redirect(new URL(`/integrations/instagram/canceled`, request.url))
   if (!data.code) return new NextResponse('Bad request.', {status: 400})
 
   try {
