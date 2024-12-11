@@ -2,12 +2,14 @@ import {createClient} from '@supabase/supabase-js'
 
 export const createAccount = async ({
   userId,
+  scopedId,
   username,
   name,
   token,
   expires
 }: {
   userId: string
+  scopedId: string
   username: string
   name: string
   token: string
@@ -21,6 +23,7 @@ export const createAccount = async ({
     .insert([
       {
         user_id: userId,
+        scoped_id: scopedId,
         username,
         name,
         token,

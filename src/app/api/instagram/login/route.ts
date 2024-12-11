@@ -1,7 +1,7 @@
 import {createAccount} from '@/utils/instagram/create-account'
 import {getLongLivedAccessToken} from '@/utils/instagram/get-long-lived-access-token'
 import {getShortLivedAccessToken} from '@/utils/instagram/get-short-lived-access-token'
-import {getUsername} from '@/utils/instagram/get-username'
+import {getUserData} from '@/utils/instagram/get-user-data'
 import {NextResponse, type NextRequest} from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -17,8 +17,8 @@ export async function GET(request: NextRequest) {
 
     const {shortLivedAccessToken, userId} = await getShortLivedAccessToken(data.code.replace('#_', ''))
     const {longLivedAccessToken, expires} = await getLongLivedAccessToken(shortLivedAccessToken)
-    const {username, name} = await getUsername(longLivedAccessToken)
-    const {account} = await createAccount({userId, username, name, token: longLivedAccessToken, expires})
+    const {username, name, scopedId} = await getUserData(longLivedAccessToken)
+    const {account} = await createAccount({userId, scopedId, username, name, token: longLivedAccessToken, expires})
     return NextResponse.redirect(new URL(`/integrations/instagram/success?username=${username}`, request.url))
   } catch (error) {
     console.log(error)
