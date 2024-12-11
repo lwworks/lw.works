@@ -8,27 +8,41 @@ import {notFound} from 'next/navigation'
 const dictionary = (username?: string) => ({
   de: {
     heading: 'Instagram-Verknüpfung erfolgreich',
-    text: (
+    paragraphs: [
       <>
         <span>Danke! Dein Instagram-Account </span>
         <Link href={`https://instagram.com/${username}`} className="text-black dark:text-white font-semibold">
           @{username ?? ''}
         </Link>
         <span> ist jetzt mit unserer Datenbank verknüpft, sodass wir ihn auf deiner Website und in Automationen einbinden können.</span>
+      </>,
+      <>
+        <span>Um einen weiteren Account zu verknüpfen, </span>
+        <Link className="text-black dark:text-white font-semibold" href="/integrations/instagram">
+          klicke hier
+        </Link>
+        <span>.</span>
       </>
-    )
+    ]
   },
   en: {
     heading: 'Instagram connection successful',
-    text: (
+    paragraphs: [
       <>
         <span>Thanks! Your Instagram account </span>
         <Link href={`https://instagram.com/${username}`} className="text-black dark:text-white font-semibold">
           @{username ?? ''}
         </Link>
         <span> is now connected to our database and ready to be used on your website and in automations.</span>
+      </>,
+      <>
+        <span>Um einen weiteren Account zu verknüpfen, </span>
+        <Link className="text-black dark:text-white font-semibold" href="/integrations/instagram">
+          klicke hier
+        </Link>
+        <span>.</span>
       </>
-    )
+    ]
   }
 })
 
@@ -47,7 +61,11 @@ export default function Page({params, searchParams}: {params: {lang: Locale}; se
       <Header lang={params.lang} />
       <main className="relative px-4 max-w-2xl mx-auto">
         <Heading level={3}>{content.heading}</Heading>
-        <Paragraph className="mt-8">{content.text}</Paragraph>
+        {content.paragraphs.map((paragraph, index) => (
+          <Paragraph key={index} className={index === 0 ? 'mt-8' : 'mt-4'}>
+            {paragraph}
+          </Paragraph>
+        ))}
       </main>
     </>
   )
