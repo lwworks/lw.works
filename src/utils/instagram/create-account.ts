@@ -28,6 +28,7 @@ export const createAccount = async ({
       }
     ])
     .select()
+
   if (error) throw new Error('Error storing account to Supabase.')
   return {account: data[0]}
 }

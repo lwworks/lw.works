@@ -1,5 +1,4 @@
 import {parseSignedRequest} from '@/utils/instagram/parse-signed-request'
-import {updateAccount} from '@/utils/instagram/update-account'
 import {NextResponse, type NextRequest} from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -9,8 +8,8 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData()
     const body = Object.fromEntries(formData)
     const data = parseSignedRequest(body.signed_request as string, process.env.INSTAGRAM_APP_SECRET)
-    if (!data) throw new Error('Invalid signed request.')
-    const {account} = await updateAccount({userId: data.user_id, data: {active: false}})
+
+    console.log('Data:', data)
     return new NextResponse('Webhook received', {status: 200})
   } catch (error) {
     console.error('Webhook error:', error)
