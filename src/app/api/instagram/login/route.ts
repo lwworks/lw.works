@@ -22,6 +22,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(`/integrations/instagram/success?username=${username}`, request.url))
   } catch (error) {
     console.log(error)
-    return new NextResponse('Error connecting to your Instagram account.', {status: 500})
+    return NextResponse.redirect(new URL(`/integrations/instagram/error`, request.url))
   }
 }
