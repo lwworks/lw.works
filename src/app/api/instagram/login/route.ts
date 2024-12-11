@@ -5,16 +5,16 @@ import {getUsername} from '@/utils/instagram/get-username'
 import {NextResponse, type NextRequest} from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
-  const data = {
-    code: searchParams.get('code'),
-    error: searchParams.get('error')
-  }
-
-  if (data.error) return NextResponse.redirect(new URL(`/integrations/instagram/canceled`, request.url))
-  if (!data.code) return new NextResponse('Bad request.', {status: 400})
-
   try {
+    const searchParams = request.nextUrl.searchParams
+    const data = {
+      code: searchParams.get('code'),
+      error: searchParams.get('error')
+    }
+
+    if (data.error) return NextResponse.redirect(new URL(`/integrations/instagram/canceled`, request.url))
+    if (!data.code) return new NextResponse('Bad request.', {status: 400})
+
     const {shortLivedAccessToken, userId} = await getShortLivedAccessToken(data.code.replace('#_', ''))
     const {longLivedAccessToken, expires} = await getLongLivedAccessToken(shortLivedAccessToken)
     const {username, name} = await getUsername(longLivedAccessToken)
