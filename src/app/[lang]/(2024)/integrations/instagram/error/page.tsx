@@ -3,7 +3,6 @@ import {Header} from '@/components/2024/header'
 import {Heading} from '@/components/atoms/heading'
 import {Locale} from '@/i18n.config'
 import Link from 'next/link'
-import {notFound} from 'next/navigation'
 
 const dictionary = {
   de: {
@@ -40,8 +39,7 @@ export const generateMetadata = ({params}: {params: {lang: Locale}}) => {
   }
 }
 
-export default function Page({params, searchParams}: {params: {lang: Locale}; searchParams: {[key: string]: string | string[] | undefined}}) {
-  if (!searchParams['username']) notFound()
+export default function Page({params}: {params: {lang: Locale}}) {
   const content = dictionary[params.lang]
 
   return (
