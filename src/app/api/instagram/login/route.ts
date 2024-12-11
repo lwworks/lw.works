@@ -15,10 +15,10 @@ export async function GET(request: NextRequest) {
     if (data.error) return NextResponse.redirect(new URL(`/integrations/instagram/canceled`, request.url))
     if (!data.code) return new NextResponse('Bad request.', {status: 400})
 
-    const {shortLivedAccessToken, userId} = await getShortLivedAccessToken(data.code.replace('#_', ''))
+    const {shortLivedAccessToken} = await getShortLivedAccessToken(data.code.replace('#_', ''))
     const {longLivedAccessToken, expires} = await getLongLivedAccessToken(shortLivedAccessToken)
-    const {username, name, scopedId} = await getUserData(longLivedAccessToken)
-    const {account} = await createAccount({userId, scopedId, username, name, token: longLivedAccessToken, expires})
+    const {username, name, userId} = await getUserData(longLivedAccessToken)
+    const {account} = await createAccount({userId, username, name, token: longLivedAccessToken, expires})
     return NextResponse.redirect(new URL(`/integrations/instagram/success?username=${username}`, request.url))
   } catch (error) {
     console.log(error)
