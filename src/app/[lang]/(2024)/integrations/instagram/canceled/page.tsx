@@ -34,10 +34,10 @@ export default function Page({params}: {params: {lang: Locale}}) {
         <Heading level={3}>{content.heading}</Heading>
         <Paragraph className="mt-8">{content.text}</Paragraph>
         <Link
-          className="group mt-10 inline-block h-9 rounded-full p-px bg-gradient-to-b from-neutral-500 to-neutral-900 hover:shadow focus:outline-none focus:ring-2 focus:ring-rose-400"
+          className="group mt-10 inline-block h-9 rounded-full p-px bg-gradient-to-b from-neutral-500 to-neutral-900 dark:from-white dark:to-neutral-100 hover:shadow focus:outline-none focus:ring-2 focus:ring-rose-400"
           href={`https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=${process.env.NEXT_PUBLIC_INSTAGRAM_APP_ID}&redirect_uri=https://lw.works/api/instagram/login&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish`}
         >
-          <div className="flex h-full items-center justify-center gap-1 px-4 rounded-full bg-black font-semibold text-white group-hover:bg-neutral-800">
+          <div className="flex h-full items-center justify-center gap-1 px-4 rounded-full bg-black dark:bg-neutral-100 font-semibold text-white dark:text-black group-hover:bg-neutral-800 dark:group-hover:bg-white">
             <span>{content.cta}</span>
             <ArrowUpRightIcon className="size-4 text-neutral-400" />
           </div>
