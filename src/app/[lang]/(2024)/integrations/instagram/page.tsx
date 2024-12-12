@@ -8,16 +8,10 @@ import Link from 'next/link'
 const dictionary = {
   de: {
     heading: 'Instagram-Account verknüpfen',
-    paragraphs: [
-      'Damit wir deinen Instagram-Account auf deiner Website und in Automationen einbinden können, musst du ihn zunächst mit unserer Datenbank verknüpfen. Klicke auf den Button, um den Verknüpfungsprozess zu starten. Du wirst zu Instagram weitergeleitet, um dich einzuloggen und die Verknüpfung zu autorisieren. Keine Sorge: wir erhalten dabei zu keinem Zeitpunkt Zugriff auf dein Passwort.'
-    ],
     cta: 'Instagram-Account verknüpfen'
   },
   en: {
     heading: 'Connect Instagram account',
-    paragraphs: [
-      'You need to connect your Instagram account to our database before we can use it on your website and in automations. Click the button to start the connection process. You will be redirected to Instagram to log in and authorize the connection. Rest assured, we will not gain access to your password at any point.'
-    ],
     cta: 'Connect Instagram account'
   }
 }
@@ -56,7 +50,15 @@ export default function Page({params}: {params: {lang: Locale}}) {
               <Link className="text-black dark:text-white font-semibold" href="https://www.instagram.com/accounts/manage_access/" target="_blank">
                 Instagram-Einstellungen
               </Link>
-              <span> musst du diese Einladung annehmen. Im Video siehst Du noch einmal, wie das geht.</span>
+              <span>
+                <span> musst du diese Einladung annehmen. Klicke unter </span>
+                <span className="text-black dark:text-white">Website-Berechtigungen/Apps und Websites</span>
+                <span> auf </span>
+                <span className="text-black dark:text-white">Tester-Einladungen</span>
+                <span> und dann auf </span>
+                <span className="text-black dark:text-white">Akzeptieren</span>
+                <span>. Im Video siehst Du noch einmal, wie das geht.</span>
+              </span>
             </>
           ) : (
             <>
