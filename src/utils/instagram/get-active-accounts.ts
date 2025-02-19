@@ -1,10 +1,10 @@
 import {createClient} from '@supabase/supabase-js'
 
 export const getActiveAccounts = async () => {
-  if (!process.env.INSTAGRAM_SUPABASE_URL || !process.env.INSTAGRAM_SUPABASE_KEY) throw new Error('Missing Supabase credentials.')
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_TOKEN) throw new Error('Missing Supabase credentials.')
 
-  const supabase = createClient(process.env.INSTAGRAM_SUPABASE_URL, process.env.INSTAGRAM_SUPABASE_KEY)
-  const {data: accounts, error} = await supabase.from('accounts').select('*').is('active', true)
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_TOKEN)
+  const {data: accounts, error} = await supabase.from('instagram_accounts').select('*').is('active', true)
 
   if (error) throw new Error('Error getting accounts from Supabase.')
   return {accounts}

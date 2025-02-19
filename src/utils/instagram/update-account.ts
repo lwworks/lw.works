@@ -11,11 +11,11 @@ export const updateAccount = async ({
     expires?: string
   }
 }) => {
-  if (!process.env.INSTAGRAM_SUPABASE_URL || !process.env.INSTAGRAM_SUPABASE_KEY) throw new Error('Missing Supabase credentials.')
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_TOKEN) throw new Error('Missing Supabase credentials.')
 
-  const supabase = createClient(process.env.INSTAGRAM_SUPABASE_URL, process.env.INSTAGRAM_SUPABASE_KEY)
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_TOKEN)
   const response = await supabase
-    .from('accounts')
+    .from('instagram_accounts')
     .update({...data, updated_at: new Date().toISOString()})
     .eq('user_id', userId)
     .select()
