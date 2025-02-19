@@ -1,4 +1,5 @@
 import {Paragraph} from '@/components/2024/atoms/paragraph'
+import {Footer} from '@/components/2024/footer'
 import {Header} from '@/components/2024/header'
 import {Heading} from '@/components/atoms/heading'
 import {Locale} from '@/i18n.config'
@@ -95,6 +96,7 @@ export default function Page({params}: {params: {lang: Locale}}) {
           </div>
         </Link>
       </main>
+      <Footer />
     </>
   )
 }

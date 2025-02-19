@@ -1,5 +1,5 @@
-import {NextResponse, type NextRequest} from 'next/server'
 import {db} from '@/utils/supabase'
+import {NextResponse, type NextRequest} from 'next/server'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   if (automationResponse.error) return new NextResponse('Error checking automation ID.', {status: 500})
   if (automationResponse.data.length === 0) return new NextResponse('Automation ID could not be found.', {status: 404})
 
-  const insertResponse = await db.from('runs').insert([{automation: data.id, minutes_saved: data.minutesSaved, note: data.note}])
+  const insertResponse = await db.from('automation_runs').insert([{automation: data.id, minutes_saved: data.minutesSaved, note: data.note}])
   if (insertResponse.error) return new NextResponse('Error logging automation run.', {status: 500})
 
   return new NextResponse('Automation run logged.', {status: 200})
