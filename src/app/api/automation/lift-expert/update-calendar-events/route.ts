@@ -1,6 +1,7 @@
 import {createEvent} from '@/utils/calendar/create-event'
 import {getEvents} from '@/utils/calendar/get-events'
 import {updateEvent} from '@/utils/calendar/update-event'
+import {addDays, format} from 'date-fns'
 import {NextResponse, type NextRequest} from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -19,10 +20,10 @@ export async function POST(request: NextRequest) {
         id: project.id.replaceAll('-', ''),
         summary: project.description,
         start: {
-          date: project.start.split('T')[0]
+          date: format(new Date(project.start), 'yyyy-MM-dd')
         },
         end: {
-          date: project.end.split('T')[0]
+          date: format(addDays(new Date(project.end), 1), 'yyyy-MM-dd')
         },
         description: `Kunde: ${project.client}`
       }
