@@ -29,6 +29,7 @@
     "eslint-config-next": "13.4.12",
     "fathom-client": "^3.5.0",
     "framer-motion": "^10.16.4",
+    "google-auth-library": "^10.3.1",
     "lodash.isequal": "^4.5.0",
     "mdast-util-mdx": "^3.0.0",
     "mdast-util-to-markdown": "^2.1.0",
