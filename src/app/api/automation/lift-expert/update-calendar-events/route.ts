@@ -4,7 +4,7 @@ export async function POST(request: NextRequest) {
   try {
     if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) return new NextResponse('Unauthorized.', {status: 401})
 
-    const {projects} = await request.json()
+    const projects = await request.json()
     console.log(projects)
 
     return new NextResponse('Calendar events updated.', {status: 200})
