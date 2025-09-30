@@ -10,11 +10,19 @@ const client = new JWT({
 
 const endpoint = `https://www.googleapis.com/calendar/v3/calendars/${process.env.GOOGLE_CALENDAR_ID}/events`
 
-export const getEvents = async (): Promise<any[]> => {
+export const updateEvent = async (event: CalendarEvent) => {
   const response: any = await client.request({
-    url: endpoint,
-    method: 'GET'
+    url: `${endpoint}/${event.id}`,
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      summary: event.summary,
+      start: event.start,
+      end: event.end,
+      description: event.description
+    })
   })
-  const {items} = await response.data
-  return items
+
+  const data = await response.data
+  return {data}
 }
