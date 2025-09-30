@@ -8,6 +8,8 @@ export async function POST(request: NextRequest) {
     if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) return new NextResponse('Unauthorized.', {status: 401})
 
     const projects = await request.json()
+    console.log(projects)
+
     const events = await getEvents()
     let eventsCreated = []
     let eventsUpdated = []
