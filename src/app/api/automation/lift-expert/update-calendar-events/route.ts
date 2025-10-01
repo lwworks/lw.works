@@ -20,10 +20,10 @@ export async function POST(request: NextRequest) {
         id: project.id.replaceAll('-', ''),
         summary: project.description,
         start: {
-          date: format(new Date(project.start), 'yyyy-MM-dd')
+          date: format(addDays(new Date(project.start), 1), 'yyyy-MM-dd')
         },
         end: {
-          date: format(addDays(new Date(project.end), 1), 'yyyy-MM-dd')
+          date: format(addDays(new Date(project.end), 2), 'yyyy-MM-dd')
         },
         description: `Kunde: ${project.client}`
       }
