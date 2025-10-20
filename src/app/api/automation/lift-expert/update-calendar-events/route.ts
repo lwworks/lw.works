@@ -19,10 +19,10 @@ export async function POST(request: NextRequest) {
         id: project.id.replaceAll('-', ''),
         summary: project.description,
         start: {
-          date: project.start
+          dateTime: project.start
         },
         end: {
-          date: project.end
+          dateTime: project.end
         },
         description: `Kunde: ${project.client}`
       }
