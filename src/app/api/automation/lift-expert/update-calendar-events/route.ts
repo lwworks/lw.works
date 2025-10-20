@@ -18,13 +18,17 @@ export async function POST(request: NextRequest) {
       const eventData: CalendarEvent = {
         id: project.id.replaceAll('-', ''),
         summary: project.description,
-        start: {
-          dateTime: project.start
-        },
-        end: {
-          dateTime: project.end
-        },
+        start: {},
+        end: {},
         description: `Kunde: ${project.client}`
+      }
+
+      if (project.start === project.end) {
+        eventData.start = {date: project.start}
+        eventData.end = {date: project.end}
+      } else {
+        eventData.start = {dateTime: project.start}
+        eventData.end = {dateTime: project.end}
       }
 
       const event = events.find((event) => event.id === eventData.id)

@@ -2,10 +2,12 @@ type CalendarEvent = {
   id: string
   summary: string
   start: {
-    dateTime: string
+    dateTime?: string
+    date?: string
   }
   end: {
-    dateTime: string
+    dateTime?: string
+    date?: string
   }
   description: string
 }
