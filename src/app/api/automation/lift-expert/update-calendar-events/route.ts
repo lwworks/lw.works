@@ -1,7 +1,7 @@
 import {createEvent} from '@/utils/calendar/create-event'
 import {getEvents} from '@/utils/calendar/get-events'
 import {updateEvent} from '@/utils/calendar/update-event'
-import {format} from 'date-fns'
+import {addDays, format} from 'date-fns'
 import {toZonedTime} from 'date-fns-tz'
 import {NextResponse, type NextRequest} from 'next/server'
 
@@ -25,10 +25,19 @@ export async function POST(request: NextRequest) {
         description: `Kunde: ${project.client}`
       }
 
-      if (project.start === project.end) {
-        eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
-        eventData.end = {date: format(toZonedTime(project.end, 'Europe/Berlin'), 'yyyy-MM-dd')}
+      if (format(project.start, 'HH:mm') === format(project.end, 'HH:mm')) {
+        // Ganztägig
+        if (project.start === project.end) {
+          // Einzelner Tag
+          eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
+          eventData.end = {date: format(toZonedTime(project.end, 'Europe/Berlin'), 'yyyy-MM-dd')}
+        } else {
+          // Mehrere Tage
+          eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
+          eventData.end = {date: format(toZonedTime(addDays(project.end, 1), 'Europe/Berlin'), 'yyyy-MM-dd')}
+        }
       } else {
+        // Mit Uhrzeiten
         eventData.start = {dateTime: project.start}
         eventData.end = {dateTime: project.end}
       }
