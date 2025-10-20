@@ -1,6 +1,8 @@
 import {createEvent} from '@/utils/calendar/create-event'
 import {getEvents} from '@/utils/calendar/get-events'
 import {updateEvent} from '@/utils/calendar/update-event'
+import {format} from 'date-fns'
+import {toZonedTime} from 'date-fns-tz'
 import {NextResponse, type NextRequest} from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -24,8 +26,8 @@ export async function POST(request: NextRequest) {
       }
 
       if (project.start === project.end) {
-        eventData.start = {date: project.start}
-        eventData.end = {date: project.end}
+        eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
+        eventData.end = {date: format(toZonedTime(project.end, 'Europe/Berlin'), 'yyyy-MM-dd')}
       } else {
         eventData.start = {dateTime: project.start}
         eventData.end = {dateTime: project.end}
