@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
         } else {
           // Mehrere Tage
           eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
-          eventData.end = {date: format(toZonedTime(addDays(project.end, 1), 'Europe/Berlin'), 'yyyy-MM-dd')}
+          eventData.end = {date: format(addDays(toZonedTime(project.end, 'Europe/Berlin'), 1), 'yyyy-MM-dd')}
         }
       } else {
         // Mit Uhrzeiten
