@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
 
       console.log('Event data:', {summary: eventData.summary, start: eventData.start, end: eventData.end})
       const event = events.find((event) => event.id === eventData.id)
+      console.log('Event search result:', event)
       if (event) {
         console.log('Updating event. Original event:', {summary: event.summary, start: event.start, end: event.end})
         const {data} = await updateEvent(eventData)
