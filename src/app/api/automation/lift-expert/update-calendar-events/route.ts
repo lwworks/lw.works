@@ -42,11 +42,14 @@ export async function POST(request: NextRequest) {
         eventData.end = {dateTime: project.end}
       }
 
+      console.log('Event data:', {summary: eventData.summary, start: eventData.start, end: eventData.end})
       const event = events.find((event) => event.id === eventData.id)
       if (event) {
+        console.log('Updating event. Original event:', {summary: event.summary, start: event.start, end: event.end})
         const {data} = await updateEvent(eventData)
         eventsUpdated.push(data)
       } else {
+        console.log('Creating new event.')
         const {data} = await createEvent(eventData)
         eventsCreated.push(data)
       }
