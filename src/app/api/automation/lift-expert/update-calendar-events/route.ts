@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     for (const {json: project} of projects) {
       const eventData: CalendarEvent = {
-        id: `${project.id.replaceAll('-', 'lw')}`,
+        id: `${project.id.replaceAll('-', 'lukas')}`,
         summary: project.description,
         start: {},
         end: {},
