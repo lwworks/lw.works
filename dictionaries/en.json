@@ -19,7 +19,7 @@
       }
     ],
     "cta": {
-      "caption": "Get Started",
+      "caption": "Get started",
       "href": "/en#pricing"
     },
     "cart": "Cart"
@@ -30,7 +30,7 @@
       {
         "heading": "Frontend",
         "items": [
-          {"caption": "Start", "href": "/en"},
+          {"caption": "Home", "href": "/en"},
           {"caption": "About", "href": "/en#about"},
           {"caption": "Process", "href": "/en#process"},
           {"caption": "Work", "href": "/en#work"},
@@ -40,7 +40,7 @@
       {
         "heading": "More",
         "items": [
-          {"caption": "Schedule a Call", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
+          {"caption": "Book a call", "href": "https://calendar.app.google/m311QiiQeSD29urm6"},
           {"caption": "Blog", "href": "/en/blog"},
           {"caption": "Work", "href": "/en/work"},
           {"caption": "Hardware", "href": "/en/hardware"}
@@ -50,25 +50,24 @@
         "heading": "Legal",
         "items": [
           {"caption": "Contact", "href": "/en/contact"},
-          {"caption": "Legal Information", "href": "/en/legal"},
-          {"caption": "Privacy Policy", "href": "/en/privacy"}
+          {"caption": "Legal", "href": "/en/legal"}
         ]
       }
     ],
     "cookies": {
       "button": "Cookies & Data",
       "heading": "Cookies<br/>& Data",
-      "text": "For some functionalities of our website, we need to store cookies in your browser, for which we need your consent. Learn more in our <b><a href=`/en/privacy`>Privacy Policy</a></b>.",
+      "text": "For some functions of our website, cookies must be stored in your browser, for which we need your consent. Read more in our <b><a href='/en/legal'>privacy policy</a></b>.",
       "showList": "Show details",
       "list": [
-        "<b>Consent</b> (essential): we store, what selection you make here.",
-        "<b>Theme</b> (essential): we store your selection, when you choose light oder dark mode.",
-        "<b>Language</b> (essential): we store your language selection.",
-        "<b>Stripe & Shopify</b> (essential): these service providers may use cookies during the payment process.",
-        "<b>Clarity</b> (non-essential): this tool helps us to better understand the use of this site."
+        "<b>Consent</b> (essential): we save the choice you make here.",
+        "<b>Theme</b> (essential): we save whether you have selected dark or light mode.",
+        "<b>Language</b> (essential): we save which language you have selected.",
+        "<b>Stripe & Shopify</b> (essential): during payment, the service providers may use cookies.",
+        "<b>Clarity</b> (not essential): the analysis tool helps us to better understand the use of this site."
       ],
-      "decline": "Accept Essential Cookies only",
-      "accept": "Accept All"
+      "decline": "Allow essential cookies only",
+      "accept": "Accept all"
     }
   },
   "index": {
@@ -77,24 +76,24 @@
         "template": "%s – LW Works GmbH",
         "default": "Design Engineering as a Service – LW Works GmbH"
       },
-      "description": "The first ever design engineering subscription for SaaS companies. Thoughtfully crafting compelling sites your visitors won't want to leave."
+      "description": "The first design engineering subscription for SaaS companies. We develop high-end websites your visitors never want to close."
     },
     "hero": {
       "subheading": "Design Engineering as a Service",
-      "heading": "Make people fall in love with your SaaS product",
-      "text": "The first-ever <b>design engineering subscription for SaaS</b> companies. Thoughtfully crafting compelling sites your visitors won't want to leave.",
+      "heading": "Bridging the Gap between Engineering and Design",
+      "text": "The first <b>design engineering subscription for SaaS</b> companies.<br/>High-end websites your visitors never want to close.",
       "cta": {
         "primary": {
-          "caption": "Get Started",
+          "caption": "Get started",
           "href": "/en#pricing"
         },
         "secondary": {
-          "caption": "Schedule a Call",
+          "caption": "Book a call",
           "href": "https://calendar.app.google/m311QiiQeSD29urm6"
         }
       },
       "socialProof": {
-        "text": "Trusted by great builders like",
+        "text": "Trusted by",
         "count": 12
       }
     },
@@ -102,94 +101,94 @@
       "painPoints": [
         {
           "icon": "time-fast",
-          "heading": "Struggling to keep<br/>your site up-to-date?",
-          "text": "When your product evolves, it can be hard to keep your website up-to-date whilst maintaining highest design standards."
+          "heading": "Struggling to Keep Your Website Current?",
+          "text": "When your product is constantly evolving, it's often difficult to keep the website up-to-date while maintaining the highest design standards."
         },
         {
           "icon": "heart-stash",
-          "heading": "Unhappy with your<br/>current design/structure?",
-          "text": "When focussing on your product, your website can sometimes become unstructured and heavy over time, which also impacts the design."
+          "heading": "Unhappy with the Current Design/Structure?",
+          "text": "If you're fully focused on the product, your website can become unstructured over time, which also affects the design."
         },
         {
           "icon": "wallet",
-          "heading": "No budget for an<br/>entire in-house team?",
-          "text": "Great designers and developers are expensive. Who can afford A-players to build and maintain their products website?"
+          "heading": "No Budget for a Dedicated In-House Team?",
+          "text": "Great designers and developers are expensive. Who can afford to hire A-players to work on their product's website?"
         }
       ]
     },
     "trust": {
-      "heading": "Focus on your product –<br/>let us handle your website",
-      "text": "We'll take care of designing your <b>top-tier website</b> including graphics, animations and docs pages. And we'll build it out using the <b>latest frontend technologies</b> – no Webflow, no Framer."
+      "heading": "Focus on Your Product –<br/>We'll Handle the Website",
+      "text": "We take care of the design of your <b>high-end website</b>, including graphics, animations, and documentation pages. And we implement it with <b>modern frontend technologies</b> – no Webflow, no Framer."
     },
     "targets": {
       "targets": [
         {
           "icon": "rocket",
-          "heading": "Put your product ahead<br/>of your competition",
-          "text": "Your perfectly crafted website will place your product on a level with big players like Linear<br/>or Stripe."
+          "heading": "Outperform the Competition",
+          "text": "Your perfectly designed website will elevate your SaaS to the level of big players like Linear or Stripe."
         },
         {
           "icon": "user-plus",
-          "heading": "Generate more users<br/>or waitlist signups",
-          "text": "Compelling landing pages will attract more potential users and bring you lots of attention on Twitter, ProductHunt, etc."
+          "heading": "Generate More Users or Waitlist Signups",
+          "text": "Great landing pages appeal more to potential users and bring you attention on Twitter, ProductHunt, etc."
         },
         {
           "icon": "lightning",
-          "heading": "Let your site magically<br/>grow with your product",
-          "text": "While you develop new product features,<br/>we'll take care of adding great feature pages to your website."
+          "heading": "Your Website Grows Magically with the Product",
+          "text": "While you develop new product features, we take care of the associated feature pages on your website."
         }
       ]
     },
     "process": {
-      "heading": "Unlock your products potential",
+      "heading": "Boost Your SaaS Product",
       "steps": [
         {
           "id": "001",
-          "heading": "Subscribe & Request",
-          "text": "Subscribe in just a minute and get access to your own request board with instructions on how to get the most out of your subscription. When you're ready for a top-tier website, <b>add as many requests as you like</b> – we'll tackle them one by one."
+          "heading": "Subscribe & Make Requests",
+          "text": "Subscribe in just a minute and gain access to your own request board. There, you'll initially find tips on how to get the most out of your subscription. When you're ready for a top-tier website, <b>make as many requests as you'd like</b> – we work on them one by one."
         },
         {
           "id": "002",
           "heading": "Design & Development",
-          "text": "We'll get to work on your active request on the same or the next business day, monday to friday. You will receive a note when we're finished – this normally takes us around <b>48h for design requests</b> and around <b>96h for development requests</b>, depending on the task of course."
+          "text": "We'll take care of your active request today or tomorrow (business days only, of course). You'll receive a notification when we're finished – usually, it takes about <b>48 hours for design requests</b> and about <b>96 hours for development requests</b>. This may vary slightly depending on the scope of the request."
         },
         {
           "id": "003",
-          "heading": "Revisions & Evolution",
-          "text": "After completing a request, you can leave feedback and we'll revise our work until you're <b>100% satisfied</b>. When developing new features for your product, just add requests for us to add them to your website or build out entire feature pages. That's how <b>your website will magically grow with your product</b>."
+          "heading": "Optimization & Expansion",
+          "text": "Once a request is processed, you can provide feedback. We'll revise the result until you're <b>100% satisfied</b>. As you develop new features for your product, simply write new requests to have the features added to the website or have entire feature pages created. This way, <b>your website grows magically with your product</b>."
         }
       ]
     },
     "design": {
-      "heading": "Cutting-edge design,<br/>crafted for your product",
-      "text": "We value great design because we know it will not only attract more potential users. It can also bring you lots of attention for your product on social media.<br/>We have optimized our design process to work with Figma, so you can view previews and prototypes easily.",
+      "heading": "Cutting-Edge Design,<br/>Specifically for Your SaaS Product",
+      "text": "We place great importance on exceptional design as we know it not only attracts more potential users but can also generate significant social media attention for your product. Our design process has been optimized for collaboration with Figma, allowing you to easily view previews and prototypes.",
       "categories": [
         {
           "icon": "rocket",
-          "heading": "Compelling landing &<br/>feature pages",
-          "text": "With great conversion-optimized landing pages, your potential users will understand why they <b>need your product and be motivated to sign up</b>."
+          "heading": "Compelling Landing &<br/>Feature Pages",
+          "text": "With great, conversion-optimized landing pages, your potential users will understand why they <b>need your product</b> and be <b>motivated to sign up</b>."
         },
         {
           "icon": "atom",
-          "heading": "Beautifully composed<br/>graphics & animations",
-          "text": "<b>Show, don't tell</b>: To quickly explain your product and its benefits, we need to have great (animated) graphics on your site."
+          "heading": "Beautifully Composed<br/>Graphics & Animations",
+          "text": "<b>Show, don't tell</b>: To clearly explain your product and its benefits, we need high-quality graphics and animations on your website."
         },
         {
           "icon": "folder",
-          "heading": "Helpfully organized<br/>documentation sites",
-          "text": "It can be hard to structure and build great documentation sites. We'll find the best way to <b>design your docs and build them out</b>."
+          "heading": "Clear<br/>Documentation Pages",
+          "text": "Structuring and building documentation pages can be challenging. We'll find the best way to <b>design and build your docs</b>."
         }
       ]
     },
     "development": {
-      "heading": "No Webflow, no Framer,<br/>but real Next.js development",
-      "text": "Yep. Low code website builders might be great for getting a landing page up quickly. But we believe that <b>in the long run, nothing beats a modern frontend stack</b>. It allows full control over design and animations, as well as providing a solid base to fully integrate services like payments, content, search, booking and many more."
+      "heading": "No Webflow, No Framer,<br/>But True Next.js Development",
+      "text": "Yes, low-code website builders are great for quickly creating a landing page. But we believe <b>nothing beats a modern frontend stack in the long run</b>. This gives us full control over design and animations and, most importantly, the ability to fully integrate services like payments, CMS, search, bookings, etc."
     },
     "projects": {
-      "heading": "Recent<br/>work",
-      "text": "This is some of our latest design and/or development work.",
-      "showMore": "See more",
-      "showLess": "See less"
+      "heading": "Recent<br/>Work",
+      "text": "These are some of our recent design and/or development works.",
+      "showMore": "Show more",
+      "showLess": "Show less"
     },
     "testimonial": {
       "quote": "A true insider tip with attention to detail.",
@@ -197,126 +196,126 @@
       "role": "Founder of Prisma"
     },
     "pricing": {
-      "heading": "Fitted to your needs",
+      "heading": "Tailored Solutions",
       "features": [
         {
           "icon": "infinity",
-          "heading": "Unlimited requests <br/>and team members",
-          "text": "Invite as many team members and add as many requests to your board as you like."
+          "heading": "Unlimited Requests <br/>and Team Members",
+          "text": "Add as many team members and design/dev requests to your board as you'd like."
         },
         {
           "icon": "time-fast",
-          "heading": "Blazing fast design &<br/>development delivery",
-          "text": "Receive your finished design or code in just a few business days."
+          "heading": "Lightning-Fast Design &<br/>Development Results",
+          "text": "You'll usually receive your completed design or code within a few business days."
         },
         {
           "icon": "pause",
-          "heading": "As flexible as it gets: pause or cancel anytime",
-          "text": "Pause or cancel the subscription if you don't have enough design/development work."
+          "heading": "100% Flexible: Pause or Cancel Anytime",
+          "text": "You can pause or cancel at any time if you don't have as many requests."
         }
       ],
       "prices": [
         {
-          "heading": "Design<br/>only",
-          "description": "Get everything you need for a Next-Level SaaS Website.",
+          "heading": "Design<br/>Only",
+          "description": "You'll get everything you need for your next-level SaaS website.",
           "pricePerMonth": 2995,
           "checklist": [
             "Unlimited design requests",
-            "One active request",
-            "48h average return time",
+            "One active request at a time",
+            "Results in 48 hours on average",
             "Unlimited team members",
-            "Easy credit card payments",
-            "Pause or cancel anytime"
+            "Easy payment via Stripe",
+            "Pause/cancel anytime"
           ],
           "cta": {
-            "caption": "Get Started",
+            "caption": "Get started",
             "href": "https://buy.stripe.com/00gdTw50S5uibNS5kl"
           },
           "scarcity": {
             "color": "emerald",
-            "text": "4 slots left"
+            "text": "4 slots available"
           }
         },
         {
           "badge": "Popular",
           "heading": "Design &<br/>Development",
-          "description": "Get your Next-Level SaaS Website completely built & maintained.",
+          "description": "Your next-level SaaS website grows magically with your product.",
           "pricePerMonth": 4995,
           "checklist": [
-            "Unlimited design & dev requests",
-            "One active request",
-            "48h average design return time",
-            "96h development return time",
+            "Unlimited design & development requests",
+            "One active request at a time",
+            "Design results in 48 hours on average",
+            "Development results in 96 hours on average",
             "Unlimited team members",
-            "Easy credit card payments",
-            "Pause or cancel anytime"
+            "Easy payment via Stripe",
+            "Pause/cancel anytime"
           ],
           "cta": {
-            "caption": "Get Started",
+            "caption": "Get started",
             "href": "https://buy.stripe.com/14kbLogJAe0O3hmfYY"
           },
           "scarcity": {
             "color": "amber",
-            "text": "3 slots left"
+            "text": "3 slots available"
           }
         }
       ],
       "call": {
-        "heading": "Not sure if this is<br/>right for you?",
-        "text": "We offer premium services that aren't affordable for everyone. If you're not sure wether our service is the right fit for your company or product, feel free to schedule a call with our founder Lukas.",
+        "heading": "Unsure of What's Right?",
+        "text": "We offer premium services that aren't affordable for everyone. If you're not sure if our service fits your company or product, feel free to book a call with our founder, Lukas.",
         "cta": {
-          "caption": "Schedule a Call",
+          "caption": "Book a call",
           "href": "https://calendar.app.google/m311QiiQeSD29urm6"
         }
       }
     },
     "faq": {
-      "heading": "FAQs",
-      "text": "We always aim to be completely clear and transparent with our services. If there's anything left unclear, feel free to schedule a call with our founder Lukas.",
+      "heading": "Frequently Asked Questions",
+      "text": "We always want to be 100% open and transparent with our services. If anything is still unclear, feel free to book a call with our founder, Lukas.",
       "cta": {
-        "caption": "Schedule a Call",
+        "caption": "Book a call",
         "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       },
       "questions": [
         {
-          "q": "Is there a request limit?",
-          "a": "No – you can add as many requests to your board as you like. But we will always only work on one active request at a time."
+          "q": "Are monthly requests limited?",
+          "a": "No – you can add as many requests to your board as you want. However, we only work on one active request at a time."
         },
         {
-          "q": "What design work do you cover?",
-          "a": "We cover everything related to your website. That usually includes the UI, graphics, icons, illustrations. If you don't have any branding in place, we can cover that, too."
+          "q": "What kind of designs are included?",
+          "a": "Everything related to your website. This typically includes the UI, graphics, icons, and illustrations. If you don't have branding yet, we can take care of that too."
         },
         {
-          "q": "What technologies do you use in development?",
-          "a": "Your website will be built using Next.js and TailwindCSS. We believe that a modern tech stack builds a more solid base for future updates or additions than Webflow or Framer can."
+          "q": "What tech stack do you use?",
+          "a": "Your website will fundamentally be implemented with Next.js and TailwindCSS. We believe a modern stack provides the best foundation for future updates or additions."
         },
         {
-          "q": "Can you integrate external services?",
-          "a": "Totally. We can integrate basically anything that has an API. For example, we often work with payment providers, CMS, search and Google services."
+          "q": "Can external services be integrated?",
+          "a": "Sure. We can basically integrate anything that has an API. For example, we often work with payment providers, CMS, search, and Google services."
         },
         {
-          "q": "Can you also build our product?",
-          "a": "No. Building products really takes a lot of time and passion. We have that passion for building great websites. That's why we aim to take everything website-related from your shoulders, so you can focus on building the best product for your users."
+          "q": "Do you also develop our product?",
+          "a": "No. Developing a product takes a lot of time and dedication. Our passion is building great websites. Therefore, we take care of everything website-related so you can focus on building the best product for your users."
         },
         {
-          "q": "Why wouldn't I just hire designers/devs?",
-          "a": "We offer these services because we know how hard it is to find A-players and how expensive it is to hire them full-time. Our subscription is a cheaper and more flexible solution to getting a top-tier website for your software product."
+          "q": "Why not just hire a full-time employee?",
+          "a": "We offer these services because we know how hard it is to find A-players and how expensive it is to hire them full-time. Our subscription is a cheaper and more flexible solution for building a world-class website for your product."
         },
         {
-          "q": "What sets you apart from other services?",
-          "a": "There are lots of new subscription-based agencies lately – which is great because the subscription model is a win-win for you and for us. We are the first to offer first-class design <i>and</i> professional development instead of Webflow/Framer."
+          "q": "What sets you apart from similar services?",
+          "a": "There are currently many subscription-based agencies – which is good, as the subscription model is a win for everyone. We're the first service to offer top-tier design <i>and</i> professional development instead of Webflow/Framer."
         }
       ]
     },
     "cta": {
-      "heading": "Level up your SaaS website",
-      "text": "What are you waiting for? Let's build a beautiful, compelling website and raise your product to the level of big players.",
+      "heading": "Your Next-Level SaaS Website",
+      "text": "What are you waiting for? Let's create a perfect, compelling website and elevate your SaaS to the level of the big players.",
       "primary": {
-        "caption": "Get Started",
+        "caption": "Get started",
         "href": "/en#pricing"
       },
       "secondary": {
-        "caption": "Schedule a Call",
+        "caption": "Book a call",
         "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       }
     }
@@ -324,7 +323,7 @@
   "blog": {
     "meta": {
       "title": "Blog",
-      "description": "Read about relevant trends for design and development of SaaS websites."
+      "description": "Read about current developments in design and development for SaaS companies."
     },
     "postPreview": {
       "readMore": "Read more"
@@ -333,19 +332,19 @@
   "work": {
     "meta": {
       "title": "Recent Work",
-      "description": "Have a look at what we've designed and/or built for our client recently."
+      "description": "Check out what we've been designing and building for our clients lately."
     },
     "heading": "Work",
-    "text": "Have a look at what we've designed and/or built for our client recently.",
+    "text": "Check out what we've been designing and building for our clients lately.",
     "cta": {
       "heading": "What about you?",
-      "text": "Like what you see? Let's bring your website to the next level – you're in great company with all these cases.",
+      "text": "Like what you see? Then let's take your website to a new level and join these great cases.",
       "primary": {
-        "caption": "Get Started",
+        "caption": "Get started",
         "href": "/en#pricing"
       },
       "secondary": {
-        "caption": "Schedule a Call",
+        "caption": "Book a call",
         "href": "https://calendar.app.google/m311QiiQeSD29urm6"
       }
     }
@@ -353,30 +352,30 @@
   "hardware": {
     "meta": {
       "title": "Hardware",
-      "description": "Bring great design into your everyday life with our hardware products."
+      "description": "Bring great design into your daily life with our hardware products."
     },
     "heading": "Hardware",
-    "text": "Bring great design into your everyday life with our hardware products.",
+    "text": "Bring great design into your daily life with our hardware products.",
     "variantSelection": {
       "availability": {
         "select": "Please select.",
-        "notAvailable": "Not available.",
+        "notAvailable": "Unfortunately not available.",
         "inStock": "In stock.",
-        "notInStock": "Produced for you."
+        "notInStock": "Will be produced for you."
       },
-      "priceNote": "incl. VAT<br/>excl. Shipping",
+      "priceNote": "incl. VAT.<br/>plus shipping",
       "addToCart": "Add to cart",
       "addedToCart": "Added to cart."
     },
     "productInfo": {
       "shipping": "Shipping",
-      "sizing": "Sizing",
-      "sustainability": "Material & Sustainability",
+      "sizing": "Dimensions & sizes",
+      "sustainability": "Materials & sustainability",
       "transparency": "Transparency"
     },
     "cart": {
       "heading": "Cart",
-      "error": "There was an error loading your cart...",
+      "error": "An error occurred while loading the cart...",
       "empty": "Your cart is empty.",
       "seeProducts": "See products",
       "table": {
@@ -384,40 +383,43 @@
         "total": "Total"
       },
       "form": {
-        "comment": "Message to your order",
-        "checkout": "Secure Checkout"
+        "comment": "Your comment on the order",
+        "checkout": "Proceed to secure checkout"
       }
     },
     "thanks": {
       "heading": "Thank you!",
-      "paragraphs": ["I really appreciate your support. <b>Thanks a lot!</b>", "You will receive an email with your order confirmation."]
+      "paragraphs": [
+        "I really appreciate your support. <b>Thank you very much!</b>",
+        "You will receive an order confirmation via email shortly."
+      ]
     }
   },
   "contact": {
     "call": "Call",
     "email": "Email",
-    "storeContact": "Add contact"
+    "storeContact": "Save contact"
   },
   "notFound": {
     "heading": "Page not found",
-    "text": "The page you are looking for does not exist. Maybe you have a typo in the URL? Otherwise, you may find what you were looking for here:",
+    "text": "The page you were looking for doesn't exist. Maybe you have a typo in the URL? Otherwise, you might find what you're looking for here:",
     "cards": [
       {
         "href": "/en",
         "heading": "Frontend Subscription",
-        "text": "The first ever design and development subscription for SaaS companies.",
+        "text": "The first design & development subscription for SaaS companies.",
         "image": "/images/not-found/frontend-subscription.png"
       },
       {
         "href": "/en/work",
         "heading": "Recent Work",
-        "text": "Have a look at what we&apos;ve designed and built for our clients.",
+        "text": "Check out what we've designed and built for our clients.",
         "image": "/images/not-found/recent-work.png"
       },
       {
         "href": "/en/hardware",
         "heading": "Hardware",
-        "text": "Bring great design into your everyday life with our hardware products.",
+        "text": "Bring great design to your daily life with our hardware products.",
         "image": "/images/not-found/hardware.png"
       }
     ]
