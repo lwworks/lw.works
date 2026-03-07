@@ -25,7 +25,7 @@
     "cart": "Cart"
   },
   "footer": {
-    "copyright": "© LW Works GmbH",
+    "copyright": "Â© LW Works GmbH",
     "menus": [
       {
         "heading": "Frontend",
@@ -74,14 +74,14 @@
   "index": {
     "meta": {
       "title": {
-        "template": "%s – LW Works GmbH",
-        "default": "Design Engineering as a Service – LW Works GmbH"
+        "template": "%s â LW Works GmbH",
+        "default": "Design Engineering as a Service â LW Works GmbH"
       },
       "description": "The first ever design engineering subscription for SaaS companies. Thoughtfully crafting compelling sites your visitors won't want to leave."
     },
     "hero": {
       "subheading": "Design Engineering as a Service",
-      "heading": "Make people fall in love with your SaaS product",
+      "heading": "Bridging the gap between Engineering and Design",
       "text": "The first-ever <b>design engineering subscription for SaaS</b> companies. Thoughtfully crafting compelling sites your visitors won't want to leave.",
       "cta": {
         "primary": {
@@ -118,8 +118,8 @@
       ]
     },
     "trust": {
-      "heading": "Focus on your product –<br/>let us handle your website",
-      "text": "We'll take care of designing your <b>top-tier website</b> including graphics, animations and docs pages. And we'll build it out using the <b>latest frontend technologies</b> – no Webflow, no Framer."
+      "heading": "Focus on your product â<br/>let us handle your website",
+      "text": "We'll take care of designing your <b>top-tier website</b> including graphics, animations and docs pages. And we'll build it out using the <b>latest frontend technologies</b> â no Webflow, no Framer."
     },
     "targets": {
       "targets": [
@@ -146,12 +146,12 @@
         {
           "id": "001",
           "heading": "Subscribe & Request",
-          "text": "Subscribe in just a minute and get access to your own request board with instructions on how to get the most out of your subscription. When you're ready for a top-tier website, <b>add as many requests as you like</b> – we'll tackle them one by one."
+          "text": "Subscribe in just a minute and get access to your own request board with instructions on how to get the most out of your subscription. When you're ready for a top-tier website, <b>add as many requests as you like</b> â we'll tackle them one by one."
         },
         {
           "id": "002",
           "heading": "Design & Development",
-          "text": "We'll get to work on your active request on the same or the next business day, monday to friday. You will receive a note when we're finished – this normally takes us around <b>48h for design requests</b> and around <b>96h for development requests</b>, depending on the task of course."
+          "text": "We'll get to work on your active request on the same or the next business day, monday to friday. You will receive a note when we're finished â this normally takes us around <b>48h for design requests</b> and around <b>96h for development requests</b>, depending on the task of course."
         },
         {
           "id": "003",
@@ -280,7 +280,7 @@
       "questions": [
         {
           "q": "Is there a request limit?",
-          "a": "No – you can add as many requests to your board as you like. But we will always only work on one active request at a time."
+          "a": "No â you can add as many requests to your board as you like. But we will always only work on one active request at a time."
         },
         {
           "q": "What design work do you cover?",
@@ -304,7 +304,7 @@
         },
         {
           "q": "What sets you apart from other services?",
-          "a": "There are lots of new subscription-based agencies lately – which is great because the subscription model is a win-win for you and for us. We are the first to offer first-class design <i>and</i> professional development instead of Webflow/Framer."
+          "a": "There are lots of new subscription-based agencies lately â which is great because the subscription model is a win-win for you and for us. We are the first to offer first-class design <i>and</i> professional development instead of Webflow/Framer."
         }
       ]
     },
@@ -339,7 +339,7 @@
     "text": "Have a look at what we've designed and/or built for our client recently.",
     "cta": {
       "heading": "What about you?",
-      "text": "Like what you see? Let's bring your website to the next level – you're in great company with all these cases.",
+      "text": "Like what you see? Let's bring your website to the next level â you're in great company with all these cases.",
       "primary": {
         "caption": "Get Started",
         "href": "/en#pricing"
