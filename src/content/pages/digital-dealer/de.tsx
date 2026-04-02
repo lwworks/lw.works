@@ -240,7 +240,8 @@ const content: DigitalDealerPageContent = {
     },
     privacy: <>Ich habe die <Link href={"/privacy" as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-800 dark:hover:text-indigo-500">Datenschutzerklärung</Link> gelesen und bin mit der Verarbeitung meiner Daten einverstanden.</>,
     submit: 'Anfrage senden',
-    urgencyNote: 'Nur noch 5 Plätze verfügbar'
+    urgencyNote: 'Nur noch 5 Plätze verfügbar',
+    successMessage: 'Deine Anfrage wurde erfolgreich gesendet. Wir melden uns in Kürze!'
   }
 }
 

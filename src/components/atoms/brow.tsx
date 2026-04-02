@@ -21,7 +21,7 @@ export const Brow = ({ as = 'span', variant = 'default', color = 'indigo', child
             color === 'rose' && 'bg-rose-500',
             color === 'emerald' && 'bg-emerald-500',
           )} />
-          <span className={cn("h-px flex-1 bg-linear-to-l from-black/10 via-black/10",
+          <span className={cn("h-px flex-1 bg-linear-to-l from-black/10 dark:from-white/10 via-black/10 dark:via-white/10",
             color === 'indigo' && 'to-indigo-500/50',
             color === 'rose' && 'to-rose-500/50',
             color === 'emerald' && 'to-emerald-500/50',

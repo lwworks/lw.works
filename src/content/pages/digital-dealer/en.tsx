@@ -236,7 +236,8 @@ const content: DigitalDealerPageContent = {
     },
     privacy: <>I have read the <Link href={"/privacy" as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-800 dark:hover:text-indigo-500">Privacy Policy</Link> and agree to the processing of my data.</>,
     submit: 'Send request',
-    urgencyNote: 'Only 5 places left'
+    urgencyNote: 'Only 5 places left',
+    successMessage: 'Your request has been sent successfully. We will get back to you shortly!'
   }
 }
 
