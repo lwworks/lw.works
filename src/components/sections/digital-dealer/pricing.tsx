@@ -38,13 +38,13 @@ export const DigitalDealerPricingSection = ({ content }: { content: DigitalDeale
         <div key={index} className={cn("p-16", index > 0 && "border-t border-black/10")}>
           <div className="flex items-start justify-between gap-x-16">
             <div>
-              <Brow variant="small" className="mb-2">{item.brow}</Brow>
-              <Heading as="h3">{item.title}</Heading>
+              <Brow variant="small" className={index === 0 ? "mb-2" : "mb-1"}>{item.brow}</Brow>
+              <Heading as="h3" size={index === 0 ? "h2" : undefined}>{item.title}</Heading>
             </div>
             <div className="flex flex-col items-end whitespace-nowrap shrink-0 text-black font-mono">
-              <span className="text-xl">
-                {item.price.original && (<span className="line-through">{item.price.original}</span>)}
-                <span className={cn(item.price.original && "text-rose-500")}> {item.price.now}</span>
+              <span className="text-xl flex items-center gap-2">
+                {item.price.original && (<span className="line-through text-base text-neutral-500">{item.price.original}</span>)}
+                <span className={cn(item.price.original && "text-rose-500")}>{item.price.now}</span>
               </span>
               {item.price.additional && (<span className="text-sm">{item.price.additional}</span>)}
             </div>

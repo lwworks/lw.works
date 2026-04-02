@@ -10,6 +10,7 @@ import { Send } from "@mynaui/icons-react"
 import { Section } from ".."
 
 export type DigitalDealerContactSectionContent = {
+  id: string
   brow: string
   title: string
   description: string
@@ -61,7 +62,7 @@ export type DigitalDealerContactSectionContent = {
 
 export const DigitalDealerContactSection = ({ content }: { content: DigitalDealerContactSectionContent }) => {
   return (
-    <Section bottomGradients="indigo-orange">
+    <Section id={content.id} bottomGradients="indigo-orange">
       <Brow className="mb-4" color="indigo">{content.brow}</Brow>
       <Heading as="h2">{content.title}</Heading>
       <p className="mt-8 max-w-xl">{content.description}</p>
@@ -87,8 +88,8 @@ export const DigitalDealerContactSection = ({ content }: { content: DigitalDeale
         <FieldSet>
           <FieldLegend variant="label">{content.plans.label}</FieldLegend>
           <div className="grid grid-cols-2 gap-4">
-            <label className="col-span-2 flex items-center gap-3 rounded-lg border border-black/10 bg-indigo-50/50 px-4 py-3 cursor-default">
-              <Checkbox checked disabled className="opacity-60" />
+            <label className="col-span-2 flex items-center gap-3 rounded-lg border border-indigo-500 bg-indigo-50/50 px-4 py-3 cursor-default">
+              <Checkbox checked />
               <div>
                 <span className="text-sm font-medium text-black">{content.plans.base.label}</span>
                 <span className="block text-xs text-muted-foreground">{content.plans.base.description}</span>

@@ -3,15 +3,10 @@ import { Heading } from "@/components/atoms/heading"
 import { Section } from "@/components/sections"
 import { DigitalDealerHeroSection, type DigitalDealerHeroSectionContent } from "@/components/sections/digital-dealer/hero"
 import { TestimonialSection, TestimonialSectionContent } from "@/components/sections/testimonial"
-import { Link } from "@/i18n/navigation"
 import { Metadata } from "next"
-import { ComponentProps } from "react"
-import { CTA } from "../atoms/cta"
-import { UrgencyNote } from "../atoms/urgency-note"
-import { CalloutSection } from "../sections/callout"
+import { CalloutSection, CalloutSectionContent } from "../sections/callout"
 import { DigitalDealerContactSection, DigitalDealerContactSectionContent } from "../sections/digital-dealer/contact"
 import { DigitalDealerPricingSection, DigitalDealerPricingSectionContent } from "../sections/digital-dealer/pricing"
-import { Button } from "../ui/button"
 
 export type DigitalDealerPageContent = {
   metadata: Metadata
@@ -27,12 +22,8 @@ export type DigitalDealerPageContent = {
     brow: string
     title: string
     paragraphs: string[]
-    cta: {
-      href: string
-      label: string
-      urgencyNote: string
-    }
   }
+  callout: CalloutSectionContent
   pricing: DigitalDealerPricingSectionContent
   contact: DigitalDealerContactSectionContent
 }
@@ -53,16 +44,8 @@ export const DigitalDealerPage = ({ content }: { content: DigitalDealerPageConte
         {content.solution.paragraphs.map((paragraph) => (
           <p key={paragraph} className="mt-4">{paragraph}</p>
         ))}
-        <CTA>
-          <Button asChild>
-            <Link href={content.solution.cta.href as ComponentProps<typeof Link>['href']}>
-              <span>{content.solution.cta.label}</span>
-            </Link>
-          </Button>
-          <UrgencyNote>{content.solution.cta.urgencyNote}</UrgencyNote>
-        </CTA>
       </Section>
-      <CalloutSection />
+      <CalloutSection variant="danger" content={content.callout} />
       <DigitalDealerPricingSection content={content.pricing} />
       <DigitalDealerContactSection content={content.contact} />
     </main>

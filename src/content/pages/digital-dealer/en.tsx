@@ -51,10 +51,21 @@ const content: DigitalDealerPageContent = {
     paragraphs: [
       'Our offer is built exactly for this – as a professional, scalable foundation, that makes (even small) car dealerships competitive and grows long-term.',
       '"Digital Dealer" is not a website kit and not a generic agent solution. It is a modular website system that is specifically developed for car dealerships – technically at the level of 2026, conversion-optimized from the start and built so that it grows automatically after the launch.'
+    ]
+  },
+  callout: {
+    title: 'Limited to 5 places',
+    paragraphs: [
+      'We want to make premium websites affordable for all car dealerships. In order to be able to develop the modular system profitably, on which such websites are based, we need you and four more car dealerships.',
+      'For these limited five places, we offer reduced prices before we offer the package at the regular price.'
     ],
     cta: {
-      href: '#secure-your-place',
-      label: 'Secure your place now',
+      buttons: [
+        {
+          label: 'Secure your spot now',
+          href: '#secure-your-spot'
+        }
+      ],
       urgencyNote: 'Only 5 places left'
     }
   },
@@ -176,6 +187,7 @@ const content: DigitalDealerPageContent = {
     ]
   },
   contact: {
+    id: 'secure-your-spot',
     brow: 'Contact',
     title: 'Request your spot now',
     description: 'Secure one of the limited spots. Fill out the form, and we\'ll get back to you within 24 hours.',

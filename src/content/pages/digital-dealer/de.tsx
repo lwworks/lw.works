@@ -52,9 +52,20 @@ const content: DigitalDealerPageContent = {
       'Unser Angebot ist genau dafür gebaut – als professionelles, skalierbares Fundament, das (auch kleine) Autohäuser wettbewerbsfähig macht und langfristig mitwächst.',
       '"Digital Dealer" ist kein Website-Baukasten und keine generische Agenturlösung. Es ist ein modulares Website-System, das speziell für Autohäuser entwickelt wurde – technisch auf dem Stand von 2026, conversion-optimiert von Anfang an und so aufgebaut, dass es nach dem Launch automatisch mitwächst.'
     ],
+  },
+  callout: {
+    title: 'Begrenzt auf 5 Plätze',
+    paragraphs: [
+      'Wir möchten erstklassige Websites für alle Autohäuser bezahlbar machen. Damit wir das modulare System profitabel entwickeln können, auf dem solche Websites basieren, brauchen wir Dich und vier weitere Autohäuser.',
+      'Für diese begrenzten fünf Plätze bieten wir reduzierte Preise an, bevor wir das Paket anschließend für den regulären Preis anbieten.'
+    ],
     cta: {
-      href: '#platz-sichern',
-      label: 'Jetzt deinen Platz sichern',
+      buttons: [
+        {
+          label: 'Jetzt deinen Platz sichern',
+          href: '#platz-sichern'
+        }
+      ],
       urgencyNote: 'Nur noch 5 Plätze verfügbar'
     }
   },
@@ -180,6 +191,7 @@ const content: DigitalDealerPageContent = {
     ]
   },
   contact: {
+    id: 'platz-sichern',
     brow: 'Kontakt',
     title: 'Jetzt unverbindlich anfragen',
     description: 'Sichere Dir einen der limitierten Plätze. Fülle das Formular aus, und wir melden uns innerhalb von 24 Stunden bei Dir.',
