@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
+import { ThemeProvider } from 'next-themes'
 import { Geist, Geist_Mono, Sora } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import '../globals.css'
@@ -68,13 +69,15 @@ export default async function Layout({ children, params }: LayoutProps<'/[locale
   const footerContent = await getFooterContent(locale as Locale)
 
   return (
-    <html lang={locale} className={cn(geist.variable, sora.variable, geistMono.variable, 'h-full antialiased', 'font-sans')}>
+    <html lang={locale} className={cn(geist.variable, sora.variable, geistMono.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
       <body className="min-h-full flex flex-col text-neutral-600">
-        <NextIntlClientProvider messages={{}}>
-          <Header content={headerContent} />
-          {children}
-          <Footer content={footerContent} />
-        </NextIntlClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <NextIntlClientProvider messages={{}}>
+            <Header content={headerContent} />
+            {children}
+            <Footer content={footerContent} />
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

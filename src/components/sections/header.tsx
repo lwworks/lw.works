@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation"
 import { ComponentProps } from "react"
 import { LangSwitcher } from "../atoms/lang-switcher"
+import { ThemeSwitcher } from "../atoms/theme-switcher"
 import { Logo } from "../atoms/logo"
 import { Button } from "../ui/button"
 
@@ -34,6 +35,7 @@ export const Header = ({ content }: { content: HeaderContent }) => {
             <Button asChild size="sm">
               <Link href={content.cta.href as ComponentProps<typeof Link>['href']}>{content.cta.label}</Link>
             </Button>
+            <ThemeSwitcher />
             <LangSwitcher />
           </div>
         </nav>
