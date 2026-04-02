@@ -70,7 +70,7 @@ export default async function Layout({ children, params }: LayoutProps<'/[locale
 
   return (
     <html lang={locale} className={cn(geist.variable, sora.variable, geistMono.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col text-neutral-600">
+      <body className="min-h-full flex flex-col text-neutral-600 dark:text-neutral-400">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextIntlClientProvider messages={{}}>
             <Header content={headerContent} />

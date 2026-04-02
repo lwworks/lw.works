@@ -29,7 +29,8 @@ const content: DigitalDealerPageContent = {
       avatar: '/images/digital-dealer/christian-brunkhorst.png'
     },
     logo: {
-      src: '/images/digital-dealer/autohaus-brunkhorst.svg',
+      srcDark: '/images/digital-dealer/autohaus-brunkhorst-weiss.svg',
+      srcLight: '/images/digital-dealer/autohaus-brunkhorst-schwarz.svg',
       alt: 'Autohaus Brunkhorst Logo',
       width: 120,
       height: 32
@@ -233,7 +234,7 @@ const content: DigitalDealerPageContent = {
         description: 'Your website grows with you'
       }
     },
-    privacy: <>I have read the <Link href={"/privacy" as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 underline hover:text-indigo-800">Privacy Policy</Link> and agree to the processing of my data.</>,
+    privacy: <>I have read the <Link href={"/privacy" as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-800 dark:hover:text-indigo-500">Privacy Policy</Link> and agree to the processing of my data.</>,
     submit: 'Send request',
     urgencyNote: 'Only 5 places left'
   }

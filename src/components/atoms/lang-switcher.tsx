@@ -1,6 +1,5 @@
 'use client'
 
-import { usePathname, useRouter } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -8,16 +7,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { usePathname, useRouter } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 import { Check, Globe } from '@mynaui/icons-react'
 import { useLocale } from 'next-intl'
 
-const locales = [
-  { code: 'de', label: 'Deutsch' },
-  { code: 'en', label: 'English' },
-] as const
+export type LangSwitcherContent = {
+  de: string
+  en: string
+}
 
-export const LangSwitcher = () => {
+export const LangSwitcher = ({ content }: { content: LangSwitcherContent }) => {
   const locale = useLocale()
   const router = useRouter()
   const pathname = usePathname()
@@ -30,15 +30,20 @@ export const LangSwitcher = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {locales.map(({ code, label }) => (
-          <DropdownMenuItem
-            key={code}
-            onClick={() => router.replace(pathname as '/', { locale: code })}
-          >
-            <Check className={cn('opacity-0', locale === code && 'opacity-100')} />
-            {label}
-          </DropdownMenuItem>
-        ))}
+        <DropdownMenuItem
+          key="de"
+          onClick={() => router.replace(pathname as '/', { locale: "de" })}
+        >
+          <Check className={cn('opacity-0', locale === "de" && 'opacity-100')} />
+          {content.de}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          key="en"
+          onClick={() => router.replace(pathname as '/', { locale: "en" })}
+        >
+          <Check className={cn('opacity-0', locale === "en" && 'opacity-100')} />
+          {content.en}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

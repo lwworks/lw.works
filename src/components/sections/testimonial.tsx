@@ -9,7 +9,8 @@ export type TestimonialSectionContent = {
     avatar: string
   }
   logo: {
-    src: string
+    srcDark: string
+    srcLight: string
     alt: string
     width: number
     height: number
@@ -32,17 +33,24 @@ export const TestimonialSection = ({ content }: { content: TestimonialSectionCon
               className="object-cover object-center"
             />
           </div>
-          <div className="text-black text-sm">
+          <div className="text-black dark:text-white text-sm">
             <p className="font-medium">{content.client.name}</p>
             <p className="text-muted-foreground">{content.client.description}</p>
           </div>
         </div>
         <Image
-          src={content.logo.src}
+          src={content.logo.srcLight}
           alt={content.logo.alt}
           width={content.logo.width}
           height={content.logo.height}
-          className="h-7 w-auto"
+          className="h-7 w-auto dark:hidden"
+        />
+        <Image
+          src={content.logo.srcDark}
+          alt={content.logo.alt}
+          width={content.logo.width}
+          height={content.logo.height}
+          className="h-7 w-auto hidden dark:block"
         />
       </div>
     </Section>

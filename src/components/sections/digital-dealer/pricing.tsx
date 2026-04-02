@@ -35,7 +35,7 @@ export const DigitalDealerPricingSection = ({ content }: { content: DigitalDeale
     <Section id={content.id} verticalPadding="none" horizontalPadding="none">
       <h2 className="sr-only">{content.title}</h2>
       {content.items.map((item, index) => (
-        <div key={index} className={cn("p-16", index > 0 && "border-t border-black/10")}>
+        <div key={index} className={cn("p-16", index > 0 && "border-t border-black/10 dark:border-white/10")}>
           <div className="flex items-start justify-between gap-x-16">
             <div>
               <Brow variant="small" className={index === 0 ? "mb-2" : "mb-1"}>{item.brow}</Brow>
@@ -55,7 +55,7 @@ export const DigitalDealerPricingSection = ({ content }: { content: DigitalDeale
           <ul className="mt-4 space-y-1">
             {item.features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2">
-                <Check className="size-4 shrink-0 mt-1 text-indigo-600" strokeWidth={2} />
+                <Check className="size-4 shrink-0 mt-1 text-indigo-600 dark:text-indigo-400" strokeWidth={2} />
                 <span>{feature}</span>
               </li>
             ))}
@@ -70,7 +70,7 @@ export const DigitalDealerPricingSection = ({ content }: { content: DigitalDeale
                     <ul className="mt-4 space-y-1">
                       {item.features.map((feature, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <Check className="size-4 shrink-0 mt-1 text-indigo-600" strokeWidth={2} />
+                          <Check className="size-4 shrink-0 mt-1 text-indigo-600 dark:text-indigo-400" strokeWidth={2} />
                           <span>{feature}</span>
                         </li>
                       ))}

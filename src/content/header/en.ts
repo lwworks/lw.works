@@ -14,6 +14,15 @@ const content: HeaderContent = {
   cta: {
     label: 'Contact',
     href: '/contact'
+  },
+  langSwitcher: {
+    de: 'German',
+    en: 'English'
+  },
+  themeSwitcher: {
+    light: 'Light',
+    dark: 'Dark',
+    system: 'System'
   }
 }
 

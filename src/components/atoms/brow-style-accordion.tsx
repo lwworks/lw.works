@@ -13,10 +13,10 @@ export const BrowStyleAccordion = ({ collapsedLabel, expandedLabel, children, cl
   return (
     <Accordion.Root type="single" collapsible className={cn("mt-8", className)}>
       <Accordion.Item value="details" className="-mr-16">
-        <Accordion.Trigger className="group flex w-full items-center gap-2 hover:text-black cursor-pointer">
+        <Accordion.Trigger className="group flex w-full items-center gap-2 hover:text-black dark:hover:text-white cursor-pointer">
           <div className="relative size-4">
-            <Plus className="absolute size-4 shrink-0 text-indigo-600 group-aria-expanded:-rotate-180 group-aria-expanded:opacity-0 transition duration-300" strokeWidth={2} />
-            <Minus className="absolute size-4 shrink-0 text-indigo-600 opacity-0 group-aria-expanded:-rotate-180 group-aria-expanded:opacity-100 transition duration-300" strokeWidth={2} />
+            <Plus className="absolute size-4 shrink-0 text-indigo-600 dark:text-indigo-400 group-aria-expanded:-rotate-180 group-aria-expanded:opacity-0 transition duration-300" strokeWidth={2} />
+            <Minus className="absolute size-4 shrink-0 text-indigo-600 dark:text-indigo-400 opacity-0 group-aria-expanded:-rotate-180 group-aria-expanded:opacity-100 transition duration-300" strokeWidth={2} />
           </div>
           <span className="group-aria-expanded:hidden">{collapsedLabel}</span>
           <span className="hidden group-aria-expanded:inline">{expandedLabel}</span>

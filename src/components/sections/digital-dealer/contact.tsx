@@ -88,38 +88,38 @@ export const DigitalDealerContactSection = ({ content }: { content: DigitalDeale
         <FieldSet>
           <FieldLegend variant="label">{content.plans.label}</FieldLegend>
           <div className="grid grid-cols-2 gap-4">
-            <label className="col-span-2 flex items-center gap-3 rounded-lg border border-indigo-500 bg-indigo-50/50 px-4 py-3 cursor-default">
+            <label className="col-span-2 flex items-center gap-3 rounded-lg border border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/50 px-4 py-3 cursor-default">
               <Checkbox checked />
               <div>
-                <span className="text-sm font-medium text-black">{content.plans.base.label}</span>
+                <span className="text-sm font-medium text-black dark:text-white">{content.plans.base.label}</span>
                 <span className="block text-xs text-muted-foreground">{content.plans.base.description}</span>
               </div>
             </label>
-            <label htmlFor="plan-service" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 has-checked:bg-indigo-50/50">
+            <label htmlFor="plan-service" className="flex items-center gap-3 rounded-lg border border-black/10 dark:border-white/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 dark:has-checked:border-indigo-500 has-checked:bg-indigo-50/50 dark:has-checked:bg-indigo-950/50">
               <Checkbox id="plan-service" name="plans" value="service" />
               <div>
-                <span className="text-sm font-medium text-black">{content.plans.service.label}</span>
+                <span className="text-sm font-medium text-black dark:text-white">{content.plans.service.label}</span>
                 <span className="block text-xs text-muted-foreground">{content.plans.service.description}</span>
               </div>
             </label>
-            <label htmlFor="plan-convert" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 has-checked:bg-indigo-50/50">
+            <label htmlFor="plan-convert" className="flex items-center gap-3 rounded-lg border border-black/10 dark:border-white/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 dark:has-checked:border-indigo-500 has-checked:bg-indigo-50/50 dark:has-checked:bg-indigo-950/50">
               <Checkbox id="plan-convert" name="plans" value="convert" />
               <div>
-                <span className="text-sm font-medium text-black">{content.plans.convert.label}</span>
+                <span className="text-sm font-medium text-black dark:text-white">{content.plans.convert.label}</span>
                 <span className="block text-xs text-muted-foreground">{content.plans.convert.description}</span>
               </div>
             </label>
-            <label htmlFor="plan-scale" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 has-checked:bg-indigo-50/50">
+            <label htmlFor="plan-scale" className="flex items-center gap-3 rounded-lg border border-black/10 dark:border-white/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 dark:has-checked:border-indigo-500 has-checked:bg-indigo-50/50 dark:has-checked:bg-indigo-950/50">
               <Checkbox id="plan-scale" name="plans" value="scale" />
               <div>
-                <span className="text-sm font-medium text-black">{content.plans.scale.label}</span>
+                <span className="text-sm font-medium text-black dark:text-white">{content.plans.scale.label}</span>
                 <span className="block text-xs text-muted-foreground">{content.plans.scale.description}</span>
               </div>
             </label>
-            <label htmlFor="plan-growth" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 has-checked:bg-indigo-50/50">
+            <label htmlFor="plan-growth" className="flex items-center gap-3 rounded-lg border border-black/10 dark:border-white/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-checked:border-indigo-500 dark:has-checked:border-indigo-500 has-checked:bg-indigo-50/50 dark:has-checked:bg-indigo-950/50">
               <Checkbox id="plan-growth" name="plans" value="growth" />
               <div>
-                <span className="text-sm font-medium text-black">{content.plans.growth.label}</span>
+                <span className="text-sm font-medium text-black dark:text-white">{content.plans.growth.label}</span>
                 <span className="block text-xs text-muted-foreground">{content.plans.growth.description}</span>
               </div>
             </label>
