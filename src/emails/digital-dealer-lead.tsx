@@ -1,4 +1,4 @@
-import { Body, Column, Head, Hr, Html, Img, Preview, Row, Section, Tailwind, Text } from '@react-email/components'
+import { Body, Column, Head, Hr, Html, Img, Link, Preview, Row, Section, Tailwind, Text } from '@react-email/components'
 
 type DigitalDealerLeadEmailProps = {
   name: string
@@ -11,9 +11,9 @@ type DigitalDealerLeadEmailProps = {
 export const DigitalDealerLeadEmail = ({ name, dealership, email, phone, plans }: DigitalDealerLeadEmailProps) => {
   return (
     <Html>
-      <Head />
-      <Preview>Neue Anfrage von {name} ({dealership})</Preview>
       <Tailwind>
+        <Head />
+        <Preview>Neue Anfrage von {name} ({dealership})</Preview>
         <Body className="bg-white font-sans m-0 p-0">
           <Section className="w-full border-0">
             {/* Logo */}
@@ -31,9 +31,7 @@ export const DigitalDealerLeadEmail = ({ name, dealership, email, phone, plans }
               </Column>
               <Column className="min-w-[24px]" />
             </Row>
-
             <Hr className="border-neutral-200 m-0" />
-
             {/* Content */}
             <Row>
               <Column className="min-w-[24px]" />
@@ -63,16 +61,21 @@ export const DigitalDealerLeadEmail = ({ name, dealership, email, phone, plans }
               </Column>
               <Column className="min-w-[24px]" />
             </Row>
-
             <Hr className="border-neutral-200 m-0" />
-
             {/* Footer */}
             <Row>
               <Column className="min-w-[24px] border-b border-neutral-200" />
               <Column className="w-[480px] border-l border-r border-b border-neutral-200">
-                <Section className="py-5 px-10">
-                  <Text className="text-xs text-neutral-400 m-0">&copy; LW Works</Text>
-                </Section>
+                <Row className="py-5 px-10">
+                  <Column className="align-middle">
+                    <Text className="text-xs text-neutral-400 m-0">&copy; LW Works GmbH 2026</Text>
+                  </Column>
+                  <Column className="text-right align-middle">
+                    <Link href="https://lw.works/impressum" className="text-xs text-neutral-400 no-underline hover:underline">Impressum</Link>
+                    <span className="text-xs text-neutral-300 mx-1.5"></span>
+                    <Link href="https://lw.works/privacy" className="text-xs text-neutral-400 no-underline hover:underline">Datenschutz</Link>
+                  </Column>
+                </Row>
               </Column>
               <Column className="min-w-[24px] border-b border-neutral-200" />
             </Row>
