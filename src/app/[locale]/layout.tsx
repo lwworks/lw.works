@@ -1,3 +1,8 @@
+import { Footer } from '@/components/sections/footer'
+import { Header } from '@/components/sections/header'
+import { getFooterContent } from '@/content/footer'
+import { getHeaderContent } from '@/content/header'
+import type { Locale } from '@/i18n/routing'
 import { baseUrl, routing } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -59,11 +64,17 @@ export default async function Layout({ children, params }: LayoutProps<'/[locale
   const { locale } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
+  const headerContent = await getHeaderContent(locale as Locale)
+  const footerContent = await getFooterContent(locale as Locale)
 
   return (
     <html lang={locale} className={cn(geist.variable, sora.variable, geistMono.variable, 'h-full antialiased', 'font-sans')}>
       <body className="min-h-full flex flex-col text-neutral-600">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={{}}>
+          <Header content={headerContent} />
+          {children}
+          <Footer content={footerContent} />
+        </NextIntlClientProvider>
       </body>
     </html>
   )

@@ -1,9 +1,12 @@
 import { Logo } from '@/components/atoms/logo'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { getHomeContent } from '@/content/pages/home'
 import type { Locale } from '@/i18n/routing'
 import { baseUrl, routing } from '@/i18n/routing'
-import { ArrowDown, Check, Minus, Plus } from '@mynaui/icons-react'
+import { ArrowDown, Check, Minus, Plus, Send } from '@mynaui/icons-react'
 import type { Metadata } from 'next'
 import { hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
@@ -62,13 +65,13 @@ export default async function Home({ params }: PageProps<'/[locale]'>) {
           <nav className="text-sm">
             <ul className="flex items-center gap-4">
               <li>
-                <Link href="/">Entwicklung</Link>
+                <Link href="/" className="hover:text-black">Entwicklung</Link>
               </li>
               <li>
-                <Link href="/">Automatisierung</Link>
+                <Link href="/" className="hover:text-black">Automatisierung</Link>
               </li>
               <li>
-                <Link href="/">Blog</Link>
+                <Link href="/" className="hover:text-black">Blog</Link>
               </li>
               <li>
                 <Button asChild size="sm">
@@ -467,6 +470,88 @@ export default async function Home({ params }: PageProps<'/[locale]'>) {
                 <span>Technisches Monitoring, Performance-Updates und direkter Ansprechpartner inklusive</span>
               </li>
             </ul>
+          </div>
+        </section>
+        <section id="kontakt" className="relative overflow-hidden">
+          <div className="absolute left-1/2 -translate-x-1/2 -bottom-32 bg-indigo-400 w-3xl h-64 mx-auto blur-3xl opacity-60" style={{ borderRadius: "50% 50%" }} />
+          <div className="absolute left-1/3 -translate-x-1/4 -bottom-32 bg-violet-400 w-md h-64 mx-auto blur-3xl opacity-40" style={{ borderRadius: "50% 50%" }} />
+          <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 z-10" />
+          <div className="relative mx-auto w-full max-w-4xl px-16 border-x border-black/10 py-24">
+            <div className="font-mono text-sm uppercase flex items-center gap-2 mb-4 -mr-16">
+              <span className="shrink-0">Platz sichern</span>
+              <div className="flex-1 flex items-center">
+                <span className="size-1 shrink-0 bg-indigo-500" />
+                <span className="h-px flex-1 bg-linear-to-l from-black/10 via-black/10 to-indigo-500/50" />
+              </div>
+            </div>
+            <h2 className="font-heading text-3xl font-black text-black">Jetzt unverbindlich anfragen</h2>
+            <p className="mt-4 max-w-lg">
+              Sichere Dir einen der limitierten Plätze. Füll das Formular aus, und wir melden uns innerhalb von 24 Stunden bei Dir.
+            </p>
+            <form className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" name="name" placeholder="Max Mustermann" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="dealership">Autohaus</Label>
+                <Input id="dealership" name="dealership" placeholder="Autohaus Mustermann" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">E-Mail</Label>
+                <Input id="email" name="email" type="email" placeholder="max@autohaus-mustermann.de" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Telefon</Label>
+                <Input id="phone" name="phone" type="tel" placeholder="+49 123 456 789" />
+              </div>
+              <fieldset className="col-span-2 mt-2">
+                <legend className="text-sm font-medium mb-4">Welche Pakete interessieren Dich?</legend>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="flex items-center gap-3 rounded-lg border border-black/10 bg-indigo-50/50 px-4 py-3 cursor-default">
+                    <Checkbox checked disabled className="opacity-60" />
+                    <div>
+                      <span className="text-sm font-medium text-black">Basis-Paket</span>
+                      <span className="block text-xs text-muted-foreground">Immer enthalten</span>
+                    </div>
+                  </label>
+                  <label htmlFor="plan-service" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/50">
+                    <Checkbox id="plan-service" name="plans" value="service" />
+                    <div>
+                      <span className="text-sm font-medium text-black">Service</span>
+                      <span className="block text-xs text-muted-foreground">Werkstatt-Terminbuchung</span>
+                    </div>
+                  </label>
+                  <label htmlFor="plan-convert" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/50">
+                    <Checkbox id="plan-convert" name="plans" value="convert" />
+                    <div>
+                      <span className="text-sm font-medium text-black">Convert</span>
+                      <span className="block text-xs text-muted-foreground">Probefahrt, Finanzierung, WhatsApp</span>
+                    </div>
+                  </label>
+                  <label htmlFor="plan-scale" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/50">
+                    <Checkbox id="plan-scale" name="plans" value="scale" />
+                    <div>
+                      <span className="text-sm font-medium text-black">Scale</span>
+                      <span className="block text-xs text-muted-foreground">Multi-Standort & Multi-Marke</span>
+                    </div>
+                  </label>
+                  <label htmlFor="plan-growth" className="flex items-center gap-3 rounded-lg border border-black/10 px-4 py-3 cursor-pointer hover:bg-muted/30 transition-colors has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50/50">
+                    <Checkbox id="plan-growth" name="plans" value="growth" />
+                    <div>
+                      <span className="text-sm font-medium text-black">Growth</span>
+                      <span className="block text-xs text-muted-foreground">KI-CMS, automatische SEO-Seiten</span>
+                    </div>
+                  </label>
+                </div>
+              </fieldset>
+              <div className="col-span-2 mt-2">
+                <Button type="submit">
+                  <span>Anfrage senden</span>
+                  <Send className="size-4" strokeWidth={2} />
+                </Button>
+              </div>
+            </form>
           </div>
         </section>
       </main>
