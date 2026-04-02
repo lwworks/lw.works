@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/link"
 import { ComponentProps } from "react"
+import { CookieBanner, CookieBannerContent } from "../atoms/cookie-banner"
 import { Logo } from "../atoms/logo"
 
 export type FooterContent = {
@@ -11,6 +12,7 @@ export type FooterContent = {
       href: string
     }[]
   }[]
+  cookieBanner: CookieBannerContent
 }
 
 export const Footer = ({ content }: { content: FooterContent }) => {
@@ -33,6 +35,11 @@ export const Footer = ({ content }: { content: FooterContent }) => {
                     <Link href={item.href as ComponentProps<typeof Link>['href']} className="hover:text-black dark:hover:text-white">{item.label}</Link>
                   </li>
                 ))}
+                {index === content.menus.length - 1 && (
+                  <li>
+                    <CookieBanner content={content.cookieBanner} />
+                  </li>
+                )}
               </ul>
             </div>
           ))}

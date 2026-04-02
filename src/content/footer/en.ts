@@ -29,24 +29,38 @@ const content: FooterContent = {
       heading: 'Company',
       items: [
         {
-          label: 'Legal Notice',
-          href: '/impressum'
+          label: 'Contact',
+          href: '/kontakt'
         },
         {
-          label: 'Privacy Policy',
-          href: '/datenschutz'
+          label: 'Legal Notice',
+          href: '/impressum'
         },
         {
           label: 'Terms & Conditions',
           href: '/agb'
         },
         {
-          label: 'Contact',
-          href: '/kontakt'
+          label: 'Privacy Policy',
+          href: '/datenschutz'
         }
       ]
     }
-  ]
+  ],
+  cookieBanner: {
+    triggerLabel: 'Cookies',
+    title: 'Cookies & Privacy',
+    description: 'We use cookies to improve the website and provide you with the best service. By using the website, you agree to the use of cookies.',
+    cookies: {
+      necessary: {
+        label: 'Necessary',
+        description:
+          'These are cookies and data that are necessary for the use of the website. We store, for example, your preferences for cookies, the website language or the color mode.'
+      }
+    },
+    acceptSelected: 'Accept selected',
+    acceptAll: 'Accept all'
+  }
 }
 
 export default content

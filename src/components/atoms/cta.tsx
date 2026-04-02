@@ -7,7 +7,7 @@ type CTAProps = {
 
 export const CTA = ({ children, className }: CTAProps) => {
   return (
-    <div className={cn("flex items-center gap-4 mt-8", className)}>
+    <div className={cn("flex items-center gap-2 mt-8", className)}>
       {children}
     </div>
   )
