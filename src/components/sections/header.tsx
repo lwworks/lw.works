@@ -1,14 +1,18 @@
 import { Link } from "@/i18n/navigation"
-import type { ComponentProps } from "react"
+import { ComponentProps } from "react"
+import { LangSwitcher } from "../atoms/lang-switcher"
 import { Logo } from "../atoms/logo"
 import { Button } from "../ui/button"
 
 export type HeaderContent = {
   items: {
-    variant: 'link' | 'primary-button' | 'secondary-button'
     label: string
-    href: ComponentProps<typeof Link>['href']
-  }[]
+    href: string
+  }[],
+  cta: {
+    href: string
+    label: string
+  }
 }
 
 export const Header = ({ content }: { content: HeaderContent }) => {
@@ -18,26 +22,20 @@ export const Header = ({ content }: { content: HeaderContent }) => {
         <Link href="/">
           <Logo className="text-black dark:text-white h-5" />
         </Link>
-        <nav className="text-sm">
+        <nav className="text-sm flex items-center gap-6">
           <ul className="flex items-center gap-4">
-            {content.items.map(({ variant, label, href }, index) => (
+            {content.items.map(({ label, href }, index) => (
               <li key={index}>
-                {variant === "link" && (
-                  <Link href={href} className="hover:text-black">{label}</Link>
-                )}
-                {variant === "primary-button" && (
-                  <Button asChild size="sm">
-                    <Link href={href}>{label}</Link>
-                  </Button>
-                )}
-                {variant === "secondary-button" && (
-                  <Button asChild variant="secondary" size="sm">
-                    <Link href={href}>{label}</Link>
-                  </Button>
-                )}
+                <Link href={href as ComponentProps<typeof Link>['href']} className="hover:text-black">{label}</Link>
               </li>
             ))}
           </ul>
+          <div className="flex items-center gap-2">
+            <Button asChild size="sm">
+              <Link href={content.cta.href as ComponentProps<typeof Link>['href']}>{content.cta.label}</Link>
+            </Button>
+            <LangSwitcher />
+          </div>
         </nav>
       </div>
     </header>
