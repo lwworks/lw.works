@@ -1,5 +1,6 @@
 import { DigitalDealerPageContent } from '@/components/pages/digital-dealer'
 import { Link } from '@/i18n/link'
+import { ComponentProps } from 'react'
 
 const content: DigitalDealerPageContent = {
   metadata: {
@@ -236,7 +237,7 @@ const content: DigitalDealerPageContent = {
         description: 'Deine Website wächst mit'
       }
     },
-    privacy: <>Ich habe die <Link href="/privacy" target="_blank" className="text-indigo-600 underline hover:text-indigo-800">Datenschutzerklärung</Link> gelesen und bin mit der Verarbeitung meiner Daten einverstanden.</>,
+    privacy: <>Ich habe die <Link href={"/privacy" as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 underline hover:text-indigo-800">Datenschutzerklärung</Link> gelesen und bin mit der Verarbeitung meiner Daten einverstanden.</>,
     submit: 'Anfrage senden',
     urgencyNote: 'Nur noch 5 Plätze verfügbar'
   }

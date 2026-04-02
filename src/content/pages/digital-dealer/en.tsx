@@ -1,5 +1,6 @@
 import { DigitalDealerPageContent } from '@/components/pages/digital-dealer'
 import { Link } from '@/i18n/link'
+import { ComponentProps } from 'react'
 
 const content: DigitalDealerPageContent = {
   metadata: {
@@ -232,7 +233,7 @@ const content: DigitalDealerPageContent = {
         description: 'Your website grows with you'
       }
     },
-    privacy: <>I have read the <Link href="/privacy" target="_blank" className="text-indigo-600 underline hover:text-indigo-800">Privacy Policy</Link> and agree to the processing of my data.</>,
+    privacy: <>I have read the <Link href={"/privacy" as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 underline hover:text-indigo-800">Privacy Policy</Link> and agree to the processing of my data.</>,
     submit: 'Send request',
     urgencyNote: 'Only 5 places left'
   }
