@@ -26,7 +26,7 @@ export const LangSwitcher = ({ content }: { content: LangSwitcherContent }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon-sm">
-          <Globe />
+          <Globe strokeWidth={1.5} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

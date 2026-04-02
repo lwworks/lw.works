@@ -17,7 +17,7 @@ const content: FooterContent = {
       ]
     },
     {
-      heading: 'Offers',
+      heading: 'Special Offers',
       items: [
         {
           label: 'Digital Dealer',

@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { Check, Sun } from '@mynaui/icons-react'
+import { Check, Moon, Sun } from '@mynaui/icons-react'
 import { useTheme } from 'next-themes'
 
 export type ThemeSwitcherContent = {
@@ -24,7 +24,8 @@ export const ThemeSwitcher = ({ content }: { content: ThemeSwitcherContent }) =>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon-sm">
-          <Sun />
+          <Sun strokeWidth={1.5} className="dark:hidden" />
+          <Moon strokeWidth={1.5} className="hidden dark:block" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

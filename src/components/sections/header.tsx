@@ -25,7 +25,7 @@ export const Header = ({ content }: { content: HeaderContent }) => {
         <Link href="/">
           <Logo className="text-black dark:text-white h-5" />
         </Link>
-        <nav className="text-sm flex items-center gap-6">
+        <nav className="text-sm flex items-center gap-4">
           <ul className="flex items-center gap-4">
             {content.items.map(({ label, href }, index) => (
               <li key={index}>
@@ -33,7 +33,7 @@ export const Header = ({ content }: { content: HeaderContent }) => {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <Button asChild size="sm">
               <Link href={content.cta.href as ComponentProps<typeof Link>['href']}>{content.cta.label}</Link>
             </Button>
