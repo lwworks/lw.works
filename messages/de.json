@@ -1,0 +1,20 @@
+{
+  "navigation": {
+    "home": "Home",
+    "services": "Leistungen",
+    "blog": "Blog",
+    "cta": "Call vereinbaren"
+  },
+  "languageSwitcher": {
+    "label": "EN"
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Weiterlesen",
+    "backToOverview": "Zurück zur Übersicht"
+  },
+  "common": {
+    "learnMore": "Mehr erfahren",
+    "contact": "Kontakt"
+  }
+}
