@@ -3,7 +3,7 @@ import { Link } from '@/i18n/link'
 
 const content: DigitalDealerPageContent = {
   metadata: {
-    title: 'Digital Dealer',
+    title: 'Digital Dealer: Website-Paket für Autohäuser — LW Works GmbH',
     description:
       'Das modulare Website-Paket für Autohäuser, die den digitalen ersten Eindruck endlich ernst nehmen. Gebaut auf modernster Technik, conversion-optimiert – und so flexibel, dass es mit Deinem Betrieb mitwächst.'
   },

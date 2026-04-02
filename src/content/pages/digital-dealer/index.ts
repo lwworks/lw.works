@@ -6,4 +6,4 @@ const loaders: Record<Locale, () => Promise<DigitalDealerPageContent>> = {
   en: () => import('./en').then((m) => m.default)
 }
 
-export const getCarDealershipWebsitesContent = (locale: Locale) => loaders[locale]()
+export const getDigitalDealerPageContent = (locale: Locale) => loaders[locale]()

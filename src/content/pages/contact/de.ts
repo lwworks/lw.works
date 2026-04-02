@@ -1,8 +1,8 @@
-import {HomePageContent} from '@/components/pages/home'
+import {ContactPageContent} from '@/components/pages/contact'
 
-const content: HomePageContent = {
+const content: ContactPageContent = {
   metadata: {
-    title: 'Home — LW Works GmbH',
+    title: 'Kontakt — LW Works GmbH',
     description: 'Professionelle Webentwicklung & Design Engineering für Unternehmen. Custom Next.js, API-Integrationen und KI-gestützte Automatisierung.'
   }
 }

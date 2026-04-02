@@ -1,9 +1,13 @@
 import {defineRouting} from 'next-intl/routing'
 
 export const pages = {
-  'web-dev': {
-    de: 'website-entwicklung',
-    en: 'website-development'
+  home: {
+    de: '',
+    en: ''
+  },
+  'design-engineering': {
+    de: 'design-engineering-studio',
+    en: 'design-engineering-studio'
   },
   automation: {
     de: 'automatisierung',
@@ -25,9 +29,11 @@ export const pages = {
 
 export type PageKey = keyof typeof pages
 
-const pagePathnames = Object.fromEntries(Object.entries(pages).map(([key, slugs]) => [`/${key}`, {de: `/${slugs.de}`, en: `/${slugs.en}`}])) as {
-  [K in PageKey as `/${K}`]: {de: string; en: string}
-}
+const pagePathnames = Object.fromEntries(
+  Object.entries(pages)
+    .filter(([key]) => key !== 'home')
+    .map(([key, slugs]) => [`/${key}`, {de: `/${slugs.de}`, en: `/${slugs.en}`}])
+)
 
 export const routing = defineRouting({
   locales: ['de', 'en'],
@@ -35,8 +41,6 @@ export const routing = defineRouting({
   localePrefix: 'always',
   pathnames: {
     '/': '/',
-    '/blog': '/blog',
-    '/blog/[slug]': '/blog/[slug]',
     ...pagePathnames
   }
 })

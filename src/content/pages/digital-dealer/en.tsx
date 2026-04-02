@@ -3,7 +3,7 @@ import { Link } from '@/i18n/link'
 
 const content: DigitalDealerPageContent = {
   metadata: {
-    title: 'Digital Dealer',
+    title: 'Digital Dealer: Websites for car dealerships — LW Works GmbH',
     description:
       'The modular website package for car dealerships that finally take the digital first impression seriously. Built on modern technology, conversion-optimized – and so flexible that it grows with your business.'
   },

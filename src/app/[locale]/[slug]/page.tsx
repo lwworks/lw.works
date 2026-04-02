@@ -1,4 +1,8 @@
+import { AutomationPage, AutomationPageContent } from '@/components/pages/automation'
+import { ContactPage, ContactPageContent } from '@/components/pages/contact'
+import { DesignEngineeringPage, DesignEngineeringPageContent } from '@/components/pages/design-engineering'
 import { DigitalDealerPage, type DigitalDealerPageContent } from '@/components/pages/digital-dealer'
+import { PrivacyPage, PrivacyPageContent } from '@/components/pages/privacy'
 import { getPageContent } from '@/content/pages'
 import type { Locale } from '@/i18n/routing'
 import { baseUrl, getPageKeyBySlug, getPageSlug, pages, routing } from '@/i18n/routing'
@@ -53,8 +57,16 @@ export default async function LandingPage({ params }: PageProps<'/[locale]/[slug
   const content = await getPageContent(key, locale as Locale)
 
   switch (key) {
+    case 'design-engineering':
+      return <DesignEngineeringPage content={content as DesignEngineeringPageContent} />
+    case 'automation':
+      return <AutomationPage content={content as AutomationPageContent} />
     case 'digital-dealer':
       return <DigitalDealerPage content={content as DigitalDealerPageContent} />
+    case 'contact':
+      return <ContactPage content={content as ContactPageContent} />
+    case 'privacy':
+      return <PrivacyPage content={content as PrivacyPageContent} />
     default:
       notFound()
   }

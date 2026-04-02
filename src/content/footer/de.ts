@@ -7,16 +7,12 @@ const content: FooterContent = {
       heading: 'Work',
       items: [
         {
-          label: 'Entwicklung',
-          href: '/web-dev'
+          label: 'Design Engineering',
+          href: '/design-engineering'
         },
         {
           label: 'Automatisierung',
           href: '/automation'
-        },
-        {
-          label: 'Blog',
-          href: '/blog'
         }
       ]
     },

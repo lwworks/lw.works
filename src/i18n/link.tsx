@@ -1,11 +1,11 @@
 'use client'
 
-import {type ComponentProps, useCallback} from 'react'
-import {NextIntlLink} from './navigation'
+import { type ComponentProps, useCallback } from 'react'
+import { NextIntlLink } from './navigation'
 
 type LinkProps = ComponentProps<typeof NextIntlLink>
 
-export function Link({href, onClick, ...props}: LinkProps) {
+export function Link({ href, onClick, ...props }: LinkProps) {
   const isHash = typeof href === 'string' && href.startsWith('#')
 
   const handleClick = useCallback(
@@ -15,10 +15,8 @@ export function Link({href, onClick, ...props}: LinkProps) {
         const id = (href as string).slice(1)
         const target = document.getElementById(id)
         if (target) {
-          // Clear the hash first so re-clicking the same anchor works
           history.replaceState(null, '', window.location.pathname)
-          target.scrollIntoView({behavior: 'smooth'})
-          // Re-add the hash after scrolling starts
+          target.scrollIntoView({ behavior: 'smooth' })
           history.replaceState(null, '', href as string)
         }
       }

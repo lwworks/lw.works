@@ -1,8 +1,8 @@
-import {HomePageContent} from '@/components/pages/home'
+import {PrivacyPageContent} from '@/components/pages/privacy'
 
-const content: HomePageContent = {
+const content: PrivacyPageContent = {
   metadata: {
-    title: 'Home — LW Works GmbH',
+    title: 'Datenschutzerklärung — LW Works GmbH',
     description: 'Professionelle Webentwicklung & Design Engineering für Unternehmen. Custom Next.js, API-Integrationen und KI-gestützte Automatisierung.'
   }
 }

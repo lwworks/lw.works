@@ -133,8 +133,8 @@ export const DigitalDealerContactSection = ({ content }: { content: DigitalDeale
         </label>
         <CTA>
           <Button type="submit">
+            <Send strokeWidth={2} />
             <span>{content.submit}</span>
-            <Send data-icon="inline-end" strokeWidth={2} />
           </Button>
           <UrgencyNote>{content.urgencyNote}</UrgencyNote>
         </CTA>
