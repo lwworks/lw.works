@@ -14,6 +14,7 @@ import { Send } from "@mynaui/icons-react"
 import { useActionState, useEffect, useRef } from "react"
 
 export type DigitalDealerContactSectionContent = {
+  locale: 'de' | 'en'
   id: string
   brow: string
   title: string
@@ -83,6 +84,7 @@ export const DigitalDealerContactSection = ({ content }: { content: DigitalDeale
       <Heading as="h2">{content.title}</Heading>
       <p className="mt-8 max-w-xl">{content.description}</p>
       <form ref={formRef} action={formAction} className="mt-12 flex flex-col gap-8">
+        <input type="hidden" name="locale" value={content.locale} />
         <FieldGroup className="grid grid-cols-2 gap-x-8 gap-y-5">
           <Field>
             <FieldLabel htmlFor="name">{content.fields.name.label}</FieldLabel>

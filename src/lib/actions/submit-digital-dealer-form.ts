@@ -1,5 +1,6 @@
 'use server'
 
+import DigitalDealerConfirmationEmail from '@/emails/digital-dealer-confirmation'
 import DigitalDealerLeadEmail from '@/emails/digital-dealer-lead'
 import {checkBotId} from 'botid/server'
 import {Resend} from 'resend'
@@ -41,16 +42,28 @@ export async function submitDigitalDealerForm(_prevState: ContactFormState, form
   }
 
   const {name, dealership, email, phone, plans} = parsed.data
+  const locale = (await getLocale()) as 'de' | 'en'
 
-  const {error} = await resend.emails.send({
-    from: 'Lukas Brunkhorst <digital-dealer@mailer.lw.works>',
-    to: 'lukas@lw.works',
-    replyTo: email,
-    subject: `Digital Dealer Anfrage: ${dealership}`,
-    react: DigitalDealerLeadEmail({name, dealership, email, phone, plans})
-  })
+  const confirmationSubject = locale === 'en' ? 'Your Digital Dealer Inquiry' : 'Ihre Digital Dealer Anfrage'
 
-  if (error) {
+  const [leadResult, confirmationResult] = await Promise.all([
+    resend.emails.send({
+      from: 'Lukas Brunkhorst <digital-dealer@mailer.lw.works>',
+      to: 'lukas@lw.works',
+      replyTo: email,
+      subject: `Digital Dealer Anfrage: ${dealership}`,
+      react: DigitalDealerLeadEmail({name, dealership, email, phone, plans})
+    }),
+    resend.emails.send({
+      from: 'Lukas Brunkhorst <digital-dealer@mailer.lw.works>',
+      to: email,
+      replyTo: 'lukas@lw.works',
+      subject: confirmationSubject,
+      react: DigitalDealerConfirmationEmail({name, dealership, plans, locale})
+    })
+  ])
+
+  if (leadResult.error || confirmationResult.error) {
     return {success: false, error: 'Failed to send email.'}
   }
 

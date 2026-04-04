@@ -24,8 +24,8 @@ export type DigitalDealerHeroSectionContent = {
 export const DigitalDealerHeroSection = ({ content }: { content: DigitalDealerHeroSectionContent }) => {
   return (
     <Section bottomGradients="rose-orange">
-      <Image src="/images/digital-dealer/renault-r5-website.png" alt={content.imageAlt} width={1604} height={1025} loading="eager" className="absolute bottom-0 -right-21 max-h-76 w-auto opacity-75 dark:hidden pointer-events-none" />
-      <Image src="/images/digital-dealer/renault-r5-website-dark.png" alt={content.imageAlt} width={1604} height={1025} loading="eager" className="absolute bottom-0 -right-21 max-h-76 w-auto opacity-75 hidden dark:block pointer-events-none" />
+      <Image src="/images/digital-dealer/renault-r5-website.png" alt={content.imageAlt} width={1604} height={1025} loading="eager" className="absolute bottom-0 -right-21 max-w-96 h-auto opacity-75 dark:hidden pointer-events-none" />
+      <Image src="/images/digital-dealer/renault-r5-website-dark.png" alt={content.imageAlt} width={1604} height={1025} loading="eager" className="absolute bottom-0 -right-21 max-w-96 h-auto opacity-75 hidden dark:block pointer-events-none" />
       <Brow className="mb-8" color="indigo">
         {content.brow}
       </Brow>

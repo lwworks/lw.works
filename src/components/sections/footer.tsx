@@ -23,7 +23,7 @@ export const Footer = ({ content }: { content: FooterContent }) => {
           <Link href="/">
             <Logo className="text-black dark:text-white h-5" />
           </Link>
-          <p className="text-xs text-neutral-500">{content.copyrightNote}</p>
+          <p className="text-sm text-neutral-500">{content.copyrightNote}</p>
         </div>
         <div className="flex gap-16">
           {content.menus.map((menu, index) => (

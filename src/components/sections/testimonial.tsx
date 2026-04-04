@@ -30,6 +30,7 @@ export const TestimonialSection = ({ content }: { content: TestimonialSectionCon
               src={content.client.avatar}
               alt={content.client.name}
               fill
+              sizes="100px 100px"
               className="object-cover object-center"
             />
           </div>
