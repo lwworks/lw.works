@@ -3,6 +3,7 @@
 import DigitalDealerConfirmationEmail from '@/emails/digital-dealer-confirmation'
 import DigitalDealerLeadEmail from '@/emails/digital-dealer-lead'
 import {checkBotId} from 'botid/server'
+import {getLocale} from 'next-intl/server'
 import {Resend} from 'resend'
 import {z} from 'zod'
 

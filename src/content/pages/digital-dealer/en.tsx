@@ -189,6 +189,7 @@ const content: DigitalDealerPageContent = {
     ]
   },
   contact: {
+    locale: 'en',
     id: 'secure-your-spot',
     brow: 'Contact',
     title: 'Request your spot now',
@@ -238,6 +239,39 @@ const content: DigitalDealerPageContent = {
     submit: 'Send request',
     urgencyNote: 'Only 5 places left',
     successMessage: 'Your request has been sent successfully. We will get back to you shortly!'
+  },
+  faq: {
+    id: 'digital-dealer-faq',
+    brow: 'FAQ',
+    title: 'Questions about Digital Dealer',
+    description: 'Short answers below the form. If something is not covered, send us a message using the fields above.',
+    items: [
+      {
+        question: 'How soon will you reply after I request a spot?',
+        answer: [
+          'We usually get back within one business day. You will also receive a confirmation email right after submitting the form.',
+          'If we need more detail to prepare a proposal, we will say so in that first reply.'
+        ]
+      },
+      {
+        question: 'How do the add-on packages work with the Base Package?',
+        answer: [
+          'The Base Package is always included — it is the technical and design foundation. Service, Convert, Scale, and Growth extend that foundation with concrete features such as workshop booking, lead tools, multi-location setups, and ongoing content growth.',
+          'You can tick the packages you are curious about in the form; we will walk through fit and sequencing on a call.'
+        ],
+        cta: {
+          label: 'Compare prices and features',
+          href: '#pricing' as ComponentProps<typeof Link>['href']
+        }
+      },
+      {
+        question: 'Can we start with Base only and add more later?',
+        answer: [
+          'Yes. Many dealerships start with the Base Package and roll out add-ons when processes and priorities are clear.',
+          'The architecture is built so extensions integrate cleanly instead of bolting on separate systems later.'
+        ]
+      }
+    ]
   }
 }
 

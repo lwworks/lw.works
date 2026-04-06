@@ -193,6 +193,7 @@ const content: DigitalDealerPageContent = {
     ]
   },
   contact: {
+    locale: 'de',
     id: 'platz-sichern',
     brow: 'Kontakt',
     title: 'Jetzt unverbindlich anfragen',
@@ -242,6 +243,39 @@ const content: DigitalDealerPageContent = {
     submit: 'Anfrage senden',
     urgencyNote: 'Nur noch 5 Plätze verfügbar',
     successMessage: 'Deine Anfrage wurde erfolgreich gesendet. Wir melden uns in Kürze!'
+  },
+  faq: {
+    id: 'digital-dealer-faq',
+    brow: 'FAQ',
+    title: 'Fragen zu Digital Dealer',
+    description: 'Kurze Antworten unter dem Formular. Fehlt etwas, schreibt uns gern über die Felder oben.',
+    items: [
+      {
+        question: 'Wie schnell meldet ihr euch nach meiner Anfrage?',
+        answer: [
+          'In der Regel innerhalb eines Werktags. Direkt nach dem Absenden bekommst du außerdem eine Bestätigung per E-Mail.',
+          'Brauchen wir mehr Details für ein Angebot, sagen wir das in der ersten Antwort.'
+        ]
+      },
+      {
+        question: 'Wie hängen die Zusatzpakete mit dem Basis-Paket zusammen?',
+        answer: [
+          'Das Basis-Paket ist immer dabei — technische und gestalterische Grundlage. Service, Convert, Scale und Growth erweitern sie um konkrete Funktionen wie Werkstattbuchung, Lead-Tools, Mehr-Standort-Setups und laufenden Content-Ausbau.',
+          'Du kannst im Formular ankreuzen, was dich interessiert; auf einem kurzen Call klären wir Passung und Reihenfolge.'
+        ],
+        cta: {
+          label: 'Preise und Leistungen vergleichen',
+          href: '#pricing' as ComponentProps<typeof Link>['href']
+        }
+      },
+      {
+        question: 'Können wir nur mit Basis starten und später nachrüsten?',
+        answer: [
+          'Ja. Viele Autohäuser beginnen mit dem Basis-Paket und ergänzen Add-ons, sobald Abläufe und Prioritäten klar sind.',
+          'Die Architektur ist darauf ausgelegt, dass Erweiterungen sauber integrierbar bleiben — statt später separate Insellösungen nachzuziehen.'
+        ]
+      }
+    ]
   }
 }
 
