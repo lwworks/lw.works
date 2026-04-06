@@ -12,7 +12,9 @@ import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
-  return Object.values(pages).flatMap((slugs) => routing.locales.map((locale) => ({ locale, slug: slugs[locale] })))
+  return Object.entries(pages)
+    .filter(([key]) => key !== 'home' && key !== 'blog')
+    .flatMap(([, slugs]) => routing.locales.map((locale) => ({ locale, slug: slugs[locale] })))
 }
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>): Promise<Metadata> {
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>
   if (!hasLocale(routing.locales, locale)) notFound()
 
   const key = getPageKeyBySlug(slug, locale as Locale)
-  if (!key) notFound()
+  if (!key || key === 'blog' || key === 'home') notFound()
 
   const content = await getPageContent(key, locale as Locale)
   const deSlug = getPageSlug(key, 'de')
@@ -52,7 +54,7 @@ export default async function LandingPage({ params }: PageProps<'/[locale]/[slug
   setRequestLocale(locale)
 
   const key = getPageKeyBySlug(slug, locale as Locale)
-  if (!key) notFound()
+  if (!key || key === 'blog' || key === 'home') notFound()
 
   const content = await getPageContent(key, locale as Locale)
 

@@ -9,6 +9,10 @@ const content: HeaderContent = {
     {
       label: 'Automatisierung',
       href: '/automation'
+    },
+    {
+      label: 'Blog',
+      href: '/blog'
     }
   ],
   cta: {

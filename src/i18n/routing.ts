@@ -24,6 +24,10 @@ export const pages = {
   privacy: {
     de: 'datenschutz',
     en: 'privacy'
+  },
+  blog: {
+    de: 'blog',
+    en: 'blog'
   }
 } as const
 

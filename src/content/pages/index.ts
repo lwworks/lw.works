@@ -6,6 +6,8 @@ import {HomePageContent} from '@/components/pages/home'
 import {PrivacyPageContent} from '@/components/pages/privacy'
 import type {Locale, PageKey} from '@/i18n/routing'
 
+type PageKeyWithContent = Exclude<PageKey, 'blog'>
+
 export type PageContentMap = {
   home: HomePageContent
   'design-engineering': DesignEngineeringPageContent
@@ -16,7 +18,7 @@ export type PageContentMap = {
 }
 
 type ContentLoaders = {
-  [K in PageKey]: Record<Locale, () => Promise<PageContentMap[K]>>
+  [K in PageKeyWithContent]: Record<Locale, () => Promise<PageContentMap[K]>>
 }
 
 const contentLoaders: ContentLoaders = {
@@ -46,4 +48,4 @@ const contentLoaders: ContentLoaders = {
   }
 }
 
-export const getPageContent = <K extends PageKey>(key: K, locale: Locale): Promise<PageContentMap[K]> => contentLoaders[key][locale]()
+export const getPageContent = <K extends PageKeyWithContent>(key: K, locale: Locale): Promise<PageContentMap[K]> => contentLoaders[key][locale]()
