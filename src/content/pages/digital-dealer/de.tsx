@@ -251,28 +251,48 @@ const content: DigitalDealerPageContent = {
     description: 'Kurze Antworten unter dem Formular. Fehlt etwas, schreibt uns gern über die Felder oben.',
     items: [
       {
-        question: 'Wie schnell meldet ihr euch nach meiner Anfrage?',
+        question: 'Was passiert, wenn die 5 Plätze vergeben sind?',
         answer: [
-          'In der Regel innerhalb eines Werktags. Direkt nach dem Absenden bekommst du außerdem eine Bestätigung per E-Mail.',
-          'Brauchen wir mehr Details für ein Angebot, sagen wir das in der ersten Antwort.'
+          'Dann entwickeln wir das Paket auf Basis der Erkenntnisse aus den ersten fünf Projekten weiter. Danach wird Digital Dealer zum regulären Preis angeboten — ab 8.495 € statt 5.995 € für das Basis-Paket.',
+          'Wer den reduzierten Preis sichern will, sollte jetzt zugreifen.'
+        ]
+      },
+      {
+        question: 'Was deckt die monatliche Gebühr von 39 €/Monat ab?',
+        answer: [
+          'Hosting, Sicherheitsupdates, SSL-Zertifikat, Uptime-Monitoring und technischen Support. Alles, was Deine Website braucht, um zuverlässig zu laufen — ohne dass Du Dich um die Technik kümmern musst.'
+        ]
+      },
+      {
+        question: 'Wie lange dauert es von der Anfrage bis zum Launch?',
+        answer: [
+          'In der Regel 6–8 Wochen für das Basis-Paket. Zusatzpakete wie Service oder Convert können parallel gebaut oder nach dem Launch ausgerollt werden.',
+          'Den genauen Zeitplan klären wir im ersten Call — er hängt davon ab, wie schnell Inhalte und Feedback von Deiner Seite kommen.'
+        ]
+      },
+      {
+        question: 'Muss ich alle Inhalte selbst liefern?',
+        answer: [
+          'Nein. Das Basis-Paket enthält SEO-optimierte Texte für Deine Marken, Modelle und Serviceseiten. Wir schreiben die Texte — Du prüfst und gibst frei.',
+          'Fotos und Marken-Assets (Logo, Farben) sind das Einzige, was wir von Dir brauchen.'
         ]
       },
       {
         question: 'Wie hängen die Zusatzpakete mit dem Basis-Paket zusammen?',
         answer: [
           'Das Basis-Paket ist immer dabei — technische und gestalterische Grundlage. Service, Convert, Scale und Growth erweitern sie um konkrete Funktionen wie Werkstattbuchung, Lead-Tools, Mehr-Standort-Setups und laufenden Content-Ausbau.',
-          'Du kannst im Formular ankreuzen, was dich interessiert; auf einem kurzen Call klären wir Passung und Reihenfolge.'
+          'Du kannst mit dem Basis-Paket starten und Pakete später ergänzen. Die Architektur ist darauf ausgelegt, dass Erweiterungen sauber integrierbar bleiben — statt später separate Insellösungen nachzuziehen.'
         ],
         cta: {
           label: 'Preise und Leistungen vergleichen',
-          href: '#pricing' as ComponentProps<typeof Link>['href']
+          href: '#preise' as ComponentProps<typeof Link>['href']
         }
       },
       {
-        question: 'Können wir nur mit Basis starten und später nachrüsten?',
+        question: 'Wie funktioniert die Fahrzeug-Integration?',
         answer: [
-          'Ja. Viele Autohäuser beginnen mit dem Basis-Paket und ergänzen Add-ons, sobald Abläufe und Prioritäten klar sind.',
-          'Die Architektur ist darauf ausgelegt, dass Erweiterungen sauber integrierbar bleiben — statt später separate Insellösungen nachzuziehen.'
+          'Wir verbinden Deine Website mit Deinem bestehenden Fahrzeugverwaltungssystem (z. B. CXO). Neue Inserate, Preisänderungen und verkaufte Fahrzeuge synchronisieren sich automatisch — ohne manuelles Eingreifen.',
+          'Falls Du ein anderes System nutzt, gib es einfach im Formular an. Wir prüfen die Kompatibilität vor dem ersten Call.'
         ]
       }
     ]

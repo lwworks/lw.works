@@ -247,17 +247,37 @@ const content: DigitalDealerPageContent = {
     description: 'Short answers below the form. If something is not covered, send us a message using the fields above.',
     items: [
       {
-        question: 'How soon will you reply after I request a spot?',
+        question: 'What happens when the 5 spots are taken?',
         answer: [
-          'We usually get back within one business day. You will also receive a confirmation email right after submitting the form.',
-          'If we need more detail to prepare a proposal, we will say so in that first reply.'
+          'Then we develop the package further based on what we learn from these first five projects. Afterwards, Digital Dealer will be available at the regular price — starting at 8,495 € instead of 5,995 € for the Base Package.',
+          'If you want to lock in the reduced price, now is the time.'
+        ]
+      },
+      {
+        question: 'What does the monthly fee of 39 €/month cover?',
+        answer: [
+          'Hosting, security updates, SSL certificate, uptime monitoring, and technical support. Everything your website needs to run reliably — without you having to worry about the technical side.'
+        ]
+      },
+      {
+        question: 'How long does it take from request to launch?',
+        answer: [
+          'Typically 6–8 weeks for the Base Package. Add-ons like Service or Convert can be built in parallel or rolled out after launch.',
+          'We clarify the exact timeline on the first call — it depends on how quickly content and feedback come in on your end.'
+        ]
+      },
+      {
+        question: 'Do I need to provide all the content myself?',
+        answer: [
+          'No. The Base Package includes SEO-optimized copy for your brands, models, and service pages. We write the texts — you review and approve.',
+          'Photos and brand assets (logo, colors) are the only things we need from you.'
         ]
       },
       {
         question: 'How do the add-on packages work with the Base Package?',
         answer: [
           'The Base Package is always included — it is the technical and design foundation. Service, Convert, Scale, and Growth extend that foundation with concrete features such as workshop booking, lead tools, multi-location setups, and ongoing content growth.',
-          'You can tick the packages you are curious about in the form; we will walk through fit and sequencing on a call.'
+          'You can start with Base only and add packages later. The architecture is built so extensions integrate cleanly instead of bolting on separate systems.'
         ],
         cta: {
           label: 'Compare prices and features',
@@ -265,10 +285,10 @@ const content: DigitalDealerPageContent = {
         }
       },
       {
-        question: 'Can we start with Base only and add more later?',
+        question: 'How does the vehicle listing integration work?',
         answer: [
-          'Yes. Many dealerships start with the Base Package and roll out add-ons when processes and priorities are clear.',
-          'The architecture is built so extensions integrate cleanly instead of bolting on separate systems later.'
+          'We connect your website to your existing vehicle management system (e.g. CXO). New listings, price changes, and sold vehicles sync automatically — no manual updates needed.',
+          'If you use a different system, just let us know in the form. We will check compatibility before the first call.'
         ]
       }
     ]
