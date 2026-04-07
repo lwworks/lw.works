@@ -1,7 +1,7 @@
 import {CalendarBookingSectionContent} from '@/components/sections/contact/calendar-booking'
 import {google} from 'googleapis'
 
-const BUFFER_MINUTES = 30
+const BUFFER_MINUTES = 15
 
 function getAuthClient(subject: string) {
   return new google.auth.JWT({

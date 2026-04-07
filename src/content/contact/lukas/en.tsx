@@ -43,7 +43,7 @@ const content: TeamMemberPageContent = {
       slotDurationMinutes: 30,
       advanceDays: 14,
       availableDays: [1, 2, 4, 5],
-      availableHours: { start: 9, end: 17 }
+      availableHours: { start: 13, end: 17 }
     }
   }
 }
