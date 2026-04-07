@@ -23,7 +23,11 @@ export const routing = defineRouting({
   localePrefix: 'always',
   pathnames: {
     '/': '/',
-    ...pathnames
+    ...pathnames,
+    '/kontakt/[member]': {
+      de: '/kontakt/[member]',
+      en: '/contact/[member]'
+    }
   }
 })
 
