@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import matter from 'gray-matter'
-import type { Locale } from '@/i18n/routing'
+import type { Locale } from '@/i18n/locale'
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content/blog')
 

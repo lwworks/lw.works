@@ -1,5 +1,5 @@
 import {HomePageContent} from '@/components/pages/home'
-import type {Locale} from '@/i18n/routing'
+import type {Locale} from '@/i18n/locale'
 
 const loaders: Record<Locale, () => Promise<HomePageContent>> = {
   de: () => import('./de').then((m) => m.default),

@@ -1,5 +1,5 @@
 import { Heading } from '@/components/atoms/heading'
-import type { BlogPost } from '@/lib/blog'
+import type { BlogPost } from '@/content/blog/posts'
 import type { Locale } from '@/i18n/routing'
 import { NextIntlLink } from '@/i18n/navigation'
 

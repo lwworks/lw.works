@@ -1,5 +1,5 @@
 import {ContactPageContent} from '@/components/pages/contact'
-import type {Locale} from '@/i18n/routing'
+import type {Locale} from '@/i18n/locale'
 
 const loaders: Record<Locale, () => Promise<ContactPageContent>> = {
   de: () => import('./de').then((m) => m.default),

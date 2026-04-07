@@ -1,5 +1,11 @@
-import type { Locale } from '@/i18n/routing'
+import type { Locale } from '@/i18n/locale'
 import type { Metadata } from 'next'
+
+// --- Route definition ---
+
+export const slugs = { de: 'blog', en: 'blog' } as const
+
+// --- Listing page content ---
 
 type BlogListingContent = {
   metadata: Metadata
@@ -8,7 +14,7 @@ type BlogListingContent = {
   description: string
 }
 
-const content: Record<Locale, BlogListingContent> = {
+const listingContent: Record<Locale, BlogListingContent> = {
   de: {
     metadata: {
       title: 'Blog — LW Works GmbH',
@@ -30,5 +36,5 @@ const content: Record<Locale, BlogListingContent> = {
 }
 
 export function getBlogListingContent(locale: Locale) {
-  return content[locale]
+  return listingContent[locale]
 }

@@ -1,68 +1,32 @@
-import {defineRouting} from 'next-intl/routing'
+import { defineRouting } from 'next-intl/routing'
+import { type Locale, locales } from './locale'
+import { slugs as blogSlugs } from '@/content/blog'
+import { pageSlugs } from '@/content/pages/slugs'
 
-export const pages = {
-  home: {
-    de: '',
-    en: ''
-  },
-  'design-engineering': {
-    de: 'design-engineering-studio',
-    en: 'design-engineering-studio'
-  },
-  automation: {
-    de: 'automatisierung',
-    en: 'automation'
-  },
-  'digital-dealer': {
-    de: 'digital-dealer-autohaus-website-paket',
-    en: 'digital-dealer-car-dealership-websites'
-  },
-  contact: {
-    de: 'kontakt',
-    en: 'contact'
-  },
-  privacy: {
-    de: 'datenschutz',
-    en: 'privacy'
-  },
-  blog: {
-    de: 'blog',
-    en: 'blog'
-  }
-} as const
+export { type Locale, locales } from './locale'
 
-export type PageKey = keyof typeof pages
+const allSlugs: Record<string, Record<Locale, string>> = {
+  home: { de: '', en: '' },
+  ...pageSlugs,
+  blog: blogSlugs
+}
 
-const pagePathnames = Object.fromEntries(
-  Object.entries(pages)
+const pathnames = Object.fromEntries(
+  Object.entries(allSlugs)
     .filter(([key]) => key !== 'home')
-    .map(([key, slugs]) => [`/${key}`, {de: `/${slugs.de}`, en: `/${slugs.en}`}])
+    .map(([key, slugs]) => [`/${key}`, { de: `/${slugs.de}`, en: `/${slugs.en}` }])
 )
 
 export const routing = defineRouting({
-  locales: ['de', 'en'],
-  defaultLocale: 'de',
+  locales,
+  defaultLocale: 'de' satisfies Locale,
   localePrefix: 'always',
   pathnames: {
     '/': '/',
-    ...pagePathnames
+    ...pathnames
   }
 })
 
-export type Locale = (typeof routing.locales)[number]
 export type Pathnames = keyof typeof routing.pathnames
 
 export const baseUrl = 'https://lw.works'
-
-export function getPageKeyBySlug(slug: string, locale: Locale): PageKey | null {
-  for (const [key, slugs] of Object.entries(pages)) {
-    if (slugs[locale] === slug) {
-      return key as PageKey
-    }
-  }
-  return null
-}
-
-export function getPageSlug(key: PageKey, locale: Locale): string {
-  return pages[key][locale]
-}

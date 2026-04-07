@@ -296,6 +296,23 @@ const content: DigitalDealerPageContent = {
         ]
       }
     ]
+  },
+  contactPerson: {
+    id: 'ansprechpartner',
+    brow: 'Dein Ansprechpartner',
+    name: 'Lukas Brunkhorst',
+    role: 'Geschäftsführer & Design Engineer',
+    paragraphs: [
+      'Du hast weitere Fragen zu Digital Dealer oder möchtest wissen, ob das Paket zu Deinem Autohaus passt? Buche Dir einen unverbindlichen Termin mit mir — ich berate Dich persönlich.'
+    ],
+    image: {
+      src: '/images/lukas-brunkhorst.jpg',
+      alt: 'Lukas Brunkhorst'
+    },
+    cta: {
+      label: 'Termin buchen',
+      href: 'https://cal.com/lukaswiesehan'
+    }
   }
 }
 

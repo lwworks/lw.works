@@ -1,5 +1,5 @@
 import type {DigitalDealerPageContent} from '@/components/pages/digital-dealer'
-import type {Locale} from '@/i18n/routing'
+import type {Locale} from '@/i18n/locale'
 
 const loaders: Record<Locale, () => Promise<DigitalDealerPageContent>> = {
   de: () => import('./de').then((m) => m.default),

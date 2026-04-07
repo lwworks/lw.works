@@ -1,20 +1,15 @@
-import { AutomationPage, AutomationPageContent } from '@/components/pages/automation'
-import { ContactPage, ContactPageContent } from '@/components/pages/contact'
-import { DesignEngineeringPage, DesignEngineeringPageContent } from '@/components/pages/design-engineering'
-import { DigitalDealerPage, type DigitalDealerPageContent } from '@/components/pages/digital-dealer'
-import { PrivacyPage, PrivacyPageContent } from '@/components/pages/privacy'
-import { getPageContent } from '@/content/pages'
+import { pages, getPageKeyBySlug, getPageSlug, pageSlugs } from '@/content/pages'
 import type { Locale } from '@/i18n/routing'
-import { baseUrl, getPageKeyBySlug, getPageSlug, pages, routing } from '@/i18n/routing'
+import { baseUrl, routing } from '@/i18n/routing'
 import type { Metadata } from 'next'
 import { hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
-  return Object.entries(pages)
-    .filter(([key]) => key !== 'home' && key !== 'blog')
-    .flatMap(([, slugs]) => routing.locales.map((locale) => ({ locale, slug: slugs[locale] })))
+  return Object.values(pageSlugs).flatMap((slugs) =>
+    routing.locales.map((locale) => ({ locale, slug: slugs[locale] }))
+  )
 }
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>): Promise<Metadata> {
@@ -22,11 +17,10 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>
   if (!hasLocale(routing.locales, locale)) notFound()
 
   const key = getPageKeyBySlug(slug, locale as Locale)
-  if (!key || key === 'blog' || key === 'home') notFound()
+  if (!key) notFound()
 
-  const content = await getPageContent(key, locale as Locale)
-  const deSlug = getPageSlug(key, 'de')
-  const enSlug = getPageSlug(key, 'en')
+  const page = pages[key]
+  const content = await page.loadContent(locale as Locale)
 
   return {
     title: content.metadata.title,
@@ -34,17 +28,17 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>
     alternates: {
       canonical: `${baseUrl}/${locale}/${slug}`,
       languages: {
-        de: `${baseUrl}/de/${deSlug}`,
-        en: `${baseUrl}/en/${enSlug}`,
-        'x-default': `${baseUrl}/de/${deSlug}`,
-      },
+        de: `${baseUrl}/de/${getPageSlug(key, 'de')}`,
+        en: `${baseUrl}/en/${getPageSlug(key, 'en')}`,
+        'x-default': `${baseUrl}/de/${getPageSlug(key, 'de')}`
+      }
     },
     openGraph: {
       title: content.metadata.title!,
       description: content.metadata.description!,
       url: `${baseUrl}/${locale}/${slug}`,
-      locale: locale === 'de' ? 'de_DE' : 'en_US',
-    },
+      locale: locale === 'de' ? 'de_DE' : 'en_US'
+    }
   }
 }
 
@@ -54,22 +48,7 @@ export default async function LandingPage({ params }: PageProps<'/[locale]/[slug
   setRequestLocale(locale)
 
   const key = getPageKeyBySlug(slug, locale as Locale)
-  if (!key || key === 'blog' || key === 'home') notFound()
+  if (!key) notFound()
 
-  const content = await getPageContent(key, locale as Locale)
-
-  switch (key) {
-    case 'design-engineering':
-      return <DesignEngineeringPage content={content as DesignEngineeringPageContent} />
-    case 'automation':
-      return <AutomationPage content={content as AutomationPageContent} />
-    case 'digital-dealer':
-      return <DigitalDealerPage content={content as DigitalDealerPageContent} />
-    case 'contact':
-      return <ContactPage content={content as ContactPageContent} />
-    case 'privacy':
-      return <PrivacyPage content={content as PrivacyPageContent} />
-    default:
-      notFound()
-  }
+  return pages[key].render(locale as Locale)
 }

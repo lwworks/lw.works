@@ -292,6 +292,23 @@ const content: DigitalDealerPageContent = {
         ]
       }
     ]
+  },
+  contactPerson: {
+    id: 'contact-person',
+    brow: 'Your Contact',
+    name: 'Lukas Brunkhorst',
+    role: 'CEO & Design Engineer',
+    paragraphs: [
+      'Have more questions about Digital Dealer or want to know if the package is right for your dealership? Book a free consultation with me — I\'ll advise you personally.'
+    ],
+    image: {
+      src: '/images/lukas-brunkhorst.jpg',
+      alt: 'Lukas Brunkhorst'
+    },
+    cta: {
+      label: 'Book a call',
+      href: 'https://cal.com/lukaswiesehan'
+    }
   }
 }
 

@@ -35,13 +35,25 @@ src/
 │   │       └── contact.tsx
 │   ├── pages/              # Page components that compose sections
 │   │   └── digital-dealer.tsx
+│   ├── blog/               # Blog-specific components
+│   │   └── blog-card.tsx
+│   ├── mdx/                # MDX component map for blog article rendering
+│   │   └── index.tsx
 │   └── atoms/              # Small reusable elements (Brow, Heading, CTA, etc.)
 ├── content/
-│   └── pages/
-│       └── digital-dealer/
-│           ├── index.ts     # Content loader (async, per-locale)
-│           ├── en.tsx       # English content
-│           └── de.tsx       # German content
+│   ├── pages/
+│   │   ├── slugs.ts         # Page slug definitions (single source of truth)
+│   │   ├── index.ts         # Page registry (slugs + components + loaders)
+│   │   └── digital-dealer/
+│   │       ├── index.ts     # Content loader (async, per-locale)
+│   │       ├── en.tsx       # English content
+│   │       └── de.tsx       # German content
+│   └── blog/
+│       ├── index.ts         # Blog slug + listing content (edge-safe)
+│       ├── posts.ts         # Blog post utilities (fs-based, server-only)
+│       └── [article-slug]/
+│           ├── de.mdx       # German article (MDX with frontmatter)
+│           └── en.mdx       # English article
 └── app/[locale]/           # Route handlers
 ```
 
@@ -111,20 +123,16 @@ Page components live in `src/components/pages/`. They:
 
 Uses **next-intl** with the `[locale]` App Router pattern. Supported locales: `de` (default), `en`. Locale prefix is `always` (URLs always start with `/de` or `/en`).
 
-## Routing & Slugs (`src/i18n/routing.ts`)
+## Routing & Slugs
 
-Page slugs are locale-aware — each page key maps to a different slug per locale:
+Slugs are defined in each content type's own folder — **not** in `routing.ts`:
 
-```ts
-pages = {
-  home: { de: '', en: '' },
-  'digital-dealer': { de: 'digital-dealer-autohaus-website-paket', en: 'digital-dealer-car-dealership-websites' },
-  contact: { de: 'kontakt', en: 'contact' },
-  // ...
-}
-```
+- **Pages:** `src/content/pages/slugs.ts` defines `pageSlugs` (locale-aware slug map per page key)
+- **Blog:** `src/content/blog/index.ts` defines `slugs` for the blog listing route
 
-Helpers: `getPageKeyBySlug(slug, locale)` and `getPageSlug(key, locale)`.
+`src/i18n/routing.ts` imports these to build the next-intl pathname config automatically. The `Locale` type lives in `src/i18n/locale.ts` to avoid circular imports (content folders import from `locale.ts`, not `routing.ts`).
+
+Helpers: `getPageKeyBySlug(slug, locale)` and `getPageSlug(key, locale)` (exported from `src/content/pages/slugs.ts` and re-exported from `src/content/pages/index.ts`).
 
 ## Navigation (`src/i18n/navigation.ts`, `src/i18n/link.tsx`)
 
@@ -135,18 +143,19 @@ Helpers: `getPageKeyBySlug(slug, locale)` and `getPageSlug(key, locale)`.
 ## Route Handlers (`src/app/[locale]/`)
 
 - `layout.tsx`: Calls `setRequestLocale(locale)`, wraps children in `NextIntlClientProvider`.
-- `[slug]/page.tsx`: Uses `getPageKeyBySlug()` to resolve the page key, loads content via `getPageContent(key, locale)`, renders the matching page component.
-- Both generate static params for all locale/slug combinations.
+- `[slug]/page.tsx`: Uses `getPageKeyBySlug()` to resolve the page key, then `pages[key].render(locale)` to load content and render the component. No switch statement — the page registry handles the mapping.
+- `blog/page.tsx`: Blog listing page, loads posts via `getBlogPosts()`.
+- `blog/[slug]/page.tsx`: Blog article page, loads MDX via `getBlogPost()` and renders with `MDXRemote`.
+- All generate static params for locale/slug combinations.
 
 ## Content Loading
 
 Content is **not** loaded via next-intl's message system. Instead, each page has its own typed content loader in `src/content/pages/<page>/index.ts` that dynamically imports the correct locale file. Global content (header, footer) follows the same pattern in `src/content/header/` and `src/content/footer/`.
 
-There is also a master loader in `src/content/pages/index.ts`:
+The page registry in `src/content/pages/index.ts` bundles slugs, components, and loaders together via `definePage()`. The `[slug]/page.tsx` route handler uses `pages[key].render(locale)` — no switch statement needed.
 
-```ts
-export const getPageContent = <K extends PageKey>(key: K, locale: Locale): Promise<PageContentMap[K]> =>
-  contentLoaders[key][locale]()
-```
+When adding a new page, register it in two places:
+1. `src/content/pages/slugs.ts` — add the slug mapping
+2. `src/content/pages/index.ts` — add the `definePage()` entry with component and loader
 
-When adding a new page, register it in `src/i18n/routing.ts` (slugs), `src/content/pages/index.ts` (master loader), and `src/app/[locale]/[slug]/page.tsx` (switch case).
+When adding a new blog post, just create `src/content/blog/[slug]/de.mdx` and `en.mdx` — no registration needed.

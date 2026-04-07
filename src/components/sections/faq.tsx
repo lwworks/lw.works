@@ -37,7 +37,7 @@ export const FaqSection = ({ content }: { content: FaqSectionContent }) => {
       <Accordion type="multiple" className={cn("w-full mt-4")}>
         {content.items.map((item, index) => (
           <AccordionItem key={`faq-${index}`} value={`faq-${index}`} className="border-none p-0 m-0 mt-4">
-            <AccordionTrigger className="text-base font-medium text-black dark:text-white hover:no-underline p-0">
+            <AccordionTrigger className="text-base font-medium text-black dark:text-white hover:no-underline p-0 cursor-pointer">
               {item.question}
             </AccordionTrigger>
             <AccordionContent className="text-base mt-4">

@@ -1,5 +1,5 @@
 import {AutomationPageContent} from '@/components/pages/automation'
-import type {Locale} from '@/i18n/routing'
+import type {Locale} from '@/i18n/locale'
 
 const loaders: Record<Locale, () => Promise<AutomationPageContent>> = {
   de: () => import('./de').then((m) => m.default),

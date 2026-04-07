@@ -1,5 +1,5 @@
 import type {HeaderContent} from '@/components/sections/header'
-import type {Locale} from '@/i18n/routing'
+import type {Locale} from '@/i18n/locale'
 
 const loaders: Record<Locale, () => Promise<HeaderContent>> = {
   de: () => import('./de').then((m) => m.default),
