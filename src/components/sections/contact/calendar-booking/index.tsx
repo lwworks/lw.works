@@ -32,6 +32,7 @@ export type CalendarBookingSectionContent = {
   privacy: ReactNode
   submit: string
   successMessage: string
+  noSlotsMessage: string
   errorMessages: {
     default: string
     botDetected: string
@@ -90,6 +91,7 @@ export const CalendarBookingSection = ({ content }: { content: CalendarBookingSe
             locale={content.locale}
             teamMemberSlug={content.booking.teamMemberSlug}
             advanceDays={content.booking.advanceDays}
+            noSlotsMessage={content.noSlotsMessage}
           />
         </div>
       </BookingForm>

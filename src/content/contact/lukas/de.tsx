@@ -32,6 +32,7 @@ const content: TeamMemberPageContent = {
     privacy: <>Ich habe die <Link href={'/privacy' as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-800 dark:hover:text-indigo-500">Datenschutzerklärung</Link> gelesen und bin mit der Verarbeitung meiner Daten einverstanden.</>,
     submit: 'Termin buchen',
     successMessage: 'Dein Termin wurde gebucht! Du erhältst eine Bestätigung per E-Mail.',
+    noSlotsMessage: 'An diesem Tag sind keine Termine verfügbar.',
     errorMessages: {
       default: 'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
       botDetected: 'Anfrage wurde als automatisiert erkannt.',

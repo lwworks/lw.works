@@ -81,45 +81,58 @@ function getReferenceDateForDay(date: string, slots: AvailableSlot[], timezone: 
   return new Date(`${date}T12:00:00`)
 }
 
-function regroupSlotsByTimezone(days: DaySlots[], timezone: string, intlTag: string): DaySlots[] {
+function buildDateRangeInTimezone(timezone: string, advanceDays: number): string[] {
+  const now = new Date()
+  const dates: string[] = []
+  for (let i = 0; i <= advanceDays; i++) {
+    const d = new Date(now)
+    d.setDate(d.getDate() + i)
+    const key = getDateInTimezone(d, timezone)
+    if (!dates.includes(key)) dates.push(key)
+  }
+  return dates
+}
+
+function regroupSlotsByTimezone(days: DaySlots[], timezone: string, intlTag: string, advanceDays: number): DaySlots[] {
   const grouped = new Map<string, AvailableSlot[]>()
-  const orderedKeys: string[] = []
 
   const dateFormatter = new Intl.DateTimeFormat(intlTag, { day: 'numeric', month: 'long', timeZone: timezone })
   const weekdayFormatter = new Intl.DateTimeFormat(intlTag, { weekday: 'long', timeZone: timezone })
 
   for (const day of days) {
-    const representativeDate = getReferenceDateForDay(day.date, day.slots, timezone)
-    const dateKey = getDateInTimezone(representativeDate, timezone)
-    if (!grouped.has(dateKey)) {
-      grouped.set(dateKey, [])
-      orderedKeys.push(dateKey)
+    for (const slot of day.slots) {
+      const dateKey = getDateInTimezone(new Date(slot.start), timezone)
+      const current = grouped.get(dateKey)
+      if (current) {
+        current.push(slot)
+      } else {
+        grouped.set(dateKey, [slot])
+      }
     }
-    const current = grouped.get(dateKey)
-    if (!current) continue
-    current.push(...day.slots)
   }
 
-  return orderedKeys
-    .map((date) => {
-      const slots = grouped.get(date) ?? []
-      const refDate = getReferenceDateForDay(date, slots, timezone)
-      return {
-        date,
-        displayDate: dateFormatter.format(refDate),
-        displayWeekday: weekdayFormatter.format(refDate),
-        slots: slots.sort((a, b) => a.start.localeCompare(b.start))
-      }
-    })
+  const allDates = buildDateRangeInTimezone(timezone, advanceDays)
+
+  return allDates.map((date) => {
+    const slots = grouped.get(date) ?? []
+    const refDate = getReferenceDateForDay(date, slots, timezone)
+    return {
+      date,
+      displayDate: dateFormatter.format(refDate),
+      displayWeekday: weekdayFormatter.format(refDate),
+      slots: slots.sort((a, b) => a.start.localeCompare(b.start))
+    }
+  })
 }
 
 export type CalendarTimelineProps = {
   locale: Locale
   teamMemberSlug: string
   advanceDays: number
+  noSlotsMessage: string
 }
 
-export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays }: CalendarTimelineProps) => {
+export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays, noSlotsMessage }: CalendarTimelineProps) => {
   const [rawDays, setRawDays] = useState<DaySlots[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
@@ -131,8 +144,8 @@ export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays }: Calend
   const intlTag = useMemo(() => intlTagForRouteLocale(locale), [locale])
 
   const days = useMemo(
-    () => regroupSlotsByTimezone(rawDays, timezone, intlTag),
-    [rawDays, timezone, intlTag]
+    () => regroupSlotsByTimezone(rawDays, timezone, intlTag, advanceDays),
+    [rawDays, timezone, intlTag, advanceDays]
   )
   const firstAvailableDayIndex = useMemo(() => {
     const index = days.findIndex((day) => day.slots.length > 0)
@@ -265,6 +278,13 @@ export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays }: Calend
             </Select>
           </div>
 
+          {currentDay && currentDay.slots.length === 0 ? (
+            <div className="flex flex-1 items-center justify-center px-6">
+              <p className="text-sm text-muted-foreground text-center">
+                {noSlotsMessage}
+              </p>
+            </div>
+          ) : (
           <div className="relative flex-1 min-h-0">
             <div ref={timelineRef} className="absolute inset-0 overflow-y-auto">
               {Array.from({ length: 25 }).map((_, i) => {
@@ -315,17 +335,11 @@ export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays }: Calend
                   </label>
                 )
               })}
-              {currentDay && currentDay.slots.length === 0 && (
-                <div className="absolute inset-0 flex items-center justify-center px-6">
-                  <p className="text-sm text-muted-foreground text-center">
-                    {locale === 'de' ? 'Keine Slots verfügbar' : 'No slots available'}
-                  </p>
-                </div>
-              )}
             </div>
             <div className="absolute inset-x-0 top-0 h-4 bg-linear-to-b from-white dark:from-neutral-950" />
             <div className="absolute inset-x-0 bottom-0 h-4 bg-linear-to-t from-white dark:from-neutral-950" />
           </div>
+          )}
         </>
       )}
     </div>

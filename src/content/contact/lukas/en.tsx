@@ -32,6 +32,7 @@ const content: TeamMemberPageContent = {
     privacy: <>I have read the <Link href={'/privacy' as ComponentProps<typeof Link>['href']} target="_blank" className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-800 dark:hover:text-indigo-500">Privacy Policy</Link> and agree to the processing of my data.</>,
     submit: 'Book Call',
     successMessage: 'Your call has been booked! You\'ll receive a confirmation email shortly.',
+    noSlotsMessage: 'No slots available on this day.',
     errorMessages: {
       default: 'An error occurred. Please try again.',
       botDetected: 'Request detected as automated.',
