@@ -2,31 +2,51 @@ import type { TeamMemberPageContent } from '@/components/pages/team-member'
 import type { Locale } from '@/i18n/locale'
 
 export const teamMemberSlugs = {
-  lukas: 'lukas'
+  lukas: {
+    de: 'lukas',
+    en: 'lukas'
+  }
 } as const
 
-export type TeamMemberSlug = keyof typeof teamMemberSlugs
+export type TeamMemberKey = keyof typeof teamMemberSlugs
+export type TeamMemberSlug = TeamMemberKey
 
-const loaders: Record<TeamMemberSlug, Record<Locale, () => Promise<TeamMemberPageContent>>> = {
+const loaders: Record<TeamMemberKey, Record<Locale, () => Promise<TeamMemberPageContent>>> = {
   lukas: {
     de: () => import('./lukas/de').then((m) => m.default),
     en: () => import('./lukas/en').then((m) => m.default)
   }
 }
 
-export function getAllTeamMemberSlugs(): string[] {
-  return Object.values(teamMemberSlugs)
+export function getAllTeamMemberSlugs(locale?: Locale): string[] {
+  if (locale) {
+    return Object.values(teamMemberSlugs).map((slugs) => slugs[locale])
+  }
+  return [...new Set(Object.values(teamMemberSlugs).flatMap((slugs) => Object.values(slugs)))]
 }
 
-export function getTeamMemberKey(slug: string): TeamMemberSlug | null {
-  for (const [key, s] of Object.entries(teamMemberSlugs)) {
-    if (s === slug) return key as TeamMemberSlug
+export function getTeamMemberSlug(memberKey: TeamMemberKey, locale: Locale): string {
+  return teamMemberSlugs[memberKey][locale]
+}
+
+export function getTeamMemberKeyBySlug(slug: string, locale: Locale): TeamMemberKey | null {
+  for (const [key, localizedSlugs] of Object.entries(teamMemberSlugs)) {
+    if (localizedSlugs[locale] === slug) return key as TeamMemberKey
+  }
+  return null
+}
+
+export function getTeamMemberKey(slug: string): TeamMemberKey | null {
+  const locales = Object.keys(Object.values(teamMemberSlugs)[0]) as Locale[]
+  for (const locale of locales) {
+    const key = getTeamMemberKeyBySlug(slug, locale)
+    if (key) return key
   }
   return null
 }
 
 export function loadTeamMemberContent(slug: string, locale: Locale): Promise<TeamMemberPageContent> | null {
-  const key = getTeamMemberKey(slug)
+  const key = getTeamMemberKeyBySlug(slug, locale)
   if (!key) return null
   return loaders[key][locale]()
 }

@@ -5,12 +5,14 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import type { Locale } from '@/i18n/locale'
 import { Send } from '@mynaui/icons-react'
 import { ReactNode } from 'react'
 import { BookingForm } from './booking-form'
 import { CalendarTimeline } from './calendar-timeline'
 
 export type CalendarBookingSectionContent = {
+  locale: Locale
   title: string
   description: string
   fields: {
@@ -85,6 +87,7 @@ export const CalendarBookingSection = ({ content }: { content: CalendarBookingSe
             </div>
           </div>
           <CalendarTimeline
+            locale={content.locale}
             teamMemberSlug={content.booking.teamMemberSlug}
             advanceDays={content.booking.advanceDays}
           />

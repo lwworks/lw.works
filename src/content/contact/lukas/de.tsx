@@ -21,6 +21,7 @@ const content: TeamMemberPageContent = {
     ]
   },
   calendar: {
+    locale: 'de',
     title: 'Termin buchen',
     description: 'Dauer: 30 Min. · Europe/Berlin',
     fields: {

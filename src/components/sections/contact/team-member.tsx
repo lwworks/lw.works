@@ -1,7 +1,13 @@
 import { Brow } from '@/components/atoms/brow'
+import { CTA } from '@/components/atoms/cta'
 import { Heading } from '@/components/atoms/heading'
+import { NextAvailability } from '@/components/atoms/next-availability'
 import { Section } from '@/components/sections'
+import { Button } from '@/components/ui/button'
+import { Link } from '@/i18n/link'
+import { type Locale } from '@/i18n/locale'
 import Image from 'next/image'
+import { ComponentProps } from 'react'
 
 export type TeamMemberSectionContent = {
   id: string
@@ -12,15 +18,20 @@ export type TeamMemberSectionContent = {
   paragraphs: string[]
   cta?: {
     label: string
-    href: string
+    href: ComponentProps<typeof Link>['href']
+    nextAvailability?: {
+      memberSlug: string
+      locale: Locale
+    }
   }
 }
 
 export const TeamMemberSection = ({ content }: { content: TeamMemberSectionContent }) => {
   return (
     <Section id={content.id}>
-      <div className="flex flex-col sm:flex-row items-start gap-8 sm:gap-12">
-        <div className="relative shrink-0 size-24 overflow-hidden rounded-full border-2 border-indigo-500">
+      {content.brow && (<Brow className="mb-4" color="indigo">{content.brow}</Brow>)}
+      <div className="flex w-full items-center gap-4 mb-8">
+        <div className="relative shrink-0 size-18 overflow-hidden rounded-full border-2 border-indigo-500">
           <Image
             src={content.image.src}
             alt={content.image.alt}
@@ -29,15 +40,27 @@ export const TeamMemberSection = ({ content }: { content: TeamMemberSectionConte
             className="object-cover object-center"
           />
         </div>
-        <div>
-          {content.brow && (<Brow className="mb-4" color="indigo">{content.brow}</Brow>)}
+        <div className="">
           <Heading as="h2">{content.name}</Heading>
-          <p className="mt-1 text-muted-foreground">{content.role}</p>
-          {content.paragraphs.map((paragraph) => (
-            <p key={paragraph} className="mt-4">{paragraph}</p>
-          ))}
+          <p className="mt-0.5">{content.role}</p>
         </div>
       </div>
+      {content.paragraphs.map((paragraph) => (
+        <p key={paragraph} className="mt-4">{paragraph}</p>
+      ))}
+      {content.cta && (
+        <CTA>
+          <Button asChild>
+            <Link href={content.cta.href}>{content.cta.label}</Link>
+          </Button>
+          {content.cta.nextAvailability && (
+            <NextAvailability
+              memberSlug={content.cta.nextAvailability.memberSlug}
+              locale={content.cta.nextAvailability.locale}
+            />
+          )}
+        </CTA>
+      )}
     </Section>
   )
 }

@@ -21,6 +21,7 @@ const content: TeamMemberPageContent = {
     ]
   },
   calendar: {
+    locale: 'en',
     title: 'Book a Call',
     description: 'Duration: 30 min · Europe/Berlin',
     fields: {

@@ -5,23 +5,20 @@ import {
   getTeamMemberSlug,
   loadTeamMemberContent
 } from '@/content/contact'
-import type { Locale } from '@/i18n/routing'
-import { routing } from '@/i18n/routing'
+import { type Locale, routing } from '@/i18n/routing'
 import { getTeamMemberUrl } from '@/lib/routes/contact'
 import type { Metadata } from 'next'
-import { hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    getAllTeamMemberSlugs(locale as Locale).map((member) => ({ locale, member }))
-  )
+  return getAllTeamMemberSlugs('en').map((member) => ({ locale: 'en', member }))
 }
 
-export async function generateMetadata({ params }: PageProps<'/[locale]/kontakt/[member]'>): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<'/[locale]/contact/[member]'>): Promise<Metadata> {
   const { locale, member: memberSlug } = await params
-  if (!hasLocale(routing.locales, locale)) notFound()
+  if (locale !== 'en') notFound()
+
   const typedLocale = locale as Locale
   const memberKey = getTeamMemberKeyBySlug(memberSlug, typedLocale)
   if (!memberKey) notFound()
@@ -48,17 +45,19 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/kontakt/
       title: content.metadata.title!,
       description: content.metadata.description!,
       url: getTeamMemberUrl(canonicalSlug, typedLocale),
-      locale: locale === 'de' ? 'de_DE' : 'en_US'
+      locale: 'en_US'
     }
   }
 }
 
-export default async function TeamMemberBookingPage({ params }: PageProps<'/[locale]/kontakt/[member]'>) {
+export default async function TeamMemberBookingPageEn({ params }: PageProps<'/[locale]/contact/[member]'>) {
   const { locale, member: memberSlug } = await params
-  if (!hasLocale(routing.locales, locale)) notFound()
+  if (locale !== 'en') notFound()
+  if (!routing.locales.includes(locale)) notFound()
+
   setRequestLocale(locale)
 
-  const content = await loadTeamMemberContent(memberSlug, locale as Locale)
+  const content = await loadTeamMemberContent(memberSlug, 'en')
   if (!content) notFound()
 
   return <TeamMemberPage content={content} />

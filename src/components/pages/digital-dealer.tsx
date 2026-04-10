@@ -7,8 +7,8 @@ import { Metadata } from "next"
 import { CalloutSection, CalloutSectionContent } from "../sections/callout"
 import { DigitalDealerContactSection, DigitalDealerContactSectionContent } from "../sections/digital-dealer/contact"
 import { DigitalDealerPricingSection, DigitalDealerPricingSectionContent } from "../sections/digital-dealer/pricing"
-import { DigitalDealerContactPersonSection, DigitalDealerContactPersonSectionContent } from "../sections/digital-dealer/contact-person"
 import { FaqSection, FaqSectionContent } from "../sections/faq"
+import { TeamMemberSection, TeamMemberSectionContent } from "../sections/contact/team-member"
 
 export type DigitalDealerPageContent = {
   metadata: Metadata
@@ -29,7 +29,7 @@ export type DigitalDealerPageContent = {
   pricing: DigitalDealerPricingSectionContent
   contact: DigitalDealerContactSectionContent
   faq: FaqSectionContent
-  contactPerson: DigitalDealerContactPersonSectionContent
+  contactPerson: TeamMemberSectionContent
 }
 
 export const DigitalDealerPage = ({ content }: { content: DigitalDealerPageContent }) => {
@@ -53,7 +53,7 @@ export const DigitalDealerPage = ({ content }: { content: DigitalDealerPageConte
       <DigitalDealerPricingSection content={content.pricing} />
       <DigitalDealerContactSection content={content.contact} />
       <FaqSection content={content.faq} />
-      <DigitalDealerContactPersonSection content={content.contactPerson} />
+      <TeamMemberSection content={content.contactPerson} />
     </main>
   )
 }

@@ -18,6 +18,12 @@ export async function GET(request: Request) {
   }
 
   const slots = await getAvailableSlots(from, to, content.calendar.booking)
+  const minimumLeadTime = new Date(Date.now() + 24 * 60 * 60 * 1000)
+  const filteredSlots = slots
+    .map((day) => ({
+      ...day,
+      slots: day.slots.filter((slot) => new Date(slot.start) >= minimumLeadTime)
+    }))
 
-  return NextResponse.json(slots)
+  return NextResponse.json(filteredSlots)
 }

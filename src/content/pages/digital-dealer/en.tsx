@@ -1,5 +1,6 @@
 import { DigitalDealerPageContent } from '@/components/pages/digital-dealer'
 import { Link } from '@/i18n/link'
+import { getTeamMemberHref } from '@/lib/routes/contact'
 import { ComponentProps } from 'react'
 
 const content: DigitalDealerPageContent = {
@@ -307,7 +308,11 @@ const content: DigitalDealerPageContent = {
     },
     cta: {
       label: 'Book a call',
-      href: 'https://cal.com/lukaswiesehan'
+      href: getTeamMemberHref('lukas'),
+      nextAvailability: {
+        memberSlug: 'lukas',
+        locale: 'en'
+      }
     }
   }
 }
