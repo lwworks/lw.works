@@ -7,11 +7,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { usePathname, useRouter } from '@/i18n/navigation'
+import { Link, usePathname } from '@/i18n/navigation'
 import { locales } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Check, Globe } from '@mynaui/icons-react'
 import { useLocale } from 'next-intl'
+import { ComponentProps } from 'react'
 
 export type LangSwitcherContent = {
   de: string
@@ -23,10 +24,10 @@ type ParamValue = string | string[]
 type RouteParams<Path extends string> = Path extends `${string}[[...${infer Param}]]${infer Rest}`
   ? { [K in Param]?: string[] } & RouteParams<Rest>
   : Path extends `${string}[...${infer Param}]${infer Rest}`
-    ? { [K in Param]: string[] } & RouteParams<Rest>
-    : Path extends `${string}[${infer Param}]${infer Rest}`
-      ? { [K in Param]: string } & RouteParams<Rest>
-      : {}
+  ? { [K in Param]: string[] } & RouteParams<Rest>
+  : Path extends `${string}[${infer Param}]${infer Rest}`
+  ? { [K in Param]: string } & RouteParams<Rest>
+  : {}
 
 const segmentPattern = /^\[\[?\.\.\.(.+)\]\]$|^\[(.+)\]$/
 
@@ -83,48 +84,52 @@ const buildParamsFromPath = <Path extends DynamicPathname>(
 
 export const LangSwitcher = ({ content }: { content: LangSwitcherContent }) => {
   const locale = useLocale()
-  const router = useRouter()
   const pathname = usePathname()
+  type LinkHref = ComponentProps<typeof Link>['href']
 
-  const replaceLocale = (nextLocale: 'de' | 'en') => {
+  const getLocalizedHref = (nextLocale: 'de' | 'en'): LinkHref => {
     if (isDynamicPathname(pathname)) {
       const params = buildParamsFromPath(pathname, window.location.pathname)
-      router.replace(
-        {
-          pathname,
-          params
-        },
-        { locale: nextLocale }
-      )
-      return
+      return {
+        pathname,
+        params
+      }
     }
 
-    router.replace(pathname, { locale: nextLocale })
+    return pathname
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon-sm">
-          <Globe strokeWidth={1.5} />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          key="de"
-          onClick={() => replaceLocale('de')}
-        >
-          <Check className={cn('opacity-0', locale === "de" && 'opacity-100')} />
+    <>
+      <div className="sr-only">
+        <Link href={getLocalizedHref('de')} locale="de">
           {content.de}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          key="en"
-          onClick={() => replaceLocale('en')}
-        >
-          <Check className={cn('opacity-0', locale === "en" && 'opacity-100')} />
+        </Link>
+        <Link href={getLocalizedHref('en')} locale="en">
           {content.en}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </Link>
+      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon-sm">
+            <Globe strokeWidth={1.5} />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem key="de" asChild>
+            <Link href={getLocalizedHref('de')} locale="de">
+              <Check className={cn('opacity-0', locale === 'de' && 'opacity-100')} />
+              {content.de}
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem key="en" asChild>
+            <Link href={getLocalizedHref('en')} locale="en">
+              <Check className={cn('opacity-0', locale === 'en' && 'opacity-100')} />
+              {content.en}
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   )
 }

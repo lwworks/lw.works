@@ -8,7 +8,6 @@ import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
-import { BotIdClient } from 'botid/client'
 import { ThemeProvider } from 'next-themes'
 import { Geist, Geist_Mono, Sora } from 'next/font/google'
 import { notFound } from 'next/navigation'
@@ -71,9 +70,6 @@ export default async function Layout({ children, params }: LayoutProps<'/[locale
 
   return (
     <html lang={locale} className={cn(geist.variable, sora.variable, geistMono.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
-      <head>
-        <BotIdClient protect={[{ path: '/*', method: 'POST' }]} />
-      </head>
       <body className="min-h-full flex flex-col text-neutral-600 dark:text-neutral-400">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextIntlClientProvider messages={{}}>
