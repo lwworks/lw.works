@@ -1,13 +1,15 @@
+import { DigitalDealerPromoSection, DigitalDealerPromoSectionContent } from "@/components/sections/home/digital-dealer-promo"
 import { Metadata } from "next"
 
 export type HomePageContent = {
   metadata: Metadata
+  digitalDealerPromo: DigitalDealerPromoSectionContent
 }
 
 export const HomePage = ({ content }: { content: HomePageContent }) => {
   return (
-    <main className="pt-16 py-96 mt-96 border-b border-black/10 text-center">
-      {`${content.metadata.title!}`}
+    <main className="pt-16">
+      <DigitalDealerPromoSection content={content.digitalDealerPromo} />
     </main>
   )
 }
