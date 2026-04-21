@@ -23,7 +23,7 @@ const content: TeamMemberPageContent = {
   calendar: {
     locale: 'de',
     title: 'Termin buchen',
-    description: 'Dauer: 30 Min. · Europe/Berlin',
+    description: 'Buche Dir einen Termin mit Lukas.',
     fields: {
       name: { label: 'Dein Name', placeholder: 'Max Mustermann' },
       email: { label: 'E-Mail', placeholder: 'max@unternehmen.de' },

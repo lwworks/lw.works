@@ -6,7 +6,7 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import type { Locale } from '@/i18n/locale'
-import { Send } from '@mynaui/icons-react'
+import { Clock1, Globe, Send } from '@mynaui/icons-react'
 import { ReactNode } from 'react'
 import { BookingForm } from './booking-form'
 import { CalendarTimeline } from './calendar-timeline'
@@ -61,6 +61,16 @@ export const CalendarBookingSection = ({ content }: { content: CalendarBookingSe
               <p className="mt-4 text-muted-foreground">
                 {content.description}
               </p>
+              <ul className="mt-4 flex items-center gap-4">
+                <li className="flex items-center gap-1 text-neutral-500 text-sm">
+                  <Clock1 strokeWidth={1.5} className="size-4 text-indigo-600 dark:text-indigo-400" />
+                  <span>{content.booking.slotDurationMinutes} Min.</span>
+                </li>
+                <li className="flex items-center gap-1 text-neutral-500 text-sm">
+                  <Globe strokeWidth={1.5} className="size-4 text-indigo-600 dark:text-indigo-400" />
+                  <span>{content.booking.timezone}</span>
+                </li>
+              </ul>
             </div>
             <FieldGroup className="flex flex-col gap-5">
               <Field>

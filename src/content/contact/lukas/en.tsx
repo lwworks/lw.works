@@ -23,7 +23,7 @@ const content: TeamMemberPageContent = {
   calendar: {
     locale: 'en',
     title: 'Book a Call',
-    description: 'Duration: 30 min · Europe/Berlin',
+    description: 'Book a call with Lukas.',
     fields: {
       name: { label: 'Your Name', placeholder: 'John Smith' },
       email: { label: 'Email', placeholder: 'john@company.com' },
