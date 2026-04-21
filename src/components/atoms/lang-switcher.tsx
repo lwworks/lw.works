@@ -7,12 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Link, usePathname } from '@/i18n/navigation'
+import { getPathname, usePathname } from '@/i18n/navigation'
 import { locales } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Check, Globe } from '@mynaui/icons-react'
 import { useLocale } from 'next-intl'
-import { ComponentProps } from 'react'
 
 export type LangSwitcherContent = {
   de: string
@@ -85,29 +84,26 @@ const buildParamsFromPath = <Path extends DynamicPathname>(
 export const LangSwitcher = ({ content }: { content: LangSwitcherContent }) => {
   const locale = useLocale()
   const pathname = usePathname()
-  type LinkHref = ComponentProps<typeof Link>['href']
 
-  const getLocalizedHref = (nextLocale: 'de' | 'en'): LinkHref => {
+  const getLocalizedHref = (nextLocale: 'de' | 'en'): string => {
     if (isDynamicPathname(pathname)) {
-      const params = buildParamsFromPath(pathname, window.location.pathname)
-      return {
-        pathname,
-        params
-      }
+      const currentPath = typeof window === 'undefined' ? '' : window.location.pathname
+      const params = buildParamsFromPath(pathname, currentPath)
+      return getPathname({ href: { pathname, params }, locale: nextLocale })
     }
 
-    return pathname
+    return getPathname({ href: pathname, locale: nextLocale })
   }
 
   return (
     <>
       <div className="sr-only">
-        <Link href={getLocalizedHref('de')} locale="de">
+        <a href={getLocalizedHref('de')} hrefLang="de">
           {content.de}
-        </Link>
-        <Link href={getLocalizedHref('en')} locale="en">
+        </a>
+        <a href={getLocalizedHref('en')} hrefLang="en">
           {content.en}
-        </Link>
+        </a>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -117,16 +113,16 @@ export const LangSwitcher = ({ content }: { content: LangSwitcherContent }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem key="de" asChild>
-            <Link href={getLocalizedHref('de')} locale="de">
+            <a href={getLocalizedHref('de')} hrefLang="de">
               <Check className={cn('opacity-0', locale === 'de' && 'opacity-100')} />
               {content.de}
-            </Link>
+            </a>
           </DropdownMenuItem>
           <DropdownMenuItem key="en" asChild>
-            <Link href={getLocalizedHref('en')} locale="en">
+            <a href={getLocalizedHref('en')} hrefLang="en">
               <Check className={cn('opacity-0', locale === 'en' && 'opacity-100')} />
               {content.en}
-            </Link>
+            </a>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
