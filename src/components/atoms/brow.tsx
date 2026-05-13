@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils"
 
 type BrowProps = {
   as?: 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  variant?: 'default' | 'small'
+  variant?: 'default' | 'small' | 'xs'
   color?: 'indigo' | 'rose' | 'emerald'
   children: React.ReactNode
   className?: string
@@ -12,7 +12,7 @@ export const Brow = ({ as = 'span', variant = 'default', color = 'indigo', child
   const Tag = as
 
   return (
-    <div className={cn("font-mono uppercase", variant === "small" && "text-xs", variant === "default" && "text-sm flex items-center gap-2 -mr-16", className)}>
+    <div className={cn("font-mono uppercase", variant === "small" && "text-xs", variant === "xs" && "text-[10px]", variant === "default" && "text-sm flex items-center gap-2 -mr-16", className)}>
       <Tag className="shrink-0">{children}</Tag>
       {variant === "default" && (
         <div className="flex-1 flex items-center">

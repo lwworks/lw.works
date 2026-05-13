@@ -58,7 +58,7 @@ export const CalendarBookingSection = ({ content }: { content: CalendarBookingSe
           <div className="flex flex-col gap-6 p-16">
             <div>
               <Heading as="h2">{content.title}</Heading>
-              <p className="mt-4 text-muted-foreground">
+              <p className="mt-4">
                 {content.description}
               </p>
               <ul className="mt-4 flex items-center gap-4">

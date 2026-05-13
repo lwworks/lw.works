@@ -7,7 +7,7 @@ import type { Locale } from '@/i18n/locale'
 import type { Metadata } from 'next'
 import { createElement, type ComponentType } from 'react'
 
-export { pageSlugs, type PageKey, getPageKeyBySlug, getPageSlug } from './slugs'
+export { pageSlugs, type PageKey, getPageSlug } from './slugs'
 
 type PageDefinition<C> = {
   component: ComponentType<{ content: C }>

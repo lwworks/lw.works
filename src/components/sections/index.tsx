@@ -4,7 +4,7 @@ type SectionProps = {
   id?: string
   verticalPadding?: "small" | "default" | "large" | "none"
   horizontalPadding?: "default" | "none"
-  bottomGradients?: "rose-orange" | "green-indigo" | "indigo-orange"
+  bottomGradients?: "rose-orange" | "green-indigo" | "indigo-orange" | "teal-indigo"
   children: React.ReactNode
   className?: string
 }
@@ -40,6 +40,15 @@ export const Section = ({ id, verticalPadding = "default", horizontalPadding = "
           <div className="absolute right-1/3 translate-x-1/4 -bottom-32 bg-indigo-400 dark:bg-indigo-300 w-3xl h-48 mx-auto blur-3xl opacity-60" style={{ borderRadius: "50% 50%" }} />
           <div className="absolute left-1/2 -translate-x-1/4 -bottom-24 bg-orange-400 dark:bg-orange-300 w-md h-64 mx-auto blur-3xl opacity-40 mix-blend-color-burn" style={{ borderRadius: "50% 50%" }} />
           <div className="absolute left-1/2 -translate-x-1/4 -bottom-32 bg-orange-400 dark:bg-orange-300 w-md h-48 mx-auto blur-3xl opacity-20" style={{ borderRadius: "50% 50%" }} />
+        </>
+      )}
+      {bottomGradients === "teal-indigo" && (
+        <>
+          <div className="absolute right-1/3 translate-x-1/4 -bottom-32 bg-cyan-600 dark:bg-cyan-400 w-3xl h-48 mx-auto blur-3xl opacity-50" style={{ borderRadius: "50% 50%" }} />
+          <div className="absolute right-1/3 -bottom-40 -rotate-45 h-96 w-20 bg-indigo-500 blur-3xl opacity-50" style={{ borderRadius: "50% 50%" }} />
+          <div className="absolute left-1/3 right-1/3 h-16 -bottom-16 bg-blue-600 blur-3xl mix-blend-color-burn opacity-50" style={{ borderRadius: "50% 50%" }} />
+          {/* <div className="absolute left-1/2 -translate-x-1/4 -bottom-24 bg-orange-400 dark:bg-orange-300 w-md h-64 mx-auto blur-3xl opacity-40 mix-blend-color-burn" style={{ borderRadius: "50% 50%" }} /> */}
+          {/* <div className="absolute left-1/2 -translate-x-1/4 -bottom-32 bg-orange-400 dark:bg-orange-300 w-md h-48 mx-auto blur-3xl opacity-20" style={{ borderRadius: "50% 50%" }} /> */}
         </>
       )}
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />

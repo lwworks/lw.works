@@ -24,7 +24,7 @@ export const routing = defineRouting({
   pathnames: {
     '/': '/',
     ...pathnames,
-    '/kontakt/[member]': {
+    '/contact/[member]': {
       de: '/kontakt/[member]',
       en: '/contact/[member]'
     }

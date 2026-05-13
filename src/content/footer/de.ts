@@ -30,7 +30,7 @@ const content: FooterContent = {
       items: [
         {
           label: 'Kontakt',
-          href: '/kontakt'
+          href: '/contact'
         },
         {
           label: 'Impressum',

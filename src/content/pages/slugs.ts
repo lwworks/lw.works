@@ -10,15 +10,6 @@ export const pageSlugs = {
 
 export type PageKey = keyof typeof pageSlugs
 
-export function getPageKeyBySlug(slug: string, locale: Locale): PageKey | null {
-  for (const [key, slugs] of Object.entries(pageSlugs)) {
-    if (slugs[locale] === slug) {
-      return key as PageKey
-    }
-  }
-  return null
-}
-
 export function getPageSlug(key: PageKey, locale: Locale): string {
   return pageSlugs[key][locale]
 }

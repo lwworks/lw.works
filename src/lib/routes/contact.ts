@@ -2,12 +2,12 @@ import { getPathname } from '@/i18n/navigation'
 import { baseUrl, type Locale } from '@/i18n/routing'
 
 type TeamMemberHref = {
-  pathname: '/kontakt/[member]'
+  pathname: '/contact/[member]'
   params: { member: string }
 }
 
 export const getTeamMemberHref = (memberSlug: string): TeamMemberHref => ({
-  pathname: '/kontakt/[member]',
+  pathname: '/contact/[member]',
   params: { member: memberSlug }
 })
 

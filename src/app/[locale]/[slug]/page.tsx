@@ -1,4 +1,4 @@
-import { pages, getPageKeyBySlug, getPageSlug, pageSlugs } from '@/content/pages'
+import { pages, getPageSlug, pageSlugs, type PageKey } from '@/content/pages'
 import type { Locale } from '@/i18n/routing'
 import { baseUrl, routing } from '@/i18n/routing'
 import type { Metadata } from 'next'
@@ -7,26 +7,26 @@ import { setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 
 export function generateStaticParams() {
-  return Object.values(pageSlugs).flatMap((slugs) =>
-    routing.locales.map((locale) => ({ locale, slug: slugs[locale] }))
+  return (Object.keys(pageSlugs) as PageKey[]).flatMap((key) =>
+    routing.locales.map((locale) => ({ locale, slug: key }))
   )
 }
 
 export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>): Promise<Metadata> {
   const { locale, slug } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
+  if (!(slug in pages)) notFound()
 
-  const key = getPageKeyBySlug(slug, locale as Locale)
-  if (!key) notFound()
-
-  const page = pages[key]
-  const content = await page.loadContent(locale as Locale)
+  const key = slug as PageKey
+  const typedLocale = locale as Locale
+  const content = await pages[key].loadContent(typedLocale)
+  const localizedSlug = getPageSlug(key, typedLocale)
 
   return {
     title: content.metadata.title,
     description: content.metadata.description,
     alternates: {
-      canonical: `${baseUrl}/${locale}/${slug}`,
+      canonical: `${baseUrl}/${locale}/${localizedSlug}`,
       languages: {
         de: `${baseUrl}/de/${getPageSlug(key, 'de')}`,
         en: `${baseUrl}/en/${getPageSlug(key, 'en')}`,
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>
     openGraph: {
       title: content.metadata.title!,
       description: content.metadata.description!,
-      url: `${baseUrl}/${locale}/${slug}`,
+      url: `${baseUrl}/${locale}/${localizedSlug}`,
       locale: locale === 'de' ? 'de_DE' : 'en_US'
     }
   }
@@ -45,10 +45,8 @@ export async function generateMetadata({ params }: PageProps<'/[locale]/[slug]'>
 export default async function LandingPage({ params }: PageProps<'/[locale]/[slug]'>) {
   const { locale, slug } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
+  if (!(slug in pages)) notFound()
   setRequestLocale(locale)
 
-  const key = getPageKeyBySlug(slug, locale as Locale)
-  if (!key) notFound()
-
-  return pages[key].render(locale as Locale)
+  return pages[slug as PageKey].render(locale as Locale)
 }
