@@ -1,4 +1,5 @@
 import { Link } from '@/components/link'
+import { bookingConfigs, bookingMessages } from '@/lib/booking-configs'
 import { CalendarBookingSection } from '../sections/contact/calendar-booking'
 import { ContactOptionsSection } from '../sections/contact/contact-options'
 import { TeamMemberSection } from '../sections/contact/team-member'
@@ -27,22 +28,10 @@ const calendarContent = {
   },
   privacy: <>Ich habe die <Link href="/privacy" target="_blank" className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-800 dark:hover:text-indigo-500">Datenschutzerklärung</Link> gelesen und bin mit der Verarbeitung meiner Daten einverstanden.</>,
   submit: 'Termin buchen',
-  successMessage: 'Dein Termin wurde gebucht! Du erhältst eine Bestätigung per E-Mail.',
+  successMessage: bookingMessages.successMessage,
   noSlotsMessage: 'An diesem Tag sind keine Termine verfügbar.',
-  errorMessages: {
-    default: 'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
-    botDetected: 'Anfrage wurde als automatisiert erkannt.',
-    slotTaken: 'Dieser Termin ist leider nicht mehr verfügbar. Bitte wähle einen anderen.',
-  },
-  booking: {
-    calendarId: 'lukas@lw.works',
-    teamMemberSlug: 'lukas',
-    timezone: 'Europe/Berlin',
-    slotDurationMinutes: 30,
-    advanceDays: 14,
-    availableDays: [1, 2, 4, 5],
-    availableHours: { start: 13, end: 17 },
-  },
+  errorMessages: bookingMessages.errorMessages,
+  booking: bookingConfigs.lukas,
 }
 
 export const TeamMemberPage = () => {
@@ -55,8 +44,6 @@ export const TeamMemberPage = () => {
   )
 }
 
-export const teamMemberBookingConfig = calendarContent.booking
-export const teamMemberCalendarMessages = {
-  errorMessages: calendarContent.errorMessages,
-  successMessage: calendarContent.successMessage,
-}
+export const teamMemberBookingConfig = bookingConfigs.lukas
+export const teamMemberCalendarMessages = bookingMessages
+

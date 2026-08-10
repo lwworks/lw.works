@@ -13,7 +13,7 @@ const translations = {
     preview: (name: string) => `Dein Termin ist bestätigt, ${name}!`,
     title: 'Dein Termin ist bestätigt!',
     body: (visitorName: string, memberName: string, dateTime: string) =>
-      `Hallo ${visitorName}, dein Beratungstermin mit ${memberName} am ${dateTime} ist bestätigt. Du erhältst eine Kalendereinladung per E-Mail.`,
+      `Hallo ${visitorName}, dein Termin mit ${memberName} am ${dateTime} ist bestätigt. Du erhältst eine Kalendereinladung per E-Mail.`,
     replyPrompt: 'Falls du den Termin absagen oder verschieben musst, antworte einfach auf diese E-Mail.'
   },
   en: {

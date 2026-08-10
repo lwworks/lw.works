@@ -1,4 +1,4 @@
-import { teamMemberBookingConfig } from '@/components/pages/team-member'
+import { getBookingConfig } from '@/lib/booking-configs'
 import { getAvailableSlots } from '@/lib/google-calendar'
 import { NextResponse } from 'next/server'
 
@@ -21,25 +21,26 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
   }
 
-  if (memberSlug !== teamMemberBookingConfig.teamMemberSlug) {
+  const config = getBookingConfig(memberSlug)
+  if (!config) {
     return NextResponse.json({ error: 'Member not found' }, { status: 404 })
   }
 
   const now = new Date()
   const from = new Date(now)
   const to = new Date(now)
-  to.setDate(to.getDate() + Math.min(teamMemberBookingConfig.advanceDays, MAX_LOOKAHEAD_DAYS))
+  to.setDate(to.getDate() + Math.min(config.advanceDays, MAX_LOOKAHEAD_DAYS))
 
   const days = await getAvailableSlots(
     formatDateOnly(from),
     formatDateOnly(to),
-    teamMemberBookingConfig,
+    config,
   )
 
   const nextSlot = days.flatMap((day) => day.slots).sort((a, b) => a.start.localeCompare(b.start))[0]
   const response: NextAvailabilityResponse = {
     nextStart: nextSlot?.start ?? null,
-    timezone: teamMemberBookingConfig.timezone,
+    timezone: config.timezone,
   }
 
   return NextResponse.json(response)

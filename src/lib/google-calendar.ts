@@ -143,19 +143,32 @@ export async function createBookingEvent(params: {
   timezone: string
   attendeeEmail: string
   attendeeName: string
+  createMeet?: boolean
 }) {
   const calendar = getCalendarClient(params.calendarId)
+  const createMeet = params.createMeet ?? false
 
   const event = await calendar.events.insert({
     calendarId: params.calendarId,
     sendUpdates: 'all',
+    conferenceDataVersion: createMeet ? 1 : undefined,
     requestBody: {
       summary: params.summary,
       description: params.description,
       start: {dateTime: params.startTime, timeZone: params.timezone},
       end: {dateTime: params.endTime, timeZone: params.timezone},
       attendees: [{email: params.attendeeEmail, displayName: params.attendeeName}],
-      reminders: {useDefault: true}
+      reminders: {useDefault: true},
+      ...(createMeet
+        ? {
+            conferenceData: {
+              createRequest: {
+                requestId: crypto.randomUUID(),
+                conferenceSolutionKey: {type: 'hangoutsMeet'}
+              }
+            }
+          }
+        : {})
     }
   })
 

@@ -1,10 +1,10 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { ChevronLeft, ChevronRight, Globe, Spinner } from '@mynaui/icons-react'
+import { ChevronLeft, ChevronRight, Spinner } from '@mynaui/icons-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useBookingForm } from './booking-form'
 
 type AvailableSlot = {
   start: string
@@ -19,31 +19,6 @@ type DaySlots = {
 }
 
 const REM_PER_HOUR = 3.5
-
-const TIMEZONES = [
-  'Pacific/Midway',       // UTC-11
-  'Pacific/Honolulu',     // UTC-10
-  'America/Anchorage',    // UTC-9
-  'America/Los_Angeles',  // UTC-8
-  'America/Denver',       // UTC-7
-  'America/Chicago',      // UTC-6
-  'America/New_York',     // UTC-5
-  'America/Sao_Paulo',    // UTC-3
-  'Atlantic/Cape_Verde',  // UTC-1
-  'Europe/London',        // UTC+0
-  'Europe/Berlin',        // UTC+1
-  'Europe/Helsinki',      // UTC+2
-  'Europe/Moscow',        // UTC+3
-  'Asia/Dubai',           // UTC+4
-  'Asia/Karachi',         // UTC+5
-  'Asia/Kolkata',         // UTC+5:30
-  'Asia/Dhaka',           // UTC+6
-  'Asia/Bangkok',         // UTC+7
-  'Asia/Shanghai',        // UTC+8
-  'Asia/Tokyo',           // UTC+9
-  'Australia/Sydney',     // UTC+10
-  'Pacific/Auckland',     // UTC+12
-]
 
 const INTL_TAG = 'de-DE'
 
@@ -126,17 +101,20 @@ export type CalendarTimelineProps = {
   teamMemberSlug: string
   advanceDays: number
   noSlotsMessage: string
+  timezone?: string
 }
 
-export const CalendarTimeline = ({ teamMemberSlug, advanceDays, noSlotsMessage }: CalendarTimelineProps) => {
+export const CalendarTimeline = ({
+  teamMemberSlug,
+  advanceDays,
+  noSlotsMessage,
+  timezone = 'Europe/Berlin',
+}: CalendarTimelineProps) => {
+  const bookingForm = useBookingForm()
   const [rawDays, setRawDays] = useState<DaySlots[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
   const [selectedSlot, setSelectedSlot] = useState<AvailableSlot | null>(null)
-  const [timezone, setTimezone] = useState(() => {
-    const browser = Intl.DateTimeFormat().resolvedOptions().timeZone
-    return TIMEZONES.includes(browser) ? browser : 'Europe/Berlin'
-  })
   const days = useMemo(
     () => regroupSlotsByTimezone(rawDays, timezone, INTL_TAG, advanceDays),
     [rawDays, timezone, advanceDays]
@@ -173,6 +151,12 @@ export const CalendarTimeline = ({ teamMemberSlug, advanceDays, noSlotsMessage }
   useEffect(() => {
     fetchSlots()
   }, [fetchSlots])
+
+  useEffect(() => {
+    if (!bookingForm?.slotsVersion) return
+    setSelectedSlot(null)
+    fetchSlots()
+  }, [bookingForm?.slotsVersion, fetchSlots])
 
   useEffect(() => {
     if (days.length === 0) {
@@ -248,28 +232,6 @@ export const CalendarTimeline = ({ teamMemberSlug, advanceDays, noSlotsMessage }
             >
               <ChevronRight className="size-4" />
             </Button>
-          </div>
-
-          <div className="shrink-0 flex items-center justify-center border-b border-black/10 dark:border-white/10 px-4 h-8">
-            <Select
-              value={timezone}
-              onValueChange={(value) => {
-                setTimezone(value)
-                setSelectedSlot(null)
-              }}
-            >
-              <SelectTrigger className="border-none bg-transparent hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent shadow-none focus:ring-0 focus-visible:ring-0">
-                <span className="inline-flex items-center gap-1.5">
-                  <Globe className="size-3.5 text-muted-foreground" />
-                  <SelectValue />
-                </span>
-              </SelectTrigger>
-              <SelectContent className="p-2">
-                {TIMEZONES.map((tz) => (
-                  <SelectItem key={tz} value={tz}>{tz.replace(/_/g, ' ')}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           {currentDay && currentDay.slots.length === 0 ? (
