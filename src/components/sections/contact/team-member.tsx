@@ -1,13 +1,11 @@
-import { Brow } from '@/components/atoms/brow'
+import { Link } from '@/components/link'
 import { CTA } from '@/components/atoms/cta'
+import { Brow } from '@/components/atoms/brow'
 import { Heading } from '@/components/atoms/heading'
 import { NextAvailability } from '@/components/atoms/next-availability'
 import { Section } from '@/components/sections'
 import { Button } from '@/components/ui/button'
-import { Link } from '@/i18n/link'
-import { type Locale } from '@/i18n/locale'
 import Image from 'next/image'
-import { ComponentProps } from 'react'
 
 export type TeamMemberSectionContent = {
   id: string
@@ -18,10 +16,9 @@ export type TeamMemberSectionContent = {
   paragraphs: string[]
   cta?: {
     label: string
-    href: ComponentProps<typeof Link>['href']
+    href: string
     nextAvailability?: {
       memberSlug: string
-      locale: Locale
     }
   }
 }
@@ -54,10 +51,7 @@ export const TeamMemberSection = ({ content }: { content: TeamMemberSectionConte
             <Link href={content.cta.href}>{content.cta.label}</Link>
           </Button>
           {content.cta.nextAvailability && (
-            <NextAvailability
-              memberSlug={content.cta.nextAvailability.memberSlug}
-              locale={content.cta.nextAvailability.locale}
-            />
+            <NextAvailability memberSlug={content.cta.nextAvailability.memberSlug} />
           )}
         </CTA>
       )}

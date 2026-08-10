@@ -1,7 +1,6 @@
 import { Section } from "@/components/sections"
-import { Link } from "@/i18n/link"
+import { Link } from "@/components/link"
 import { DangerCircleSolid, DangerTriangleSolid, InfoCircleSolid } from "@mynaui/icons-react"
-import { ComponentProps } from "react"
 import { CTA } from "../atoms/cta"
 import { Heading } from "../atoms/heading"
 import { UrgencyNote } from "../atoms/urgency-note"
@@ -43,7 +42,7 @@ export const CalloutSection = ({ variant = 'info', content }: CallOutSectionProp
           <CTA>
             {content.cta.buttons.map((button) => (
               <Button key={button.label} variant={button.variant} asChild>
-                <Link href={button.href as ComponentProps<typeof Link>['href']}>
+                <Link href={button.href}>
                   <span>{button.label}</span>
                 </Link>
               </Button>

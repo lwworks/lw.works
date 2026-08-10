@@ -4,9 +4,8 @@ import { Heading } from "@/components/atoms/heading"
 import { UrgencyNote } from "@/components/atoms/urgency-note"
 import { Section } from "@/components/sections"
 import { Button } from "@/components/ui/button"
-import { Link } from "@/i18n/link"
+import { Link } from "@/components/link"
 import Image from "next/image"
-import { ComponentProps } from "react"
 
 export type DigitalDealerPromoSectionContent = {
   brow: string
@@ -30,7 +29,7 @@ export const DigitalDealerPromoSection = ({ content }: { content: DigitalDealerP
       <p className="mt-6 max-w-lg text-balance">{content.description}</p>
       <CTA>
         <Button asChild>
-          <Link href={content.cta.href as ComponentProps<typeof Link>["href"]}>
+          <Link href={content.cta.href}>
             <span>{content.cta.label}</span>
           </Link>
         </Button>

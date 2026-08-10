@@ -1,21 +1,51 @@
-import { Link } from "@/i18n/link"
-import { ComponentProps } from "react"
-import { CookieBanner, CookieBannerContent } from "../atoms/cookie-banner"
+import Link from "next/link"
+import { CookieBanner } from "../atoms/cookie-banner"
 import { Logo } from "../atoms/logo"
 
-export type FooterContent = {
-  copyrightNote: string
-  menus: {
-    heading: string
-    items: {
-      label: string
-      href: string
-    }[]
-  }[]
-  cookieBanner: CookieBannerContent
+const copyrightNote = `© LW Works GmbH ${new Date().getFullYear()}`
+
+const menus = [
+  {
+    heading: 'Work',
+    items: [
+      { label: 'Design Engineering', href: '/design-engineering' },
+      { label: 'Automatisierung', href: '/automation' },
+    ],
+  },
+  {
+    heading: 'Angebote',
+    items: [
+      { label: 'Digital Dealer', href: '/digital-dealer' },
+    ],
+  },
+  {
+    heading: 'Unternehmen',
+    items: [
+      { label: 'Kontakt', href: '/contact' },
+      { label: 'Impressum', href: '/impressum' },
+      { label: 'AGB', href: '/agb' },
+      { label: 'Datenschutz', href: '/privacy' },
+    ],
+  },
+]
+
+const cookieBannerContent = {
+  triggerLabel: 'Cookies',
+  title: 'Cookies & Datenschutz',
+  description:
+    'Wir verwenden Cookies, um die Website zu verbessern und Ihnen den besten Service zu bieten. Durch die Nutzung der Website erklären Sie sich mit der Verwendung von Cookies einverstanden.',
+  cookies: {
+    necessary: {
+      label: 'Technisch notwendig',
+      description:
+        'Das sind Cookies und Daten, die für die Verwendung der Website notwendig sind. Wir speichern z.B. Deine Präferenzen für Cookies, die Website-Sprache oder den Farbmodus.',
+    },
+  },
+  acceptSelected: 'Auswahl speichern',
+  acceptAll: 'Alle akzeptieren',
 }
 
-export const Footer = ({ content }: { content: FooterContent }) => {
+export const Footer = () => {
   return (
     <footer className="text-sm text-neutral-500">
       <div className="relative mx-auto w-full max-w-4xl px-16 border-x border-black/10 dark:border-white/10 py-24 flex gap-16 justify-between items-stretch">
@@ -23,21 +53,21 @@ export const Footer = ({ content }: { content: FooterContent }) => {
           <Link href="/">
             <Logo className="text-black dark:text-white h-5" />
           </Link>
-          <p className="text-sm text-neutral-500">{content.copyrightNote}</p>
+          <p className="text-sm text-neutral-500">{copyrightNote}</p>
         </div>
         <div className="flex gap-16">
-          {content.menus.map((menu, index) => (
-            <div key={index} className="shrink-0 whitespace-nowrap">
+          {menus.map((menu, index) => (
+            <div key={menu.heading} className="shrink-0 whitespace-nowrap">
               <h4 className="font-semibold text-black dark:text-white text-[11px] uppercase mb-3 tracking-widest">{menu.heading}</h4>
               <ul className="space-y-1">
-                {menu.items.map((item, index) => (
-                  <li key={index}>
-                    <Link href={item.href as ComponentProps<typeof Link>['href']} className="hover:text-black dark:hover:text-white">{item.label}</Link>
+                {menu.items.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className="hover:text-black dark:hover:text-white">{item.label}</Link>
                   </li>
                 ))}
-                {index === content.menus.length - 1 && (
+                {index === menus.length - 1 && (
                   <li>
-                    <CookieBanner content={content.cookieBanner} />
+                    <CookieBanner content={cookieBannerContent} />
                   </li>
                 )}
               </ul>

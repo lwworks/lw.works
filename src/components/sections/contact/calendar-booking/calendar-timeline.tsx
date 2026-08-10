@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import type { Locale } from '@/i18n/locale'
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight, Globe, Spinner } from '@mynaui/icons-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -46,12 +45,10 @@ const TIMEZONES = [
   'Pacific/Auckland',     // UTC+12
 ]
 
-function intlTagForRouteLocale(locale: Locale): string {
-  return locale === 'de' ? 'de-DE' : 'en-US'
-}
+const INTL_TAG = 'de-DE'
 
-function formatTime(iso: string, timezone: string, intlTag: string): string {
-  return new Intl.DateTimeFormat(intlTag, {
+function formatTime(iso: string, timezone: string): string {
+  return new Intl.DateTimeFormat(INTL_TAG, {
     hour: '2-digit',
     minute: '2-digit',
     timeZone: timezone
@@ -126,13 +123,12 @@ function regroupSlotsByTimezone(days: DaySlots[], timezone: string, intlTag: str
 }
 
 export type CalendarTimelineProps = {
-  locale: Locale
   teamMemberSlug: string
   advanceDays: number
   noSlotsMessage: string
 }
 
-export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays, noSlotsMessage }: CalendarTimelineProps) => {
+export const CalendarTimeline = ({ teamMemberSlug, advanceDays, noSlotsMessage }: CalendarTimelineProps) => {
   const [rawDays, setRawDays] = useState<DaySlots[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
@@ -141,11 +137,9 @@ export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays, noSlotsM
     const browser = Intl.DateTimeFormat().resolvedOptions().timeZone
     return TIMEZONES.includes(browser) ? browser : 'Europe/Berlin'
   })
-  const intlTag = useMemo(() => intlTagForRouteLocale(locale), [locale])
-
   const days = useMemo(
-    () => regroupSlotsByTimezone(rawDays, timezone, intlTag, advanceDays),
-    [rawDays, timezone, intlTag, advanceDays]
+    () => regroupSlotsByTimezone(rawDays, timezone, INTL_TAG, advanceDays),
+    [rawDays, timezone, advanceDays]
   )
   const firstAvailableDayIndex = useMemo(() => {
     const index = days.findIndex((day) => day.slots.length > 0)
@@ -330,7 +324,7 @@ export const CalendarTimeline = ({ locale, teamMemberSlug, advanceDays, noSlotsM
                       required
                     />
                     <span className="text-sm font-medium">
-                      {formatTime(slot.start, timezone, intlTag)} – {formatTime(slot.end, timezone, intlTag)}
+                      {formatTime(slot.start, timezone)} – {formatTime(slot.end, timezone)}
                     </span>
                   </label>
                 )

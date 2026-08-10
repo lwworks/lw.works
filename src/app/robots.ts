@@ -1,5 +1,5 @@
-import type {MetadataRoute} from 'next'
-import {baseUrl} from '@/i18n/routing'
+import type { MetadataRoute } from 'next'
+import { baseUrl } from '@/lib/site'
 
 export default function robots(): MetadataRoute.Robots {
   return {

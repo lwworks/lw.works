@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react'
 
 type NextAvailabilityProps = {
   memberSlug: string
-  locale: 'de' | 'en'
   className?: string
 }
 
@@ -18,14 +17,14 @@ function getDateKey(date: Date, timeZone: string): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone }).format(date)
 }
 
-function getLocalizedWeekday(date: Date, locale: 'de' | 'en', timeZone: string): string {
-  return new Intl.DateTimeFormat(locale === 'de' ? 'de-DE' : 'en-US', {
+function getLocalizedWeekday(date: Date, timeZone: string): string {
+  return new Intl.DateTimeFormat('de-DE', {
     weekday: 'long',
-    timeZone
+    timeZone,
   }).format(date)
 }
 
-function getAvailabilityLabel(nextStartIso: string, locale: 'de' | 'en', timeZone: string): string {
+function getAvailabilityLabel(nextStartIso: string, timeZone: string): string {
   const now = new Date()
   const next = new Date(nextStartIso)
 
@@ -39,18 +38,18 @@ function getAvailabilityLabel(nextStartIso: string, locale: 'de' | 'en', timeZon
   )
 
   if (dayDiff <= 1) {
-    return locale === 'de' ? 'Morgen verfügbar' : 'Available tomorrow'
+    return 'Morgen verfügbar'
   }
 
   if (dayDiff === 2) {
-    return locale === 'de' ? 'Übermorgen verfügbar' : 'Available in 2 days'
+    return 'Übermorgen verfügbar'
   }
 
-  const weekday = getLocalizedWeekday(next, locale, timeZone)
-  return locale === 'de' ? `Nächsten ${weekday} verfügbar` : `Available next ${weekday}`
+  const weekday = getLocalizedWeekday(next, timeZone)
+  return `Nächsten ${weekday} verfügbar`
 }
 
-export const NextAvailability = ({ memberSlug, locale, className }: NextAvailabilityProps) => {
+export const NextAvailability = ({ memberSlug, className }: NextAvailabilityProps) => {
   const [data, setData] = useState<NextAvailabilityApiResponse | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -59,10 +58,7 @@ export const NextAvailability = ({ memberSlug, locale, className }: NextAvailabi
 
     const fetchNextAvailability = async () => {
       try {
-        const params = new URLSearchParams({
-          member: memberSlug,
-          locale
-        })
+        const params = new URLSearchParams({ member: memberSlug })
         const res = await fetch(`/api/availability/next?${params.toString()}`)
         if (!res.ok || cancelled) return
         const json = (await res.json()) as NextAvailabilityApiResponse
@@ -80,12 +76,12 @@ export const NextAvailability = ({ memberSlug, locale, className }: NextAvailabi
     return () => {
       cancelled = true
     }
-  }, [memberSlug, locale])
+  }, [memberSlug])
 
   const label = useMemo(() => {
     if (!data?.nextStart || !data.timezone) return null
-    return getAvailabilityLabel(data.nextStart, locale, data.timezone)
-  }, [data, locale])
+    return getAvailabilityLabel(data.nextStart, data.timezone)
+  }, [data])
 
   if (!loaded || !label) {
     return null

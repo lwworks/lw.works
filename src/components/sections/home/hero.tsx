@@ -15,7 +15,7 @@ export type HomeHeroSectionContent = {
   }
 }
 
-export const HomeHeroSection = ({ content }: { content?: HomeHeroSectionContent }) => {
+export const HomeHeroSection = () => {
   return (
     <Section bottomGradients="teal-indigo">
       <div className="absolute right-16 bottom-4">

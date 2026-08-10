@@ -4,10 +4,9 @@ import { Heading } from "@/components/atoms/heading"
 import { UrgencyNote } from "@/components/atoms/urgency-note"
 import { Section } from "@/components/sections"
 import { Button } from "@/components/ui/button"
-import { Link } from "@/i18n/navigation"
+import { Link } from "@/components/link"
 import { ArrowDown } from "@mynaui/icons-react"
 import Image from "next/image"
-import { ComponentProps } from "react"
 
 export type DigitalDealerHeroSectionContent = {
   imageAlt: string
@@ -33,7 +32,7 @@ export const DigitalDealerHeroSection = ({ content }: { content: DigitalDealerHe
       <p className="mt-8 max-w-lg text-balance">{content.description}</p>
       <CTA>
         <Button asChild>
-          <Link href={content.cta.href as ComponentProps<typeof Link>['href']}>
+          <Link href={content.cta.href}>
             <span>{content.cta.label}</span>
             <ArrowDown className="size-4" strokeWidth={2} />
           </Link>

@@ -5,16 +5,15 @@ import { Heading } from "@/components/atoms/heading"
 import { Section } from "@/components/sections"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
-import { Link } from "@/i18n/link"
+import { Link } from "@/components/link"
 import { cn } from "@/lib/utils"
-import type { ComponentProps } from "react"
 
 export type FaqItemContent = {
   question: string
   answer: string[]
   cta?: {
     label: string
-    href: ComponentProps<typeof Link>['href']
+    href: string
   }
 }
 
