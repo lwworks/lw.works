@@ -96,7 +96,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
 
   await createBookingEvent({
     calendarId,
-    summary: `Beratungsgespräch mit ${name}`,
+    summary: `${name} x ${memberName}`,
     description,
     startTime: slotStart,
     endTime: slotEnd,
