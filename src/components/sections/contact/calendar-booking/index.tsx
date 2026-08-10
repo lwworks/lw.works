@@ -5,8 +5,8 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { Clock3, Globe, Send } from '@mynaui/icons-react'
 import { ReactNode } from 'react'
-import { Clock1, Globe, Send } from '@mynaui/icons-react'
 import { BookingForm } from './booking-form'
 import { CalendarTimeline } from './calendar-timeline'
 
@@ -61,11 +61,11 @@ export const CalendarBookingSection = ({ content }: { content: CalendarBookingSe
               </p>
               <ul className="mt-4 flex items-center gap-4">
                 <li className="flex items-center gap-1 text-neutral-500 text-sm">
-                  <Clock1 strokeWidth={1.5} className="size-4 text-indigo-600 dark:text-indigo-400" />
+                  <Clock3 strokeWidth={1.5} className="size-4 text-black dark:text-white" />
                   <span>{content.booking.slotDurationMinutes} Min.</span>
                 </li>
                 <li className="flex items-center gap-1 text-neutral-500 text-sm">
-                  <Globe strokeWidth={1.5} className="size-4 text-indigo-600 dark:text-indigo-400" />
+                  <Globe strokeWidth={1.5} className="size-4 text-black dark:text-white" />
                   <span>{content.booking.timezone}</span>
                 </li>
               </ul>

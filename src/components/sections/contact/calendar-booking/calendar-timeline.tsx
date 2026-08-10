@@ -279,60 +279,60 @@ export const CalendarTimeline = ({ teamMemberSlug, advanceDays, noSlotsMessage }
               </p>
             </div>
           ) : (
-          <div className="relative flex-1 min-h-0">
-            <div ref={timelineRef} className="absolute inset-0 overflow-y-auto">
-              {Array.from({ length: 25 }).map((_, i) => {
-                const top = 1 + i * REM_PER_HOUR
-                return (
-                  <div
-                    key={i}
-                    className="absolute inset-x-0 flex items-start"
-                    style={{ top: `${top}rem` }}
-                  >
-                    <span className="shrink-0 w-12 -translate-y-1/2 text-right pr-2 text-xs text-neutral-500 numeric">
-                      {`${i.toString().padStart(2, '0')}:00`}
-                    </span>
-                    <div className="flex-1 border-t border-black/5 dark:border-white/5" />
-                  </div>
-                )
-              })}
-              {currentDay?.slots.map((slot) => {
-                const startHours = getHoursInTimezone(slot.start, timezone)
-                const endHours = getHoursInTimezone(slot.end, timezone)
-                const top = 1 + startHours * REM_PER_HOUR
-                const height = (endHours - startHours) * REM_PER_HOUR
-                const isSelected = selectedSlot?.start === slot.start
+            <div className="relative flex-1 min-h-0">
+              <div ref={timelineRef} className="absolute inset-0 overflow-y-auto">
+                {Array.from({ length: 25 }).map((_, i) => {
+                  const top = 1 + i * REM_PER_HOUR
+                  return (
+                    <div
+                      key={i}
+                      className="absolute inset-x-0 flex items-start"
+                      style={{ top: `${top}rem` }}
+                    >
+                      <span className="shrink-0 w-12 -translate-y-1/2 text-right pr-2 text-xs text-neutral-500 numeric">
+                        {`${i.toString().padStart(2, '0')}:00`}
+                      </span>
+                      <div className="flex-1 border-t border-black/5 dark:border-white/5" />
+                    </div>
+                  )
+                })}
+                {currentDay?.slots.map((slot) => {
+                  const startHours = getHoursInTimezone(slot.start, timezone)
+                  const endHours = getHoursInTimezone(slot.end, timezone)
+                  const top = 1 + startHours * REM_PER_HOUR
+                  const height = (endHours - startHours) * REM_PER_HOUR
+                  const isSelected = selectedSlot?.start === slot.start
 
-                return (
-                  <label
-                    key={slot.start}
-                    className={cn(
-                      'absolute left-14 right-4 rounded-md border flex items-center px-3 cursor-pointer transition-colors numeric font-normal',
-                      isSelected
-                        ? 'bg-indigo-500 border-indigo-500 text-white'
-                        : 'border-neutral-200 bg-neutral-100 hover:bg-neutral-200 hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:border-neutral-700'
-                    )}
-                    style={{ top: `${top}rem`, height: `${height}rem` }}
-                  >
-                    <input
-                      type="radio"
-                      name="slotRadio"
-                      value={slot.start}
-                      checked={isSelected}
-                      onChange={() => setSelectedSlot(slot)}
-                      className="sr-only"
-                      required
-                    />
-                    <span className="text-sm font-medium">
-                      {formatTime(slot.start, timezone)} – {formatTime(slot.end, timezone)}
-                    </span>
-                  </label>
-                )
-              })}
+                  return (
+                    <label
+                      key={slot.start}
+                      className={cn(
+                        'absolute left-14 right-4 rounded-md border flex items-center px-3 cursor-pointer transition-colors numeric font-normal',
+                        isSelected
+                          ? 'bg-lime border-lime-dark text-black'
+                          : 'border-neutral-200 bg-neutral-100 hover:bg-neutral-200 hover:border-neutral-300 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:hover:border-neutral-700'
+                      )}
+                      style={{ top: `${top}rem`, height: `${height}rem` }}
+                    >
+                      <input
+                        type="radio"
+                        name="slotRadio"
+                        value={slot.start}
+                        checked={isSelected}
+                        onChange={() => setSelectedSlot(slot)}
+                        className="sr-only"
+                        required
+                      />
+                      <span className="text-sm font-medium">
+                        {formatTime(slot.start, timezone)} – {formatTime(slot.end, timezone)}
+                      </span>
+                    </label>
+                  )
+                })}
+              </div>
+              <div className="absolute left-0 right-px top-0 h-4 bg-linear-to-b from-white dark:from-neutral-950" />
+              <div className="absolute left-0 right-px bottom-px h-4 bg-linear-to-t from-white dark:from-neutral-950" />
             </div>
-            <div className="absolute inset-x-0 top-0 h-4 bg-linear-to-b from-white dark:from-neutral-950" />
-            <div className="absolute inset-x-0 bottom-0 h-4 bg-linear-to-t from-white dark:from-neutral-950" />
-          </div>
           )}
         </>
       )}

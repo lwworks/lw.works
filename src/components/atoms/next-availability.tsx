@@ -88,11 +88,11 @@ export const NextAvailability = ({ memberSlug, className }: NextAvailabilityProp
   }
 
   return (
-    <div className={cn('flex items-center gap-1.5 text-sm ml-2', className)}>
+    <div className={cn('flex items-center gap-1.5 text-sm', className)}>
       <span className="shrink-0 size-3 relative flex items-center justify-center">
-        <span className="absolute inset-0 bg-emerald-500/20 dark:bg-emerald-400/20 rounded-full" />
-        <span className="absolute inset-0 bg-emerald-500/20 dark:bg-emerald-400/20 rounded-full animate-ping" />
-        <span className="size-1.5 shrink-0 bg-emerald-500 dark:bg-emerald-400 rounded-full" />
+        <span className="absolute inset-0 bg-lime/25  rounded-full" />
+        <span className="absolute inset-0 bg-lime/25 rounded-full animate-ping" />
+        <span className="size-1.5 shrink-0 bg-lime-dark rounded-full" />
       </span>
       {label}
     </div>

@@ -1,4 +1,3 @@
-import { AsciiLogo } from "@/components/atoms/ascii-logo"
 import { Brow } from "@/components/atoms/brow"
 import { Heading } from "@/components/atoms/heading"
 import { Section } from "@/components/sections"
@@ -17,10 +16,7 @@ export type HomeHeroSectionContent = {
 
 export const HomeHeroSection = () => {
   return (
-    <Section bottomGradients="teal-indigo">
-      <div className="absolute right-16 bottom-4">
-        <AsciiLogo className="text-[7px] text-white/30" />
-      </div>
+    <Section>
       <div className="relative z-10">
         <Brow color="indigo" className="mb-4">Connecting the dots</Brow>
         <Heading as="h1">Design.<br />Engineering.<br />Automation.</Heading>

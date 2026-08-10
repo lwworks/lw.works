@@ -5,19 +5,23 @@ import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { BotIdClient } from 'botid/client'
 import { ThemeProvider } from 'next-themes'
-import { Geist, Geist_Mono, Sora } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 
-const sora = Sora({
-  variable: '--font-sora',
-  subsets: ['latin'],
-})
-
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+})
+
+const safiro = localFont({
+  src: '../../public/fonts/Safiro-SemiBoldItalic.woff2',
+  variable: '--font-safiro',
+  weight: '600',
+  style: 'italic',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -44,7 +48,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="de" className={cn(geist.variable, sora.variable, geistMono.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
+    <html lang="de" className={cn(geist.variable, geistMono.variable, safiro.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
       <head>
         <BotIdClient protect={[{ path: '/*', method: 'POST' }]} />
       </head>

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 type BrowProps = {
   as?: 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   variant?: 'default' | 'small' | 'xs'
-  color?: 'indigo' | 'rose' | 'emerald'
+  color?: 'indigo' | 'rose' | 'emerald' | 'lime' | 'lavender'
   children: React.ReactNode
   className?: string
 }
@@ -12,22 +12,12 @@ export const Brow = ({ as = 'span', variant = 'default', color = 'indigo', child
   const Tag = as
 
   return (
-    <div className={cn("font-mono uppercase", variant === "small" && "text-xs", variant === "xs" && "text-[10px]", variant === "default" && "text-sm flex items-center gap-2 -mr-16", className)}>
+    <div className={cn("font-mono uppercase", variant === "small" && "text-xs", variant === "xs" && "text-[10px]", variant === "default" && "text-sm flex items-center gap-2.5", className)}>
       <Tag className="shrink-0">{children}</Tag>
-      {variant === "default" && (
-        <div className="flex-1 flex items-center">
-          <span className={cn("size-1 shrink-0",
-            color === 'indigo' && 'bg-indigo-500',
-            color === 'rose' && 'bg-rose-500',
-            color === 'emerald' && 'bg-emerald-500',
-          )} />
-          <span className={cn("h-px flex-1 bg-linear-to-l from-black/10 dark:from-white/10 via-black/10 dark:via-white/10",
-            color === 'indigo' && 'to-indigo-500/50',
-            color === 'rose' && 'to-rose-500/50',
-            color === 'emerald' && 'to-emerald-500/50',
-          )} />
-        </div>
-      )}
+      <svg viewBox="0 0 29 32" fill="none" xmlns="http://www.w3.org/2000/svg" className={cn("h-3", color === "lime" && "fill-lime", color === "lavender" && "fill-lavender")}>
+        <rect width="21.0101" height="32" transform="matrix(1 0 -0.224951 0.97437 7.19824 0)" />
+        <rect x="0.775049" y="0.97437" width="19.0101" height="30" transform="matrix(1 0 -0.224951 0.97437 7.41743 0.024973)" stroke="black" strokeOpacity="0.05" strokeWidth="3.5" fill="none" />
+      </svg>
     </div>
   )
 }
