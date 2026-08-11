@@ -1,6 +1,7 @@
 import { bookingConfigs, bookingMessages } from "@/lib/booking-configs"
 import Link from "next/link"
 import { CheckHeroSection } from "../sections/check/hero"
+import { CheckTeamContactSection } from "../sections/check/team-contact"
 import { CalendarBookingSection } from "../sections/contact/calendar-booking"
 
 const bookingSection = {
@@ -32,6 +33,7 @@ export const CheckPage = () => {
   return (
     <main className="pt-16">
       <CheckHeroSection />
+      <CheckTeamContactSection />
       <CalendarBookingSection content={bookingSection} />
     </main>
   )

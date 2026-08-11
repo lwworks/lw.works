@@ -53,7 +53,7 @@ export const CalendarBookingSection = ({ content }: { content: CalendarBookingSe
   const showTimezone = content.showTimezone ?? true
 
   return (
-    <Section horizontalPadding="none" verticalPadding="none">
+    <Section horizontalPadding="none" verticalPadding="none" id="buchung">
       <BookingForm successMessage={content.successMessage}>
         <input type="hidden" name="memberSlug" value={content.booking.teamMemberSlug} />
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[1fr]">

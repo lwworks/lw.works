@@ -1,4 +1,4 @@
-import type { CalendarBookingSectionContent } from '@/components/sections/contact/calendar-booking'
+import type {CalendarBookingSectionContent} from '@/components/sections/contact/calendar-booking'
 
 export type BookingConfig = CalendarBookingSectionContent['booking']
 
@@ -10,7 +10,7 @@ export const bookingConfigs = {
     slotDurationMinutes: 30,
     advanceDays: 14,
     availableDays: [1, 2, 4, 5],
-    availableHours: { start: 13, end: 17 },
+    availableHours: {start: 13, end: 17}
   },
   check: {
     calendarId: 'lukas@lw.works',
@@ -19,8 +19,8 @@ export const bookingConfigs = {
     slotDurationMinutes: 15,
     advanceDays: 14,
     availableDays: [1, 2, 4, 5],
-    availableHours: { start: 13, end: 17 },
-  },
+    availableHours: {start: 14, end: 17}
+  }
 } as const satisfies Record<string, BookingConfig>
 
 export type BookingConfigKey = keyof typeof bookingConfigs
@@ -36,7 +36,7 @@ export const bookingMessages = {
   errorMessages: {
     default: 'Es ist ein Fehler aufgetreten. Bitte versuche es erneut.',
     botDetected: 'Anfrage wurde als automatisiert erkannt.',
-    slotTaken: 'Dieser Termin ist leider nicht mehr verfügbar. Bitte wähle einen anderen.',
+    slotTaken: 'Dieser Termin ist leider nicht mehr verfügbar. Bitte wähle einen anderen.'
   },
-  successMessage: 'Dein Termin wurde gebucht! Du erhältst eine Bestätigung per E-Mail.',
+  successMessage: 'Dein Termin wurde gebucht! Du erhältst eine Bestätigung per E-Mail.'
 }

@@ -11,18 +11,18 @@ type SectionProps = {
   className?: string
 }
 
-export const Section = ({ id, verticalPadding = "default", horizontalPadding = "default", background, children, className }: SectionProps) => {
-  const verticalPaddings = {
-    small: "py-16",
-    default: "py-24",
-    large: "py-32",
-    none: "py-0",
-  }
-  const horizontalPaddings = {
-    default: "px-16",
-    none: "px-0",
-  }
+export const verticalPaddings = {
+  small: "py-16",
+  default: "py-24",
+  large: "py-32",
+  none: "py-0",
+}
+export const horizontalPaddings = {
+  default: "px-16",
+  none: "px-0",
+}
 
+export const Section = ({ id, verticalPadding = "default", horizontalPadding = "default", background, children, className }: SectionProps) => {
   return (
     <section id={id} className={cn("relative overflow-hidden", className)}>
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />
