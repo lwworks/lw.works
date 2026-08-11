@@ -4,8 +4,8 @@ import { CheckHeroSection } from "../sections/check/hero"
 import { CalendarBookingSection } from "../sections/contact/calendar-booking"
 
 const bookingSection = {
-  title: 'Erstgespräch buchen',
-  description: "Buch' Dir kurzes Erstgespräch, damit ich mich anschließend auf Deinen Prozess-Check vorbereiten kann.",
+  title: 'Gespräch vereinbaren',
+  description: "Such Dir einen Termin für ein kurzes Gespräch aus, damit ich mich auf Deinen Prozess-Check vorbereiten kann.",
   fields: {
     name: { label: 'Dein Name', placeholder: 'Max Mustermann' },
     email: { label: 'E-Mail', placeholder: 'max@unternehmen.de' },
