@@ -48,14 +48,17 @@ const cookieBannerContent = {
 
 export const Footer = () => {
   return (
-    <footer className="relative overflow-hidden text-sm text-neutral-500">
-      <Image src="/images/footer-light.jpg" alt="Footer Background" width={2862} height={524} className="absolute inset-x-0 bottom-0" />
+    <footer className="relative overflow-hidden text-sm text-neutral-500 dark:text-neutral-400">
+      <div className="absolute inset-0">
+        <Image src="/images/footer-light.jpg" alt="Footer Background" fill className="object-cover object-bottom dark:hidden" />
+        <Image src="/images/footer-dark.jpg" alt="Footer Background" fill className="object-cover object-bottom hidden dark:block" />
+      </div>
       <div className="relative mx-auto w-full max-w-4xl px-16 border-x border-black/10 dark:border-white/10 py-24 flex gap-16 justify-between items-stretch">
         <div className="flex flex-col gap-4 justify-between">
           <Link href="/">
             <Logo className="text-black dark:text-white h-5" />
           </Link>
-          <p className="text-sm text-neutral-500">{copyrightNote}</p>
+          <p className="text-sm">{copyrightNote}</p>
         </div>
         <div className="flex gap-16">
           {menus.map((menu, index) => (
