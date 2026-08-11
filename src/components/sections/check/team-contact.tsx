@@ -19,7 +19,7 @@ export const CheckTeamContactSection = () => {
               <p className="">Entwickler & Geschäftsführer</p>
             </div>
           </div>
-          <p className="mt-8">Ich bin seit 2017 als Entwickler selbstständig und habe Anfang 2024 die LW Works GmbH gegründet. Inzwischen durfte ich bereits an Digitalisierungs- und KI-Projekten u.a. mit Airbus, BMW und Amazon arbeiten.</p>
+          <p className="mt-8">Ich bin seit 2017 als Entwickler selbstständig und habe Anfang 2024 die LW Works GmbH gegründet. Inzwischen durften wir bereits an Digitalisierungs- und KI-Projekten u.a. mit Airbus, BMW und Amazon arbeiten.</p>
         </div>
         <div className="relative">
           <div className="dark:hidden absolute inset-0 p-16 pr-0 flex flex-col items-center justify-between">

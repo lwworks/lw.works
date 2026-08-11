@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { CookieBanner } from "../atoms/cookie-banner"
 import { Logo } from "../atoms/logo"
@@ -47,7 +48,8 @@ const cookieBannerContent = {
 
 export const Footer = () => {
   return (
-    <footer className="text-sm text-neutral-500">
+    <footer className="relative overflow-hidden text-sm text-neutral-500">
+      <Image src="/images/footer-light.jpg" alt="Footer Background" width={2862} height={524} className="absolute inset-x-0 bottom-0" />
       <div className="relative mx-auto w-full max-w-4xl px-16 border-x border-black/10 dark:border-white/10 py-24 flex gap-16 justify-between items-stretch">
         <div className="flex flex-col gap-4 justify-between">
           <Link href="/">

@@ -4,6 +4,7 @@ import { CheckBookingFollowUp } from "../sections/check/booking-follow-up"
 import { CheckHeroSection } from "../sections/check/hero"
 import { CheckTeamContactSection } from "../sections/check/team-contact"
 import { CalendarBookingSection } from "../sections/contact/calendar-booking"
+import { FaqSection } from "../sections/faq"
 
 const bookingSection = {
   title: 'Gespräch vereinbaren',
@@ -37,6 +38,29 @@ export const CheckPage = () => {
       <CheckTeamContactSection />
       <CalendarBookingSection content={bookingSection} />
       <CheckBookingFollowUp />
+      <FaqSection content={{
+        id: 'faq',
+        brow: 'FAQ',
+        title: 'Häufige Fragen zum Prozess-Check',
+        items: [
+          {
+            question: 'Wozu dient der Prozess-Check?',
+            answer: ['Im Prozess-Check analysieren wir gemeinsam Deine Prozesse und Systeme – in einer Stunde geht das natürlich nicht ganzheitlich, aber sie reicht, um Dir drei Hebel an die Hand zu geben, mit denen Du Abläufe vereinfachen oder automatisieren kannst, um Zeit, Geld und Nerven zu sparen.'],
+          },
+          {
+            question: 'Ist der Prozess-Check wirklich kostenlos?',
+            answer: ['Ja, zu 100% – ohne Kleingedrucktes. Der Prozess-Check ist kostenlos, weil er ein Win-Win ist: Ich lerne Dich und Dein Unternehmen kennen, und Du erhältst 3 konkrete Hebel schwarz auf weiß, mit denen Du Zeit und Geld sparen kannst. Diese kannst Du dann mit oder ohne uns umsetzen.'],
+          },
+          {
+            question: 'Warum muss ich zuerst ein 15-Min-Gespräch buchen?',
+            answer: ['Das 15-Min-Gespräch hilft mir dabei, mich auf Deinen Prozess-Check vorzubereiten. Dabei finden wir auch heraus, ob sich ein Prozess-Check für Dich überhaupt lohnt.']
+          },
+          {
+            question: 'Muss ich irgendetwas vorbereiten?',
+            answer: ['Nein – und das sollst Du bewusst nicht. Denn ich möchte ja sehen, wie Deine Abläufe wirklich sind – nicht, wie sie vielleicht sein könnten.']
+          }
+        ],
+      }} />
     </main>
   )
 }

@@ -2,10 +2,10 @@
 
 import { Brow } from "@/components/atoms/brow"
 import { Heading } from "@/components/atoms/heading"
+import { Link } from "@/components/link"
 import { Section } from "@/components/sections"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
-import { Link } from "@/components/link"
 import { cn } from "@/lib/utils"
 
 export type FaqItemContent = {
@@ -28,7 +28,7 @@ export type FaqSectionContent = {
 export const FaqSection = ({ content }: { content: FaqSectionContent }) => {
   return (
     <Section id={content.id}>
-      <Brow className="mb-4" color="emerald">{content.brow}</Brow>
+      <Brow className="mb-2" color="lavender">{content.brow}</Brow>
       <Heading as="h2">{content.title}</Heading>
       {content.description && (
         <p className="mt-8 max-w-xl text-muted-foreground">{content.description}</p>
