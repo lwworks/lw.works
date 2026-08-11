@@ -1,5 +1,6 @@
 import { bookingConfigs, bookingMessages } from "@/lib/booking-configs"
 import Link from "next/link"
+import { CheckBookingFollowUp } from "../sections/check/booking-follow-up"
 import { CheckHeroSection } from "../sections/check/hero"
 import { CheckTeamContactSection } from "../sections/check/team-contact"
 import { CalendarBookingSection } from "../sections/contact/calendar-booking"
@@ -35,6 +36,7 @@ export const CheckPage = () => {
       <CheckHeroSection />
       <CheckTeamContactSection />
       <CalendarBookingSection content={bookingSection} />
+      <CheckBookingFollowUp />
     </main>
   )
 }
