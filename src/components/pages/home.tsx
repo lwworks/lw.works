@@ -1,4 +1,5 @@
 import { HomeHeroSection } from "../sections/home/hero"
+import { LogosSection } from "../sections/logos"
 
 const digitalDealerPromo = {
   brow: 'Digital Dealer',
@@ -17,6 +18,7 @@ export const HomePage = () => {
   return (
     <main className="pt-16">
       <HomeHeroSection />
+      <LogosSection logos={["airbus", "amazon", "bmw", "effect", "lehmann", "porsche", "scoo", "urlbox"]} variant="carousel" />
     </main>
   )
 }

@@ -27,7 +27,7 @@ export const Section = ({ id, verticalPadding = "default", horizontalPadding = "
     <section id={id} className={cn("relative overflow-hidden", className)}>
       {background === "stripes" && (<div className="absolute inset-0 bg-pattern-stripes" />)}
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />
-      <div className={cn("relative mx-auto w-full max-w-4xl", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
+      <div className={cn("relative mx-auto w-full max-w-4xl", background?.startsWith("hero-") && "bg-neutral-50 dark:bg-[#0F0F0F]", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
         {background === "hero-1" && (<>
           <Image src="/images/hero/hero-1-light.jpg" width={1728} height={1117} alt="Hero Background Light" className="dark:hidden absolute inset-x-0 bottom-0" loading="eager" />
           <Image src="/images/hero/hero-1-dark.jpg" width={1728} height={1117} alt="Hero Background Dark" className="hidden dark:block absolute inset-x-0 bottom-0" loading="eager" />
