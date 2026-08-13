@@ -1,4 +1,3 @@
-import { DigitalDealerPromoSection } from "@/components/sections/home/digital-dealer-promo"
 import { HomeHeroSection } from "../sections/home/hero"
 
 const digitalDealerPromo = {
@@ -18,7 +17,6 @@ export const HomePage = () => {
   return (
     <main className="pt-16">
       <HomeHeroSection />
-      <DigitalDealerPromoSection content={digitalDealerPromo} />
     </main>
   )
 }

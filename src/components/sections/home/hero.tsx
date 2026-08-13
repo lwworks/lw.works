@@ -1,6 +1,10 @@
 import { Brow } from "@/components/atoms/brow"
+import { CTA } from "@/components/atoms/cta"
 import { Heading } from "@/components/atoms/heading"
+import { Link } from "@/components/link"
 import { Section } from "@/components/sections"
+import { Button } from "@/components/ui/button"
+import { ArrowRight } from "@mynaui/icons-react"
 
 export type HomeHeroSectionContent = {
   imageAlt: string
@@ -16,25 +20,22 @@ export type HomeHeroSectionContent = {
 
 export const HomeHeroSection = () => {
   return (
-    <Section>
+    <Section background="hero-2">
       <div className="relative z-10">
-        <Brow color="indigo" className="mb-4">Connecting the dots</Brow>
-        <Heading as="h1">Design.<br />Engineering.<br />Automation.</Heading>
+        <Brow color="lavender" className="mb-4">Digitalisierung für den Mittelstand</Brow>
+        <Heading as="h1">Deine Marge schlummert in Deinen Prozessen</Heading>
+        <p className="mt-8 max-w-lg text-balance"><span className="font-medium text-black dark:text-white">Wir legen sie frei.</span> Mit Schnittstellen, Prozessautomatisierung, KI-Integrationen und individueller Software.</p>
+        <p className="mt-4 max-w-lg text-balance"><span className="font-medium text-black dark:text-white">Klingt kompliziert? Ist es gar nicht.</span> Im kostenlosen Prozess-Check finden wir schnell und einfach Optimierungsmöglichkeiten, um Dir Zeit und Geld zurückzuholen. <span className="font-medium text-black dark:text-white">Kostenlos und ohne Verkaufsgespräch.</span></p>
+        <CTA>
+          <Button asChild>
+            <Link href="/check">
+              <span>Prozess-Check buchen</span>
+              <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
+            </Link>
+          </Button>
+          <p className="ml-2 text-sm">Für Unternehmen ab 5 Mitarbeitenden</p>
+        </CTA>
       </div>
-      {/* <Brow className="mb-8" color="indigo">
-        {content.brow}
-      </Brow>
-      <Heading as="h1">{content.title}</Heading>
-      <p className="mt-8 max-w-lg text-balance">{content.description}</p>
-      <CTA>
-        <Button asChild>
-          <Link href={content.cta.href as ComponentProps<typeof Link>['href']}>
-            <span>{content.cta.label}</span>
-            <ArrowDown className="size-4" strokeWidth={2} />
-          </Link>
-        </Button>
-        <UrgencyNote>{content.cta.urgencyNote}</UrgencyNote>
-      </CTA> */}
     </Section >
   )
 }

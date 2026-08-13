@@ -9,7 +9,7 @@ import { ArrowDown } from "@mynaui/icons-react"
 
 export const CheckHeroSection = () => {
   return (
-    <Section background="1">
+    <Section background="hero-1">
       <Brow color="lavender" className="mb-2">Jetzt buchen</Brow>
       <Heading as="h1">Dein Prozess-Check</Heading>
       <p className="mt-8 max-w-lg text-balance">Wir nehmen uns eine Stunde Zeit, um uns gemeinsam Deine Prozesse und Systeme anzuschauen. Anschließend erhältst Du ein Dokument mit den drei größten Zeitfressern inklusive Lösungsempfehlungen.</p>
@@ -19,7 +19,7 @@ export const CheckHeroSection = () => {
         <Button asChild>
           <Link href="#buchung">
             <span>15-Min Termin buchen</span>
-            <ArrowDown className="size-4" />
+            <ArrowDown strokeWidth={2} className="size-4 opacity-50" />
           </Link>
         </Button>
         <NextAvailability memberSlug="lukas" className="ml-2" />
