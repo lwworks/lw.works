@@ -51,7 +51,7 @@ export const ContactFormSection = ({ content }: { content: ContactFormSectionCon
 
   return (
     <Section id={content.id} bottomGradients="indigo-orange">
-      <Brow className="mb-4" color="indigo">{content.brow}</Brow>
+      <Brow className="mb-4" color="lavender">{content.brow}</Brow>
       <Heading as="h1">{content.title}</Heading>
       <p className="mt-8 max-w-xl">{content.description}</p>
       <form ref={formRef} action={formAction} className="mt-12 flex flex-col gap-8">
