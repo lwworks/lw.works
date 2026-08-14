@@ -10,14 +10,14 @@ type HeadingProps = {
 export const Heading = ({ as = 'h2', size, children, className }: HeadingProps) => {
   const Tag = as
   const classes = {
-    h1: 'font-heading text-6xl font-black',
-    h2: 'font-heading text-3xl font-black',
+    h1: 'font-heading text-6xl font-black -ml-0.5',
+    h2: 'font-heading text-3xl font-black -ml-0.5',
     h3: 'font-heading text-xl font-black',
     h4: 'font-medium text-black text-base'
   }
 
   return (
-    <Tag className={cn("text-black dark:text-white -ml-1", classes[size ?? as], className)}>
+    <Tag className={cn("text-black dark:text-white", classes[size ?? as], className)}>
       {children}
     </Tag>
   )

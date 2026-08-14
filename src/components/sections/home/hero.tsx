@@ -20,7 +20,7 @@ export type HomeHeroSectionContent = {
 
 export const HomeHeroSection = () => {
   return (
-    <Section background="hero-2">
+    <Section background="paint-2">
       <div className="relative z-10">
         <Brow color="lavender" className="mb-4">Digitalisierung für den Mittelstand</Brow>
         <Heading as="h1">Deine Marge schlummert in Deinen Prozessen</Heading>

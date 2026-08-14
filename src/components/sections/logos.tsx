@@ -27,10 +27,18 @@ const availableLogos = {
     height: 128,
     heightClass: "size-12",
   },
+  brunkhorst: {
+    light: "/images/logos/brunkhorst-black.svg",
+    dark: "/images/logos/brunkhorst-white.svg",
+    alt: "Brunkhorst",
+    width: 523,
+    height: 64,
+    heightClass: "h-6",
+  },
   effect: {
     light: "/images/logos/effect-black.svg",
     dark: "/images/logos/effect-white.svg",
-    alt: "Effect",
+    alt: "Effect.ts",
     width: 323,
     height: 96,
     heightClass: "h-6",
@@ -38,10 +46,18 @@ const availableLogos = {
   lehmann: {
     light: "/images/logos/lehmann-black.svg",
     dark: "/images/logos/lehmann-white.svg",
-    alt: "Lehmann",
+    alt: "Lehmann Rollstuhlrampen & Hebelifte",
     width: 228,
     height: 96,
     heightClass: "h-8",
+  },
+  livestore: {
+    light: "/images/logos/livestore-black.svg",
+    dark: "/images/logos/livestore-white.svg",
+    alt: "Livestore",
+    width: 408,
+    height: 96,
+    heightClass: "h-7",
   },
   porsche: {
     light: "/images/logos/porsche-black.svg",
@@ -54,7 +70,7 @@ const availableLogos = {
   scoo: {
     light: "/images/logos/scoo-black.svg",
     dark: "/images/logos/scoo-white.svg",
-    alt: "Scoo",
+    alt: "Scoo Kombucha",
     width: 326,
     height: 80,
     heightClass: "h-6",

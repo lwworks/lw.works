@@ -3,12 +3,12 @@ import { cn } from "@/lib/utils"
 type BrowProps = {
   as?: 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   variant?: 'default' | 'small' | 'xs'
-  color?: 'indigo' | 'rose' | 'emerald' | 'lime' | 'lavender'
+  color?: 'lime' | 'lavender'
   children: React.ReactNode
   className?: string
 }
 
-export const Brow = ({ as = 'span', variant = 'default', color = 'indigo', children, className }: BrowProps) => {
+export const Brow = ({ as = 'span', variant = 'default', color = 'lime', children, className }: BrowProps) => {
   const Tag = as
 
   return (
