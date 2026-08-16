@@ -157,4 +157,7 @@
   .font-heading {
     line-height: 0.9;
   }
+  .vertical {
+    writing-mode: sideways-lr;
+  }
 }

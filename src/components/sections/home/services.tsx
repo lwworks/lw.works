@@ -27,13 +27,13 @@ export const ServicesSection = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 divide-x divide-black/10 dark:divide-white/10">
-        <div className="p-16 py-8 overflow-hidden">
+        <div className="p-16 pt-8 overflow-hidden">
           <Image src="/images/visuals/software.png" alt="Individuelle Software" width={800} height={437} className="mb-2 -mt-20 dark:hidden" />
           <Image src="/images/visuals/software-dark.png" alt="Individuelle Software" width={800} height={437} className="mb-2 -mt-20 hidden dark:block" />
           <Heading as="h3">Individuelle Software</Heading>
           <p className="mt-2">Wo Standard-Tools an ihre Grenzen kommen, entwickeln wir individuelle Systeme. Angepasst an Dein Unternehmen — nicht andersrum.</p>
         </div>
-        <div className="p-16 py-8 overflow-hidden">
+        <div className="p-16 pt-8 overflow-hidden">
           <Image src="/images/visuals/ki-integration.png" alt="KI-Integration" width={800} height={437} className="mb-2 -mt-20 dark:hidden" />
           <Image src="/images/visuals/ki-integration-dark.png" alt="KI-Integration" width={800} height={437} className="mb-2 -mt-20 hidden dark:block" />
           <Heading as="h3">KI-Integration</Heading>

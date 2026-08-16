@@ -56,7 +56,7 @@ export const SolutionSection = () => {
             <span className="font-mono text-xl">03</span>
             <Heading as="h3">Projekt</Heading>
           </div>
-          <p className="mt-2">Nach einem Workshop mit Deinem Team setzen wir Über einen Zeitraum von 6 Wochen umfangreiche Lösungen um, die Dir und Deinem Team die tägliche Arbeit erleichtern und so Deine Marge freisetzen.</p>
+          <p className="mt-2">Nach einem Workshop mit Deinem Team setzen wir über einen Zeitraum von 6 Wochen umfangreiche Lösungen um, die Dir und Deinem Team die tägliche Arbeit erleichtern und so Deine Marge freisetzen.</p>
         </div>
       </div>
       <div className="p-16 pt-8">
