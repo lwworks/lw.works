@@ -1,8 +1,8 @@
-import { Link } from '@/components/link'
-import { CTA } from '@/components/atoms/cta'
 import { Brow } from '@/components/atoms/brow'
+import { CTA } from '@/components/atoms/cta'
 import { Heading } from '@/components/atoms/heading'
 import { NextAvailability } from '@/components/atoms/next-availability'
+import { Link } from '@/components/link'
 import { Section } from '@/components/sections'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -26,7 +26,7 @@ export type TeamMemberSectionContent = {
 export const TeamMemberSection = ({ content }: { content: TeamMemberSectionContent }) => {
   return (
     <Section id={content.id}>
-      {content.brow && (<Brow className="mb-4" color="indigo">{content.brow}</Brow>)}
+      {content.brow && (<Brow className="mb-4" color="lime">{content.brow}</Brow>)}
       <div className="flex w-full items-center gap-4 mb-8">
         <div className="relative shrink-0 size-18 overflow-hidden rounded-full border-2 border-indigo-500">
           <Image
