@@ -30,7 +30,7 @@ export const SolutionSection = () => {
               <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
             </Link>
           </Button>
-          <NextAvailability memberSlug="lukas" className="ml-2" />
+          <NextAvailability bookingType="check" className="ml-2" />
         </CTA>
       </div>
       <div className="border-b border-black/10 dark:border-white/10 grid grid-cols-2 divide-x divide-black/10 dark:divide-white/10">

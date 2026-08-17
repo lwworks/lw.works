@@ -22,7 +22,7 @@ export const CheckHeroSection = () => {
             <ArrowDown strokeWidth={2} className="size-4 opacity-50" />
           </Link>
         </Button>
-        <NextAvailability memberSlug="lukas" className="ml-2" />
+        <NextAvailability bookingType="check" className="ml-2" />
       </CTA>
     </Section >
   )
