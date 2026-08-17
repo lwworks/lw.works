@@ -3,9 +3,9 @@ import { CTA } from "@/components/atoms/cta"
 import { Heading } from "@/components/atoms/heading"
 import { NextAvailability } from "@/components/atoms/next-availability"
 import { Link } from "@/components/link"
+import { TeamMember } from "@/components/molecules/team-member"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "@mynaui/icons-react"
-import Image from "next/image"
 import { Section } from ".."
 
 export const SolutionSection = () => {
@@ -14,18 +14,8 @@ export const SolutionSection = () => {
       <div className="p-16 pb-8 border-b border-black/10 dark:border-white/10">
         <Brow color="lime" className="mb-2">Unser Angebot</Brow>
         <Heading as="h2">Wie wir das gemeinsam lösen</Heading>
-        <p className="mt-4 text-balance">Unser Angebotskonzept ist so aufgebaut, dass wir Dir möglichst schnell Ergebnisse liefern und Dein Unternehmen nachhaltig digitalisieren können.</p>
-        <div className="flex items-center gap-4 mt-8">
-          <div className="relative rounded-full overflow-hidden size-24 border-2">
-            <Image src="/images/lukas-brunkhorst.jpg" alt="Lukas Brunkhorst" fill className="object-cover object-center" />
-          </div>
-          <div>
-            <Brow color="lime">Dein Ansprechpartner</Brow>
-            <Heading as="h3" size="h2" className="-ml-0.5">Lukas Brunkhorst</Heading>
-            <p className="">Entwickler & Geschäftsführer</p>
-          </div>
-        </div>
-        <p className="mt-8">Ich bin seit 2017 als Entwickler selbstständig und habe Anfang 2024 die LW Works GmbH gegründet. Inzwischen durften wir bereits an Digitalisierungs- und KI-Projekten u.a. mit Airbus, BMW und Amazon arbeiten.</p>
+        <p className="mt-4 mb-8 text-balance">Unser Angebotskonzept ist so aufgebaut, dass wir Dir möglichst schnell Ergebnisse liefern und Dein Unternehmen nachhaltig digitalisieren können.</p>
+        <TeamMember member="lukas" showDescription />
       </div>
       <div className="p-16 py-8 border-b border-black/10 dark:border-white/10">
         <div className="flex items-center gap-2">

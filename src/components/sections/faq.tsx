@@ -5,7 +5,6 @@ import { Heading } from "@/components/atoms/heading"
 import { Link } from "@/components/link"
 import { Section } from "@/components/sections"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export type FaqItemContent = {
@@ -31,7 +30,7 @@ export const FaqSection = ({ content }: { content: FaqSectionContent }) => {
       <Brow className="mb-2" color="lavender">{content.brow}</Brow>
       <Heading as="h2">{content.title}</Heading>
       {content.description && (
-        <p className="mt-8 max-w-xl text-muted-foreground">{content.description}</p>
+        <p className="mt-4 max-w-xl">{content.description}</p>
       )}
       <Accordion type="multiple" className={cn("w-full mt-4")}>
         {content.items.map((item, index) => (
@@ -45,9 +44,7 @@ export const FaqSection = ({ content }: { content: FaqSectionContent }) => {
               ))}
               {item.cta && (
                 <div className="mt-4">
-                  <Button variant="link" asChild className="h-auto p-0 text-base">
-                    <Link href={item.cta.href}>{item.cta.label}</Link>
-                  </Button>
+                  <Link href={item.cta.href} className="text-black dark:text-white underline hover:opacity-80">{item.cta.label}</Link>
                 </div>
               )}
             </AccordionContent>

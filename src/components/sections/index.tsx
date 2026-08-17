@@ -6,7 +6,7 @@ type SectionProps = {
   verticalPadding?: "small" | "default" | "large" | "none"
   horizontalPadding?: "default" | "none"
   bottomGradients?: "rose-orange" | "green-indigo" | "indigo-orange" | "teal-indigo"
-  background?: "paint-1" | "paint-2" | "paint-3" | "paint-4" | "stripes"
+  background?: "darker" | "paint-1" | "paint-2" | "paint-3" | "paint-4" | "stripes"
   children: React.ReactNode
   className?: string
 }
@@ -25,9 +25,9 @@ export const horizontalPaddings = {
 export const Section = ({ id, verticalPadding = "default", horizontalPadding = "default", background, children, className }: SectionProps) => {
   return (
     <section id={id} className={cn("relative overflow-hidden", className)}>
-      {background === "stripes" && (<div className="absolute inset-0 bg-pattern-stripes" />)}
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />
-      <div className={cn("relative mx-auto w-full max-w-4xl", background?.startsWith("paint-") && "bg-neutral-50 dark:bg-[#0F0F0F]", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
+      <div className={cn("relative mx-auto w-full max-w-4xl", (background === "darker" || background?.startsWith("paint-")) && "bg-neutral-50 dark:bg-[#0F0F0F]", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
+        {background === "stripes" && (<div className="absolute inset-0 bg-pattern-stripes" />)}
         {background === "paint-1" && (<>
           <Image src="/images/paint/paint-1-light.jpg" width={1728} height={1117} alt="Paint Background Light" className="dark:hidden absolute inset-x-0 bottom-0" loading="eager" />
           <Image src="/images/paint/paint-1-dark.jpg" width={1728} height={1117} alt="Paint Background Dark" className="hidden dark:block absolute inset-x-0 bottom-0" loading="eager" />
