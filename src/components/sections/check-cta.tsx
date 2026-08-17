@@ -10,12 +10,12 @@ import { Button } from "../ui/button"
 
 export const CheckCtaSection = () => {
   return (
-    <Section id="check" background="stripes">
+    <Section id="check" background="stripes" verticalPadding="small">
       <Brow color="lime" className="mb-2">Jetzt buchen</Brow>
       <Heading as="h2">Dein Prozess-Check</Heading>
       <p className="mt-4 text-balance">Lass uns gemeinsam schauen, an welchen Stellen Du Zeit und Geld sparen kannst.</p>
-      <p className="mt-4 text-black dark:text-white font-medium">Eine Stunde. Kostenlos.</p>
-      <CTA className="mb-16">
+      <p className="mt-4 text-black dark:text-white font-medium">Eine Stunde. Kostenlos. Kein Verkaufsgespräch.</p>
+      <CTA className="mb-12">
         <Button asChild>
           <Link href="/check">
             <span>Prozess-Check buchen</span>
@@ -25,7 +25,7 @@ export const CheckCtaSection = () => {
         <NextAvailability memberSlug="lukas" className="ml-2" />
       </CTA>
       <TeamMember member="lukas" />
-      <p className="mt-8 text-balance">Als Entwickler habe ich ein tiefes Verständnis von Software, Schnittstellen und KI. So kann ich Dir helfen, Stellschrauben zu finden, mit denen Du Zeit und Geld sparen kannst.</p>
+      {/* <p className="mt-8 text-balance">Als Entwickler habe ich ein tiefes Verständnis von Software, Schnittstellen und KI. So kann ich Dir helfen, Stellschrauben zu finden, mit denen Du Zeit und Geld sparen kannst.</p> */}
     </Section>
   )
 }

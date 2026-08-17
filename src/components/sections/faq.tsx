@@ -26,7 +26,7 @@ export type FaqSectionContent = {
 
 export const FaqSection = ({ content }: { content: FaqSectionContent }) => {
   return (
-    <Section id={content.id}>
+    <Section id={content.id} verticalPadding="small">
       <Brow className="mb-2" color="lavender">{content.brow}</Brow>
       <Heading as="h2">{content.title}</Heading>
       {content.description && (
