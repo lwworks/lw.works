@@ -1,7 +1,6 @@
 import { Brow } from '@/components/atoms/brow'
 import { CTA } from '@/components/atoms/cta'
 import { Heading } from '@/components/atoms/heading'
-import { NextAvailability } from '@/components/atoms/next-availability'
 import { Link } from '@/components/link'
 import { Section } from '@/components/sections'
 import { Button } from '@/components/ui/button'
@@ -50,9 +49,6 @@ export const TeamMemberSection = ({ content }: { content: TeamMemberSectionConte
           <Button asChild>
             <Link href={content.cta.href}>{content.cta.label}</Link>
           </Button>
-          {content.cta.nextAvailability && (
-            <NextAvailability memberSlug={content.cta.nextAvailability.memberSlug} />
-          )}
         </CTA>
       )}
     </Section>
