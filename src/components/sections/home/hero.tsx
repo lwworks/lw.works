@@ -1,6 +1,7 @@
 import { Brow } from "@/components/atoms/brow"
 import { CTA } from "@/components/atoms/cta"
 import { Heading } from "@/components/atoms/heading"
+import { NextAvailability } from "@/components/atoms/next-availability"
 import { Link } from "@/components/link"
 import { Section } from "@/components/sections"
 import { Button } from "@/components/ui/button"
@@ -33,7 +34,7 @@ export const HomeHeroSection = () => {
               <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
             </Link>
           </Button>
-          <p className="ml-2 text-sm">Für Unternehmen ab 5 Mitarbeitenden</p>
+          <NextAvailability bookingType="check" className="ml-2" />
         </CTA>
       </div>
     </Section >
