@@ -18,7 +18,7 @@ export const CheckHeroSection = () => {
       <CTA>
         <Button asChild>
           <Link href="#buchung">
-            <span>15-Min Termin buchen</span>
+            <span>Erstgespräch buchen</span>
             <ArrowDown strokeWidth={2} className="size-4 opacity-50" />
           </Link>
         </Button>

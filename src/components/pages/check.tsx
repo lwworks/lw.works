@@ -1,10 +1,10 @@
+import { CheckHeroSection } from "@/components/sections/check/hero"
+import { CheckProcessSection } from "@/components/sections/check/process"
+import { CheckTeamContactSection } from "@/components/sections/check/team-contact"
+import { CalendarBookingSection } from "@/components/sections/contact/calendar-booking"
+import { FaqSection } from "@/components/sections/faq"
 import { bookingConfigs, bookingMessages } from "@/lib/booking-configs"
 import Link from "next/link"
-import { CheckBookingFollowUp } from "../sections/check/booking-follow-up"
-import { CheckHeroSection } from "../sections/check/hero"
-import { CheckTeamContactSection } from "../sections/check/team-contact"
-import { CalendarBookingSection } from "../sections/contact/calendar-booking"
-import { FaqSection } from "../sections/faq"
 
 const bookingSection = {
   title: 'Gespräch vereinbaren',
@@ -35,10 +35,10 @@ export const CheckPage = () => {
   return (
     <main className="pt-16">
       <CheckHeroSection />
+      <CheckProcessSection />
       <CheckTeamContactSection />
       <CalendarBookingSection content={bookingSection} />
-      <CheckBookingFollowUp />
-      <FaqSection content={{
+      <FaqSection background="stripes" content={{
         id: 'faq',
         brow: 'FAQ',
         title: 'Häufige Fragen zum Prozess-Check',

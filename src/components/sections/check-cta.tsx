@@ -18,14 +18,13 @@ export const CheckCtaSection = () => {
       <CTA className="mb-12">
         <Button asChild>
           <Link href="/check">
-            <span>Prozess-Check buchen</span>
+            <span>Erstgespräch buchen</span>
             <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
           </Link>
         </Button>
         <NextAvailability memberSlug="lukas" className="ml-2" />
       </CTA>
       <TeamMember member="lukas" />
-      {/* <p className="mt-8 text-balance">Als Entwickler habe ich ein tiefes Verständnis von Software, Schnittstellen und KI. So kann ich Dir helfen, Stellschrauben zu finden, mit denen Du Zeit und Geld sparen kannst.</p> */}
     </Section>
   )
 }

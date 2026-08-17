@@ -1,16 +1,6 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
-type SectionProps = {
-  id?: string
-  verticalPadding?: "small" | "default" | "large" | "none"
-  horizontalPadding?: "default" | "none"
-  bottomGradients?: "rose-orange" | "green-indigo" | "indigo-orange" | "teal-indigo"
-  background?: "darker" | "paint-1" | "paint-2" | "paint-3" | "paint-4" | "stripes"
-  children: React.ReactNode
-  className?: string
-}
-
 export const verticalPaddings = {
   small: "py-16",
   default: "py-24",
@@ -20,6 +10,20 @@ export const verticalPaddings = {
 export const horizontalPaddings = {
   default: "px-16",
   none: "px-0",
+}
+
+export type SectionVerticalPadding = keyof typeof verticalPaddings
+export type SectionHorizontalPadding = keyof typeof horizontalPaddings
+export type SectionBackground = "darker" | "paint-1" | "paint-2" | "paint-3" | "paint-4" | "stripes"
+
+export type SectionProps = {
+  id?: string
+  verticalPadding?: SectionVerticalPadding
+  horizontalPadding?: SectionHorizontalPadding
+  bottomGradients?: "rose-orange" | "green-indigo" | "indigo-orange" | "teal-indigo"
+  background?: SectionBackground
+  children: React.ReactNode
+  className?: string
 }
 
 export const Section = ({ id, verticalPadding = "default", horizontalPadding = "default", background, children, className }: SectionProps) => {

@@ -46,7 +46,6 @@ export const HomePage = () => {
         ],
       }} />
       <CheckCtaSection />
-      <LogosSection logos={["airbus", "amazon", "bmw", "livestore", "brunkhorst", "effect", "lehmann", "porsche", "scoo", "urlbox"]} variant="carousel" />
     </main>
   )
 }

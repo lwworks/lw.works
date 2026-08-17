@@ -5,7 +5,7 @@ import { Section, verticalPaddings } from ".."
 
 export const CheckTeamContactSection = () => {
   return (
-    <Section id="team-contact" verticalPadding="none">
+    <Section id="team-contact" verticalPadding="none" background="paint-4">
       <div className="grid grid-cols-4">
         <div className={cn("col-span-3 border-r border-black/10 dark:border-white/10 pr-16", verticalPaddings.small)}>
           <TeamMember member="lukas" showDescription />

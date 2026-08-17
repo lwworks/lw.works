@@ -29,7 +29,7 @@ export const HomeHeroSection = () => {
         <CTA>
           <Button asChild>
             <Link href="/check">
-              <span>Prozess-Check buchen</span>
+              <span>Kostenloser Prozess-Check</span>
               <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
             </Link>
           </Button>

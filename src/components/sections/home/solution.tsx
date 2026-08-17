@@ -26,7 +26,7 @@ export const SolutionSection = () => {
         <CTA className="mt-6">
           <Button asChild>
             <Link href="/check">
-              <span>Prozess-Check buchen</span>
+              <span>Erstgespräch buchen</span>
               <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
             </Link>
           </Button>
