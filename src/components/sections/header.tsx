@@ -6,7 +6,6 @@ import Link from "next/link"
 const navItems = [
   { label: 'Design Engineering', href: '/design-engineering' },
   { label: 'Automatisierung', href: '/automation' },
-  { label: 'Blog', href: '/blog' },
 ]
 
 const themeSwitcherContent = {
