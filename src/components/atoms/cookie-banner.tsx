@@ -71,10 +71,10 @@ export const CookieBanner = ({ content }: { content: CookieBannerContent }) => {
             onEscapeKeyDown={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
-            className="fixed bottom-0 inset-x-0 z-50 bg-popover border-t border-black/10 dark:border-white/10 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom"
+            className="fixed bottom-0 inset-x-0 z-50 bg-neutral-50 dark:bg-[#0F0F0F] border-t border-black/10 dark:border-white/10 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom"
           >
             <div className="relative mx-auto w-full max-w-4xl border-x border-black/10 dark:border-white/10 p-16">
-              <Dialog.Title className="font-heading text-xl font-black text-black dark:text-white">
+              <Dialog.Title className="font-heading text-2xl font-black text-black dark:text-white">
                 {content.title}
               </Dialog.Title>
               <Dialog.Description className="mt-4">
