@@ -3,8 +3,10 @@ import { CheckProcessSection } from "@/components/sections/check/process"
 import { CheckTeamContactSection } from "@/components/sections/check/team-contact"
 import { CalendarBookingSection } from "@/components/sections/contact/calendar-booking"
 import { FaqSection } from "@/components/sections/faq"
+import { lukas } from "@/content/team/lukas"
 import { bookingConfigs, bookingMessages } from "@/lib/booking-configs"
 import Link from "next/link"
+import { BookingSection } from "../sections/check/booking"
 
 const bookingSection = {
   title: 'Gespräch vereinbaren',
@@ -37,6 +39,7 @@ export const CheckPage = () => {
       <CheckHeroSection />
       <CheckProcessSection />
       <CheckTeamContactSection />
+      <BookingSection heading="Gespräch vereinbaren" description="Such Dir einen Termin für ein kurzes Gespräch aus, damit ich mich auf Deinen Prozess-Check vorbereiten kann." bookingConfig={lukas.bookingOptions.check} showMessageInput />
       <CalendarBookingSection content={bookingSection} />
       <FaqSection background="stripes" content={{
         id: 'faq',

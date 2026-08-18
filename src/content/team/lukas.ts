@@ -6,7 +6,9 @@ export const lukas = {
     'Ich bin seit 2017 als Entwickler selbstständig und habe Anfang 2024 die LW Works GmbH gegründet. Inzwischen durften wir bereits an Digitalisierungs- und KI-Projekten u.a. mit Airbus, BMW und Amazon arbeiten.',
   bookingOptions: {
     check: {
+      id: 'check',
       name: 'Prozess-Check',
+      type: ['online', 'phone'] as BookingType,
       calendarId: 'lukas@lw.works',
       timezone: 'Europe/Berlin',
       slotDuration: 15,
