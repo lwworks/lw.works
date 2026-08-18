@@ -5,6 +5,8 @@ import { type ComponentProps, useCallback } from 'react'
 
 type LinkProps = ComponentProps<typeof NextLink>
 
+const HEADER_OFFSET = 96
+
 export function Link({ href, onClick, ...props }: LinkProps) {
   const isHash = typeof href === 'string' && href.startsWith('#')
 
@@ -15,8 +17,9 @@ export function Link({ href, onClick, ...props }: LinkProps) {
         const id = (href as string).slice(1)
         const target = document.getElementById(id)
         if (target) {
+          const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET
           history.replaceState(null, '', window.location.pathname)
-          target.scrollIntoView({ behavior: 'smooth' })
+          window.scrollTo({ top, behavior: 'smooth' })
           history.replaceState(null, '', href as string)
         }
       }
