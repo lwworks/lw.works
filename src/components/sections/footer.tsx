@@ -30,22 +30,6 @@ const menus = [
   },
 ]
 
-const cookieBannerContent = {
-  triggerLabel: 'Cookies',
-  title: 'Cookies & Datenschutz',
-  description:
-    'Wir verwenden Cookies, um die Website zu verbessern und Ihnen den besten Service zu bieten. Durch die Nutzung der Website erklären Sie sich mit der Verwendung von Cookies einverstanden.',
-  cookies: {
-    necessary: {
-      label: 'Technisch notwendig',
-      description:
-        'Das sind Cookies und Daten, die für die Verwendung der Website notwendig sind. Wir speichern z.B. Deine Präferenzen für Cookies, die Website-Sprache oder den Farbmodus.',
-    },
-  },
-  acceptSelected: 'Auswahl speichern',
-  acceptAll: 'Alle akzeptieren',
-}
-
 export const Footer = () => {
   return (
     <footer className="relative overflow-hidden text-sm text-neutral-500 dark:text-neutral-400">
@@ -72,7 +56,7 @@ export const Footer = () => {
                 ))}
                 {index === menus.length - 1 && (
                   <li>
-                    <CookieBanner content={cookieBannerContent} />
+                    <CookieBanner />
                   </li>
                 )}
               </ul>
