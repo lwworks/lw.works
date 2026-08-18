@@ -28,7 +28,7 @@ export type SectionProps = {
 
 export const Section = ({ id, verticalPadding = "default", horizontalPadding = "default", background, children, className }: SectionProps) => {
   return (
-    <section id={id} className={cn("relative overflow-hidden", className)}>
+    <section id={id} className={cn("relative overflow-clip", className)}>
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />
       <div className={cn("relative mx-auto w-full max-w-4xl", (background === "darker" || background?.startsWith("paint-")) && "bg-neutral-50 dark:bg-[#0F0F0F]", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
         {background === "stripes" && (<div className="absolute inset-0 bg-pattern-stripes" />)}
