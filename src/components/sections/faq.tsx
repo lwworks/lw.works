@@ -1,34 +1,56 @@
-import {Heading} from '../atoms/heading'
-import {Section} from '../layout/section'
-import {Paragraph} from '../atoms/paragraph'
-import {FC} from 'react'
-import {Button} from '../atoms/button'
+'use client'
 
-type Content = {
-  heading: string
-  text: string
-  cta: {caption: string; href: string}
-  questions: {q: string; a: string}[]
+import { Brow } from "@/components/atoms/brow"
+import { Heading } from "@/components/atoms/heading"
+import { Link } from "@/components/link"
+import { Section, SectionBackground } from "@/components/sections"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { cn } from "@/lib/utils"
+
+export type FaqItemContent = {
+  question: string
+  answer: string[]
+  cta?: {
+    label: string
+    href: string
+  }
 }
 
-export const FAQ: FC<{content: Content}> = ({content}) => {
+export type FaqSectionContent = {
+  id: string
+  brow: string
+  title: string
+  description?: string
+  items: FaqItemContent[]
+}
+
+export const FaqSection = ({ background, content }: { background?: SectionBackground, content: FaqSectionContent }) => {
   return (
-    <Section className="pt-24 lg:pt-48 grid grid-cols-1 lg:grid-cols-3 gap-y-12 gap-x-16 pb-16 lg:pb-24">
-      <div>
-        <Heading level={2} html={content.heading} />
-        <Paragraph className="my-7 max-w-lg" html={content.text} />
-        <Button href={content.cta.href} secondary>
-          {content.cta.caption}
-        </Button>
-      </div>
-      <div className="lg:col-span-2 grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12">
-        {content.questions.map(({q, a}, index) => (
-          <div key={index}>
-            <h4 className="text-black dark:text-white font-semibold">{q}</h4>
-            <Paragraph className="mt-4 max-w-lg" html={a} />
-          </div>
+    <Section id={content.id} verticalPadding="small" background={background}>
+      <Brow className="mb-2" color="lavender">{content.brow}</Brow>
+      <Heading as="h2">{content.title}</Heading>
+      {content.description && (
+        <p className="mt-4 max-w-xl">{content.description}</p>
+      )}
+      <Accordion type="multiple" className={cn("w-full mt-4")}>
+        {content.items.map((item, index) => (
+          <AccordionItem key={`faq-${index}`} value={`faq-${index}`} className="border-none p-0 m-0 mt-4">
+            <AccordionTrigger className="text-base font-medium text-black dark:text-white hover:no-underline p-0 cursor-pointer">
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent className="text-base mt-4">
+              {item.answer.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              {item.cta && (
+                <div className="mt-4">
+                  <Link href={item.cta.href} className="text-black dark:text-white underline hover:opacity-80">{item.cta.label}</Link>
+                </div>
+              )}
+            </AccordionContent>
+          </AccordionItem>
         ))}
-      </div>
+      </Accordion>
     </Section>
   )
 }

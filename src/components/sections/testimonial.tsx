@@ -1,35 +1,59 @@
-import {FC} from 'react'
-import {Divider} from '../atoms/divider'
-import {Section} from '../layout/section'
-import {Icon} from '../icons'
-import Image from 'next/image'
+import { Section } from "@/components/sections"
+import Image from "next/image"
 
-type Content = {quote: string; author: string; role: string}
+export type TestimonialSectionContent = {
+  quote: string
+  client: {
+    name: string
+    description: string
+    avatar: string
+  }
+  logo: {
+    srcDark: string
+    srcLight: string
+    alt: string
+    width: number
+    height: number
+  }
+}
 
-export const Testimonial: FC<{content: Content}> = ({content}) => {
+export const TestimonialSection = ({ content }: { content: TestimonialSectionContent }) => {
   return (
-    <>
-      <Divider />
-      <Section className="relative overflow-hidden pt-16 lg:pt-20 flex flex-col items-start lg:items-center gap-6">
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-indigo-400 w-1/2 h-32 blur-3xl opacity-25" style={{borderRadius: '50% 50%'}} />
-        <div className="flex gap-0.5 text-indigo-200 dark:text-indigo-900">
-          <Icon name="star" className="h-4" />
-          <Icon name="star" className="h-4" />
-          <Icon name="star" className="h-4" />
-          <Icon name="star" className="h-4" />
-          <Icon name="star" className="h-4" />
-        </div>
-        <div className="text-3xl font-display italic leading-tight text-indigo-500 dark:text-indigo-400 relative lg:text-center">{`"${content.quote}"`}</div>
-        <div className="flex relative items-center gap-3">
-          <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border-2 border-black dark:border-white">
-            <Image src="/images/avatars/johannes-schickling.jpg" alt="Johannes Schickling" fill />
+    <Section verticalPadding="small">
+      <blockquote className="text-xl italic">
+        "{content.quote}"
+      </blockquote>
+      <div className="mt-8 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative overflow-hidden size-12 rounded-full border-2 border-indigo-500">
+            <Image
+              src={content.client.avatar}
+              alt={content.client.name}
+              fill
+              sizes="100px 100px"
+              className="object-cover object-center"
+            />
           </div>
-          <div>
-            <p className="pt-0.5 font-semibold leading-none text-black dark:text-white">{content.author}</p>
-            <p className="leading-snug text-slate-600 dark:text-slate-300">{content.role}</p>
+          <div className="text-black dark:text-white text-sm">
+            <p className="font-medium">{content.client.name}</p>
+            <p className="text-muted-foreground">{content.client.description}</p>
           </div>
         </div>
-      </Section>
-    </>
+        <Image
+          src={content.logo.srcLight}
+          alt={content.logo.alt}
+          width={content.logo.width}
+          height={content.logo.height}
+          className="h-7 w-auto dark:hidden"
+        />
+        <Image
+          src={content.logo.srcDark}
+          alt={content.logo.alt}
+          width={content.logo.width}
+          height={content.logo.height}
+          className="h-7 w-auto hidden dark:block"
+        />
+      </div>
+    </Section>
   )
 }

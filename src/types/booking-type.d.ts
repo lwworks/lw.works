@@ -1,0 +1,1 @@
+type BookingType = ('phone' | 'online')[]
