@@ -58,10 +58,12 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
               <Input id="phone" name="phone" type="tel" placeholder="+49 171 234 567" required />
             </Field>
           )}
-          <Field>
-            <FieldLabel htmlFor="message">Deine Nachricht</FieldLabel>
-            <Textarea id="message" name="message" placeholder="Worüber wollen wir sprechen?" rows={3} className="resize-none" />
-          </Field>
+          {showMessageInput && (
+            <Field>
+              <FieldLabel htmlFor="message">Deine Nachricht</FieldLabel>
+              <Textarea id="message" name="message" placeholder="Worüber wollen wir sprechen?" rows={3} className="resize-none" />
+            </Field>
+          )}
           <PrivacyCheckbox />
           <Button type="submit">
             <Send strokeWidth={1.5} className="size-4 opacity-50" />
@@ -69,7 +71,7 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
           </Button>
         </FieldGroup>
       </div>
-      <BookingCalendar bookingType={bookingConfig.id} />
+      <BookingCalendar bookingConfig={bookingConfig} />
     </form>
   )
 }
