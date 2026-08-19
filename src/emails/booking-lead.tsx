@@ -25,30 +25,24 @@ export const BookingLeadEmail = ({
   return (
     <EmailLayout preview={`Neue Terminbuchung von ${name}`}>
       <Text className="text-lg font-bold text-neutral-900 m-0 mb-7">Neue {eventName}-Buchung</Text>
-
       <Text className="text-xs text-neutral-400 m-0 leading-snug">Name</Text>
       <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{name}</Text>
-
       <Text className="text-xs text-neutral-400 m-0 leading-snug">E-Mail</Text>
       <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{email}</Text>
-
       {phone && (
         <>
           <Text className="text-xs text-neutral-400 m-0 leading-snug">Telefon</Text>
           <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{phone}</Text>
         </>
       )}
-
       <Text className="text-xs text-neutral-400 m-0 leading-snug">Termin</Text>
       <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{date} um {time} Uhr</Text>
-
       {type && (
         <>
           <Text className="text-xs text-neutral-400 m-0 leading-snug">Art</Text>
           <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{type === 'online' ? 'Google Meet' : 'Telefonat'}</Text>
         </>
       )}
-
       {message && (
         <>
           <Text className="text-xs text-neutral-400 m-0 leading-snug">Nachricht</Text>

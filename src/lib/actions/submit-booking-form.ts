@@ -1,6 +1,7 @@
 'use server'
 
 import BookingConfirmationEmail from '@/emails/booking-confirmation'
+import BookingLeadEmail from '@/emails/booking-lead'
 import {tz} from '@date-fns/tz'
 import {checkBotId} from 'botid/server'
 import {addMinutes, format} from 'date-fns'
@@ -80,7 +81,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
     const event = await createBookingEvent({bookingConfig: config, bookingFormData: parsed.data as BookingFormData})
     console.log(event)
     // Send emails
-    const [leadResult] = await Promise.all([
+    const [confirmationResult, leadResult] = await Promise.all([
       resend.emails.send({
         from: `${memberName} <booking@mailer.lw.works>`,
         to: `${name} <${email}>`,
@@ -96,6 +97,22 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
           phone,
           meetUrl: event.hangoutLink ?? undefined,
           message
+        })
+      }),
+      resend.emails.send({
+        from: `${memberName} <booking@mailer.lw.works>`,
+        to: `${name} <${email}>`,
+        replyTo: email,
+        subject: `Terminbuchung: ${name}`,
+        react: BookingLeadEmail({
+          eventName: config.name,
+          name: name,
+          email: email,
+          phone: phone,
+          date: format(start, 'EEEE, dd. MMMM yyyy'),
+          time: `${format(start, 'HH:mm')}`,
+          type: type as 'online' | 'phone',
+          message: message
         })
       })
     ])
