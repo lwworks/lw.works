@@ -6,11 +6,11 @@ import { Section, verticalPaddings } from ".."
 export const CheckTeamContactSection = () => {
   return (
     <Section id="team-contact" verticalPadding="none" background="paint-4">
-      <div className="grid grid-cols-4">
-        <div className={cn("col-span-3 border-r border-black/10 dark:border-white/10 pr-16", verticalPaddings.small)}>
+      <div className="lg:grid lg:grid-cols-4">
+        <div className={cn("lg:col-span-3 lg:border-r lg:border-black/10 dark:lg:border-white/10 lg:pr-16", verticalPaddings.small)}>
           <TeamMember member="lukas" showDescription />
         </div>
-        <div className="relative">
+        <div className="relative hidden lg:block">
           <div className="dark:hidden absolute inset-0 p-16 pr-0 flex flex-col items-center justify-between">
             <Image src="/images/logos/airbus-black.svg" alt="Airbus Logo" width={346} height={64} className="flex-0 h-4 w-auto opacity-50 hover:opacity-100 transition-opacity" />
             <Image src="/images/logos/brunkhorst-black.svg" alt="Brunkhorst Logo" width={318} height={96} className="flex-0 h-6 w-auto opacity-50 hover:opacity-100 transition-opacity" />

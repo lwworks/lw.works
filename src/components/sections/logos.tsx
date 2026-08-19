@@ -138,7 +138,7 @@ export const LogosSection = ({ logos, variant = "default" }: LogosSectionProps) 
 
     return (
       <Section verticalPadding="none" horizontalPadding="none">
-        <div className="overflow-hidden py-8">
+        <div className="overflow-hidden py-6 sm:py-8">
           <div
             className="flex w-max animate-logo-marquee motion-reduce:animate-none hover:paused"
             style={{ "--logo-marquee-duration": marqueeDuration } as React.CSSProperties}

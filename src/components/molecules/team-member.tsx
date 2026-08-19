@@ -19,13 +19,13 @@ export const TeamMember = ({ member, brow, showDescription = false }: TeamMember
   return (
     <>
       <div className="flex items-center gap-4">
-        <div className="relative rounded-full overflow-hidden size-24 shrink-0 border-2">
+        <div className="relative rounded-full overflow-hidden size-18 sm:size-24 shrink-0 border-2">
           <Image src="/images/team/lukas-brunkhorst.jpg" alt="Lukas Brunkhorst" fill className="object-cover object-center" />
         </div>
         <div>
           <Brow color="none">{brow ?? 'Dein Ansprechpartner'}</Brow>
           <Heading as="h3" size="h2" className="-ml-0.5">{teamMember.name}</Heading>
-          <p className="">{teamMember.title}</p>
+          <p className="text-sm sm:text-base">{teamMember.title}</p>
         </div>
       </div>
       {showDescription && <p className="mt-8">{teamMember.description}</p>}

@@ -10,7 +10,7 @@ import { Button } from "../ui/button"
 export const CheckCtaSection = () => {
   return (
     <Section id="check" background="stripes" verticalPadding="none">
-      <div className="pt-16 pb-24">
+      <div className="pt-8 pb-12 lg:pt-16 lg:pb-24">
         <Brow color="lime" className="mb-2">Jetzt buchen</Brow>
         <Heading as="h2">Dein Prozess-Check</Heading>
         <p className="mt-4 text-balance">Lass uns gemeinsam schauen, an welchen Stellen Du Zeit und Geld sparen kannst.</p>

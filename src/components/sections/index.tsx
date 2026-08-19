@@ -2,13 +2,13 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 
 export const verticalPaddings = {
-  small: "py-16",
-  default: "py-24",
-  large: "py-32",
+  small: "py-8 lg:py-16",
+  default: "py-12 lg:py-24",
+  large: "py-16 lg:py-32",
   none: "py-0",
 }
 export const horizontalPaddings = {
-  default: "px-16",
+  default: "px-4 sm:px-8 lg:px-16",
   none: "px-0",
 }
 
@@ -28,7 +28,7 @@ export type SectionProps = {
 
 export const Section = ({ id, verticalPadding = "default", horizontalPadding = "default", background, children, className }: SectionProps) => {
   return (
-    <section id={id} className={cn("relative overflow-clip", className)}>
+    <section id={id} className={cn("relative overflow-clip px-4 lg:px-0", className)}>
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />
       <div className={cn("relative mx-auto w-full max-w-4xl", (background === "darker" || background?.startsWith("paint-")) && "bg-neutral-50 dark:bg-[#0F0F0F]", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
         {background === "stripes" && (<div className="absolute inset-0 bg-pattern-stripes" />)}

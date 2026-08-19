@@ -5,6 +5,8 @@ import BookingLeadEmail from '@/emails/booking-lead'
 import {tz} from '@date-fns/tz'
 import {checkBotId} from 'botid/server'
 import {addMinutes, format} from 'date-fns'
+import {de} from 'date-fns/locale'
+import {redirect, unstable_rethrow} from 'next/navigation'
 import {Resend} from 'resend'
 import {z} from 'zod'
 import {bookingConfigs} from '../booking-configs'
@@ -91,8 +93,8 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
           eventName: config.name,
           name: name,
           teamMember: memberName,
-          date: format(start, 'EEEE, dd. MMMM yyyy'),
-          time: `${format(start, 'HH:mm')} – ${format(end, 'HH:mm')} Uhr`,
+          date: format(start, 'EEEE, dd. MMMM yyyy', {locale: de}),
+          time: `${format(start, 'HH:mm', {locale: de})} – ${format(end, 'HH:mm', {locale: de})} Uhr`,
           type: type as 'online' | 'phone',
           phone,
           meetUrl: event.hangoutLink ?? undefined,
@@ -109,16 +111,26 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
           name: name,
           email: email,
           phone: phone,
-          date: format(start, 'EEEE, dd. MMMM yyyy'),
-          time: `${format(start, 'HH:mm')}`,
+          date: format(start, 'EEEE, dd. MMMM yyyy', {locale: de}),
+          time: `${format(start, 'HH:mm', {locale: de})} – ${format(end, 'HH:mm', {locale: de})} Uhr`,
           type: type as 'online' | 'phone',
           message: message
         })
       })
     ])
+    if (leadResult.error || confirmationResult.error) return {success: false, error: 'Es ist ein Fehler beim Versenden der Bestätigungsemail aufgetreten.'}
 
-    return {success: true}
+    const searchParams = new URLSearchParams({
+      name,
+      date: format(start, 'dd. MMMM yyyy', {locale: de}),
+      time: `${format(start, 'HH:mm')} – ${format(end, 'HH:mm')} Uhr`,
+      type: type as 'online' | 'phone',
+      teamMember: memberName
+    })
+
+    redirect(`/check/bestaetigung?${searchParams.toString()}`)
   } catch (error) {
+    unstable_rethrow(error)
     console.log('Error:', error)
     return {success: false, error: 'Bei der Buchung ist leider ein Fehler aufgetreten. Bitte versuche es erneut.'}
   }

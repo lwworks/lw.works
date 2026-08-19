@@ -23,9 +23,9 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
   const [state, formAction, pending] = useActionState(submitBookingForm, initialState)
 
   return (
-    <form className="grid grid-cols-2 divide-x divide-black/10 dark:divide-white/10" action={formAction}>
+    <form className="md:grid md:grid-cols-2 md:divide-x md:divide-black/10 dark:md:divide-white/10" action={formAction}>
       <input type="hidden" name="bookingConfig" value={bookingConfig.id} />
-      <div className="p-16">
+      <div className="p-4 py-8 sm:px-8 lg:p-16">
         {children}
         <FieldGroup className="mt-8 flex flex-col gap-5">
           <Field>
@@ -68,6 +68,7 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
               <Textarea id="message" name="message" placeholder="Worüber wollen wir sprechen?" rows={3} className="resize-none" />
             </Field>
           )}
+          <BookingCalendar bookingConfig={bookingConfig} className="md:hidden -mx-4 border-y border-black/10 dark:border-white/10 min-h-96" />
           <PrivacyCheckbox />
           <Button type="submit" disabled={pending}>
             {pending ? (
@@ -85,7 +86,7 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
           </div>
         )}
       </div>
-      <BookingCalendar bookingConfig={bookingConfig} />
+      <BookingCalendar bookingConfig={bookingConfig} className="hidden md:flex" />
     </form>
   )
 }

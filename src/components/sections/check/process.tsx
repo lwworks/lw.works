@@ -5,7 +5,7 @@ import { CheckCircleSolid, Clock3, MapPin, Telephone } from "@mynaui/icons-react
 export const CheckProcessSection = () => {
   return (
     <Section id="process" verticalPadding="none" horizontalPadding="none">
-      <div className="p-16 pb-8 border-b border-black/10 dark:border-white/10">
+      <div className="p-4 pb-8 pt-12 sm:px-8 lg:p-16 lg:pb-8 border-b border-black/10 dark:border-white/10">
         <div className="flex gap-3">
           <div className="size-9 shrink-0 relative">
             <div className="absolute inset-1 rounded-full bg-black" />
@@ -15,8 +15,8 @@ export const CheckProcessSection = () => {
         </div>
         <p className="mt-4 text-balance">So finden wir im Prozess-Check heraus, welche Hebel Du nutzen kannst, um nachhaltig Zeit und Geld zu sparen.</p>
       </div>
-      <div className="grid grid-cols-3 divide-x divide-black/10 dark:divide-white/10">
-        <div className="p-8 pl-16 pb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-black/10 dark:divide-white/10">
+        <div className="p-4 py-8 sm:px-8 lg:p-8 lg:pl-16 lg:pb-16">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xl">01</span>
             <Heading as="h3">Erstgespräch</Heading>
@@ -33,7 +33,7 @@ export const CheckProcessSection = () => {
             </li>
           </ul>
         </div>
-        <div className="p-8 pb-16">
+        <div className="p-4 py-8 sm:px-8 lg:p-8 lg:pb-16">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xl">02</span>
             <Heading as="h3">Prozess-Check</Heading>
@@ -50,7 +50,7 @@ export const CheckProcessSection = () => {
             </li>
           </ul>
         </div>
-        <div className="p-8 pr-16 pb-16">
+        <div className="p-4 py-8 sm:px-8 lg:p-8 lg:pr-16 lg:pb-16">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xl">03</span>
             <Heading as="h3">Auswertung</Heading>

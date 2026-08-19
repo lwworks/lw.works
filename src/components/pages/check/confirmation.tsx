@@ -1,17 +1,12 @@
-import { CheckHeroSection } from "@/components/sections/check/hero"
-import { CheckProcessSection } from "@/components/sections/check/process"
-import { CheckTeamContactSection } from "@/components/sections/check/team-contact"
-import { FaqSection } from "@/components/sections/faq"
-import { lukas } from "@/content/team/lukas"
-import { BookingSection } from "../sections/booking"
+'use client'
 
-export const CheckPage = () => {
+import { CheckConfirmationSection } from "@/components/sections/check/confirmation"
+import { FaqSection } from "@/components/sections/faq"
+
+export const CheckConfirmationPage = () => {
   return (
     <main className="pt-16">
-      <CheckHeroSection />
-      <CheckProcessSection />
-      <CheckTeamContactSection />
-      <BookingSection heading="Termin vereinbaren" description="Such Dir einen Termin für Dein Erstgespräch aus, damit ich mich auf Deinen Prozess-Check vorbereiten kann." bookingConfig={lukas.bookingOptions.check} />
+      <CheckConfirmationSection />
       <FaqSection background="stripes" content={{
         id: 'faq',
         brow: 'FAQ',
@@ -26,7 +21,7 @@ export const CheckPage = () => {
             answer: ['Ja, zu 100% – ohne Kleingedrucktes. Der Prozess-Check ist kostenlos, weil er ein Win-Win ist: Ich lerne Dich und Dein Unternehmen kennen, und Du erhältst 3 konkrete Hebel schwarz auf weiß, mit denen Du Zeit und Geld sparen kannst. Diese kannst Du dann mit oder ohne uns umsetzen.'],
           },
           {
-            question: 'Warum muss ich zuerst ein 15-Min-Gespräch buchen?',
+            question: 'Warum zunächst das Erstgespräch?',
             answer: ['Das 15-Min-Gespräch hilft mir dabei, mich auf Deinen Prozess-Check vorzubereiten. Dabei finden wir auch heraus, ob sich ein Prozess-Check für Dich überhaupt lohnt.']
           },
           {

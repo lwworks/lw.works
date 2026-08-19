@@ -34,7 +34,7 @@ export const HomeHeroSection = () => {
               <ArrowRight strokeWidth={2} className="size-4 opacity-50" />
             </Link>
           </Button>
-          <NextAvailability bookingType="check" className="ml-2" />
+          <NextAvailability bookingType="check" className="ml-2 my-2" />
         </CTA>
       </div>
     </Section >

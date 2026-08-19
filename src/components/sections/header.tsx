@@ -13,8 +13,8 @@ const themeSwitcherContent = {
 
 export const Header = () => {
   return (
-    <header className="border-b border-black/10 dark:border-white/10 h-16 fixed top-0 w-full bg-white/80 dark:bg-neutral-950/80 backdrop-blur-lg z-50">
-      <div className="relative mx-auto w-full max-w-4xl px-16 h-full flex items-center justify-between border-x border-black/10 dark:border-white/10">
+    <header className="border-b border-black/10 dark:border-white/10 h-16 fixed top-0 w-full bg-white/80 dark:bg-neutral-950/80 backdrop-blur-lg z-50 px-4 lg:px-0">
+      <div className="relative mx-auto w-full max-w-4xl px-4 sm:px-8 lg:px-16 h-full flex items-center justify-between border-x border-black/10 dark:border-white/10">
         <Link href="/">
           <Logo className="text-black dark:text-white h-5" />
         </Link>

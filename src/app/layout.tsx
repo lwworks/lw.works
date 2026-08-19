@@ -7,6 +7,7 @@ import { BotIdClient } from 'botid/client'
 import { ThemeProvider } from 'next-themes'
 import { Geist, Geist_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import './globals.css'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
@@ -54,9 +55,11 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       </head>
       <body className="min-h-full flex flex-col text-neutral-600 dark:text-neutral-400">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
-          {children}
-          <Footer />
+          <NuqsAdapter>
+            <Header />
+            {children}
+            <Footer />
+          </NuqsAdapter>
         </ThemeProvider>
       </body>
     </html>

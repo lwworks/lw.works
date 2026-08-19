@@ -11,7 +11,7 @@ import { differenceInMinutes, format } from "date-fns"
 import { de } from "date-fns/locale"
 import { useEffect, useState } from "react"
 
-export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfig }) => {
+export const BookingCalendar = ({ bookingConfig, className }: { bookingConfig: BookingConfig, className?: string }) => {
   const timezone = tz(bookingConfig.timezone)
   const { slots, loading, error } = useSlots(bookingConfig.id)
   const [selectedDayIndex, setSelectedDayIndex] = useState(0)
@@ -22,20 +22,20 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
   }, [selectedDayIndex])
 
   if (loading) return (
-    <div className="flex flex-col items-center justify-center">
+    <div className={cn("flex flex-col items-center justify-center", className)}>
       <Spinner className="size-6 animate-spin" />
     </div>
   )
 
   if (error) return (
-    <div className="flex items-center justify-center gap-1 text-sm text-red-600 dark:text-red-400">
+    <div className={cn("flex items-center justify-center gap-1 text-sm text-red-600 dark:text-red-400", className)}>
       <DangerCircle strokeWidth={1.5} className="size-4 shrink-0" />
       <p>Fehler beim Laden des Kalenders.</p>
     </div>
   )
 
   if (!slots || Object.keys(slots).length === 0) return (
-    <div className="flex items-center justify-center gap-1">
+    <div className={cn("flex items-center justify-center gap-1", className)}>
       <p className="text-sm text-muted-foreground">Leider sind momentan keine Termine verfügbar.</p>
     </div>
   )
@@ -44,7 +44,7 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
   const startOfDay = timezone(new Date(days[selectedDayIndex]).setHours(10, 0, 0, 0))
 
   return (
-    <div className="flex flex-col pb-px">
+    <div className={cn("flex flex-col pb-px", className)}>
       <div className="flex-none flex items-center justify-between h-16 px-4 border-b border-black/10 dark:border-white/10">
         <Button type="button" variant="outline" size="icon" onClick={() => setSelectedDayIndex(Math.max(0, selectedDayIndex - 1))} disabled={selectedDayIndex === 0}>
           <ChevronLeft strokeWidth={1.5} className="size-4" />
