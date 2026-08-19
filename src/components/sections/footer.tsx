@@ -18,7 +18,7 @@ const menus = [
     items: [
       { label: 'Kontakt', href: '/contact' },
       { label: 'Impressum', href: '/impressum' },
-      { label: 'Datenschutz', href: '/privacy' },
+      { label: 'Datenschutz', href: '/datenschutz' },
     ],
   },
 ]

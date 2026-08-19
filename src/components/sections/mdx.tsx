@@ -54,7 +54,7 @@ export const MDXSection = ({ content: Content, toc, className }: MDXSectionProps
       </div>
       {toc && tocItems.length > 0 && (
         <div className="hidden 2xl:block absolute inset-y-0 -right-96 w-80 pb-px">
-          <div className="sticky top-16 h-[calc(100vh-64px)] border-r border-black/10 dark:border-white/10 p-16">
+          <div className="sticky top-16 h-[calc(100vh-64px)] border-r border-black/10 dark:border-white/10 p-16 overflow-y-auto">
             <TOC items={tocItems} />
           </div>
         </div>
