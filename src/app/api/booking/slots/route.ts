@@ -15,5 +15,6 @@ export async function GET(request: Request) {
   const response = await getFreeSlots(config)
   if (!response || response.freeSlots.length === 0) return NextResponse.json({slots: {}})
 
-  return NextResponse.json({slots: groupSlotsByDay(response.freeSlots, config.timezone)})
+  const slots = groupSlotsByDay(response.freeSlots, config.timezone)
+  return NextResponse.json({slots})
 }

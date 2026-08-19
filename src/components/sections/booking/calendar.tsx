@@ -74,6 +74,7 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
           const start = timezone(new Date(slot.start))
           const id = format(start, 'yyyy-MM-dd HH:mm')
           const end = timezone(new Date(slot.end))
+          const value = start.toISOString()
 
           return (
             <FieldLabel key={id} htmlFor={id} className={cn(
@@ -88,7 +89,7 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
               }}>
               <Field orientation="horizontal" className="flex w-auto! p-0! m-0 tabular-nums">
                 {format(start, 'HH:mm')} – {format(end, 'HH:mm')}
-                <RadioGroupItem value={id} id={id} className="sr-only" />
+                <RadioGroupItem value={value} id={id} className="sr-only" />
               </Field>
             </FieldLabel>
           )
