@@ -9,14 +9,8 @@ const menus = [
   {
     heading: 'Work',
     items: [
-      { label: 'Design Engineering', href: '/design-engineering' },
-      { label: 'Automatisierung', href: '/automation' },
-    ],
-  },
-  {
-    heading: 'Angebote',
-    items: [
-      { label: 'Digital Dealer', href: '/digital-dealer' },
+      { label: 'Prozess-Check', href: '/check' },
+      { label: 'Digitalisierung', href: '/' },
     ],
   },
   {
@@ -24,7 +18,6 @@ const menus = [
     items: [
       { label: 'Kontakt', href: '/contact' },
       { label: 'Impressum', href: '/impressum' },
-      { label: 'AGB', href: '/agb' },
       { label: 'Datenschutz', href: '/privacy' },
     ],
   },

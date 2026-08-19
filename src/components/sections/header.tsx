@@ -3,10 +3,7 @@ import { ThemeSwitcher } from "@/components/atoms/theme-switcher"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-const navItems = [
-  { label: 'Design Engineering', href: '/design-engineering' },
-  { label: 'Automatisierung', href: '/automation' },
-]
+const navItems: { label: string; href: string }[] = []
 
 const themeSwitcherContent = {
   light: 'Hell',
@@ -31,7 +28,7 @@ export const Header = () => {
           </ul>
           <div className="flex items-center gap-1">
             <Button asChild size="sm">
-              <Link href="/contact">Kontakt</Link>
+              <Link href="/check">Prozess-Check</Link>
             </Button>
             <ThemeSwitcher content={themeSwitcherContent} />
           </div>
