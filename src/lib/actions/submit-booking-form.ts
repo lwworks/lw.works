@@ -100,8 +100,8 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
         })
       }),
       resend.emails.send({
-        from: `${memberName} <booking@mailer.lw.works>`,
-        to: `${name} <${email}>`,
+        from: `LW Works GmbH <booking@mailer.lw.works>`,
+        to: `${memberName} <${config.calendarId}>`,
         replyTo: email,
         subject: `Terminbuchung: ${name}`,
         react: BookingLeadEmail({
