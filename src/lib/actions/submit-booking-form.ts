@@ -59,7 +59,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
       privacy: formData.get('privacy')
     })
     if (!parsed.success) return {success: false, error: 'Die eingegebenen Daten sind fehlerhaft.'}
-    const {bookingConfig, name, email, type, phone, message, slot, privacy} = parsed.data
+    const {bookingConfig, name, email, type, phone, message, slot} = parsed.data
 
     // Get booking config
     const config = bookingConfigs[bookingConfig as keyof typeof bookingConfigs]

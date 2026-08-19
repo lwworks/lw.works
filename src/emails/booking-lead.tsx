@@ -2,48 +2,50 @@ import { Text } from '@react-email/components'
 import { EmailLayout } from './components/layout'
 
 type BookingLeadEmailProps = {
-  visitorName: string
-  visitorEmail: string
-  message?: string
-  meetingType?: string
+  eventName: string
+  name: string
+  email: string
   phone?: string
-  dateTime: string
-  memberName: string
+  date: string
+  time: string
+  type: 'online' | 'phone'
+  message?: string
 }
 
 export const BookingLeadEmail = ({
-  visitorName,
-  visitorEmail,
-  message,
-  meetingType,
+  eventName,
+  name,
+  email,
   phone,
-  dateTime,
-  memberName,
+  date,
+  time,
+  type,
+  message,
 }: BookingLeadEmailProps) => {
   return (
-    <EmailLayout preview={`Neue Terminbuchung von ${visitorName}`}>
-      <Text className="text-lg font-bold text-neutral-900 m-0 mb-7">Neue Terminbuchung</Text>
+    <EmailLayout preview={`Neue Terminbuchung von ${name}`}>
+      <Text className="text-lg font-bold text-neutral-900 m-0 mb-7">Neue {eventName}-Buchung</Text>
 
       <Text className="text-xs text-neutral-400 m-0 leading-snug">Name</Text>
-      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{visitorName}</Text>
+      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{name}</Text>
 
       <Text className="text-xs text-neutral-400 m-0 leading-snug">E-Mail</Text>
-      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{visitorEmail}</Text>
-
-      <Text className="text-xs text-neutral-400 m-0 leading-snug">Termin</Text>
-      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{dateTime}</Text>
-
-      {meetingType && (
-        <>
-          <Text className="text-xs text-neutral-400 m-0 leading-snug">Art</Text>
-          <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{meetingType}</Text>
-        </>
-      )}
+      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{email}</Text>
 
       {phone && (
         <>
           <Text className="text-xs text-neutral-400 m-0 leading-snug">Telefon</Text>
           <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{phone}</Text>
+        </>
+      )}
+
+      <Text className="text-xs text-neutral-400 m-0 leading-snug">Termin</Text>
+      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{date} um {time} Uhr</Text>
+
+      {type && (
+        <>
+          <Text className="text-xs text-neutral-400 m-0 leading-snug">Art</Text>
+          <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{type === 'online' ? 'Google Meet' : 'Telefonat'}</Text>
         </>
       )}
 
@@ -53,21 +55,19 @@ export const BookingLeadEmail = ({
           <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{message}</Text>
         </>
       )}
-
-      <Text className="text-xs text-neutral-400 m-0 leading-snug">Berater</Text>
-      <Text className="text-sm text-neutral-900 mt-0.5 mb-0 leading-normal">{memberName}</Text>
     </EmailLayout>
   )
 }
 
 BookingLeadEmail.PreviewProps = {
-  visitorName: 'Max Mustermann',
-  visitorEmail: 'max@unternehmen.de',
-  message: 'Ich interessiere mich für das Digital Dealer Paket.',
-  meetingType: 'Telefonat',
+  eventName: 'Prozess-Check',
+  name: 'Max Mustermann',
+  email: 'max@unternehmen.de',
   phone: '+49 170 1234567',
-  dateTime: '15. April 2026, 10:00',
-  memberName: 'Lukas Brunkhorst'
+  date: '15. April 2026',
+  time: '10:00',
+  type: 'phone',
+  message: 'Ich interessiere mich für das Digital Dealer Paket.',
 } satisfies BookingLeadEmailProps
 
 export default BookingLeadEmail

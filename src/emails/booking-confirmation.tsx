@@ -23,7 +23,7 @@ export const BookingConfirmationEmail = ({ eventName, name, teamMember, date, ti
       <DetailRow iconSrc={`${process.env.EMAIL_ASSET_BASE}/calendar-icon.png`}>
         {`${date} um ${time} Uhr`}
       </DetailRow>
-      <DetailRow iconSrc={`${process.env.EMAIL_ASSET_BASE}/user-icon.png`}>
+      <DetailRow iconSrc={`${process.env.EMAIL_ASSET_BASE}/user-circle-icon.png`}>
         {`Mit ${teamMember}`}
       </DetailRow>
       {type === 'online' ? (
