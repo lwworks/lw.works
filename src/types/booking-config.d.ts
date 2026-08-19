@@ -1,6 +1,7 @@
 type BookingConfig = {
   id: string // Booking ID, e.g. 'check'
   name: string // Booking name, e.g. 'Prozess-Check'
+  teamMember: string // Team member name, e.g. 'Lukas Brunkhorst'
   type: BookingType // Available meeting types
   calendarId: string // Google Calendar ID
   timezone: string // Timezone for the calendar

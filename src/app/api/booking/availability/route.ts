@@ -1,12 +1,8 @@
-import {lukas} from '@/content/team/lukas'
+import {bookingConfigs} from '@/lib/booking-configs'
 import {getFreeSlots} from '@/lib/google-calendar/get-free-slots'
 import {tz} from '@date-fns/tz'
 import {differenceInCalendarDays} from 'date-fns'
 import {NextResponse} from 'next/server'
-
-const configs = {
-  check: lukas.bookingOptions.check
-}
 
 export async function GET(request: Request) {
   const {searchParams} = new URL(request.url)
@@ -14,7 +10,7 @@ export async function GET(request: Request) {
 
   if (!type) return NextResponse.json({error: 'Missing type'}, {status: 400})
 
-  const config = configs[type as keyof typeof configs]
+  const config = bookingConfigs[type as keyof typeof bookingConfigs]
   if (!config) return NextResponse.json({error: 'Wrong type'}, {status: 404})
 
   const response = await getFreeSlots(config)

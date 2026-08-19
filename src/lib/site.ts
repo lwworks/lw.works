@@ -1,1 +1,1 @@
-export const baseUrl = 'https://lw.works'
+export const baseUrl = 'https://www.lw.works'

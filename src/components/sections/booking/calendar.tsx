@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useSlots } from "@/lib/google-calendar/use-slots"
 import { cn } from "@/lib/utils"
 import { tz } from "@date-fns/tz"
-import { ChevronLeft, ChevronRight, DangerCircleSolid, Spinner } from "@mynaui/icons-react"
+import { ChevronLeft, ChevronRight, DangerCircle, Spinner } from "@mynaui/icons-react"
 import { differenceInMinutes, format } from "date-fns"
 import { de } from "date-fns/locale"
 import { useEffect, useState } from "react"
@@ -29,7 +29,7 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
 
   if (error) return (
     <div className="flex items-center justify-center gap-1 text-sm text-red-600 dark:text-red-400">
-      <DangerCircleSolid className="size-4 opacity-50 inline" />
+      <DangerCircle strokeWidth={1.5} className="size-4 shrink-0" />
       <p>Fehler beim Laden des Kalenders.</p>
     </div>
   )
@@ -55,6 +55,7 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
         </Button>
       </div>
       <RadioGroup
+        name="slot"
         value={selectedSlot}
         onValueChange={(value) => setSelectedSlot(value)}
         className="relative flex-1 overflow-y-auto block gap-0"
@@ -71,11 +72,12 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
         })}
         {slots[days[selectedDayIndex]].map((slot: BookingSlot) => {
           const start = timezone(new Date(slot.start))
+          const id = format(start, 'yyyy-MM-dd HH:mm')
           const end = timezone(new Date(slot.end))
 
           return (
-            <FieldLabel key={slot.start} htmlFor={slot.start} className={cn(
-              "text-sm absolute left-14 right-4 border w-auto! p-0 pl-4 pt-px m-0 rounded-md! flex-row! justify-start",
+            <FieldLabel key={id} htmlFor={id} className={cn(
+              "text-sm font-normal absolute left-14 right-4 border w-auto! p-0 pl-4 pt-px m-0 rounded-md! flex-row! justify-start",
               "bg-neutral-50 dark:bg-neutral-900 border-black/10 dark:border-white/10",
               "cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-800",
               "has-data-checked:bg-lime has-data-checked:hover:bg-lime dark:has-data-checked:bg-lime dark:has-data-checked:hover:bg-lime has-data-checked:border-lime-dark dark:has-data-checked:border-lime-dark has-data-checked:text-black"
@@ -84,9 +86,9 @@ export const BookingCalendar = ({ bookingConfig }: { bookingConfig: BookingConfi
                 top: differenceInMinutes(start, startOfDay) * 1.5 + 15,
                 height: differenceInMinutes(end, start) * 1.5 - 2,
               }}>
-              <Field orientation="horizontal" className="block w-auto! p-0! m-0">
+              <Field orientation="horizontal" className="flex w-auto! p-0! m-0 tabular-nums">
                 {format(start, 'HH:mm')} – {format(end, 'HH:mm')}
-                <RadioGroupItem value={slot.start} id={slot.start} className="hidden" />
+                <RadioGroupItem value={id} id={id} className="sr-only" />
               </Field>
             </FieldLabel>
           )

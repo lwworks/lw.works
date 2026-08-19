@@ -8,6 +8,7 @@ export const lukas = {
     check: {
       id: 'check',
       name: 'Prozess-Check',
+      teamMember: 'Lukas Brunkhorst',
       type: ['online', 'phone'] as BookingType,
       calendarId: 'lukas@lw.works',
       timezone: 'Europe/Berlin',

@@ -3,7 +3,7 @@ import { CheckProcessSection } from "@/components/sections/check/process"
 import { CheckTeamContactSection } from "@/components/sections/check/team-contact"
 import { FaqSection } from "@/components/sections/faq"
 import { lukas } from "@/content/team/lukas"
-import { BookingSection } from "../sections/check/booking"
+import { BookingSection } from "../sections/booking"
 
 export const CheckPage = () => {
   return (

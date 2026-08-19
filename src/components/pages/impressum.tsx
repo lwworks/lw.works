@@ -1,5 +1,5 @@
 import { MDXSection } from "@/components/sections/mdx"
-import ImpressumContent, { toc } from "@/content/impressum.mdx"
+import ImpressumContent, { toc } from "@/content/pages/impressum.mdx"
 import { Heading } from "../atoms/heading"
 import { Section } from "../sections"
 
