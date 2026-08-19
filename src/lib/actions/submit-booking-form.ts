@@ -4,7 +4,6 @@ import BookingConfirmationEmail from '@/emails/booking-confirmation'
 import {tz} from '@date-fns/tz'
 import {checkBotId} from 'botid/server'
 import {addMinutes, format} from 'date-fns'
-import {redirect} from 'next/navigation'
 import {Resend} from 'resend'
 import {z} from 'zod'
 import {bookingConfigs} from '../booking-configs'
@@ -101,7 +100,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
       })
     ])
 
-    redirect(`/check/bestaetigung`)
+    return {success: true}
   } catch (error) {
     console.log('Error:', error)
     return {success: false, error: 'Bei der Buchung ist leider ein Fehler aufgetreten. Bitte versuche es erneut.'}
