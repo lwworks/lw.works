@@ -15,7 +15,7 @@ export const BniHeroSection = () => {
       </Heading>
       <p className="mt-8 max-w-md text-balance"><span className="font-medium text-black dark:text-white">Lass uns netzwerken!</span> Als BNI-Mitglied kannst Du Dir ganz einfach ein Vier-Augen-Gespräch einbuchen.</p>
       <div className="mt-4 h-5.5">
-        <NextAvailability bookingType="check" />
+        <NextAvailability bookingType="bni" />
       </div>
     </Section >
   )
