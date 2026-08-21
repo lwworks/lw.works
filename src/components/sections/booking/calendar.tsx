@@ -9,17 +9,21 @@ import { tz } from "@date-fns/tz"
 import { ChevronLeft, ChevronRight, DangerCircle, Spinner } from "@mynaui/icons-react"
 import { differenceInMinutes, format } from "date-fns"
 import { de } from "date-fns/locale"
-import { useEffect, useState } from "react"
+import { useId } from "react"
 
-export const BookingCalendar = ({ bookingConfig, className }: { bookingConfig: BookingConfig, className?: string }) => {
+interface BookingCalendarProps {
+  bookingConfig: BookingConfig
+  selectedDayIndex: number
+  onDayChange: (index: number) => void
+  selectedSlot: string | null
+  onSlotChange: (slot: string) => void
+  className?: string
+}
+
+export const BookingCalendar = ({ bookingConfig, selectedDayIndex, onDayChange, selectedSlot, onSlotChange, className }: BookingCalendarProps) => {
+  const instanceId = useId()
   const timezone = tz(bookingConfig.timezone)
   const { slots, loading, error } = useSlots(bookingConfig.id)
-  const [selectedDayIndex, setSelectedDayIndex] = useState(0)
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
-
-  useEffect(() => {
-    setSelectedSlot(null)
-  }, [selectedDayIndex])
 
   if (loading) return (
     <div className={cn("flex flex-col items-center justify-center", className)}>
@@ -46,20 +50,18 @@ export const BookingCalendar = ({ bookingConfig, className }: { bookingConfig: B
   return (
     <div className={cn("flex flex-col pb-px", className)}>
       <div className="flex-none flex items-center justify-between h-16 px-4 border-b border-black/10 dark:border-white/10">
-        <Button type="button" variant="outline" size="icon" onClick={() => setSelectedDayIndex(Math.max(0, selectedDayIndex - 1))} disabled={selectedDayIndex === 0}>
+        <Button type="button" variant="outline" size="icon" onClick={() => onDayChange(Math.max(0, selectedDayIndex - 1))} disabled={selectedDayIndex === 0}>
           <ChevronLeft strokeWidth={1.5} className="size-4" />
         </Button>
         <p className="font-medium text-black dark:text-white">{format(new Date(days[selectedDayIndex]), 'EEEE, dd. MMMM', { locale: de })}</p>
-        <Button type="button" variant="outline" size="icon" onClick={() => setSelectedDayIndex(Math.min(days.length - 1, selectedDayIndex + 1))} disabled={selectedDayIndex === days.length - 1}>
+        <Button type="button" variant="outline" size="icon" onClick={() => onDayChange(Math.min(days.length - 1, selectedDayIndex + 1))} disabled={selectedDayIndex === days.length - 1}>
           <ChevronRight strokeWidth={1.5} className="size-4" />
         </Button>
       </div>
       <RadioGroup
-        name="slot"
         value={selectedSlot}
-        onValueChange={(value) => setSelectedSlot(value)}
+        onValueChange={onSlotChange}
         className="relative flex-1 overflow-y-auto block gap-0"
-        required
       >
         {['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'].map((time, i) => {
           const top = 14 + i * 90
@@ -72,7 +74,7 @@ export const BookingCalendar = ({ bookingConfig, className }: { bookingConfig: B
         })}
         {slots[days[selectedDayIndex]].map((slot: BookingSlot) => {
           const start = timezone(new Date(slot.start))
-          const id = format(start, 'yyyy-MM-dd HH:mm')
+          const id = `${instanceId}${format(start, 'yyyy-MM-dd HH:mm')}`
           const end = timezone(new Date(slot.end))
           const value = start.toISOString()
 
