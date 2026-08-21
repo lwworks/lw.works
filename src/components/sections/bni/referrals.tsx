@@ -6,11 +6,11 @@ export const BniReferralsSection = () => {
   return (
     <Section verticalPadding="small">
       <Heading as="h2">Mögliche Empfehlungen</Heading>
-      <p className="mt-4">
+      <p className="my-4 md:my-8">
         <span className="font-medium text-black dark:text-white">Ich bin gespannt zu hören, wie ich Dich empfehlen kann! </span>
         <span>Und ich freue mich, wenn Du diese Aufhänger nutzt, um zu überlegen, ob Du mich in Deinem Netzwerk empfehlen kannst.</span>
       </p>
-      <ul className="mt-4 space-y-2">
+      <ul className="space-y-2">
         <li className="flex gap-2">
           <Check strokeWidth={2} className="size-4 shrink-0 mt-1 text-black/50 dark:text-lime" />
           <div>
