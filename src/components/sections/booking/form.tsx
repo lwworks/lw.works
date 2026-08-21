@@ -68,7 +68,7 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
               <Textarea id="message" name="message" placeholder="Worüber wollen wir sprechen?" rows={3} className="resize-none" />
             </Field>
           )}
-          <BookingCalendar bookingConfig={bookingConfig} className="md:hidden -mx-4 border-y border-black/10 dark:border-white/10 min-h-96" />
+          <BookingCalendar bookingConfig={bookingConfig} className="md:hidden -mx-4 sm:-mx-8 border-y border-black/10 dark:border-white/10 min-h-96" />
           <PrivacyCheckbox />
           <Button type="submit" disabled={pending}>
             {pending ? (
