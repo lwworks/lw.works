@@ -21,7 +21,7 @@ export const BookingConfirmationEmail = ({ eventName, name, teamMember, date, ti
       <Text className="text-sm text-neutral-600 m-0 mb-2 leading-normal">{`Moin ${name},`}</Text>
       <Text className="text-sm text-neutral-600 m-0 mb-4 leading-normal">{`Dein ${eventName} ist bestätigt. Du erhältst eine gesonderte Kalendereinladung per E-Mail – bitte bestätige den Termin dort.`}</Text>
       <DetailRow iconSrc={`${process.env.EMAIL_ASSET_BASE}/calendar-icon.png`}>
-        {`${date} um ${time} Uhr`}
+        {`${date}, ${time}`}
       </DetailRow>
       <DetailRow iconSrc={`${process.env.EMAIL_ASSET_BASE}/user-circle-icon.png`}>
         {`Mit ${teamMember}`}

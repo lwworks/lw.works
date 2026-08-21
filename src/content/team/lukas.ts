@@ -22,7 +22,28 @@ export const lukas = {
         wednesday: {start: 14, end: 17},
         thursday: {start: 15, end: 17},
         friday: {start: 12, end: 14}
-      }
+      },
+      redirect: '/check/termin-bestaetigt'
+    },
+    bni: {
+      id: 'bni',
+      name: 'BNI 121',
+      teamMember: 'Lukas Brunkhorst',
+      type: ['online'] as BookingType,
+      calendarId: 'lukas@lw.works',
+      timezone: 'Europe/Berlin',
+      slotDuration: 30,
+      breakDuration: 15,
+      hoursInAdvance: 24,
+      daysInAdvance: 21,
+      availableHours: {
+        monday: {start: 17, end: 18},
+        tuesday: {start: 15, end: 17},
+        wednesday: {start: 14, end: 17},
+        thursday: {start: 15, end: 17},
+        friday: {start: 12, end: 14}
+      },
+      redirect: '/bni/termin-bestaetigt'
     }
   }
 }

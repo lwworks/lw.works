@@ -5,6 +5,7 @@ type BookingLeadEmailProps = {
   eventName: string
   name: string
   email: string
+  bniChapter?: string
   phone?: string
   date: string
   time: string
@@ -16,6 +17,7 @@ export const BookingLeadEmail = ({
   eventName,
   name,
   email,
+  bniChapter,
   phone,
   date,
   time,
@@ -29,6 +31,12 @@ export const BookingLeadEmail = ({
       <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{name}</Text>
       <Text className="text-xs text-neutral-400 m-0 leading-snug">E-Mail</Text>
       <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{email}</Text>
+      {bniChapter && (
+        <>
+          <Text className="text-xs text-neutral-400 m-0 leading-snug">BNI-Chapter</Text>
+          <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{bniChapter}</Text>
+        </>
+      )}
       {phone && (
         <>
           <Text className="text-xs text-neutral-400 m-0 leading-snug">Telefon</Text>
@@ -36,7 +44,7 @@ export const BookingLeadEmail = ({
         </>
       )}
       <Text className="text-xs text-neutral-400 m-0 leading-snug">Termin</Text>
-      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{date} um {time} Uhr</Text>
+      <Text className="text-sm text-neutral-900 mt-0.5 mb-5 leading-normal">{date}, {time}</Text>
       {type && (
         <>
           <Text className="text-xs text-neutral-400 m-0 leading-snug">Art</Text>

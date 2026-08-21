@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs"
 import { useEffect } from "react"
 
-export const CheckConfirmationSection = () => {
+export const BookingConfirmationSection = ({ fallback }: { fallback: string }) => {
   const router = useRouter()
   const [{ name, date, time, type, teamMember }] = useQueryStates({
     name: parseAsString.withDefault(""),
@@ -22,7 +22,7 @@ export const CheckConfirmationSection = () => {
 
   useEffect(() => {
     if (!hasConfirmationParams) {
-      router.replace("/check")
+      router.replace(fallback)
     }
   }, [hasConfirmationParams, router])
 
@@ -67,7 +67,7 @@ export const CheckConfirmationSection = () => {
       <Button asChild className="mt-8">
         <Link href="/">
           <span>Zurück zur Startseite</span>
-          <ArrowRight className="size-4 shrink-0 text-black dark:text-white opacity-50" />
+          <ArrowRight className="size-4 shrink-0 text-black/50" />
         </Link>
       </Button>
     </Section>

@@ -21,7 +21,7 @@ export const CheckHeroSection = () => {
             <ArrowDown strokeWidth={2} className="size-4 opacity-50" />
           </Link>
         </Button>
-        <NextAvailability bookingType="check" className="ml-2" />
+        <NextAvailability bookingType="check" className="ml-2 my-2" />
       </CTA>
     </Section >
   )

@@ -17,6 +17,7 @@ export type BookingFormData = {
   bookingConfig: string
   name: string
   email: string
+  chapter: string
   type: 'online' | 'phone'
   phone: string
   message: string
@@ -30,6 +31,7 @@ const schema = z.object({
   bookingConfig: z.enum(Object.keys(bookingConfigs)),
   name: z.string().min(1),
   email: z.email(),
+  chapter: z.string().optional(),
   type: z.enum(['online', 'phone']).optional(),
   phone: z.string().optional(),
   message: z.string().optional(),
@@ -55,6 +57,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
       bookingConfig: formData.get('bookingConfig'),
       name: formData.get('name'),
       email: formData.get('email'),
+      chapter: formData.get('chapter') || undefined,
       type: formData.get('type') || undefined,
       phone: formData.get('phone') || undefined,
       message: formData.get('message') || undefined,
@@ -62,11 +65,12 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
       privacy: formData.get('privacy')
     })
     if (!parsed.success) return {success: false, error: 'Die eingegebenen Daten sind fehlerhaft.'}
-    const {bookingConfig, name, email, type, phone, message, slot} = parsed.data
+    const {bookingConfig, name, email, chapter, phone, message, slot} = parsed.data
 
     // Get booking config
     const config = bookingConfigs[bookingConfig as keyof typeof bookingConfigs]
     if (!config) return {success: false, error: 'Die ausgewählte Buchungsart ist nicht verfügbar.'}
+    const type = parsed.data.type ?? (config.type[0] as 'online' | 'phone')
 
     // Prepare booking data
     const timezone = tz(config.timezone)
@@ -81,7 +85,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
 
     // Create calendar event
     const event = await createBookingEvent({bookingConfig: config, bookingFormData: parsed.data as BookingFormData})
-    console.log(event)
+
     // Send emails
     const [confirmationResult, leadResult] = await Promise.all([
       resend.emails.send({
@@ -95,7 +99,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
           teamMember: memberName,
           date: format(start, 'EEEE, dd. MMMM yyyy', {locale: de}),
           time: `${format(start, 'HH:mm', {locale: de})} – ${format(end, 'HH:mm', {locale: de})} Uhr`,
-          type: type as 'online' | 'phone',
+          type: type,
           phone,
           meetUrl: event.hangoutLink ?? undefined,
           message
@@ -110,10 +114,11 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
           eventName: config.name,
           name: name,
           email: email,
+          bniChapter: chapter,
           phone: phone,
           date: format(start, 'EEEE, dd. MMMM yyyy', {locale: de}),
           time: `${format(start, 'HH:mm', {locale: de})} – ${format(end, 'HH:mm', {locale: de})} Uhr`,
-          type: type as 'online' | 'phone',
+          type: type,
           message: message
         })
       })
@@ -128,7 +133,7 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
       teamMember: memberName
     })
 
-    redirect(`/check/bestaetigung?${searchParams.toString()}`)
+    redirect(`${config.redirect}?${searchParams.toString()}`)
   } catch (error) {
     unstable_rethrow(error)
     console.log('Error:', error)

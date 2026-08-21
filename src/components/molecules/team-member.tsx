@@ -10,9 +10,10 @@ interface TeamMemberProps {
   member: TeamMember;
   brow?: string;
   showDescription?: boolean;
+  description?: string;
 }
 
-export const TeamMember = ({ member, brow, showDescription = false }: TeamMemberProps) => {
+export const TeamMember = ({ member, brow, showDescription = false, description }: TeamMemberProps) => {
   const teamMember = members[member];
   if (!teamMember) return null;
 
@@ -28,7 +29,7 @@ export const TeamMember = ({ member, brow, showDescription = false }: TeamMember
           <p className="text-sm sm:text-base">{teamMember.title}</p>
         </div>
       </div>
-      {showDescription && <p className="mt-8">{teamMember.description}</p>}
+      {showDescription && <p className="mt-8">{description ?? teamMember.description}</p>}
     </>
   )
 }

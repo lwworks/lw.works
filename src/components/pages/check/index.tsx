@@ -11,7 +11,11 @@ export const CheckPage = () => {
       <CheckHeroSection />
       <CheckProcessSection />
       <CheckTeamContactSection />
-      <BookingSection heading="Termin vereinbaren" description="Such Dir einen Termin für Dein Erstgespräch aus, damit ich mich auf Deinen Prozess-Check vorbereiten kann." bookingConfig={lukas.bookingOptions.check} />
+      <BookingSection
+        heading="Termin vereinbaren"
+        description="Such Dir einen Termin für Dein Erstgespräch aus, damit ich mich auf Deinen Prozess-Check vorbereiten kann."
+        bookingConfig={lukas.bookingOptions.check}
+      />
       <FaqSection background="stripes" content={{
         id: 'faq',
         brow: 'FAQ',

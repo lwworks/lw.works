@@ -19,4 +19,5 @@ type BookingConfig = {
     saturday?: {start: number; end: number}
     sunday?: {start: number; end: number}
   }
+  redirect: string // Redirect path after successful booking
 }

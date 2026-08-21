@@ -52,6 +52,12 @@ export const BookingForm = ({ bookingConfig, showMessageInput = false, children 
             <FieldLabel htmlFor="email">Deine Email-Adresse</FieldLabel>
             <Input type="email" id="email" name="email" placeholder="max@unternehmen.de" required />
           </Field>
+          {bookingConfig.id === 'bni' && (
+            <Field>
+              <FieldLabel htmlFor="chapter">Dein BNI-Chapter</FieldLabel>
+              <Input type="text" id="chapter" name="chapter" placeholder="Chapter" required />
+            </Field>
+          )}
           {bookingConfig.type.length > 1 ? (
             <FieldSet>
               <FieldLegend variant="label">Bevorzugtes Format</FieldLegend>

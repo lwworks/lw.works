@@ -1,12 +1,12 @@
 'use client'
 
-import { CheckConfirmationSection } from "@/components/sections/check/confirmation"
+import { BookingConfirmationSection } from "@/components/sections/booking/confirmation"
 import { FaqSection } from "@/components/sections/faq"
 
 export const CheckConfirmationPage = () => {
   return (
     <main className="pt-16">
-      <CheckConfirmationSection />
+      <BookingConfirmationSection fallback="/check" />
       <FaqSection background="stripes" content={{
         id: 'faq',
         brow: 'FAQ',
