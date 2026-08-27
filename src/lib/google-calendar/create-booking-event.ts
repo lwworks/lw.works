@@ -11,7 +11,8 @@ interface CreateBookingEventProps {
 export const createBookingEvent = async ({bookingConfig, bookingFormData}: CreateBookingEventProps) => {
   const timezone = tz(bookingConfig.timezone)
   const calendar = getCalendarClient(bookingConfig.calendarId)
-  const createMeet = bookingFormData.type === 'online'
+  const type = bookingFormData.type ?? (bookingConfig.type[0] as 'online' | 'phone')
+  const createMeet = type === 'online'
   const summary = `${bookingConfig.name}: ${bookingFormData.name} × ${bookingConfig.teamMember}`
   const description = bookingFormData.type === 'phone' ? `Telefonnummer ${bookingFormData.name}: ${bookingFormData.phone}` : ''
   const start = timezone(new Date(bookingFormData.slot)).toISOString()
