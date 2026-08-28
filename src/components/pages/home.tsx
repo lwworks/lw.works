@@ -1,3 +1,4 @@
+import { Main } from "../main"
 import { CheckCtaSection } from "../sections/check-cta"
 import { FaqSection } from "../sections/faq"
 import { HomeHeroSection } from "../sections/home/hero"
@@ -8,7 +9,7 @@ import { LogosSection } from "../sections/logos"
 
 export const HomePage = () => {
   return (
-    <main className="pt-16">
+    <Main>
       <HomeHeroSection />
       <LogosSection logos={["airbus", "amazon", "bmw", "livestore", "brunkhorst", "effect", "lehmann", "porsche", "scoo", "urlbox"]} variant="carousel" />
       <PainPointsSection />
@@ -46,6 +47,6 @@ export const HomePage = () => {
         ],
       }} />
       <CheckCtaSection />
-    </main>
+    </Main>
   )
 }

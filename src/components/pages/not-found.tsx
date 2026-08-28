@@ -1,9 +1,10 @@
 import { NotFoundHeroSection } from "@/components/sections/not-found/hero"
+import { Main } from "../main"
 
 export const NotFoundPage = () => {
   return (
-    <main className="pt-16">
+    <Main>
       <NotFoundHeroSection />
-    </main>
+    </Main>
   )
 }

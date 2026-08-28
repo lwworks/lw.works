@@ -2,8 +2,8 @@ import { Footer } from '@/components/sections/footer'
 import { Header } from '@/components/sections/header'
 import { baseUrl } from '@/lib/site'
 import { cn } from '@/lib/utils'
-import type { Metadata } from 'next'
 import { BotIdClient } from 'botid/client'
+import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
 import { Geist, Geist_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
@@ -28,8 +28,8 @@ const safiro = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    template: '%s | LW Works',
-    default: 'LW Works',
+    template: '%s — LW Works GmbH',
+    default: 'LW Works GmbH',
   },
   icons: {
     icon: [

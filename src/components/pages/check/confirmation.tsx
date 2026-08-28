@@ -1,11 +1,12 @@
 'use client'
 
+import { Main } from "@/components/main"
 import { BookingConfirmationSection } from "@/components/sections/booking/confirmation"
 import { FaqSection } from "@/components/sections/faq"
 
 export const CheckConfirmationPage = () => {
   return (
-    <main className="pt-16">
+    <Main>
       <BookingConfirmationSection fallback="/check" />
       <FaqSection background="stripes" content={{
         id: 'faq',
@@ -30,6 +31,6 @@ export const CheckConfirmationPage = () => {
           }
         ],
       }} />
-    </main>
+    </Main>
   )
 }

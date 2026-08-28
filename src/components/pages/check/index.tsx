@@ -1,3 +1,4 @@
+import { Main } from "@/components/main"
 import { BookingSection } from "@/components/sections/booking"
 import { CheckHeroSection } from "@/components/sections/check/hero"
 import { CheckProcessSection } from "@/components/sections/check/process"
@@ -7,7 +8,7 @@ import { lukas } from "@/content/team/lukas"
 
 export const CheckPage = () => {
   return (
-    <main className="pt-16">
+    <Main>
       <CheckHeroSection />
       <CheckProcessSection />
       <CheckTeamContactSection />
@@ -39,6 +40,6 @@ export const CheckPage = () => {
           }
         ],
       }} />
-    </main>
+    </Main>
   )
 }
