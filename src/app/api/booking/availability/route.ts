@@ -4,6 +4,22 @@ import {tz} from '@date-fns/tz'
 import {differenceInCalendarDays} from 'date-fns'
 import {NextResponse} from 'next/server'
 
+/**
+ * Returns a short German availability label for the next free booking slot.
+ *
+ * Used by the booking UI (`useAvailability`) to show when the next slot
+ * is available, without listing every slot. Looks up Google Calendar
+ * free/busy for the given booking type.
+ *
+ * Query parameters:
+ * - `type` — booking config key (e.g. `check` or `bni`)
+ *
+ * @param request - Incoming GET with the query parameters above.
+ * @returns JSON `{availability}` with `"Morgen verfügbar"`,
+ *   `"<weekday> verfügbar"` (within 7 days), or `""` if none;
+ *   `400` missing type, `404` unknown type.
+ */
+
 export async function GET(request: Request) {
   const {searchParams} = new URL(request.url)
   const type = searchParams.get('type')

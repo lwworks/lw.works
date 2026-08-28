@@ -1,0 +1,70 @@
+import {createEvent} from '@/lib/google-calendar/create-event'
+import {getEvents} from '@/lib/google-calendar/get-events'
+import {updateEvent} from '@/lib/google-calendar/update-event'
+import {addDays, format} from 'date-fns'
+import {toZonedTime} from 'date-fns-tz'
+import {NextResponse, type NextRequest} from 'next/server'
+
+export async function POST(request: NextRequest) {
+  try {
+    if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) return new NextResponse('Unauthorized.', {status: 401})
+
+    const projects = await request.json()
+
+    const calendarId = process.env.LIFT_EXPERT_CALENDAR_ID!
+    const events = await getEvents(calendarId)
+    let eventsCreated = []
+    let eventsUpdated = []
+
+    for (const {json: project} of projects) {
+      const eventData: CalendarEvent = {
+        id: `${project.id.replaceAll('-', 'lukas')}`,
+        summary: project.description,
+        start: {},
+        end: {},
+        description: `Kunde: ${project.client}`
+      }
+
+      if (format(new Date(project.start), 'HH:mm') === format(new Date(project.end), 'HH:mm')) {
+        // Ganztägig
+        if (project.start === project.end) {
+          // Einzelner Tag
+          eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
+          eventData.end = {date: format(toZonedTime(project.end, 'Europe/Berlin'), 'yyyy-MM-dd')}
+        } else {
+          // Mehrere Tage
+          eventData.start = {date: format(toZonedTime(project.start, 'Europe/Berlin'), 'yyyy-MM-dd')}
+          eventData.end = {date: format(toZonedTime(addDays(new Date(project.end), 1), 'Europe/Berlin'), 'yyyy-MM-dd')}
+        }
+      } else {
+        // Mit Uhrzeiten
+        eventData.start = {dateTime: project.start}
+        eventData.end = {dateTime: project.end}
+      }
+
+      console.log('Event data:', eventData)
+      const event = events.find((event) => event.id === eventData.id)
+      console.log('Event search result:', event)
+      if (event) {
+        console.log('Updating event.')
+        const {data} = await updateEvent(calendarId, eventData)
+        eventsUpdated.push(data)
+      } else {
+        console.log('Creating new event.')
+        const {data} = await createEvent(calendarId, eventData)
+        eventsCreated.push(data)
+      }
+    }
+
+    return NextResponse.json(
+      {
+        eventsCreated: eventsCreated.map((event) => ({id: event.id, summary: event.summary})),
+        eventsUpdated: eventsUpdated.map((event) => ({id: event.id, summary: event.summary}))
+      },
+      {status: 200}
+    )
+  } catch (error) {
+    console.error(error)
+    return new NextResponse('Error updating calendar events.', {status: 500})
+  }
+}
