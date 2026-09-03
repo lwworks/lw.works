@@ -7,8 +7,9 @@ import { Link } from "../link"
 import { Button } from "../ui/button"
 import { Checkbox } from "../ui/checkbox"
 import { CTA } from "./cta"
+import { GoogleAnalyticsScript } from "./google-analytics-script"
 
-const cookies = ['necessary']
+const cookies = ['necessary', 'analytics']
 
 export const CookieBanner = () => {
   const [open, setOpen] = useState(false)
@@ -46,8 +47,7 @@ export const CookieBanner = () => {
 
   return (
     <>
-      {/* Example Analytics Script: */}
-      {/* <GoogleAnalyticsScript consent={consentGiven && consent.includes('google-analytics')} /> */}
+      <GoogleAnalyticsScript consent={consentGiven && consent.includes('analytics')} />
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="cursor-pointer hover:text-black dark:hover:text-white outline-none focus:outline-none">Cookies & Daten</Dialog.Trigger>
         <Dialog.Portal>
@@ -73,6 +73,13 @@ export const CookieBanner = () => {
                   <label htmlFor="necessary">
                     <span className="font-semibold text-black dark:text-white text-sm">Technisch notwendig</span>
                     <span className="block text-sm text-neutral-500">Das sind Cookies und Daten, die für die Verwendung der Website notwendig sind. Konkret speichern wir Deine Präferenzen für Cookies und den Farbmodus – mehr nicht.</span>
+                  </label>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Checkbox id="analytics" checked={consent.includes('analytics')} onCheckedChange={() => handleCheckedChange('analytics')} className="mt-1.25" />
+                  <label htmlFor="analytics">
+                    <span className="font-semibold text-black dark:text-white text-sm">Analyse</span>
+                    <span className="block text-sm text-neutral-500">Wir verwenden Analysetools wie Google Analytics, um die Nutzung unserer Website besser zu verstehen und Optimierungen vorzunehmen. Hierbei werden insbesondere von Google entsprechende Cookies gesetzt.</span>
                   </label>
                 </li>
               </ul>

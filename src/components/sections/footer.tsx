@@ -30,7 +30,7 @@ export const Footer = () => {
         <Image src="/images/paint/footer-light.jpg" alt="Footer Background" fill className="object-cover object-bottom dark:hidden" />
         <Image src="/images/paint/footer-dark.jpg" alt="Footer Background" fill className="object-cover object-bottom hidden dark:block" />
       </div>
-      <div className="relative mx-auto w-full max-w-4xl px-4 sm:px-8 lg:px-16 border-x border-black/10 dark:border-white/10 py-12 lg:py-24 flex gap-x-16 gap-y-8 flex-wrap justify-between items-stretch">
+      <div className="relative mx-auto w-full max-w-4xl px-4 sm:px-8 lg:px-16 border-x border-black/10 dark:border-white/10 py-12 pb-24 lg:py-24 lg:pb-48 flex gap-x-16 gap-y-8 flex-wrap justify-between items-stretch">
         <div className="flex flex-col gap-4 justify-between">
           <Link href="/">
             <Logo className="text-black dark:text-white h-5" />

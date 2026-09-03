@@ -2,6 +2,7 @@ import { Footer } from '@/components/sections/footer'
 import { Header } from '@/components/sections/header'
 import { baseUrl } from '@/lib/site'
 import { cn } from '@/lib/utils'
+import { Analytics } from "@vercel/analytics/next"
 import { BotIdClient } from 'botid/client'
 import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
@@ -61,6 +62,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
             <Footer />
           </NuqsAdapter>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )
