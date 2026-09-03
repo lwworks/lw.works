@@ -40,7 +40,7 @@ export const Footer = () => {
         <div className="flex flex-wrap gap-8 lg:gap-16">
           {menus.map((menu, index) => (
             <div key={menu.heading} className="shrink-0 whitespace-nowrap">
-              <h4 className="font-semibold text-black dark:text-white text-[11px] uppercase mb-3 tracking-widest">{menu.heading}</h4>
+              <p className="font-semibold text-black dark:text-white text-[11px] uppercase mb-3 tracking-widest">{menu.heading}</p>
               <ul className="space-y-1">
                 {menu.items.map((item) => (
                   <li key={item.href}>

@@ -38,9 +38,6 @@ export const metadata: Metadata = {
       { url: '/favicon/white.png', media: '(prefers-color-scheme: dark)' },
     ],
   },
-  alternates: {
-    canonical: baseUrl,
-  },
   openGraph: {
     locale: 'de_DE',
     type: 'website',
