@@ -22,7 +22,7 @@ export type SectionProps = {
   horizontalPadding?: SectionHorizontalPadding
   bottomGradients?: "rose-orange" | "green-indigo" | "indigo-orange" | "teal-indigo"
   background?: SectionBackground
-  children: React.ReactNode
+  children?: React.ReactNode
   className?: string
 }
 

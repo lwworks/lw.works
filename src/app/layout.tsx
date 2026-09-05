@@ -1,5 +1,3 @@
-import { Footer } from '@/components/sections/footer'
-import { Header } from '@/components/sections/header'
 import { baseUrl } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { Analytics } from "@vercel/analytics/next"
@@ -49,14 +47,18 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="de" className={cn(geist.variable, geistMono.variable, safiro.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
       <head>
-        <BotIdClient protect={[{ path: '/*', method: 'POST' }]} />
+        <BotIdClient
+          protect={[
+            { path: '/check', method: 'POST' },
+            { path: '/bni', method: 'POST' },
+            { path: '/api/booking/*', method: 'POST' },
+          ]}
+        />
       </head>
       <body className="min-h-full flex flex-col text-neutral-600 dark:text-neutral-400">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NuqsAdapter>
-            <Header />
             {children}
-            <Footer />
           </NuqsAdapter>
         </ThemeProvider>
         <Analytics />
