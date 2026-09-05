@@ -47,7 +47,7 @@ export const Header = ({
                   <AvatarFallback>{getInitials(userName)}</AvatarFallback>
                 )}
               </Avatar>
-              <span className="hidden sm:block truncate max-w-40 text-neutral-500 dark:text-neutral-400">
+              <span className="hidden sm:block truncate max-w-40">
                 {userName}
               </span>
             </div>
