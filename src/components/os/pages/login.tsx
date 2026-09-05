@@ -1,7 +1,7 @@
 import { Heading } from "@/components/atoms/heading"
 import { Main } from "@/components/main"
 import { Section } from "@/components/sections"
-import { GoogleSignInButton } from "../google-sign-in-button"
+import { GoogleSignInButton } from "../atoms/google-sign-in-button"
 
 export const LoginPage = () => {
   return (

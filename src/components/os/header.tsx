@@ -1,5 +1,5 @@
 import { ThemeSwitcher } from '@/components/atoms/theme-switcher'
-import { SignOutButton } from '@/components/os/sign-out-button'
+import { SignOutButton } from '@/components/os/atoms/sign-out-button'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import Link from 'next/link'
 import { LogoOS } from '../atoms/logo-os'
@@ -32,7 +32,7 @@ export const Header = ({
         <Link href="/os">
           <LogoOS className="text-black dark:text-white h-5" />
         </Link>
-        <nav className="text-sm flex items-center gap-3">
+        <nav className="text-sm flex items-center gap-6">
           {userName ? (
             <div className="flex items-center gap-2">
               <Avatar size="sm">
@@ -52,8 +52,10 @@ export const Header = ({
               </span>
             </div>
           ) : null}
-          {userName ? <SignOutButton /> : null}
-          <ThemeSwitcher content={themeSwitcherContent} />
+          <div className="flex items-center gap-2">
+            {userName ? <SignOutButton /> : null}
+            <ThemeSwitcher content={themeSwitcherContent} />
+          </div>
         </nav>
       </div>
     </header>
