@@ -1,15 +1,6 @@
-import {getCalendarClient} from '.'
+import {queryFreeBusy} from './query-freebusy'
 
-export const checkSlotAvailability = async (calendarId: string, startTime: string, endTime: string, timezone: string): Promise<boolean> => {
-  const calendar = getCalendarClient(calendarId)
-  const response = await calendar.freebusy.query({
-    requestBody: {
-      timeMin: startTime,
-      timeMax: endTime,
-      timeZone: timezone,
-      items: [{id: calendarId}]
-    }
-  })
-  const busy = response.data.calendars?.[calendarId]?.busy ?? []
+export const checkSlotAvailability = async (config: BookingConfig, startTime: string, endTime: string): Promise<boolean> => {
+  const busy = await queryFreeBusy(config, startTime, endTime)
   return busy.length === 0
 }

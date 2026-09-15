@@ -3,7 +3,8 @@ type BookingConfig = {
   name: string // Booking name, e.g. 'Prozess-Check'
   teamMember: string // Team member name, e.g. 'Lukas Brunkhorst'
   type: BookingType // Available meeting types
-  calendarId: string // Google Calendar ID
+  calendarId: string // Google Calendar ID where bookings are created
+  availabilityCalendarIds?: string[] // Extra calendars to include in free/busy checks; calendarId is always included
   timezone: string // Timezone for the calendar
   slotDuration: number // Event duration in minutes
   breakDuration: number // Break duration in minutes

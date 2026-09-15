@@ -1,3 +1,10 @@
+const calendarId = 'lukas@lw.works'
+const availabilityCalendarIds = [
+  'c_07f215fd781393f0926768ed86f5cdcca27dafef06a54509b776e2837c3622c9@group.calendar.google.com', // Privat
+  'c_8f5866b276b60208f5000aa9fff6e7bc83b4feb444af3517093f1f3e6b424b80@group.calendar.google.com', // Familie
+  'c_d5ef4c06ecdaebfb68284ebbbd37ae206733017a4e2a68b53398027218c02138@group.calendar.google.com' // Feuerwehr
+]
+
 export const lukas = {
   name: 'Lukas Brunkhorst',
   image: '/images/team/lukas-brunkhorst.jpg',
@@ -10,7 +17,8 @@ export const lukas = {
       name: 'Prozess-Check',
       teamMember: 'Lukas Brunkhorst',
       type: ['online', 'phone'] as BookingType,
-      calendarId: 'lukas@lw.works',
+      calendarId,
+      availabilityCalendarIds,
       timezone: 'Europe/Berlin',
       slotDuration: 15,
       breakDuration: 15,
@@ -30,7 +38,8 @@ export const lukas = {
       name: 'BNI 121',
       teamMember: 'Lukas Brunkhorst',
       type: ['online'] as BookingType,
-      calendarId: 'lukas@lw.works',
+      calendarId,
+      availabilityCalendarIds,
       timezone: 'Europe/Berlin',
       slotDuration: 30,
       breakDuration: 15,

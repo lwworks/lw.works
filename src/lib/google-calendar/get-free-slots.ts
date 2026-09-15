@@ -1,33 +1,23 @@
-import {getCalendarClient} from '@/lib/google-calendar/index'
+import {queryFreeBusy} from '@/lib/google-calendar/query-freebusy'
 import {tz} from '@date-fns/tz'
 import {addDays, addHours, addMinutes, differenceInMinutes, formatISO, set, startOfDay} from 'date-fns'
 
 const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as const
 
-export const getFreeSlots = async (config: BookingConfig): Promise<{freeSlots: BookingSlot[]} | null> => {
-  const calendar = getCalendarClient(config.calendarId)
+export const getFreeSlots = async (config: BookingConfig): Promise<{freeSlots: BookingSlot[]}> => {
   const timezone = tz(config.timezone)
   const now = timezone(Date.now())
   const startDate = addHours(now, config.hoursInAdvance, {in: timezone})
   const endDate = addDays(now, config.daysInAdvance, {in: timezone})
 
-  // Get busy slots from calendar
-  const freebusy = await calendar.freebusy.query({
-    requestBody: {
-      timeMin: formatISO(startDate),
-      timeMax: formatISO(endDate),
-      timeZone: config.timezone,
-      items: [{id: config.calendarId}]
-    }
-  })
-  const busySlots = freebusy.data.calendars?.[config.calendarId]?.busy ?? []
-  if (busySlots.length === 0) return null
+  const busySlots = (await queryFreeBusy(config, formatISO(startDate), formatISO(endDate))).sort(
+    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime() || new Date(a.end).getTime() - new Date(b.end).getTime()
+  )
 
   // Calculate free slots inbetween, padding busy slots by the break duration
   const freeSlots: BookingSlot[] = []
   let cursor = startDate
   for (const busySlot of busySlots) {
-    if (!busySlot.start || !busySlot.end) continue
     const slot = {
       start: addMinutes(timezone(new Date(busySlot.start)), -config.breakDuration, {in: timezone}),
       end: addMinutes(timezone(new Date(busySlot.end)), config.breakDuration, {in: timezone})

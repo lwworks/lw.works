@@ -74,13 +74,12 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
 
     // Prepare booking data
     const timezone = tz(config.timezone)
-    const calendarId = config.calendarId
     const memberName = config.teamMember
     const start = timezone(new Date(slot))
     const end = timezone(addMinutes(new Date(slot), config.slotDuration))
 
     // Check slot availability
-    const available = await checkSlotAvailability(calendarId, start.toISOString(), end.toISOString(), config.timezone)
+    const available = await checkSlotAvailability(config, start.toISOString(), end.toISOString())
     if (!available) return {success: false, error: 'Der gewählte Termin ist leider nicht mehr verfügbar. Bitte wählen einen anderen Termin.'}
 
     // Create calendar event
