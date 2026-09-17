@@ -3,14 +3,14 @@ import { baseUrl } from '@/lib/site'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Home — LW Works GmbH',
-  description: 'Professionelle Webentwicklung & Design Engineering für Unternehmen. Custom Next.js, API-Integrationen und KI-gestützte Automatisierung.',
+  title: 'Digitalisierung für den Mittelstand',
+  description: 'Die LW Works GmbH macht mittelständische Unternehmen in Deutschland wettbewerbsfähiger und profitabler. Wir finden Engpässe in gewachsenen Prozessen und lösen sie mit Automatisierung, Schnittstellen und KI-Integration – mit Software statt Beratungs-Folien.',
   alternates: {
     canonical: baseUrl,
   },
   openGraph: {
-    title: 'Home — LW Works GmbH',
-    description: 'Professionelle Webentwicklung & Design Engineering für Unternehmen. Custom Next.js, API-Integrationen und KI-gestützte Automatisierung.',
+    title: 'Digitalisierung für den Mittelstand — LW Works GmbH',
+    description: 'Die LW Works GmbH macht mittelständische Unternehmen in Deutschland wettbewerbsfähiger und profitabler. Wir finden Engpässe in gewachsenen Prozessen und lösen sie mit Automatisierung, Schnittstellen und KI-Integration – mit Software statt Beratungs-Folien.',
     url: baseUrl,
     locale: 'de_DE',
   },
