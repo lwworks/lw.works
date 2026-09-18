@@ -11,6 +11,7 @@ const menus = [
     items: [
       { label: 'Prozess-Check', href: '/check' },
       { label: 'Digitalisierung', href: '/' },
+      { label: 'Handwerk-Gründung', href: '/handwerk-gruendung' },
     ],
   },
   {

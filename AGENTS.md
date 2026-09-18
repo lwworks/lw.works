@@ -16,131 +16,93 @@ Always use `@mynaui/icons-react` for icons. Never use `lucide-react` — it is n
 
 Always use `cn()` from `@/lib/utils` to compose class names. Never use template literals for className strings.
 
-# Page & Section Architecture
+# Site
 
-Pages are built by composing section components that receive typed content objects. Content is separated from components and supports i18n.
+The public site is **German-only**. There is no `next-intl`, no `[locale]` segment, and no page registry. URLs are filesystem routes under `src/app/(site)/`.
 
-## Directory Layout
+Marketing pages are **text-only**: copy lives in section components (or is passed inline to shared sections such as `FaqSection`). Do not put landing-page copy in `src/content/`.
+
+# Directory Layout
 
 ```
 src/
+├── app/
+│   ├── layout.tsx                 # Root HTML, fonts, lang="de"
+│   ├── (site)/                    # Public marketing site (no URL segment)
+│   │   ├── layout.tsx             # Header + Footer
+│   │   ├── page.tsx               # /
+│   │   └── <slug>/page.tsx        # Thin route + metadata
+│   └── os/                        # Internal app (separate layout)
 ├── components/
-│   ├── sections/           # Section components (shared + page-specific)
-│   │   ├── index.tsx        # Base Section wrapper (layout, gradients, borders)
-│   │   ├── testimonial.tsx  # Shared section (used across pages)
-│   │   ├── callout.tsx      # Shared section
-│   │   └── digital-dealer/  # Page-specific sections
-│   │       ├── hero.tsx
-│   │       ├── pricing.tsx
-│   │       └── contact.tsx
-│   ├── pages/              # Page components that compose sections
-│   │   └── digital-dealer.tsx
-│   └── atoms/              # Small reusable elements (Brow, Heading, CTA, etc.)
-├── content/
-│   ├── pages/
-│   │   ├── slugs.ts         # Page slug definitions (single source of truth)
-│   │   ├── index.ts         # Page registry (slugs + components + loaders)
-│   │   └── digital-dealer/
-│   │       ├── index.ts     # Content loader (async, per-locale)
-│   │       ├── en.tsx       # English content
-│   │       └── de.tsx       # German content
-└── app/[locale]/           # Route handlers
+│   ├── main.tsx                   # <main> with header offset
+│   ├── pages/                     # Page composers
+│   │   ├── home.tsx
+│   │   └── check/index.tsx
+│   ├── sections/                  # Shared + page-specific sections
+│   │   ├── index.tsx              # Base Section wrapper
+│   │   ├── faq.tsx                # Shared (content prop)
+│   │   ├── home/hero.tsx
+│   │   └── check/hero.tsx
+│   └── atoms/                     # Brow, Heading, CTA, …
+└── content/                       # Not for landing copy
+    ├── pages/                     # Legal MDX (impressum, datenschutz)
+    └── team/                      # Team + booking config
+    # Later: blog
 ```
 
-## Content Types
+# Page & Section Architecture
 
-Each section component **exports its own content type** alongside the component:
+Pages are composed from section components. Copy is hardcoded in those sections, matching the homepage.
 
-```tsx
-// src/components/sections/callout.tsx
-export type CalloutSectionContent = {
-  title: string
-  paragraphs: string[]
-  cta?: { ... }
-}
+## Route handlers
 
-export const CalloutSection = ({ content }: { content: CalloutSectionContent }) => { ... }
-```
+Thin files under `src/app/(site)/<slug>/page.tsx`:
 
-The **page component** imports these types and composes them into a page-level content type:
+1. Export `metadata` (`title`, `description`, `alternates.canonical`).
+2. Default-export a component that renders the page composer.
 
-```tsx
-// src/components/pages/digital-dealer.tsx
-export type DigitalDealerPageContent = {
-  metadata: Metadata
-  hero: DigitalDealerHeroSectionContent
-  testimonial: TestimonialSectionContent
-  callout: CalloutSectionContent
-  // Simple sections can define their shape inline:
-  problem: { brow: string; title: string; paragraphs: string[] }
-}
-```
+## Page components
 
-## Content Files
+Live in `src/components/pages/` (`<slug>.tsx` or `<slug>/index.tsx`). They:
 
-Content lives in `src/content/pages/<page>/` with one file per locale. The `index.ts` exports an async loader:
+1. Wrap everything in `Main` from `@/components/main`.
+2. Compose sections in order.
+3. Pass inline content only to shared sections that require a `content` prop (`FaqSection`, `CalloutSection`).
 
-```tsx
-// src/content/pages/digital-dealer/index.ts
-const loaders: Record<Locale, () => Promise<DigitalDealerPageContent>> = {
-  de: () => import('./de').then((m) => m.default),
-  en: () => import('./en').then((m) => m.default)
-}
-export const getDigitalDealerPageContent = (locale: Locale) => loaders[locale]()
-```
+## Section components
 
-Locale files (e.g. `en.tsx`) export a default object matching the page content type. Use `.tsx` extension when content includes JSX (e.g. inline links).
+Every section:
 
-## Section Components
+1. Wraps its content in the base `Section` from `@/components/sections` (padding, paint/stripe backgrounds, side borders).
+2. Composes atoms (`Brow`, `Heading`, `CTA`) and shadcn/ui components.
+3. Uses `@mynaui/icons-react` and `cn()`.
 
-Every section component:
-1. Exports a content type (e.g. `FooSectionContent`) and the component itself.
-2. Accepts a `content` prop typed with that content type.
-3. Wraps its content in the base `Section` component from `@/components/sections` for consistent layout (padding, gradients, bottom border).
-4. Composes atoms (`Brow`, `Heading`, `CTA`) and shadcn/ui components.
+Page-specific sections live in `src/components/sections/<page>/` and contain their German copy directly.
 
-For simple/one-off sections that don't need their own file, render them inline in the page component using the base `Section` wrapper directly.
+Shared sections that are reused with different copy (FAQ, callout) accept a typed `content` prop. The page composer passes that object inline — still not via `src/content/`.
 
-## Page Components
+For simple one-off blocks, render inline in the page component with the base `Section` wrapper.
 
-Page components live in `src/components/pages/`. They:
-1. Export a page content type composing all section content types.
-2. Accept a single `{ content }` prop.
-3. Render `<main className="pt-16">` with sections in order.
-4. Pass `content.<section>` to each section component.
+# `src/content/`
 
-# i18n Setup
+Reserved for:
 
-Uses **next-intl** with the `[locale]` App Router pattern. Supported locales: `de` (default), `en`. Locale prefix is `always` (URLs always start with `/de` or `/en`).
+- Legal MDX (`impressum`, `datenschutz`)
+- Team / booking config (`team/lukas.ts`)
+- **Blog (later)**
 
-## Routing & Slugs
+Do **not** add landing-page or avatar-page copy here. Do not introduce `slugs.ts`, locale loaders, or a `definePage()` registry.
 
-Slugs are defined in each content type's own folder — **not** in `routing.ts`:
+# Adding a new marketing page
 
-- **Pages:** `src/content/pages/slugs.ts` defines `pageSlugs` (locale-aware slug map per page key)
+1. `src/app/(site)/<slug>/page.tsx` — metadata + render the page component
+2. `src/components/pages/<slug>.tsx` — `Main` + sections
+3. `src/components/sections/<slug>/…` — page-specific sections with hardcoded copy
+4. Footer (`src/components/sections/footer.tsx`) and sitemap (`src/app/sitemap.ts`) if the page is public
+5. Booking confirmation route + `src/content/team/lukas.ts` only if the page has its own booking type
 
-`src/i18n/routing.ts` imports these to build the next-intl pathname config automatically. The `Locale` type lives in `src/i18n/locale.ts` to avoid circular imports (content folders import from `locale.ts`, not `routing.ts`).
+# Navigation
 
-Helpers: `getPageKeyBySlug(slug, locale)` and `getPageSlug(key, locale)` (exported from `src/content/pages/slugs.ts` and re-exported from `src/content/pages/index.ts`).
-
-## Navigation (`src/i18n/navigation.ts`, `src/i18n/link.tsx`)
-
-- `createNavigation(routing)` provides locale-aware `Link`, `useRouter`, `usePathname`.
-- `src/i18n/link.tsx` extends `Link` with hash anchor smooth scrolling support.
-- Locale switching: `router.replace(pathname, { locale: "en" })`.
-
-## Route Handlers (`src/app/[locale]/`)
-
-- `layout.tsx`: Calls `setRequestLocale(locale)`, wraps children in `NextIntlClientProvider`.
-- `[slug]/page.tsx`: Uses `getPageKeyBySlug()` to resolve the page key, then `pages[key].render(locale)` to load content and render the component. No switch statement — the page registry handles the mapping.
-- All generate static params for locale/slug combinations.
-
-## Content Loading
-
-Content is **not** loaded via next-intl's message system. Instead, each page has its own typed content loader in `src/content/pages/<page>/index.ts` that dynamically imports the correct locale file. Global content (header, footer) follows the same pattern in `src/content/header/` and `src/content/footer/`.
-
-The page registry in `src/content/pages/index.ts` bundles slugs, components, and loaders together via `definePage()`. The `[slug]/page.tsx` route handler uses `pages[key].render(locale)` — no switch statement needed.
-
-When adding a new page, register it in two places:
-1. `src/content/pages/slugs.ts` — add the slug mapping
-2. `src/content/pages/index.ts` — add the `definePage()` entry with component and loader
+- Header CTA: `/check` (Prozess-Check). `navItems` is currently empty.
+- Footer menus in `src/components/sections/footer.tsx`
+- Locale-aware `Link` lives at `@/components/link` (hash smooth-scrolling). There is no locale switcher.
