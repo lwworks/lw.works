@@ -7,9 +7,12 @@ import { useSlots } from "@/lib/google-calendar/use-slots"
 import { cn } from "@/lib/utils"
 import { tz } from "@date-fns/tz"
 import { ChevronLeft, ChevronRight, DangerCircle, Spinner } from "@mynaui/icons-react"
-import { differenceInMinutes, format } from "date-fns"
+import { addHours, addMinutes, differenceInMinutes, format, startOfHour } from "date-fns"
 import { de } from "date-fns/locale"
 import { useId } from "react"
+
+const PX_PER_MINUTE = 1.5
+const TIMELINE_PADDING = 14
 
 interface BookingCalendarProps {
   bookingConfig: BookingConfig
@@ -17,10 +20,20 @@ interface BookingCalendarProps {
   onDayChange: (index: number) => void
   selectedSlot: string | null
   onSlotChange: (slot: string) => void
+  variant?: "compact" | "timeline"
   className?: string
 }
 
-export const BookingCalendar = ({ bookingConfig, selectedDayIndex, onDayChange, selectedSlot, onSlotChange, className }: BookingCalendarProps) => {
+const getHourMarks = (start: Date, end: Date) => {
+  const firstMark = start.getMinutes() === 0 ? start : addHours(startOfHour(start), 1)
+  const marks: Date[] = []
+  for (let mark = firstMark; mark <= end; mark = addHours(mark, 1)) {
+    marks.push(mark)
+  }
+  return marks
+}
+
+export const BookingCalendar = ({ bookingConfig, selectedDayIndex, onDayChange, selectedSlot, onSlotChange, variant = "timeline", className }: BookingCalendarProps) => {
   const instanceId = useId()
   const timezone = tz(bookingConfig.timezone)
   const { slots, loading, error } = useSlots(bookingConfig.id)
@@ -45,7 +58,16 @@ export const BookingCalendar = ({ bookingConfig, selectedDayIndex, onDayChange, 
   )
 
   const days = Object.keys(slots ?? {})
-  const startOfDay = timezone(new Date(days[selectedDayIndex]).setHours(10, 0, 0, 0))
+  const daySlots = slots[days[selectedDayIndex]]
+  const isCompact = variant === "compact"
+  const timelineStart = isCompact
+    ? addMinutes(timezone(new Date(daySlots[0].start)), -30)
+    : timezone(new Date(days[selectedDayIndex]).setHours(10, 0, 0, 0))
+  const timelineEnd = isCompact
+    ? addMinutes(timezone(new Date(daySlots[daySlots.length - 1].end)), 30)
+    : addHours(timelineStart, 10)
+  const hourMarks = getHourMarks(timelineStart, timelineEnd)
+  const timelineHeight = differenceInMinutes(timelineEnd, timelineStart) * PX_PER_MINUTE + TIMELINE_PADDING * 2
 
   return (
     <div className={cn("flex flex-col pb-px", className)}>
@@ -61,18 +83,16 @@ export const BookingCalendar = ({ bookingConfig, selectedDayIndex, onDayChange, 
       <RadioGroup
         value={selectedSlot}
         onValueChange={onSlotChange}
-        className="relative flex-1 overflow-y-auto block gap-0"
+        className={cn("relative block gap-0", isCompact ? "overflow-hidden" : "flex-1 overflow-y-auto")}
+        style={isCompact ? { height: timelineHeight } : undefined}
       >
-        {['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'].map((time, i) => {
-          const top = 14 + i * 90
-          return (
-            <div key={i} className="absolute inset-x-0 flex items-start" style={{ top }}>
-              <span className="shrink-0 w-12 -translate-y-1/2 text-right pr-2 text-xs text-neutral-500 numeric">{time}</span>
-              <span className="flex-1 border-t border-black/5 dark:border-white/5" />
-            </div>
-          )
-        })}
-        {slots[days[selectedDayIndex]].map((slot: BookingSlot) => {
+        {hourMarks.map((mark) => (
+          <div key={mark.toISOString()} className="absolute inset-x-0 flex items-start" style={{ top: differenceInMinutes(mark, timelineStart) * PX_PER_MINUTE + TIMELINE_PADDING }}>
+            <span className="shrink-0 w-12 -translate-y-1/2 text-right pr-2 text-xs text-neutral-500 numeric">{format(mark, "HH:mm")}</span>
+            <span className="flex-1 border-t border-black/5 dark:border-white/5" />
+          </div>
+        ))}
+        {daySlots.map((slot: BookingSlot) => {
           const start = timezone(new Date(slot.start))
           const id = `${instanceId}${format(start, 'yyyy-MM-dd HH:mm')}`
           const end = timezone(new Date(slot.end))
@@ -86,8 +106,8 @@ export const BookingCalendar = ({ bookingConfig, selectedDayIndex, onDayChange, 
               "has-data-checked:bg-lime has-data-checked:hover:bg-lime dark:has-data-checked:bg-lime dark:has-data-checked:hover:bg-lime has-data-checked:border-lime-dark dark:has-data-checked:border-lime-dark has-data-checked:text-black"
             )}
               style={{
-                top: differenceInMinutes(start, startOfDay) * 1.5 + 15,
-                height: differenceInMinutes(end, start) * 1.5 - 2,
+                top: differenceInMinutes(start, timelineStart) * PX_PER_MINUTE + TIMELINE_PADDING + 1,
+                height: differenceInMinutes(end, start) * PX_PER_MINUTE - 2,
               }}>
               <Field orientation="horizontal" className="flex w-auto! p-0! m-0 tabular-nums">
                 {format(start, 'HH:mm')} – {format(end, 'HH:mm')}
