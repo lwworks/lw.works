@@ -58,6 +58,7 @@ export const CookieBanner = () => {
             onEscapeKeyDown={(e) => e.preventDefault()}
             onPointerDownOutside={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
+            onCloseAutoFocus={(e) => e.preventDefault()}
             className="fixed bottom-0 inset-x-0 z-50 bg-neutral-50 dark:bg-[#0F0F0F] border-t border-black/10 dark:border-white/10 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom"
           >
             <div className="relative mx-auto w-full max-w-4xl border-x border-black/10 dark:border-white/10 p-16">
