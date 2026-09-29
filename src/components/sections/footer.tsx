@@ -14,6 +14,12 @@ const menus = [
     ],
   },
   {
+    heading: 'Netzwerk',
+    items: [
+      { label: 'Bewerte uns', href: '/bewerte-uns' },
+    ]
+  },
+  {
     heading: 'Unternehmen',
     items: [
       { label: 'Kontakt', href: '/kontakt' },

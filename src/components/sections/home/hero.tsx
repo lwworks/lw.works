@@ -7,18 +7,6 @@ import { Section } from "@/components/sections"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "@mynaui/icons-react"
 
-export type HomeHeroSectionContent = {
-  imageAlt: string
-  brow: string
-  title: string
-  description: string
-  cta: {
-    href: string
-    label: string
-    urgencyNote: string
-  }
-}
-
 export const HomeHeroSection = () => {
   return (
     <Section background="paint-2">

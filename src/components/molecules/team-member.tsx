@@ -1,6 +1,7 @@
 import { Brow } from "@/components/atoms/brow";
 import { Heading } from "@/components/atoms/heading";
 import { lukas } from "@/content/team/lukas";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const members = { lukas }
@@ -11,15 +12,16 @@ interface TeamMemberProps {
   brow?: string;
   showDescription?: boolean;
   description?: string;
+  className?: string;
 }
 
-export const TeamMember = ({ member, brow, showDescription = false, description }: TeamMemberProps) => {
+export const TeamMember = ({ member, brow, showDescription = false, description, className }: TeamMemberProps) => {
   const teamMember = members[member];
   if (!teamMember) return null;
 
   return (
     <>
-      <div className="flex items-center gap-4">
+      <div className={cn("flex items-center gap-4", className)}>
         <div className="relative rounded-full overflow-hidden size-18 sm:size-24 shrink-0 border-2">
           <Image src="/images/team/lukas-brunkhorst.jpg" alt="Lukas Brunkhorst" fill className="object-cover object-center" />
         </div>
