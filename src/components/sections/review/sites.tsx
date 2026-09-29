@@ -33,7 +33,7 @@ export const ReviewSitesSection = () => {
           <p className="my-4">Bewerte uns bei ProvenExpert.</p>
           <Button asChild>
             <Link href="https://www.provenexpert.com/de-de/lw-works-gmbh/0sae/" target="_blank" rel="noopener noreferrer">
-              <span>Bei ProvenExpert bewerten</span>
+              <span>Zu ProvenExpert</span>
               <ArrowUpRight strokeWidth={2} className="size-4 opacity-50" />
             </Link>
           </Button>
