@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     ...Object.values(team).map((member) => ({
-      url: `${baseUrl}/kontakt/${member.slug}`,
+      url: `${baseUrl}/team/${member.slug}`,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
