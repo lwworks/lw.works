@@ -14,7 +14,7 @@ export const horizontalPaddings = {
 
 export type SectionVerticalPadding = keyof typeof verticalPaddings
 export type SectionHorizontalPadding = keyof typeof horizontalPaddings
-export type SectionBackground = "darker" | "paint-1" | "paint-2" | "paint-3" | "paint-4" | "stripes"
+export type SectionBackground = "darker" | "paint-1" | "paint-2" | "paint-3" | "paint-4" | "paint-5" | "stripes"
 
 export type SectionProps = {
   id?: string
@@ -47,6 +47,10 @@ export const Section = ({ id, verticalPadding = "default", horizontalPadding = "
         {background === "paint-4" && (<>
           <Image src="/images/paint/paint-4-light.jpg" width={1728} height={1117} alt="Paint Background Light" className="dark:hidden absolute inset-x-0 top-0" loading="eager" />
           <Image src="/images/paint/paint-4-dark.jpg" width={1728} height={1117} alt="Paint Background Dark" className="hidden dark:block absolute inset-x-0 top-0" loading="eager" />
+        </>)}
+        {background === "paint-5" && (<>
+          <Image src="/images/paint/paint-5-light.jpg" width={1728} height={1117} alt="Paint Background Light" className="dark:hidden absolute inset-x-0 top-0" loading="eager" />
+          <Image src="/images/paint/paint-5-dark.jpg" width={1728} height={1117} alt="Paint Background Dark" className="hidden dark:block absolute inset-x-0 top-0" loading="eager" />
         </>)}
         <div className="absolute top-0 right-0 bottom-px w-px bg-black/10 dark:bg-white/10" />
         <div className="absolute top-0 left-0 bottom-px w-px bg-black/10 dark:bg-white/10" />

@@ -6,12 +6,42 @@ const availabilityCalendarIds = [
 ]
 
 export const lukas = {
+  slug: 'lukas',
   name: 'Lukas Brunkhorst',
   image: '/images/team/lukas-brunkhorst.jpg',
   title: 'Entwickler & Geschäftsführer',
   description:
     'Ich bin seit 2017 als Entwickler selbstständig und habe Anfang 2024 die LW Works GmbH gegründet. Inzwischen durften wir bereits an Digitalisierungs- und KI-Projekten u.a. mit Airbus, BMW und Amazon arbeiten.',
+  contactOptions: {
+    email: 'lukas@lw.works',
+    phone: '+49 4765 829 3999',
+    whatsApp: 'https://wa.me/4947658293999',
+    linkedIn: 'https://www.linkedin.com/in/lukasbrunkhorst/',
+    instagram: 'https://www.instagram.com/lukasbrunkhorst/',
+    x: 'https://x.com/lukaswiesehan'
+  },
   bookingOptions: {
+    lukas: {
+      id: 'lukas',
+      name: '1:1 Meet',
+      teamMember: 'Lukas Brunkhorst',
+      type: ['online'] as BookingType,
+      calendarId,
+      availabilityCalendarIds,
+      timezone: 'Europe/Berlin',
+      slotDuration: 30,
+      breakDuration: 15,
+      hoursInAdvance: 24,
+      daysInAdvance: 21,
+      availableHours: {
+        monday: {start: 17, end: 18},
+        tuesday: {start: 15, end: 17},
+        wednesday: {start: 14, end: 17},
+        thursday: {start: 15, end: 17},
+        friday: {start: 12, end: 14}
+      },
+      redirect: '/team/lukas/termin-bestaetigt'
+    },
     check: {
       id: 'check',
       name: 'Prozess-Check',

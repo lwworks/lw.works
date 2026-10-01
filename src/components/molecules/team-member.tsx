@@ -1,22 +1,22 @@
 import { Brow } from "@/components/atoms/brow";
 import { Heading } from "@/components/atoms/heading";
-import { lukas } from "@/content/team/lukas";
+import { team, TeamMemberSlug } from "@/content/team";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-const members = { lukas }
-export type TeamMember = keyof typeof members
-
 interface TeamMemberProps {
-  member: TeamMember;
+  member: TeamMemberSlug;
+  showBrow?: boolean;
   brow?: string;
   showDescription?: boolean;
   description?: string;
   className?: string;
+  headingLevel?: "h1" | "h2" | "h3";
+  headingSize?: "h1" | "h2" | "h3";
 }
 
-export const TeamMember = ({ member, brow, showDescription = false, description, className }: TeamMemberProps) => {
-  const teamMember = members[member];
+export const TeamMember = ({ member, showBrow = true, brow, showDescription = false, description, className, headingLevel = "h3", headingSize = "h2" }: TeamMemberProps) => {
+  const teamMember = team[member];
   if (!teamMember) return null;
 
   return (
@@ -26,8 +26,8 @@ export const TeamMember = ({ member, brow, showDescription = false, description,
           <Image src="/images/team/lukas-brunkhorst.jpg" alt="Lukas Brunkhorst" fill className="object-cover object-center" />
         </div>
         <div>
-          <Brow color="none">{brow ?? 'Dein Ansprechpartner'}</Brow>
-          <Heading as="h3" size="h2" className="-ml-0.5">{teamMember.name}</Heading>
+          {showBrow && <Brow color="none">{brow ?? 'Dein Ansprechpartner'}</Brow>}
+          <Heading as={headingLevel} size={headingSize} className="-ml-0.5 text-2xl">{teamMember.name}</Heading>
           <p className="text-sm sm:text-base">{teamMember.title}</p>
         </div>
       </div>
