@@ -1,6 +1,7 @@
 import { baseUrl } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { BotIdClient } from 'botid/client'
 import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
@@ -63,6 +64,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
           </NuqsAdapter>
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
