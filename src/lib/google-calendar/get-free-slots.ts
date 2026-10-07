@@ -4,10 +4,18 @@ import {addDays, addHours, addMinutes, differenceInMinutes, formatISO, set, star
 
 const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as const
 
+// Slot start times are always aligned to :00/:15/:30/:45, independent of slotDuration
+const slotInterval = 15
+
 export const getFreeSlots = async (config: BookingConfig): Promise<{freeSlots: BookingSlot[]}> => {
   const timezone = tz(config.timezone)
+  const ceilToQuarterHour = (date: Date) => {
+    const interval = slotInterval * 60 * 1000
+    return timezone(Math.ceil(date.getTime() / interval) * interval)
+  }
+
   const now = timezone(Date.now())
-  const startDate = addHours(now, config.hoursInAdvance, {in: timezone})
+  const startDate = ceilToQuarterHour(addHours(now, config.hoursInAdvance, {in: timezone}))
   const endDate = addDays(now, config.daysInAdvance, {in: timezone})
 
   const busySlots = (await queryFreeBusy(config, formatISO(startDate), formatISO(endDate))).sort(
@@ -20,7 +28,7 @@ export const getFreeSlots = async (config: BookingConfig): Promise<{freeSlots: B
   for (const busySlot of busySlots) {
     const slot = {
       start: addMinutes(timezone(new Date(busySlot.start)), -config.breakDuration, {in: timezone}),
-      end: addMinutes(timezone(new Date(busySlot.end)), config.breakDuration, {in: timezone})
+      end: ceilToQuarterHour(addMinutes(timezone(new Date(busySlot.end)), config.breakDuration, {in: timezone}))
     }
     if (slot.end <= cursor || slot.start >= endDate) continue
     const start = slot.start < cursor ? cursor : slot.start
@@ -38,7 +46,7 @@ export const getFreeSlots = async (config: BookingConfig): Promise<{freeSlots: B
       if (hours) {
         const windowStart = set(day, {hours: Math.floor(hours.start), minutes: (hours.start % 1) * 60, seconds: 0, milliseconds: 0}, {in: timezone})
         const windowEnd = set(day, {hours: Math.floor(hours.end), minutes: (hours.end % 1) * 60, seconds: 0, milliseconds: 0}, {in: timezone})
-        const start = slot.start > windowStart ? slot.start : windowStart
+        const start = ceilToQuarterHour(slot.start > windowStart ? slot.start : windowStart)
         const end = slot.end < windowEnd ? slot.end : windowEnd
         // Only keep windows long enough to fit at least one booking
         if (start < end && differenceInMinutes(end, start) >= config.slotDuration) {
