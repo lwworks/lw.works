@@ -1,6 +1,8 @@
 "use client"
 
+import { horizontalPaddings, verticalPaddings } from "@/components/sections"
 import { deleteAllCookies } from "@/lib/cookies"
+import { cn } from "@/lib/utils"
 import { Dialog } from "radix-ui"
 import { useEffect, useState } from "react"
 import { Link } from "../link"
@@ -51,7 +53,7 @@ export const CookieBanner = () => {
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger className="cursor-pointer hover:text-black dark:hover:text-white outline-none focus:outline-none">Cookies & Daten</Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 isolate z-50 bg-white/10 dark:bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" >
+          <Dialog.Overlay className="fixed inset-0 isolate z-50 bg-white/10 dark:bg-black/10 px-4 lg:px-0 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" >
             <div className="relative mx-auto w-full h-full max-w-4xl border-x border-black/5 dark:border-white/5" />
           </Dialog.Overlay>
           <Dialog.Content
@@ -59,9 +61,9 @@ export const CookieBanner = () => {
             onPointerDownOutside={(e) => e.preventDefault()}
             onInteractOutside={(e) => e.preventDefault()}
             onCloseAutoFocus={(e) => e.preventDefault()}
-            className="fixed bottom-0 inset-x-0 z-50 bg-neutral-50 dark:bg-[#0F0F0F] border-t border-black/10 dark:border-white/10 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom"
+            className="fixed bottom-0 inset-x-0 z-50 bg-neutral-50 dark:bg-[#0F0F0F] border-t border-black/10 dark:border-white/10 px-4 lg:px-0 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-bottom data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-bottom"
           >
-            <div className="relative mx-auto w-full max-w-4xl border-x border-black/10 dark:border-white/10 p-16">
+            <div className={cn("relative mx-auto w-full max-w-4xl border-x border-black/10 dark:border-white/10", horizontalPaddings.default, verticalPaddings.small)}>
               <Dialog.Title className="font-heading text-2xl font-black text-black dark:text-white">
                 Cookies & Datenschutz
               </Dialog.Title>
