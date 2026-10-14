@@ -13,7 +13,7 @@ export const Sidebar = () => {
           </Link>
         </Button>
         <Button variant="ghost" asChild className="justify-start">
-          <Link href="/os">
+          <Link href="/os/kontakte">
             <User strokeWidth={1.5} />
             <span>Kontakte</span>
           </Link>

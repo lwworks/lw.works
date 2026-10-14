@@ -2,7 +2,7 @@ import { LoginPage } from '@/components/os/pages/login'
 import { getSession } from '@/lib/os/auth'
 import { redirect } from 'next/navigation'
 
-export default async function OsLoginPage() {
+export default async function Page() {
   const session = await getSession()
   if (session) redirect('/os')
 
