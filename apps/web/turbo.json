@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "AUTOMATION_API_TOKEN",
+        "CRON_SECRET",
+        "EMAIL_ASSET_BASE",
+        "GOOGLE_SERVICE_ACCOUNT_EMAIL",
+        "GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY",
+        "INSTAGRAM_APP_SECRET",
+        "LIFT_EXPERT_CALENDAR_ID",
+        "NEXT_PUBLIC_INSTAGRAM_APP_ID",
+        "RESEND_API_KEY",
+        "SUPABASE_TOKEN",
+        "SUPABASE_URL"
+      ]
+    }
+  }
+}

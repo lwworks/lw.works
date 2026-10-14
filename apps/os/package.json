@@ -1,0 +1,41 @@
+{
+  "name": "@lw/os",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "db:generate": "dotenv -e .env.local -- drizzle-kit generate",
+    "db:migrate": "dotenv -e .env.local -- drizzle-kit migrate",
+    "db:push": "dotenv -e .env.local -- drizzle-kit push",
+    "auth:generate": "dotenv -e .env.local -- pnpm dlx auth@latest generate --yes"
+  },
+  "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.7.2",
+    "@lw/ui": "workspace:*",
+    "@mynaui/icons-react": "catalog:",
+    "@neondatabase/serverless": "^1.1.0",
+    "better-auth": "^1.7.2",
+    "drizzle-orm": "^0.45.2",
+    "next": "catalog:",
+    "next-themes": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@lw/eslint-config": "workspace:*",
+    "@lw/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "dotenv-cli": "^11.0.0",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  }
+}

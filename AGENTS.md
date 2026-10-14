@@ -4,9 +4,40 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+# Monorepo
+
+pnpm workspaces + Turborepo. Both apps use Next.js with Turbopack.
+
+```
+apps/
+├── web/                 # @lw/web — website, www.lw.works (port 3000)
+└── os/                  # @lw/os  — internal OS app, os.lw.works (port 3001)
+packages/
+├── ui/                  # @lw/ui  — shared design system (React only, no Next.js imports)
+├── typescript-config/   # @lw/typescript-config — base, nextjs, react-library
+└── eslint-config/       # @lw/eslint-config — next, react
+```
+
+- Run from the root: `pnpm dev` (both apps), `pnpm dev:web`, `pnpm dev:os`, `pnpm build`, `pnpm lint`, `pnpm typecheck`.
+- Add dependencies to the package that imports them: `pnpm add <pkg> --filter @lw/web`. Versions shared across packages live in the `catalog` of `pnpm-workspace.yaml` (`"next": "catalog:"`).
+- Each app has its own `.env.local`. New env vars used at build time must be listed in that app's `turbo.json`.
+- Within an app, `@/*` maps to that app's `src/*`.
+
+## `@lw/ui`
+
+Source-only package compiled by each app via `transpilePackages: ['@lw/ui']`. It must stay framework-agnostic: never import from `next` (`next/link`, `next/image`, `next/font`, …) in `packages/ui`. Next-specific components (e.g. the website's `Section`, `Link`) belong in the app.
+
+- `@lw/ui/components/<name>` — shadcn/ui primitives
+- `@lw/ui/atoms/<name>` — small shared elements (`Heading`, `Brow`, `CTA`, `Logo`, `ThemeSwitcher`, `Main`, `custom-icons/*`)
+- `@lw/ui/lib/utils` — `cn()`
+- `@lw/ui/globals.css` — Tailwind setup and theme; each app's `src/app/globals.css` imports it
+- `@lw/ui/fonts/*` — font files. Apps load them with their own loader (`src/lib/fonts.ts` uses `next/font`) and expose them as `--font-geist`, `--font-geist-mono`, `--font-safiro`.
+
+Inside `packages/ui`, import other ui files via `@lw/ui/...`, never via `@/...` (that alias resolves to the consuming app).
+
 # UI Components
 
-Always prefer shadcn/ui components over building custom ones. Before creating a new component, check if shadcn offers one that fits the need. Install missing shadcn components via `npx shadcn@latest add <component>`. Only build a custom component when shadcn does not provide a suitable option.
+Always prefer shadcn/ui components over building custom ones. Before creating a new component, check if shadcn offers one that fits the need. Install missing shadcn components by running `pnpm dlx shadcn@latest add <component>` inside `apps/web` or `apps/os` — the CLI installs primitives into `packages/ui/src/components`. Only build a custom component when shadcn does not provide a suitable option.
 
 # Icons
 
@@ -14,16 +45,16 @@ Always use `@mynaui/icons-react` for icons. Never use `lucide-react` — it is n
 
 # Class Names
 
-Always use `cn()` from `@/lib/utils` to compose class names. Never use template literals for className strings.
+Always use `cn()` from `@lw/ui/lib/utils` to compose class names. Never use template literals for className strings.
 
 # Page & Section Architecture
 
-Pages are built by composing section components that receive typed content objects. Content is separated from components and supports i18n.
+Pages are built by composing section components that receive typed content objects. Content is separated from components and supports i18n. This applies to the website (`apps/web`); paths below are relative to it. Atoms and shadcn components used here come from `@lw/ui`.
 
 ## Directory Layout
 
 ```
-src/
+apps/web/src/
 ├── components/
 │   ├── sections/           # Section components (shared + page-specific)
 │   │   ├── index.tsx        # Base Section wrapper (layout, gradients, borders)
@@ -35,7 +66,7 @@ src/
 │   │       └── contact.tsx
 │   ├── pages/              # Page components that compose sections
 │   │   └── digital-dealer.tsx
-│   └── atoms/              # Small reusable elements (Brow, Heading, CTA, etc.)
+│   └── atoms/              # Website-only atoms (shared ones like Brow, Heading, CTA live in @lw/ui/atoms)
 ├── content/
 │   ├── pages/
 │   │   ├── slugs.ts         # Page slug definitions (single source of truth)
