@@ -10,8 +10,8 @@ import {redirect, unstable_rethrow} from 'next/navigation'
 import {Resend} from 'resend'
 import {z} from 'zod'
 import {bookingConfigs} from '../booking-configs'
-import {checkSlotAvailability} from '../google-calendar/check-slot-availability'
 import {createBookingEvent} from '../google-calendar/create-booking-event'
+import {getFreeSlots} from '../google-calendar/get-free-slots'
 
 export type BookingFormData = {
   bookingConfig: string
@@ -78,8 +78,9 @@ export async function submitBookingForm(_prevState: BookingFormState, formData: 
     const start = timezone(new Date(slot))
     const end = timezone(addMinutes(new Date(slot), config.slotDuration))
 
-    // Check slot availability
-    const available = await checkSlotAvailability(config, start.toISOString(), end.toISOString())
+    // Check that the slot is one of the currently bookable slots
+    const {freeSlots} = await getFreeSlots(config)
+    const available = freeSlots.some((freeSlot) => freeSlot.start.getTime() === start.getTime())
     if (!available) return {success: false, error: 'Der gewählte Termin ist leider nicht mehr verfügbar. Bitte wählen einen anderen Termin.'}
 
     // Create calendar event
