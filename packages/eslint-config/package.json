@@ -1,0 +1,20 @@
+{
+  "name": "@lw/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./next": "./next.js",
+    "./react": "./react.js"
+  },
+  "dependencies": {
+    "eslint-config-next": "catalog:",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "globals": "^16.4.0",
+    "typescript-eslint": "^8.46.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9"
+  }
+}
