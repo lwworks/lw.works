@@ -2,7 +2,7 @@ import 'server-only'
 
 const EVENTS_URL = 'https://www.googleapis.com/calendar/v3/calendars'
 const MAX_RESULTS = 2500
-const RATE_LIMIT_RETRIES = 3
+const RATE_LIMIT_ATTEMPTS = 3
 
 export type GoogleEventDateTime = {
   date?: string
@@ -80,7 +80,7 @@ const toGoogleCalendarError = async (response: Response) => {
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const fetchEventsPage = async (accessToken: string, calendarId: string, search: URLSearchParams) => {
-  for (let attempt = 0; ; attempt++) {
+  for (let attempt = 0; attempt < RATE_LIMIT_ATTEMPTS; attempt++) {
     const response = await fetch(`${EVENTS_URL}/${encodeURIComponent(calendarId)}/events?${search}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
       cache: 'no-store',
@@ -88,9 +88,10 @@ const fetchEventsPage = async (accessToken: string, calendarId: string, search: 
     if (response.ok) return (await response.json()) as EventsListResponse
 
     const error = await toGoogleCalendarError(response)
-    if (!error.isRateLimited || attempt >= RATE_LIMIT_RETRIES) throw error
+    if (!error.isRateLimited || attempt === RATE_LIMIT_ATTEMPTS - 1) throw error
     await sleep(1000 * 2 ** attempt)
   }
+  throw new GoogleCalendarError(429, ['rateLimitExceeded'], 'Google Calendar API responded with 429')
 }
 
 export const listEvents = async (
