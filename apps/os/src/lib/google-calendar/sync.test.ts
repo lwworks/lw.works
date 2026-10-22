@@ -53,6 +53,21 @@ const harness = vi.hoisted(() => {
         },
       }
     },
+    select() {
+      return {
+        from() {
+          return {
+            where: () =>
+              Promise.resolve([
+                {
+                  refreshToken: 'refresh-token',
+                  accessTokenExpiresAt: new Date('2026-06-15T13:00:00.000Z'),
+                },
+              ]),
+          }
+        },
+      }
+    },
   }
 
   return {

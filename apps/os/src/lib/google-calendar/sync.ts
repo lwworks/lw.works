@@ -5,20 +5,31 @@ import { account } from '@/db/auth-schema'
 import { calendarSyncState, timeEntry, type CalendarSyncStatus } from '@/db/time-tracking-schema'
 import { auth } from '@/lib/auth'
 import { and, asc, eq, inArray, isNull, lt, or, sql } from 'drizzle-orm'
+import { DrizzleQueryError } from 'drizzle-orm/errors'
 import { GoogleCalendarError, listEvents, type GoogleEvent, type ListEventsParams } from './client'
 import { SYNC_START, toTimeEntryValues, type TimeEntryValues } from './map-event'
+import { callObservingTokenRefresh, InvalidGrantError } from './token-refresh'
 
 const CALENDAR_ID = 'primary'
 const LOCK_DURATION_MS = 5 * 60 * 1000
 const FULL_SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000
 const CURSOR_OVERLAP_MS = 2 * 60 * 1000
 const UPSERT_CHUNK_SIZE = 100
+const STORED_ERROR_MAX = 500
+const TOKEN_REFRESH_FAILURE_LIMIT = 3
+const ACCESS_TOKEN_REFRESH_WINDOW_MS = 5000
+const REAUTH_ERROR = 'Google-Zugriff abgelaufen oder widerrufen.'
+const TOKEN_REFRESH_ERROR_PREFIX = 'Google-Zugriff konnte vorübergehend nicht erneuert werden.'
+const RETRYABLE_SYNC_ERROR = 'Synchronisierung vorübergehend fehlgeschlagen.'
+const DB_ERROR = 'Datenbankfehler beim Synchronisieren.'
 
 type SyncState = typeof calendarSyncState.$inferSelect
 
 export type SyncResult = { status: CalendarSyncStatus | 'locked' }
 
 class ReauthRequiredError extends Error {}
+
+class TokenUnavailableError extends Error {}
 
 const excluded = (column: string) => sql.raw(`excluded."${column}"`)
 
@@ -134,25 +145,136 @@ const acquireLock = async (stateId: string) => {
   return state
 }
 
-const createTokenGetter = (state: SyncState) => async (forceRefresh: boolean) => {
+const containsQueryParams = (message: string) => message.includes('Failed query:') || message.includes('params:')
+
+const containsQueryLeak = (error: unknown, depth = 0): boolean => {
+  if (depth > 5 || !error || typeof error !== 'object') return false
+  if (error instanceof DrizzleQueryError) return true
+  if (error instanceof Error && containsQueryParams(error.message)) return true
+  return containsQueryLeak((error as { cause?: unknown }).cause, depth + 1)
+}
+
+const errorText = (error: unknown) => {
+  if (error instanceof Error) return error.message
+  if (typeof error === 'string') return error
+  return 'Unbekannter Fehler beim Synchronisieren.'
+}
+
+export const formatSyncError = (error: unknown) => {
+  if (containsQueryLeak(error)) return DB_ERROR
+  const message = errorText(error)
+  if (containsQueryParams(message)) return DB_ERROR
+  return message.slice(0, STORED_ERROR_MAX)
+}
+
+const logSyncFailure = (stateId: string, error: unknown) => {
+  const stored = formatSyncError(error)
+  const cause = error instanceof Error ? error.cause : undefined
+  const causeMessage = cause instanceof Error ? cause.message : undefined
+  if (causeMessage && !containsQueryLeak(cause) && !containsQueryParams(causeMessage)) {
+    console.error(`Calendar sync failed for state ${stateId}: ${stored}`, causeMessage.slice(0, STORED_ERROR_MAX))
+    return
+  }
+  console.error(`Calendar sync failed for state ${stateId}: ${stored}`)
+}
+
+const previousRefreshFailures = (state: SyncState) => {
+  if (state.status !== 'error' || !state.lastError?.startsWith(TOKEN_REFRESH_ERROR_PREFIX)) return 0
+  const match = /\((\d+)\/\d+\)$/.exec(state.lastError)
+  const count = match ? Number(match[1]) : 0
+  return Number.isFinite(count) ? count : 0
+}
+
+const tokenFailure = (state: SyncState, refreshAttempted: boolean) => {
+  if (!refreshAttempted) return new TokenUnavailableError(RETRYABLE_SYNC_ERROR)
+  const attempt = previousRefreshFailures(state) + 1
+  if (attempt >= TOKEN_REFRESH_FAILURE_LIMIT) return new ReauthRequiredError()
+  return new TokenUnavailableError(`${TOKEN_REFRESH_ERROR_PREFIX} (${attempt}/${TOKEN_REFRESH_FAILURE_LIMIT})`)
+}
+
+const accessTokenNeedsRefresh = (expiresAt: Date | null) =>
+  expiresAt !== null && expiresAt.getTime() - Date.now() < ACCESS_TOKEN_REFRESH_WINDOW_MS
+
+const loadAccountCredentials = async (accountId: string) => {
+  const [row] = await getDb()
+    .select({
+      refreshToken: account.refreshToken,
+      accessTokenExpiresAt: account.accessTokenExpiresAt,
+    })
+    .from(account)
+    .where(eq(account.id, accountId))
+  return {
+    hasRefreshToken: Boolean(row?.refreshToken),
+    accessTokenExpiresAt: row?.accessTokenExpiresAt ?? null,
+  }
+}
+
+const authErrorCode = (error: unknown) => {
+  if (!error || typeof error !== 'object' || !('body' in error)) return undefined
+  const code = (error as { body?: { code?: unknown } }).body?.code
+  return typeof code === 'string' ? code : undefined
+}
+
+// `reauth_required` only when the refresh token is missing, Google returns invalid_grant,
+// or refresh keeps failing. Anything else stays `error` so the next cron run retries.
+const createTokenGetter = (state: SyncState) => {
+  let credentialsPromise: ReturnType<typeof loadAccountCredentials> | undefined
   const body = { accountId: state.accountId, userId: state.userId }
-  try {
-    const tokens = forceRefresh ? await auth.api.refreshToken({ body }) : await auth.api.getAccessToken({ body })
-    if (!tokens.accessToken) throw new ReauthRequiredError()
-    return tokens.accessToken
-  } catch {
-    throw new ReauthRequiredError()
+
+  return async (forceRefresh: boolean) => {
+    const credentials = await (credentialsPromise ??= loadAccountCredentials(state.accountId))
+    if (!credentials.hasRefreshToken) throw new ReauthRequiredError()
+
+    const refreshWasDue = forceRefresh || accessTokenNeedsRefresh(credentials.accessTokenExpiresAt)
+    try {
+      const accessToken = await callObservingTokenRefresh(async () => {
+        if (forceRefresh) {
+          const tokens = await auth.api.refreshToken({ body })
+          return tokens.accessToken ?? null
+        }
+        const tokens = await auth.api.getAccessToken({ body })
+        return tokens.accessToken ?? null
+      })
+      if (!accessToken) throw tokenFailure(state, refreshWasDue)
+      return accessToken
+    } catch (error) {
+      if (error instanceof ReauthRequiredError || error instanceof TokenUnavailableError) throw error
+      if (error instanceof InvalidGrantError || authErrorCode(error) === 'REFRESH_TOKEN_NOT_FOUND') throw new ReauthRequiredError()
+      const attempted = refreshWasDue || authErrorCode(error) === 'FAILED_TO_REFRESH_ACCESS_TOKEN'
+      throw tokenFailure(state, attempted)
+    }
   }
 }
 
 const toFailure = (error: unknown): { status: CalendarSyncStatus; lastError: string } => {
-  if (error instanceof ReauthRequiredError) return { status: 'reauth_required', lastError: 'Google-Zugriff abgelaufen oder widerrufen.' }
-  if (error instanceof GoogleCalendarError) {
-    if (error.status === 401) return { status: 'reauth_required', lastError: 'Google-Zugriff abgelaufen oder widerrufen.' }
-    if (error.isMissingScope) return { status: 'missing_scope', lastError: 'Kalenderberechtigung fehlt.' }
-    return { status: 'error', lastError: `Google Calendar API ${error.status}: ${error.message}`.slice(0, 500) }
+  if (error instanceof ReauthRequiredError || error instanceof InvalidGrantError) {
+    return { status: 'reauth_required', lastError: REAUTH_ERROR }
   }
-  return { status: 'error', lastError: (error instanceof Error ? error.message : String(error)).slice(0, 500) }
+  if (error instanceof GoogleCalendarError) {
+    if (error.status === 401) return { status: 'reauth_required', lastError: REAUTH_ERROR }
+    if (error.isMissingScope) return { status: 'missing_scope', lastError: 'Kalenderberechtigung fehlt.' }
+    return { status: 'error', lastError: formatSyncError(new Error(`Google Calendar API ${error.status}: ${error.message}`)) }
+  }
+  return { status: 'error', lastError: formatSyncError(error) }
+}
+
+const recordFailure = async (state: SyncState, error: unknown) => {
+  const failure = toFailure(error)
+  if (failure.status === 'error') logSyncFailure(state.id, error)
+  try {
+    await getDb()
+      .update(calendarSyncState)
+      .set({ ...failure, lockedUntil: null })
+      .where(eq(calendarSyncState.id, state.id))
+  } catch (updateError) {
+    logSyncFailure(state.id, updateError)
+    try {
+      await getDb().update(calendarSyncState).set({ lockedUntil: null }).where(eq(calendarSyncState.id, state.id))
+    } catch (releaseError) {
+      logSyncFailure(state.id, releaseError)
+    }
+  }
+  return failure.status
 }
 
 export const syncCalendarState = async (stateId: string): Promise<SyncResult> => {
@@ -184,13 +306,7 @@ export const syncCalendarState = async (stateId: string): Promise<SyncResult> =>
       .where(eq(calendarSyncState.id, state.id))
     return { status: 'ok' }
   } catch (error) {
-    const failure = toFailure(error)
-    if (failure.status === 'error') console.error(`Calendar sync failed for state ${state.id}:`, failure.lastError)
-    await db
-      .update(calendarSyncState)
-      .set({ ...failure, lockedUntil: null })
-      .where(eq(calendarSyncState.id, state.id))
-    return { status: failure.status }
+    return { status: await recordFailure(state, error) }
   }
 }
 
@@ -220,7 +336,12 @@ export const syncCalendarForUser = async (userId: string): Promise<SyncResult> =
     .from(calendarSyncState)
     .where(and(eq(calendarSyncState.userId, userId), eq(calendarSyncState.calendarId, CALENDAR_ID)))
   if (!state) return { status: 'reauth_required' }
-  return syncCalendarState(state.id)
+  try {
+    return await syncCalendarState(state.id)
+  } catch (error) {
+    logSyncFailure(state.id, error)
+    return { status: 'error' }
+  }
 }
 
 export const syncAllCalendars = async (deadline: Date) => {
@@ -243,10 +364,15 @@ export const syncAllCalendars = async (deadline: Date) => {
       summary.skipped++
       continue
     }
-    const result = await syncCalendarState(state.id)
-    if (result.status === 'ok') summary.synced++
-    else if (result.status === 'locked') summary.skipped++
-    else summary.failed++
+    try {
+      const result = await syncCalendarState(state.id)
+      if (result.status === 'ok') summary.synced++
+      else if (result.status === 'locked') summary.skipped++
+      else summary.failed++
+    } catch (error) {
+      summary.failed++
+      logSyncFailure(state.id, error)
+    }
   }
   return summary
 }

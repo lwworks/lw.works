@@ -1,6 +1,7 @@
 import { getDb } from '@/db'
 import * as schema from '@/db/auth-schema'
 import { GOOGLE_CALENDAR_SCOPE } from '@/lib/google-calendar/scope'
+import { refreshGoogleAccessToken } from '@/lib/google-calendar/token-refresh'
 import { drizzleAdapter } from '@better-auth/drizzle-adapter'
 import { betterAuth } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
@@ -29,6 +30,7 @@ export const auth = betterAuth({
       prompt: 'select_account consent',
       accessType: 'offline',
       scope: [GOOGLE_CALENDAR_SCOPE],
+      refreshAccessToken: (refreshToken) => refreshGoogleAccessToken(refreshToken),
     },
   },
   plugins: [nextCookies()],
