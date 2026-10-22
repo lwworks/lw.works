@@ -35,6 +35,15 @@ Source-only package compiled by each app via `transpilePackages: ['@lw/ui']`. It
 
 Inside `packages/ui`, import other ui files via `@lw/ui/...`, never via `@/...` (that alias resolves to the consuming app).
 
+# Plans & Todos
+
+Keep plans and todo lists as Markdown files in the root `docs/` folder — never in `tasks/`, app folders, or only in chat. Create `docs/` if it does not exist.
+
+- Implementation plans: `docs/plan.md`
+- Todo lists: `docs/todo.md` (checklist style, `- [ ]` / `- [x]`)
+
+Before writing either file, check whether it already exists with unchecked items. If it belongs to the same work, update it in place; if it's for different work, ask before overwriting.
+
 # UI Components
 
 Always prefer shadcn/ui components over building custom ones. Before creating a new component, check if shadcn offers one that fits the need. Install missing shadcn components by running `pnpm dlx shadcn@latest add <component>` inside `apps/web` or `apps/os` — the CLI installs primitives into `packages/ui/src/components`. Only build a custom component when shadcn does not provide a suitable option.
