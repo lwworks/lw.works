@@ -1,5 +1,6 @@
 import { getDb } from '@/db'
 import * as schema from '@/db/auth-schema'
+import { GOOGLE_CALENDAR_SCOPE } from '@/lib/google-calendar/scope'
 import { drizzleAdapter } from '@better-auth/drizzle-adapter'
 import { betterAuth } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
@@ -17,12 +18,17 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: false,
   },
+  account: {
+    encryptOAuthTokens: true,
+  },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       hd: 'lw.works',
-      prompt: 'select_account',
+      prompt: 'select_account consent',
+      accessType: 'offline',
+      scope: [GOOGLE_CALENDAR_SCOPE],
     },
   },
   plugins: [nextCookies()],

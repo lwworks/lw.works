@@ -9,7 +9,8 @@
     "./components/*": "./src/components/*.tsx",
     "./atoms/*": "./src/atoms/*.tsx",
     "./fonts/*": "./src/fonts/*",
-    "./lib/*": "./src/lib/*.ts"
+    "./lib/*": "./src/lib/*.ts",
+    "./hooks/*": "./src/hooks/*.ts"
   },
   "scripts": {
     "lint": "eslint",
