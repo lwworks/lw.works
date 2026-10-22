@@ -2,36 +2,21 @@ import 'server-only'
 
 import { lockCalendarSyncState } from '@/lib/db/calendar-sync-states/lock-calendar-sync-state'
 import { updateCalendarSyncState } from '@/lib/db/calendar-sync-states/update-calendar-sync-state'
-import { timeEntry, type CalendarSyncState, type CalendarSyncStatus } from '@/lib/db/schema/time-tracking'
+import { timeEntry, type CalendarSyncStatus } from '@/lib/db/schema/time-tracking'
 import { softDeleteTimeEntries } from '@/lib/db/time-entries/soft-delete-time-entries'
 import { upsertTimeEntries } from '@/lib/db/time-entries/upsert-time-entries'
 import { getAccessToken, ReauthRequiredError } from '@/lib/google-calendar/get-access-token'
 import { GoogleCalendarError } from '@/lib/google-calendar/google-calendar-error'
-import { listEvents, type GoogleEvent, type ListEventsParams } from '@/lib/google-calendar/list-events'
-import { SYNC_START, toTimeEntryValues, type TimeEntryValues } from '@/lib/google-calendar/to-time-entry-values'
-import { inArray, lt, or } from 'drizzle-orm'
+import { listEvents } from '@/lib/google-calendar/list-events'
+import { SYNC_START, toTimeEntryValues } from '@/lib/google-calendar/to-time-entry-values'
+import { and, gte, lt } from 'drizzle-orm'
 import { DrizzleQueryError } from 'drizzle-orm/errors'
 
-const FULL_SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000
-// Re-fetching a little before the cursor absorbs clock skew; reprocessing events is idempotent.
-const OVERLAP_MS = 2 * 60 * 1000
+const DEFAULT_WINDOW_MS = 7 * 24 * 60 * 60 * 1000
+
+export type SyncRange = { from: Date; to: Date }
 
 export type SyncResult = { status: CalendarSyncStatus | 'locked' }
-
-const applyEvents = async (state: CalendarSyncState, events: GoogleEvent[], runStartedAt: Date) => {
-  const tracked: TimeEntryValues[] = []
-  const untrackedIds: string[] = []
-  for (const event of events) {
-    const values = toTimeEntryValues(event, runStartedAt)
-    if (values) tracked.push(values)
-    else untrackedIds.push(event.id)
-  }
-
-  await upsertTimeEntries(state, tracked, runStartedAt)
-  if (untrackedIds.length === 0) return
-  // A cancelled recurring series arrives as its master event, whose ID is the instances' recurring event ID.
-  await softDeleteTimeEntries(state, or(inArray(timeEntry.googleEventId, untrackedIds), inArray(timeEntry.googleRecurringEventId, untrackedIds)))
-}
 
 const failureStatus = (error: unknown): CalendarSyncStatus => {
   if (error instanceof ReauthRequiredError) return 'reauth_required'
@@ -41,46 +26,29 @@ const failureStatus = (error: unknown): CalendarSyncStatus => {
 }
 
 /**
- * Full sync: everything from SYNC_START, then soft-delete rows that weren't seen.
- * Incremental: changed events (including deleted ones and ones moved into the future), then events
- * whose start passed since the last run. A 410 from Google means `updatedMin` is too old → full sync.
+ * Re-syncs every event starting in `range`: upserts qualifying events (restoring soft-deleted ones) and
+ * soft-deletes entries in the range that Google no longer returns or that no longer qualify.
+ * Default range: the last 7 days, or everything since SYNC_START until the first successful sync.
  */
-export const syncCalendarState = async (stateId: string): Promise<SyncResult> => {
+export const syncCalendarState = async (stateId: string, range?: SyncRange): Promise<SyncResult> => {
   const state = await lockCalendarSyncState(stateId)
   if (!state) return { status: 'locked' }
 
   const runStartedAt = new Date()
-  const fetchAndApply = (params: ListEventsParams) =>
-    listEvents((forceRefresh) => getAccessToken(state, forceRefresh), state.calendarId, params, (events) => applyEvents(state, events, runStartedAt))
-
-  const syncIncrementally = async (syncedUntil: Date) => {
-    const since = new Date(syncedUntil.getTime() - OVERLAP_MS)
-    try {
-      await fetchAndApply({ updatedMin: since, timeMin: SYNC_START, showDeleted: true })
-      await fetchAndApply({ timeMin: since, timeMax: runStartedAt })
-      return true
-    } catch (error) {
-      if (error instanceof GoogleCalendarError && error.status === 410) return false
-      throw error
-    }
+  const { from, to } = range ?? {
+    from: state.lastSyncedAt ? new Date(runStartedAt.getTime() - DEFAULT_WINDOW_MS) : SYNC_START,
+    to: runStartedAt,
   }
 
   try {
-    const { syncedUntil, lastFullSyncAt } = state
-    const fullSyncDue = !syncedUntil || !lastFullSyncAt || runStartedAt.getTime() - lastFullSyncAt.getTime() > FULL_SYNC_INTERVAL_MS
-    const fullSync = fullSyncDue || !(await syncIncrementally(syncedUntil))
-    if (fullSync) {
-      await fetchAndApply({ timeMin: SYNC_START, timeMax: runStartedAt })
-      await softDeleteTimeEntries(state, lt(timeEntry.lastSeenAt, runStartedAt))
-    }
-
-    await updateCalendarSyncState(state.id, {
-      status: 'ok',
-      lastError: null,
-      syncedUntil: runStartedAt,
-      lastFullSyncAt: fullSync ? runStartedAt : lastFullSyncAt,
-      lastSyncedAt: new Date(),
-    })
+    await listEvents(
+      (forceRefresh) => getAccessToken(state, forceRefresh),
+      state.calendarId,
+      { timeMin: from, timeMax: to },
+      (events) => upsertTimeEntries(state, events.flatMap((event) => toTimeEntryValues(event, runStartedAt) ?? []), runStartedAt),
+    )
+    await softDeleteTimeEntries(state, and(gte(timeEntry.startAt, from), lt(timeEntry.startAt, to), lt(timeEntry.lastSeenAt, runStartedAt)))
+    await updateCalendarSyncState(state.id, { status: 'ok', lastError: null, lastSyncedAt: new Date() })
     return { status: 'ok' }
   } catch (error) {
     const status = failureStatus(error)

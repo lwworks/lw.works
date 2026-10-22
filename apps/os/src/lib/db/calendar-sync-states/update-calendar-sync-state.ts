@@ -5,7 +5,7 @@ import { calendarSyncState, type CalendarSyncState } from '@/lib/db/schema/time-
 import { eq } from 'drizzle-orm'
 
 /** Records a finished run and releases the lock. */
-export const updateCalendarSyncState = (stateId: string, values: Partial<Pick<CalendarSyncState, 'status' | 'lastError' | 'syncedUntil' | 'lastFullSyncAt' | 'lastSyncedAt'>>) =>
+export const updateCalendarSyncState = (stateId: string, values: Partial<Pick<CalendarSyncState, 'status' | 'lastError' | 'lastSyncedAt'>>) =>
   getDb()
     .update(calendarSyncState)
     .set({ ...values, lockedUntil: null })

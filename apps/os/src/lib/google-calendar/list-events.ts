@@ -25,7 +25,7 @@ export type GoogleEvent = {
   attendees?: Partial<TimeEntryAttendee>[]
 }
 
-export type ListEventsParams = { timeMin?: Date; timeMax?: Date; updatedMin?: Date; showDeleted?: boolean }
+export type ListEventsParams = { timeMin: Date; timeMax: Date }
 
 type ErrorBody = { error?: { message?: string; errors?: { reason?: string }[]; details?: { reason?: string }[] } }
 
@@ -49,8 +49,12 @@ export const listEvents = async (
   params: ListEventsParams,
   onPage: (events: GoogleEvent[]) => Promise<void>,
 ) => {
-  const search = new URLSearchParams({ singleEvents: 'true', maxResults: '2500' })
-  for (const [key, value] of Object.entries(params)) search.set(key, value instanceof Date ? value.toISOString() : String(value))
+  const search = new URLSearchParams({
+    singleEvents: 'true',
+    maxResults: '2500',
+    timeMin: params.timeMin.toISOString(),
+    timeMax: params.timeMax.toISOString(),
+  })
 
   let accessToken = await getAccessToken(false)
   let refreshed = false

@@ -44,7 +44,6 @@ export const timeEntry = pgTable(
   (table) => [
     uniqueIndex('time_entry_user_calendar_event_idx').on(table.userId, table.calendarId, table.googleEventId),
     index('time_entry_user_start_idx').on(table.userId, table.startAt),
-    index('time_entry_user_recurring_idx').on(table.userId, table.googleRecurringEventId),
   ],
 )
 
@@ -63,9 +62,6 @@ export const calendarSyncState = pgTable(
     calendarId: text('calendar_id').notNull(),
     status: text('status').$type<CalendarSyncStatus>().default('pending').notNull(),
     lastError: text('last_error'),
-    /** Every event starting before this instant has been fetched, and every change before it seen. */
-    syncedUntil: timestamptz('synced_until'),
-    lastFullSyncAt: timestamptz('last_full_sync_at'),
     lastSyncedAt: timestamptz('last_synced_at'),
     lockedUntil: timestamptz('locked_until'),
     createdAt: timestamptz('created_at').defaultNow().notNull(),

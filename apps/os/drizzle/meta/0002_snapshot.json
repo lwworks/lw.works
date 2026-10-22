@@ -1,5 +1,5 @@
 {
-  "id": "a40e181d-de9b-4b37-88a3-3783c9421bf2",
+  "id": "c0b8bf26-11ce-4dc7-85e6-2b8fa18425cd",
   "prevId": "48672194-78b0-48d1-999a-85f50d9d0374",
   "version": "7",
   "dialect": "postgresql",
@@ -408,18 +408,6 @@
           "primaryKey": false,
           "notNull": false
         },
-        "synced_until": {
-          "name": "synced_until",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "last_full_sync_at": {
-          "name": "last_full_sync_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
         "last_synced_at": {
           "name": "last_synced_at",
           "type": "timestamp with time zone",
@@ -671,27 +659,6 @@
             },
             {
               "expression": "start_at",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "time_entry_user_recurring_idx": {
-          "name": "time_entry_user_recurring_idx",
-          "columns": [
-            {
-              "expression": "user_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "google_recurring_event_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"

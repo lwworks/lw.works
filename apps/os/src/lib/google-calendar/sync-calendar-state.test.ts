@@ -6,9 +6,8 @@ import { SYNC_START } from '@/lib/google-calendar/to-time-entry-values'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const NOW = new Date('2026-06-15T12:00:00.000Z')
-const SYNCED_UNTIL = new Date('2026-06-15T10:00:00.000Z')
-const SINCE = new Date(SYNCED_UNTIL.getTime() - 2 * 60 * 1000)
-const DAY_MS = 24 * 60 * 60 * 1000
+const LAST_SYNCED = new Date('2026-06-15T11:45:00.000Z')
+const WEEK_AGO = new Date('2026-06-08T12:00:00.000Z')
 
 type Write = { kind: 'insert' | 'update'; table: unknown; values?: Record<string, unknown>[]; set?: Record<string, unknown>; where?: unknown; conflict?: unknown }
 
@@ -54,8 +53,7 @@ const state = (overrides = {}) => ({
   accountId: 'account-1',
   calendarId: 'primary',
   status: 'ok',
-  syncedUntil: SYNCED_UNTIL,
-  lastFullSyncAt: SYNCED_UNTIL,
+  lastSyncedAt: LAST_SYNCED,
   lockedUntil: null,
   ...overrides,
 })
@@ -76,7 +74,8 @@ const mentions = (value: unknown, needle: string, seen = new Set<unknown>()): bo
   return Object.values(value).some((inner) => mentions(inner, needle, seen))
 }
 
-const upsertedIds = () => fake.writes.filter((write) => write.kind === 'insert').flatMap((write) => write.values?.map((row) => row.googleEventId) ?? [])
+const upserts = () => fake.writes.filter((write) => write.kind === 'insert')
+const upsertedIds = () => upserts().flatMap((write) => write.values?.map((row) => row.googleEventId) ?? [])
 const softDeletes = () => fake.writes.filter((write) => write.kind === 'update' && write.table === timeEntry)
 const finalState = () => fake.writes.findLast((write) => write.table === calendarSyncState)?.set
 
@@ -90,63 +89,49 @@ describe('syncCalendarState', () => {
     fake.pages = () => []
   })
 
-  it('applies changes, then picks up events whose start passed since the last run', async () => {
-    fake.pages = (params) =>
-      params.updatedMin
-        ? [
-          event('edited', '2026-06-15T08:00:00.000Z'),
-          event('future', '2026-06-15T13:00:00.000Z'),
-          event('declined', '2026-06-15T08:00:00.000Z', { attendees: [{ email: 'me@lw.works', self: true, responseStatus: 'declined' }] }),
-          event('cancelled-series', '2026-06-15T08:00:00.000Z', { status: 'cancelled' }),
-        ]
-        : [event('just-started', '2026-06-15T11:00:00.000Z')]
+  it('re-syncs the last 7 days: upserts qualifying events and soft-deletes unseen entries in the window', async () => {
+    fake.pages = () => [
+      event('meeting', '2026-06-15T08:00:00.000Z'),
+      event('declined', '2026-06-15T09:00:00.000Z', { attendees: [{ email: 'me@lw.works', self: true, responseStatus: 'declined' }] }),
+      event('free', '2026-06-15T10:00:00.000Z', { transparency: 'transparent' }),
+    ]
 
     await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'ok' })
 
-    expect(fake.requests).toEqual([
-      { updatedMin: SINCE, timeMin: SYNC_START, showDeleted: true },
-      { timeMin: SINCE, timeMax: NOW },
-    ])
-    expect(upsertedIds()).toEqual(['edited', 'just-started'])
-    expect(mentions((fake.writes[1]?.conflict as { setWhere?: unknown }).setWhere, 'google_updated_at')).toBe(true)
+    expect(fake.requests).toEqual([{ timeMin: WEEK_AGO, timeMax: NOW }])
+    expect(upsertedIds()).toEqual(['meeting'])
+    expect(upserts()[0]?.values?.[0]).toMatchObject({ userId: 'user-1', calendarId: 'primary', lastSeenAt: NOW, deletedAt: null })
+    expect(mentions((upserts()[0]?.conflict as { setWhere?: unknown }).setWhere, 'google_updated_at')).toBe(true)
+
     expect(softDeletes()).toHaveLength(1)
-    for (const id of ['future', 'declined', 'cancelled-series']) expect(mentions(softDeletes()[0]?.where, id)).toBe(true)
-    expect(finalState()).toMatchObject({ status: 'ok', syncedUntil: NOW, lastFullSyncAt: SYNCED_UNTIL, lockedUntil: null })
+    const sweep = softDeletes()[0]?.where
+    for (const needle of ['user-1', 'primary', 'start_at', 'last_seen_at', 'deleted_at']) expect(mentions(sweep, needle)).toBe(true)
+    expect(finalState()).toMatchObject({ status: 'ok', lastError: null, lastSyncedAt: NOW, lockedUntil: null })
   })
 
-  it.each([
-    ['the first run', { syncedUntil: null, lastFullSyncAt: null }],
-    ['the last full sync being older than 24 hours', { lastFullSyncAt: new Date(NOW.getTime() - DAY_MS - 1) }],
-  ])('runs a full sync and sweeps unseen rows on %s', async (_label, overrides) => {
-    fake.lockedState = state(overrides)
-    fake.pages = () => [event('past', '2026-06-15T08:00:00.000Z')]
+  it('covers everything since 2026-01-01 on the first sync', async () => {
+    fake.lockedState = state({ lastSyncedAt: null })
 
     await syncCalendarState('state-1')
 
     expect(fake.requests).toEqual([{ timeMin: SYNC_START, timeMax: NOW }])
-    expect(upsertedIds()).toEqual(['past'])
-    expect(mentions(softDeletes()[0]?.where, 'last_seen_at')).toBe(true)
-    expect(finalState()).toMatchObject({ status: 'ok', syncedUntil: NOW, lastFullSyncAt: NOW })
   })
 
-  it('falls back to a full sync when Google returns 410', async () => {
-    fake.pages = (params) => {
-      if (params.updatedMin) throw new GoogleCalendarError(410, ['updatedMinTooLongAgo'], 'Gone')
-      return []
-    }
+  it('syncs an explicit range', async () => {
+    const range = { from: new Date('2026-03-01T00:00:00.000Z'), to: new Date('2026-03-08T00:00:00.000Z') }
 
-    await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'ok' })
+    await syncCalendarState('state-1', range)
 
-    expect(fake.requests.at(-1)).toEqual({ timeMin: SYNC_START, timeMax: NOW })
-    expect(finalState()).toMatchObject({ lastFullSyncAt: NOW })
+    expect(fake.requests).toEqual([{ timeMin: range.from, timeMax: range.to }])
   })
 
-  it('marks missing calendar permission', async () => {
+  it('marks missing calendar permission and touches no entries', async () => {
     fake.pages = () => {
       throw new GoogleCalendarError(403, ['insufficientPermissions'], 'Forbidden')
     }
 
     await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'missing_scope' })
+    expect(softDeletes()).toHaveLength(0)
     expect(finalState()).toMatchObject({ status: 'missing_scope', lockedUntil: null })
   })
 
