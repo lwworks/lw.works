@@ -21,7 +21,7 @@ src/lib/
 ├── google-calendar/   # list-events.ts, sync-calendar-state.ts, …
 ├── iso-week/          # ISO weeks in Europe/Berlin: get-current-iso-week.ts, get-iso-week-range.ts, …
 ├── time-tracking/     # parse-sync-range.ts, sum-tracked-ms.ts
-└── fonts.ts           # next/font loaders for the @lw/ui fonts
+└── fonts.ts           # next/font loaders: Geist, Geist Mono, Safiro
 ```
 
 - New query → `src/lib/db/<table>/<verb>-<thing>.ts`. New external API → `src/lib/<service>/`.
