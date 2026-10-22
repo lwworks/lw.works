@@ -4,7 +4,7 @@ import { horizontalPaddings, verticalPaddings } from "@/components/sections"
 import { deleteAllCookies } from "@/lib/cookies"
 import { cn } from "@lw/ui/lib/utils"
 import { Dialog } from "radix-ui"
-import { useEffect, useState } from "react"
+import { useMemo, useState, useSyncExternalStore } from "react"
 import { Link } from "../link"
 import { Button } from "@lw/ui/components/button"
 import { Checkbox } from "@lw/ui/components/checkbox"
@@ -12,45 +12,60 @@ import { CTA } from "@lw/ui/atoms/cta"
 import { GoogleAnalyticsScript } from "./google-analytics-script"
 
 const cookies = ['necessary', 'analytics']
+const CONSENT_KEY = 'consent'
+const CONSENT_CHANGE_EVENT = 'consent-change'
+
+const subscribeToConsent = (onChange: () => void) => {
+  window.addEventListener('storage', onChange)
+  window.addEventListener(CONSENT_CHANGE_EVENT, onChange)
+  return () => {
+    window.removeEventListener('storage', onChange)
+    window.removeEventListener(CONSENT_CHANGE_EVENT, onChange)
+  }
+}
+
+const getStoredConsent = () => localStorage.getItem(CONSENT_KEY)
+
+// `undefined` while rendering on the server and hydrating, `null` when no consent was stored yet.
+const getServerConsent = () => undefined
+
+const storeConsent = (consent: string[]) => {
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(consent))
+  window.dispatchEvent(new Event(CONSENT_CHANGE_EVENT))
+}
 
 export const CookieBanner = () => {
-  const [open, setOpen] = useState(false)
-  const [consent, setConsent] = useState<string[]>(cookies)
-  const [consentGiven, setConsentGiven] = useState<boolean>(false)
+  const storedConsentJson = useSyncExternalStore<string | null | undefined>(subscribeToConsent, getStoredConsent, getServerConsent)
+  const storedConsent = useMemo<string[] | null>(() => (storedConsentJson ? JSON.parse(storedConsentJson) : null), [storedConsentJson])
+  const [openedManually, setOpenedManually] = useState(false)
+  const [draftConsent, setDraftConsent] = useState<string[] | null>(null)
+
+  const open = openedManually || storedConsentJson === null
+  const consent = draftConsent ?? storedConsent ?? cookies
 
   const handleCheckedChange = (id: string) => {
     if (consent.includes(id)) {
-      setConsent(consent.filter((service) => service !== id))
+      setDraftConsent(consent.filter((service) => service !== id))
     } else {
-      setConsent([...consent, id])
+      setDraftConsent([...consent, id])
     }
   }
 
   const closeDialog = async (all: boolean = false) => {
     if (all) {
-      localStorage.setItem('consent', JSON.stringify(cookies))
+      storeConsent(cookies)
     } else {
-      localStorage.setItem('consent', JSON.stringify(consent))
+      storeConsent(consent)
       await deleteAllCookies()
     }
-    setConsentGiven(true)
-    setOpen(false)
+    setDraftConsent(null)
+    setOpenedManually(false)
   }
-
-  useEffect(() => {
-    const storedConsent = localStorage.getItem('consent')
-    if (storedConsent) {
-      setConsent(JSON.parse(storedConsent))
-      setConsentGiven(true)
-    } else {
-      setOpen(true)
-    }
-  }, [open])
 
   return (
     <>
-      <GoogleAnalyticsScript consent={consentGiven && consent.includes('analytics')} />
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+      <GoogleAnalyticsScript consent={Boolean(storedConsent?.includes('analytics'))} />
+      <Dialog.Root open={open} onOpenChange={setOpenedManually}>
         <Dialog.Trigger className="cursor-pointer hover:text-black dark:hover:text-white outline-none focus:outline-none">Cookies & Daten</Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 isolate z-50 bg-white/10 dark:bg-black/10 px-4 lg:px-0 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" >

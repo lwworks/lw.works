@@ -15,8 +15,8 @@ export async function GET(request: NextRequest) {
     const {account} = await getAccount({username})
     const {postIds} = await getPosts({userId: account.user_id, token: account.token})
 
-    let posts = []
-    let errors = []
+    const posts = []
+    const errors = []
     let currentCount = 0
     for (const postId of postIds) {
       if (currentCount === Number(count)) break

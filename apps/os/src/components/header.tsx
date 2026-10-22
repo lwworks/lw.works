@@ -1,6 +1,6 @@
 import { ThemeSwitcher } from '@lw/ui/atoms/theme-switcher'
 import { SignOutButton } from '@/components/atoms/sign-out-button'
-import { Avatar, AvatarFallback } from '@lw/ui/components/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@lw/ui/components/avatar'
 import Link from 'next/link'
 import { LogoOS } from '@lw/ui/atoms/logo-os'
 
@@ -37,15 +37,9 @@ export const Header = ({
             <div className="flex items-center gap-2">
               <Avatar size="sm">
                 {userImage ? (
-                  <img
-                    src={userImage}
-                    alt={userName}
-                    referrerPolicy="no-referrer"
-                    className="aspect-square size-full rounded-full object-cover"
-                  />
-                ) : (
-                  <AvatarFallback>{getInitials(userName)}</AvatarFallback>
-                )}
+                  <AvatarImage src={userImage} alt={userName} referrerPolicy="no-referrer" />
+                ) : null}
+                <AvatarFallback>{getInitials(userName)}</AvatarFallback>
               </Avatar>
               <span className="hidden sm:block truncate max-w-40">
                 {userName}

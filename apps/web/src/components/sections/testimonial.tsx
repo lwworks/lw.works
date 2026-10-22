@@ -21,7 +21,7 @@ export const TestimonialSection = ({ content }: { content: TestimonialSectionCon
   return (
     <Section verticalPadding="small">
       <blockquote className="text-xl italic">
-        "{content.quote}"
+        &quot;{content.quote}&quot;
       </blockquote>
       <div className="mt-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
