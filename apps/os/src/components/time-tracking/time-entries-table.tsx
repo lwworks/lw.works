@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment } from 'react'
+import { EntryDescription } from './entry-description'
 import { formatDay, formatDuration, formatTime, getTrackedMs } from './format'
 
 export const TimeEntriesTable = ({ entries, dayKeys, now }: { entries: TimeEntryDTO[]; dayKeys: string[]; now: Date }) => {
@@ -45,6 +46,7 @@ export const TimeEntriesTable = ({ entries, dayKeys, now }: { entries: TimeEntry
                   </TableCell>
                   <TableCell className="whitespace-normal align-top">
                     <div className="font-medium text-black dark:text-white">{entry.title}</div>
+                    {entry.description ? <EntryDescription description={entry.description} /> : null}
                     {entry.location || entry.attendeeCount > 0 ? (
                       <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs">
                         {entry.location ? (
