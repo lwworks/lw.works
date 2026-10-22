@@ -13,7 +13,7 @@ import { ConnectCalendarButton } from '../time-tracking/connect-calendar-button'
 import { SyncButton } from '../time-tracking/sync-button'
 import { TimeEntriesTable } from '../time-tracking/time-entries-table'
 
-export type TimeTrackingPageProps = {
+type TimeTrackingPageProps = {
   week: IsoWeek
   isCurrentWeek: boolean
   range: { start: Date; end: Date }
