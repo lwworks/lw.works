@@ -1,5 +1,5 @@
 {
-  "id": "ee29ba5f-c9ea-42aa-83bf-63a66b07361f",
+  "id": "a40e181d-de9b-4b37-88a3-3783c9421bf2",
   "prevId": "48672194-78b0-48d1-999a-85f50d9d0374",
   "version": "7",
   "dialect": "postgresql",
@@ -408,14 +408,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "window_end": {
-          "name": "window_end",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "changes_checked_at": {
-          "name": "changes_checked_at",
+        "synced_until": {
+          "name": "synced_until",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false

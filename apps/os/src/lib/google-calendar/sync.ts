@@ -4,24 +4,17 @@ import { getDb } from '@/db'
 import { account } from '@/db/auth-schema'
 import { calendarSyncState, timeEntry, type CalendarSyncStatus } from '@/db/time-tracking-schema'
 import { auth } from '@/lib/auth'
-import { and, asc, eq, inArray, isNull, lt, or, sql } from 'drizzle-orm'
+import { and, eq, inArray, isNull, lt, or, sql, type SQL } from 'drizzle-orm'
 import { DrizzleQueryError } from 'drizzle-orm/errors'
 import { GoogleCalendarError, listEvents, type GoogleEvent, type ListEventsParams } from './client'
 import { SYNC_START, toTimeEntryValues, type TimeEntryValues } from './map-event'
-import { callObservingTokenRefresh, InvalidGrantError } from './token-refresh'
 
 const CALENDAR_ID = 'primary'
-const LOCK_DURATION_MS = 5 * 60 * 1000
+const LOCK_MS = 5 * 60 * 1000
 const FULL_SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000
-const CURSOR_OVERLAP_MS = 2 * 60 * 1000
+// Re-fetching a little before the cursor absorbs clock skew; reprocessing events is idempotent.
+const OVERLAP_MS = 2 * 60 * 1000
 const UPSERT_CHUNK_SIZE = 100
-const STORED_ERROR_MAX = 500
-const TOKEN_REFRESH_FAILURE_LIMIT = 3
-const ACCESS_TOKEN_REFRESH_WINDOW_MS = 5000
-const REAUTH_ERROR = 'Google-Zugriff abgelaufen oder widerrufen.'
-const TOKEN_REFRESH_ERROR_PREFIX = 'Google-Zugriff konnte vorübergehend nicht erneuert werden.'
-const RETRYABLE_SYNC_ERROR = 'Synchronisierung vorübergehend fehlgeschlagen.'
-const DB_ERROR = 'Datenbankfehler beim Synchronisieren.'
 
 type SyncState = typeof calendarSyncState.$inferSelect
 
@@ -29,12 +22,9 @@ export type SyncResult = { status: CalendarSyncStatus | 'locked' }
 
 class ReauthRequiredError extends Error {}
 
-class TokenUnavailableError extends Error {}
-
 const excluded = (column: string) => sql.raw(`excluded."${column}"`)
 
 const upsertEntries = async (state: SyncState, values: TimeEntryValues[], seenAt: Date) => {
-  const db = getDb()
   for (let i = 0; i < values.length; i += UPSERT_CHUNK_SIZE) {
     const rows = values.slice(i, i + UPSERT_CHUNK_SIZE).map((value) => ({
       ...value,
@@ -44,7 +34,7 @@ const upsertEntries = async (state: SyncState, values: TimeEntryValues[], seenAt
       lastSeenAt: seenAt,
       deletedAt: null,
     }))
-    await db
+    await getDb()
       .insert(timeEntry)
       .values(rows)
       .onConflictDoUpdate({
@@ -66,266 +56,126 @@ const upsertEntries = async (state: SyncState, values: TimeEntryValues[], seenAt
           deletedAt: sql`null`,
           updatedAt: sql`now()`,
         },
+        // Never let an older copy of an event (e.g. from an overlapping run) overwrite a newer one.
         setWhere: sql.raw('"time_entry"."google_updated_at" <= excluded."google_updated_at"'),
       })
   }
 }
 
-const softDeleteEntries = async (state: SyncState, eventIds: string[], { includeSeries }: { includeSeries: boolean }) => {
-  if (eventIds.length === 0) return
-  const matchesEvent = includeSeries
-    ? or(inArray(timeEntry.googleEventId, eventIds), inArray(timeEntry.googleRecurringEventId, eventIds))
-    : inArray(timeEntry.googleEventId, eventIds)
-  await getDb()
+const softDeleteEntries = (state: SyncState, condition: SQL | undefined) =>
+  getDb()
     .update(timeEntry)
     .set({ deletedAt: sql`now()` })
-    .where(and(eq(timeEntry.userId, state.userId), eq(timeEntry.calendarId, state.calendarId), isNull(timeEntry.deletedAt), matchesEvent))
-}
+    .where(and(eq(timeEntry.userId, state.userId), eq(timeEntry.calendarId, state.calendarId), isNull(timeEntry.deletedAt), condition))
 
-const processPage = async (state: SyncState, events: GoogleEvent[], runStartedAt: Date) => {
-  const upserts: TimeEntryValues[] = []
-  const cancelledIds: string[] = []
+const applyEvents = async (state: SyncState, events: GoogleEvent[], runStartedAt: Date) => {
+  const tracked: TimeEntryValues[] = []
   const untrackedIds: string[] = []
-
   for (const event of events) {
-    if (event.status === 'cancelled') {
-      cancelledIds.push(event.id)
-      continue
-    }
     const values = toTimeEntryValues(event, runStartedAt)
-    if (values) upserts.push(values)
+    if (values) tracked.push(values)
     else untrackedIds.push(event.id)
   }
 
-  await upsertEntries(state, upserts, runStartedAt)
-  await softDeleteEntries(state, cancelledIds, { includeSeries: true })
-  await softDeleteEntries(state, untrackedIds, { includeSeries: false })
+  await upsertEntries(state, tracked, runStartedAt)
+  if (untrackedIds.length === 0) return
+  // A cancelled recurring series arrives as its master event, whose ID is the instances' recurring event ID.
+  await softDeleteEntries(state, or(inArray(timeEntry.googleEventId, untrackedIds), inArray(timeEntry.googleRecurringEventId, untrackedIds)))
 }
 
-const runFullReconciliation = async (state: SyncState, getAccessToken: (force: boolean) => Promise<string>, runStartedAt: Date) => {
-  await listEvents(getAccessToken, state.calendarId, { timeMin: SYNC_START, timeMax: runStartedAt }, (events) =>
-    processPage(state, events, runStartedAt),
-  )
-  await getDb()
-    .update(timeEntry)
-    .set({ deletedAt: sql`now()` })
-    .where(
-      and(
-        eq(timeEntry.userId, state.userId),
-        eq(timeEntry.calendarId, state.calendarId),
-        isNull(timeEntry.deletedAt),
-        lt(timeEntry.lastSeenAt, runStartedAt),
-      ),
-    )
-  return { windowEnd: runStartedAt, changesCheckedAt: runStartedAt, lastFullSyncAt: runStartedAt }
-}
-
-const runIncremental = async (
-  state: SyncState,
-  cursors: { windowEnd: Date; changesCheckedAt: Date },
-  getAccessToken: (force: boolean) => Promise<string>,
-  runStartedAt: Date,
-) => {
-  const requests: ListEventsParams[] = [
-    { updatedMin: new Date(cursors.changesCheckedAt.getTime() - CURSOR_OVERLAP_MS), timeMin: SYNC_START, showDeleted: true },
-    { timeMin: new Date(cursors.windowEnd.getTime() - CURSOR_OVERLAP_MS), timeMax: runStartedAt },
-  ]
-  for (const params of requests) {
-    await listEvents(getAccessToken, state.calendarId, params, (events) => processPage(state, events, runStartedAt))
-  }
-  return { windowEnd: runStartedAt, changesCheckedAt: runStartedAt }
+const createTokenGetter = ({ accountId, userId }: SyncState) => async (forceRefresh: boolean) => {
+  const body = { accountId, userId }
+  const tokens = await (forceRefresh ? auth.api.refreshToken({ body }) : auth.api.getAccessToken({ body })).catch(() => null)
+  if (!tokens?.accessToken) throw new ReauthRequiredError('Google access token unavailable')
+  return tokens.accessToken
 }
 
 const acquireLock = async (stateId: string) => {
   const [state] = await getDb()
     .update(calendarSyncState)
-    .set({ lockedUntil: new Date(Date.now() + LOCK_DURATION_MS) })
+    .set({ lockedUntil: new Date(Date.now() + LOCK_MS) })
     .where(and(eq(calendarSyncState.id, stateId), or(isNull(calendarSyncState.lockedUntil), lt(calendarSyncState.lockedUntil, sql`now()`))))
     .returning()
   return state
 }
 
-const containsQueryParams = (message: string) => message.includes('Failed query:') || message.includes('params:')
-
-const containsQueryLeak = (error: unknown, depth = 0): boolean => {
-  if (depth > 5 || !error || typeof error !== 'object') return false
-  if (error instanceof DrizzleQueryError) return true
-  if (error instanceof Error && containsQueryParams(error.message)) return true
-  return containsQueryLeak((error as { cause?: unknown }).cause, depth + 1)
+const failureStatus = (error: unknown): CalendarSyncStatus => {
+  if (error instanceof ReauthRequiredError) return 'reauth_required'
+  if (error instanceof GoogleCalendarError && error.status === 401) return 'reauth_required'
+  if (error instanceof GoogleCalendarError && error.isMissingScope) return 'missing_scope'
+  return 'error'
 }
 
-const errorText = (error: unknown) => {
-  if (error instanceof Error) return error.message
-  if (typeof error === 'string') return error
-  return 'Unbekannter Fehler beim Synchronisieren.'
-}
-
-export const formatSyncError = (error: unknown) => {
-  if (containsQueryLeak(error)) return DB_ERROR
-  const message = errorText(error)
-  if (containsQueryParams(message)) return DB_ERROR
-  return message.slice(0, STORED_ERROR_MAX)
-}
-
-const logSyncFailure = (stateId: string, error: unknown) => {
-  const stored = formatSyncError(error)
-  const cause = error instanceof Error ? error.cause : undefined
-  const causeMessage = cause instanceof Error ? cause.message : undefined
-  if (causeMessage && !containsQueryLeak(cause) && !containsQueryParams(causeMessage)) {
-    console.error(`Calendar sync failed for state ${stateId}: ${stored}`, causeMessage.slice(0, STORED_ERROR_MAX))
-    return
-  }
-  console.error(`Calendar sync failed for state ${stateId}: ${stored}`)
-}
-
-const previousRefreshFailures = (state: SyncState) => {
-  if (state.status !== 'error' || !state.lastError?.startsWith(TOKEN_REFRESH_ERROR_PREFIX)) return 0
-  const match = /\((\d+)\/\d+\)$/.exec(state.lastError)
-  const count = match ? Number(match[1]) : 0
-  return Number.isFinite(count) ? count : 0
-}
-
-const tokenFailure = (state: SyncState, refreshAttempted: boolean) => {
-  if (!refreshAttempted) return new TokenUnavailableError(RETRYABLE_SYNC_ERROR)
-  const attempt = previousRefreshFailures(state) + 1
-  if (attempt >= TOKEN_REFRESH_FAILURE_LIMIT) return new ReauthRequiredError()
-  return new TokenUnavailableError(`${TOKEN_REFRESH_ERROR_PREFIX} (${attempt}/${TOKEN_REFRESH_FAILURE_LIMIT})`)
-}
-
-const accessTokenNeedsRefresh = (expiresAt: Date | null) =>
-  expiresAt !== null && expiresAt.getTime() - Date.now() < ACCESS_TOKEN_REFRESH_WINDOW_MS
-
-const loadAccountCredentials = async (accountId: string) => {
-  const [row] = await getDb()
-    .select({
-      refreshToken: account.refreshToken,
-      accessTokenExpiresAt: account.accessTokenExpiresAt,
-    })
-    .from(account)
-    .where(eq(account.id, accountId))
-  return {
-    hasRefreshToken: Boolean(row?.refreshToken),
-    accessTokenExpiresAt: row?.accessTokenExpiresAt ?? null,
-  }
-}
-
-const authErrorCode = (error: unknown) => {
-  if (!error || typeof error !== 'object' || !('body' in error)) return undefined
-  const code = (error as { body?: { code?: unknown } }).body?.code
-  return typeof code === 'string' ? code : undefined
-}
-
-// `reauth_required` only when the refresh token is missing, Google returns invalid_grant,
-// or refresh keeps failing. Anything else stays `error` so the next cron run retries.
-const createTokenGetter = (state: SyncState) => {
-  let credentialsPromise: ReturnType<typeof loadAccountCredentials> | undefined
-  const body = { accountId: state.accountId, userId: state.userId }
-
-  return async (forceRefresh: boolean) => {
-    const credentials = await (credentialsPromise ??= loadAccountCredentials(state.accountId))
-    if (!credentials.hasRefreshToken) throw new ReauthRequiredError()
-
-    const refreshWasDue = forceRefresh || accessTokenNeedsRefresh(credentials.accessTokenExpiresAt)
-    try {
-      const accessToken = await callObservingTokenRefresh(async () => {
-        if (forceRefresh) {
-          const tokens = await auth.api.refreshToken({ body })
-          return tokens.accessToken ?? null
-        }
-        const tokens = await auth.api.getAccessToken({ body })
-        return tokens.accessToken ?? null
-      })
-      if (!accessToken) throw tokenFailure(state, refreshWasDue)
-      return accessToken
-    } catch (error) {
-      if (error instanceof ReauthRequiredError || error instanceof TokenUnavailableError) throw error
-      if (error instanceof InvalidGrantError || authErrorCode(error) === 'REFRESH_TOKEN_NOT_FOUND') throw new ReauthRequiredError()
-      const attempted = refreshWasDue || authErrorCode(error) === 'FAILED_TO_REFRESH_ACCESS_TOKEN'
-      throw tokenFailure(state, attempted)
-    }
-  }
-}
-
-const toFailure = (error: unknown): { status: CalendarSyncStatus; lastError: string } => {
-  if (error instanceof ReauthRequiredError || error instanceof InvalidGrantError) {
-    return { status: 'reauth_required', lastError: REAUTH_ERROR }
-  }
-  if (error instanceof GoogleCalendarError) {
-    if (error.status === 401) return { status: 'reauth_required', lastError: REAUTH_ERROR }
-    if (error.isMissingScope) return { status: 'missing_scope', lastError: 'Kalenderberechtigung fehlt.' }
-    return { status: 'error', lastError: formatSyncError(new Error(`Google Calendar API ${error.status}: ${error.message}`)) }
-  }
-  return { status: 'error', lastError: formatSyncError(error) }
-}
-
-const recordFailure = async (state: SyncState, error: unknown) => {
-  const failure = toFailure(error)
-  if (failure.status === 'error') logSyncFailure(state.id, error)
-  try {
-    await getDb()
-      .update(calendarSyncState)
-      .set({ ...failure, lockedUntil: null })
-      .where(eq(calendarSyncState.id, state.id))
-  } catch (updateError) {
-    logSyncFailure(state.id, updateError)
-    try {
-      await getDb().update(calendarSyncState).set({ lockedUntil: null }).where(eq(calendarSyncState.id, state.id))
-    } catch (releaseError) {
-      logSyncFailure(state.id, releaseError)
-    }
-  }
-  return failure.status
-}
-
+/**
+ * Full sync: everything from SYNC_START, then soft-delete rows that weren't seen.
+ * Incremental: changed events (including deleted ones and ones moved into the future), then events
+ * whose start passed since the last run. A 410 from Google means `updatedMin` is too old → full sync.
+ */
 export const syncCalendarState = async (stateId: string): Promise<SyncResult> => {
   const state = await acquireLock(stateId)
   if (!state) return { status: 'locked' }
 
-  const db = getDb()
   const runStartedAt = new Date()
   const getAccessToken = createTokenGetter(state)
+  const fetchAndApply = (params: ListEventsParams) =>
+    listEvents(getAccessToken, state.calendarId, params, (events) => applyEvents(state, events, runStartedAt))
+
+  const syncIncrementally = async (syncedUntil: Date) => {
+    const since = new Date(syncedUntil.getTime() - OVERLAP_MS)
+    try {
+      await fetchAndApply({ updatedMin: since, timeMin: SYNC_START, showDeleted: true })
+      await fetchAndApply({ timeMin: since, timeMax: runStartedAt })
+      return true
+    } catch (error) {
+      if (error instanceof GoogleCalendarError && error.status === 410) return false
+      throw error
+    }
+  }
 
   try {
-    const { windowEnd, changesCheckedAt, lastFullSyncAt } = state
-    const fullSyncDue = !lastFullSyncAt || runStartedAt.getTime() - lastFullSyncAt.getTime() > FULL_SYNC_INTERVAL_MS
-    let cursors
-    if (!windowEnd || !changesCheckedAt || fullSyncDue) {
-      cursors = await runFullReconciliation(state, getAccessToken, runStartedAt)
-    } else {
-      try {
-        cursors = await runIncremental(state, { windowEnd, changesCheckedAt }, getAccessToken, runStartedAt)
-      } catch (error) {
-        if (!(error instanceof GoogleCalendarError && error.status === 410)) throw error
-        cursors = await runFullReconciliation(state, getAccessToken, runStartedAt)
-      }
+    const { syncedUntil, lastFullSyncAt } = state
+    const fullSyncDue = !syncedUntil || !lastFullSyncAt || runStartedAt.getTime() - lastFullSyncAt.getTime() > FULL_SYNC_INTERVAL_MS
+    const fullSync = fullSyncDue || !(await syncIncrementally(syncedUntil))
+    if (fullSync) {
+      await fetchAndApply({ timeMin: SYNC_START, timeMax: runStartedAt })
+      await softDeleteEntries(state, lt(timeEntry.lastSeenAt, runStartedAt))
     }
 
-    await db
+    await getDb()
       .update(calendarSyncState)
-      .set({ ...cursors, status: 'ok', lastError: null, lastSyncedAt: new Date(), lockedUntil: null })
+      .set({
+        status: 'ok',
+        lastError: null,
+        syncedUntil: runStartedAt,
+        lastFullSyncAt: fullSync ? runStartedAt : lastFullSyncAt,
+        lastSyncedAt: new Date(),
+        lockedUntil: null,
+      })
       .where(eq(calendarSyncState.id, state.id))
     return { status: 'ok' }
   } catch (error) {
-    return { status: await recordFailure(state, error) }
+    const status = failureStatus(error)
+    // Drizzle query errors embed the query params (event titles, attendees); keep those out of the DB and logs.
+    const cause = error instanceof DrizzleQueryError ? error.cause : error
+    if (status === 'error') console.error(`Calendar sync failed for state ${state.id}:`, cause)
+    await getDb()
+      .update(calendarSyncState)
+      .set({ status, lastError: String(cause).slice(0, 500), lockedUntil: null })
+      .where(eq(calendarSyncState.id, state.id))
+    return { status }
   }
 }
 
 const ensureSyncStates = async (userId?: string) => {
-  const db = getDb()
-  const googleAccounts = await db
+  const googleAccounts = await getDb()
     .select({ id: account.id, userId: account.userId })
     .from(account)
     .where(and(eq(account.providerId, 'google'), userId ? eq(account.userId, userId) : undefined))
   if (googleAccounts.length === 0) return
 
-  await db
+  await getDb()
     .insert(calendarSyncState)
-    .values(googleAccounts.map((googleAccount) => ({
-      id: crypto.randomUUID(),
-      userId: googleAccount.userId,
-      accountId: googleAccount.id,
-      calendarId: CALENDAR_ID,
-    })))
+    .values(googleAccounts.map(({ id, userId }) => ({ id: crypto.randomUUID(), userId, accountId: id, calendarId: CALENDAR_ID })))
     .onConflictDoNothing({ target: [calendarSyncState.userId, calendarSyncState.calendarId] })
 }
 
@@ -335,43 +185,34 @@ export const syncCalendarForUser = async (userId: string): Promise<SyncResult> =
     .select({ id: calendarSyncState.id })
     .from(calendarSyncState)
     .where(and(eq(calendarSyncState.userId, userId), eq(calendarSyncState.calendarId, CALENDAR_ID)))
-  if (!state) return { status: 'reauth_required' }
-  try {
-    return await syncCalendarState(state.id)
-  } catch (error) {
-    logSyncFailure(state.id, error)
-    return { status: 'error' }
-  }
+  return state ? syncCalendarState(state.id) : { status: 'reauth_required' }
 }
 
+/**
+ * Syncs every calendar, least recently synced first, until `deadline`. Calendars that need the user to
+ * reconnect are retried too, so a transient token failure heals on the next run.
+ */
 export const syncAllCalendars = async (deadline: Date) => {
   await ensureSyncStates()
   const states = await getDb()
-    .select({
-      id: calendarSyncState.id,
-      status: calendarSyncState.status,
-      stateUpdatedAt: calendarSyncState.updatedAt,
-      accountUpdatedAt: account.updatedAt,
-    })
+    .select({ id: calendarSyncState.id })
     .from(calendarSyncState)
-    .innerJoin(account, eq(account.id, calendarSyncState.accountId))
-    .orderBy(sql`${calendarSyncState.lastSyncedAt} asc nulls first`, asc(calendarSyncState.createdAt))
+    .orderBy(sql`${calendarSyncState.lastSyncedAt} asc nulls first`)
 
   const summary = { total: states.length, synced: 0, skipped: 0, failed: 0 }
-  for (const state of states) {
-    const awaitsUserAction = state.status === 'reauth_required' || state.status === 'missing_scope'
-    if (new Date() >= deadline || (awaitsUserAction && state.accountUpdatedAt <= state.stateUpdatedAt)) {
+  for (const { id } of states) {
+    if (new Date() >= deadline) {
       summary.skipped++
       continue
     }
     try {
-      const result = await syncCalendarState(state.id)
-      if (result.status === 'ok') summary.synced++
-      else if (result.status === 'locked') summary.skipped++
+      const { status } = await syncCalendarState(id)
+      if (status === 'ok') summary.synced++
+      else if (status === 'locked') summary.skipped++
       else summary.failed++
     } catch (error) {
       summary.failed++
-      logSyncFailure(state.id, error)
+      console.error(`Calendar sync failed for state ${id}:`, error)
     }
   }
   return summary

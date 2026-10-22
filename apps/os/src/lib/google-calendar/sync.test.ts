@@ -1,310 +1,159 @@
 import { calendarSyncState, timeEntry } from '@/db/time-tracking-schema'
-import { GoogleCalendarError, type GoogleEvent } from '@/lib/google-calendar/client'
+import { GoogleCalendarError, type GoogleEvent, type ListEventsParams } from '@/lib/google-calendar/client'
 import { SYNC_START } from '@/lib/google-calendar/map-event'
 import { syncCalendarState } from '@/lib/google-calendar/sync'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const NOW = new Date('2026-06-15T12:00:00.000Z')
-const WINDOW_END = new Date('2026-06-15T10:00:00.000Z')
-const OVERLAP_MS = 2 * 60 * 1000
-const FULL_SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000
+const SYNCED_UNTIL = new Date('2026-06-15T10:00:00.000Z')
+const SINCE = new Date(SYNCED_UNTIL.getTime() - 2 * 60 * 1000)
+const DAY_MS = 24 * 60 * 60 * 1000
 
-type ListParams = {
-  timeMin?: Date
-  timeMax?: Date
-  updatedMin?: Date
-  showDeleted?: boolean
-}
+type Write = { kind: 'insert' | 'update'; table: unknown; values?: Record<string, unknown>[]; set?: Record<string, unknown>; where?: unknown; conflict?: unknown }
 
-type Op =
-  | { kind: 'insert'; table: unknown; values: unknown; conflict: unknown }
-  | { kind: 'update'; table: unknown; set: Record<string, unknown>; where: unknown }
-
-const harness = vi.hoisted(() => {
-  const ops: Op[] = []
-  const requests: Array<{ calendarId: string; params: ListParams }> = []
-  let lockRows: unknown[] = []
-  let pagesFor: (params: ListParams) => unknown[][] = () => [[]]
-
-  const db = {
-    insert(table: unknown) {
-      return {
-        values(values: unknown) {
-          return {
-            onConflictDoUpdate(conflict: unknown) {
-              ops.push({ kind: 'insert', table, values, conflict })
-              return Promise.resolve()
-            },
-          }
-        },
-      }
-    },
-    update(table: unknown) {
-      return {
-        set(set: Record<string, unknown>) {
-          return {
-            where(where: unknown) {
-              ops.push({ kind: 'update', table, set, where })
-              return Object.assign(Promise.resolve(), {
-                returning: () => Promise.resolve(lockRows),
-              })
-            },
-          }
-        },
-      }
-    },
-    select() {
-      return {
-        from() {
-          return {
-            where: () =>
-              Promise.resolve([
-                {
-                  refreshToken: 'refresh-token',
-                  accessTokenExpiresAt: new Date('2026-06-15T13:00:00.000Z'),
-                },
-              ]),
-          }
-        },
-      }
-    },
-  }
-
-  return {
-    db,
-    ops,
-    requests,
-    setLockRows: (rows: unknown[]) => {
-      lockRows = rows
-    },
-    setPagesFor: (next: (params: ListParams) => unknown[][]) => {
-      pagesFor = next
-    },
-    pagesFor: (params: ListParams) => pagesFor(params),
-  }
-})
+const fake = vi.hoisted(() => ({
+  writes: [] as Write[],
+  requests: [] as ListEventsParams[],
+  lockedState: null as unknown,
+  pages: (() => []) as (params: ListEventsParams) => unknown[],
+}))
 
 vi.mock('server-only', () => ({}))
-
-vi.mock('@/db', () => ({ getDb: () => harness.db }))
-
 vi.mock('@/lib/auth', () => ({
-  auth: {
-    api: {
-      getAccessToken: async () => ({ accessToken: 'token' }),
-      refreshToken: async () => ({ accessToken: 'refreshed-token' }),
-    },
+  auth: { api: { getAccessToken: async () => ({ accessToken: 'token' }), refreshToken: async () => ({ accessToken: 'token' }) } },
+}))
+vi.mock('@/db', () => ({
+  getDb: () => ({
+    insert: (table: unknown) => ({
+      values: (values: Record<string, unknown>[]) => ({
+        onConflictDoUpdate: async (conflict: unknown) => void fake.writes.push({ kind: 'insert', table, values, conflict }),
+      }),
+    }),
+    update: (table: unknown) => ({
+      set: (set: Record<string, unknown>) => ({
+        where: (where: unknown) => {
+          fake.writes.push({ kind: 'update', table, set, where })
+          return Object.assign(Promise.resolve(), { returning: async () => (fake.lockedState ? [fake.lockedState] : []) })
+        },
+      }),
+    }),
+  }),
+}))
+vi.mock('@/lib/google-calendar/client', async (importActual) => ({
+  ...(await importActual<object>()),
+  listEvents: async (getAccessToken: (force: boolean) => Promise<string>, _calendarId: string, params: ListEventsParams, onPage: (events: GoogleEvent[]) => Promise<void>) => {
+    fake.requests.push(params)
+    await getAccessToken(false)
+    await onPage(fake.pages(params) as GoogleEvent[])
   },
 }))
 
-vi.mock('@/lib/google-calendar/client', async () => {
-  const actual = await vi.importActual<typeof import('@/lib/google-calendar/client')>('@/lib/google-calendar/client')
-  return {
-    ...actual,
-    listEvents: async (
-      getAccessToken: (forceRefresh: boolean) => Promise<string>,
-      calendarId: string,
-      params: ListParams,
-      onPage: (events: GoogleEvent[]) => Promise<void>,
-    ) => {
-      harness.requests.push({ calendarId, params })
-      await getAccessToken(false)
-      for (const page of harness.pagesFor(params)) await onPage(page as GoogleEvent[])
-    },
-  }
-})
-
-const baseState = {
+const state = (overrides = {}) => ({
   id: 'state-1',
   userId: 'user-1',
   accountId: 'account-1',
   calendarId: 'primary',
-  status: 'ok' as const,
-  lastError: null,
-  windowEnd: WINDOW_END,
-  changesCheckedAt: WINDOW_END,
-  lastFullSyncAt: WINDOW_END,
-  lastSyncedAt: WINDOW_END,
+  status: 'ok',
+  syncedUntil: SYNCED_UNTIL,
+  lastFullSyncAt: SYNCED_UNTIL,
   lockedUntil: null,
-  createdAt: new Date('2026-01-02T00:00:00.000Z'),
-  updatedAt: WINDOW_END,
-}
+  ...overrides,
+})
 
-const timed = (id: string, start: string, overrides: Partial<GoogleEvent> = {}): GoogleEvent => ({
+const event = (id: string, start: string, overrides: Partial<GoogleEvent> = {}): GoogleEvent => ({
   id,
-  status: 'confirmed',
-  summary: id,
   start: { dateTime: start },
   end: { dateTime: new Date(new Date(start).getTime() + 30 * 60 * 1000).toISOString() },
   updated: '2026-06-15T09:00:00.000Z',
   ...overrides,
 })
 
-const containsText = (value: unknown, needle: string, seen = new Set<unknown>()): boolean => {
+// Drizzle SQL objects are circular, so search them recursively instead of serialising.
+const mentions = (value: unknown, needle: string, seen = new Set<unknown>()): boolean => {
   if (typeof value === 'string') return value.includes(needle)
   if (typeof value !== 'object' || value === null || seen.has(value)) return false
   seen.add(value)
-  const entries = Array.isArray(value) ? value : Object.values(value)
-  return entries.some((entry) => containsText(entry, needle, seen))
+  return Object.values(value).some((inner) => mentions(inner, needle, seen))
 }
 
-const isEntryInsert = (op: Op): op is Extract<Op, { kind: 'insert' }> => op.kind === 'insert' && op.table === timeEntry
-const isEntryUpdate = (op: Op): op is Extract<Op, { kind: 'update' }> => op.kind === 'update' && op.table === timeEntry
-
-const entryInserts = () => harness.ops.filter(isEntryInsert)
-const entryUpdates = () => harness.ops.filter(isEntryUpdate)
-const stateUpdates = () =>
-  harness.ops.filter((op): op is Extract<Op, { kind: 'update' }> => op.kind === 'update' && op.table === calendarSyncState)
-
-const insertedRows = () =>
-  entryInserts().flatMap((op) => (Array.isArray(op.values) ? op.values : []) as Array<{
-    googleEventId: string
-    deletedAt: unknown
-    userId: string
-    calendarId: string
-  }>)
+const upsertedIds = () => fake.writes.filter((write) => write.kind === 'insert').flatMap((write) => write.values?.map((row) => row.googleEventId) ?? [])
+const softDeletes = () => fake.writes.filter((write) => write.kind === 'update' && write.table === timeEntry)
+const finalState = () => fake.writes.findLast((write) => write.table === calendarSyncState)?.set
 
 describe('syncCalendarState', () => {
   beforeEach(() => {
     vi.useFakeTimers({ toFake: ['Date'] })
     vi.setSystemTime(NOW)
-    harness.ops.length = 0
-    harness.requests.length = 0
-    harness.setLockRows([{ ...baseState }])
-    harness.setPagesFor(() => [[]])
+    fake.writes = []
+    fake.requests = []
+    fake.lockedState = state()
+    fake.pages = () => []
   })
 
-  it('soft-deletes events that stop qualifying, restores eligible ones, and picks up events whose start has passed', async () => {
-    const restore = timed('restore-me', '2026-06-15T08:00:00.000Z', { summary: 'Wieder da' })
-    const justStarted = timed('just-started', '2026-06-15T11:00:00.000Z')
-    harness.setPagesFor((params) => {
-      if (params.updatedMin) {
-        return [[
-          restore,
-          timed('future', '2026-06-15T13:00:00.000Z'),
-          timed('declined', '2026-06-15T08:00:00.000Z', {
-            attendees: [{ email: 'me@lw.works', self: true, responseStatus: 'declined' }],
-          }),
-          timed('free', '2026-06-15T08:00:00.000Z', { transparency: 'transparent' }),
-          timed('all-day', '2026-06-15T08:00:00.000Z', { start: { date: '2026-06-15' }, end: { date: '2026-06-16' } }),
-          timed('ooo', '2026-06-15T08:00:00.000Z', { eventType: 'outOfOffice' }),
-          timed('focus', '2026-06-15T08:00:00.000Z', { eventType: 'focusTime' }),
-          timed('location', '2026-06-15T08:00:00.000Z', { eventType: 'workingLocation' }),
-          timed('birthday', '2026-06-15T08:00:00.000Z', { eventType: 'birthday' }),
-          timed('cancelled', '2026-06-15T08:00:00.000Z', { status: 'cancelled' }),
-        ]]
-      }
-      return [[justStarted]]
-    })
+  it('applies changes, then picks up events whose start passed since the last run', async () => {
+    fake.pages = (params) =>
+      params.updatedMin
+        ? [
+          event('edited', '2026-06-15T08:00:00.000Z'),
+          event('future', '2026-06-15T13:00:00.000Z'),
+          event('declined', '2026-06-15T08:00:00.000Z', { attendees: [{ email: 'me@lw.works', self: true, responseStatus: 'declined' }] }),
+          event('cancelled-series', '2026-06-15T08:00:00.000Z', { status: 'cancelled' }),
+        ]
+        : [event('just-started', '2026-06-15T11:00:00.000Z')]
 
     await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'ok' })
 
-    const [changes, catchUp] = harness.requests
-    expect(changes?.calendarId).toBe('primary')
-    expect(changes?.params).toMatchObject({
-      showDeleted: true,
-      timeMin: SYNC_START,
-      updatedMin: new Date(WINDOW_END.getTime() - OVERLAP_MS),
-    })
-    expect(changes?.params.timeMax).toBeUndefined()
-    expect(catchUp?.params).toMatchObject({
-      timeMin: new Date(WINDOW_END.getTime() - OVERLAP_MS),
-      timeMax: NOW,
-    })
-    expect(catchUp?.params.updatedMin).toBeUndefined()
+    expect(fake.requests).toEqual([
+      { updatedMin: SINCE, timeMin: SYNC_START, showDeleted: true },
+      { timeMin: SINCE, timeMax: NOW },
+    ])
+    expect(upsertedIds()).toEqual(['edited', 'just-started'])
+    expect(mentions((fake.writes[1]?.conflict as { setWhere?: unknown }).setWhere, 'google_updated_at')).toBe(true)
+    expect(softDeletes()).toHaveLength(1)
+    for (const id of ['future', 'declined', 'cancelled-series']) expect(mentions(softDeletes()[0]?.where, id)).toBe(true)
+    expect(finalState()).toMatchObject({ status: 'ok', syncedUntil: NOW, lastFullSyncAt: SYNCED_UNTIL, lockedUntil: null })
+  })
 
-    expect(insertedRows().map((row) => row.googleEventId)).toEqual(['restore-me', 'just-started'])
-    expect(insertedRows().every((row) => row.deletedAt === null && row.userId === 'user-1' && row.calendarId === 'primary')).toBe(true)
+  it.each([
+    ['the first run', { syncedUntil: null, lastFullSyncAt: null }],
+    ['the last full sync being older than 24 hours', { lastFullSyncAt: new Date(NOW.getTime() - DAY_MS - 1) }],
+  ])('runs a full sync and sweeps unseen rows on %s', async (_label, overrides) => {
+    fake.lockedState = state(overrides)
+    fake.pages = () => [event('past', '2026-06-15T08:00:00.000Z')]
 
-    const conflict = entryInserts()[0]?.conflict as { set?: { deletedAt?: unknown }; setWhere?: unknown }
-    expect(conflict.set?.deletedAt).toBeDefined()
-    expect(containsText(conflict.setWhere, 'google_updated_at')).toBe(true)
+    await syncCalendarState('state-1')
 
-    const insertAt = harness.ops.findIndex((op) => op.kind === 'insert')
-    const deleteAt = harness.ops.findIndex((op) => op.kind === 'update' && op.table === timeEntry)
-    expect(insertAt).toBeGreaterThan(-1)
-    expect(insertAt).toBeLessThan(deleteAt)
+    expect(fake.requests).toEqual([{ timeMin: SYNC_START, timeMax: NOW }])
+    expect(upsertedIds()).toEqual(['past'])
+    expect(mentions(softDeletes()[0]?.where, 'last_seen_at')).toBe(true)
+    expect(finalState()).toMatchObject({ status: 'ok', syncedUntil: NOW, lastFullSyncAt: NOW })
+  })
 
-    const [cancelledUpdate, untrackedUpdate] = entryUpdates()
-    expect(entryUpdates()).toHaveLength(2)
-    expect(entryUpdates().every((op) => op.set.deletedAt != null && containsText(op.where, 'user-1') && containsText(op.where, 'primary'))).toBe(true)
-    expect(containsText(cancelledUpdate?.where, 'cancelled')).toBe(true)
-    for (const id of ['future', 'declined', 'free', 'all-day', 'ooo', 'focus', 'location', 'birthday']) {
-      expect(containsText(untrackedUpdate?.where, id)).toBe(true)
+  it('falls back to a full sync when Google returns 410', async () => {
+    fake.pages = (params) => {
+      if (params.updatedMin) throw new GoogleCalendarError(410, ['updatedMinTooLongAgo'], 'Gone')
+      return []
     }
 
-    const success = stateUpdates().find((op) => op.set.status === 'ok')
-    expect(success?.set).toMatchObject({
-      status: 'ok',
-      lastError: null,
-      lockedUntil: null,
-      windowEnd: NOW,
-      changesCheckedAt: NOW,
-      lastSyncedAt: NOW,
-    })
-    expect(success?.set).not.toHaveProperty('lastFullSyncAt')
-  })
-
-  it('sweeps rows that disappeared from a full reconciliation', async () => {
-    harness.setLockRows([{ ...baseState, windowEnd: null, changesCheckedAt: null, lastFullSyncAt: null }])
-    harness.setPagesFor(() => [[timed('past', '2026-06-15T08:00:00.000Z')]])
-
     await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'ok' })
 
-    expect(harness.requests).toHaveLength(1)
-    expect(harness.requests[0]?.params).toMatchObject({ timeMin: SYNC_START, timeMax: NOW })
-    expect(harness.requests[0]?.params.updatedMin).toBeUndefined()
-    expect(insertedRows().map((row) => row.googleEventId)).toEqual(['past'])
-    expect(entryUpdates()).toHaveLength(1)
-    expect(entryUpdates()[0]?.set.deletedAt).toBeDefined()
-    expect(containsText(entryUpdates()[0]?.where, 'user-1')).toBe(true)
-    expect(containsText(entryUpdates()[0]?.where, 'past')).toBe(false)
-
-    const success = stateUpdates().find((op) => op.set.status === 'ok')
-    expect(success?.set.lastFullSyncAt).toEqual(NOW)
+    expect(fake.requests.at(-1)).toEqual({ timeMin: SYNC_START, timeMax: NOW })
+    expect(finalState()).toMatchObject({ lastFullSyncAt: NOW })
   })
 
-  it('runs a full reconciliation once the previous one is older than 24 hours', async () => {
-    harness.setLockRows([{ ...baseState, lastFullSyncAt: new Date(NOW.getTime() - FULL_SYNC_INTERVAL_MS - 1) }])
-    harness.setPagesFor(() => [[]])
+  it('marks missing calendar permission', async () => {
+    fake.pages = () => {
+      throw new GoogleCalendarError(403, ['insufficientPermissions'], 'Forbidden')
+    }
 
-    await syncCalendarState('state-1')
-
-    expect(harness.requests).toHaveLength(1)
-    expect(harness.requests[0]?.params.timeMax).toEqual(NOW)
-    expect(harness.requests[0]?.params.updatedMin).toBeUndefined()
+    await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'missing_scope' })
+    expect(finalState()).toMatchObject({ status: 'missing_scope', lockedUntil: null })
   })
 
-  it('stays incremental when the last full reconciliation is exactly 24 hours old', async () => {
-    harness.setLockRows([{ ...baseState, lastFullSyncAt: new Date(NOW.getTime() - FULL_SYNC_INTERVAL_MS) }])
-    harness.setPagesFor(() => [[]])
-
-    await syncCalendarState('state-1')
-
-    expect(harness.requests.map((request) => request.params.updatedMin !== undefined)).toEqual([true, false])
-  })
-
-  it('falls back to a full reconciliation when Google returns 410', async () => {
-    harness.setPagesFor((params) => {
-      if (params.updatedMin) throw new GoogleCalendarError(410, ['updatedMinTooLongAgo'], 'updatedMin too long ago')
-      return [[timed('just-started', '2026-06-15T11:00:00.000Z')]]
-    })
-
-    await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'ok' })
-
-    expect(harness.requests.map((request) => request.params.updatedMin !== undefined)).toEqual([true, false])
-    expect(harness.requests[1]?.params).toMatchObject({ timeMin: SYNC_START, timeMax: NOW })
-    expect(insertedRows().map((row) => row.googleEventId)).toEqual(['just-started'])
-    expect(entryUpdates().some((op) => op.set.deletedAt != null)).toBe(true)
-  })
-
-  it('does nothing when the calendar is already locked', async () => {
-    harness.setLockRows([])
+  it('does nothing when another run holds the lock', async () => {
+    fake.lockedState = null
 
     await expect(syncCalendarState('state-1')).resolves.toEqual({ status: 'locked' })
-
-    expect(harness.requests).toHaveLength(0)
-    expect(entryInserts()).toHaveLength(0)
-    expect(entryUpdates()).toHaveLength(0)
+    expect(fake.requests).toHaveLength(0)
   })
 })

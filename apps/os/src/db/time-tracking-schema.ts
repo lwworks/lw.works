@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm'
 import { index, jsonb, pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { account, user } from './auth-schema'
 
@@ -64,8 +63,8 @@ export const calendarSyncState = pgTable(
     calendarId: text('calendar_id').notNull(),
     status: text('status').$type<CalendarSyncStatus>().default('pending').notNull(),
     lastError: text('last_error'),
-    windowEnd: timestamptz('window_end'),
-    changesCheckedAt: timestamptz('changes_checked_at'),
+    /** Every event starting before this instant has been fetched, and every change before it seen. */
+    syncedUntil: timestamptz('synced_until'),
     lastFullSyncAt: timestamptz('last_full_sync_at'),
     lastSyncedAt: timestamptz('last_synced_at'),
     lockedUntil: timestamptz('locked_until'),
@@ -77,21 +76,3 @@ export const calendarSyncState = pgTable(
   },
   (table) => [uniqueIndex('calendar_sync_state_user_calendar_idx').on(table.userId, table.calendarId)],
 )
-
-export const timeEntryRelations = relations(timeEntry, ({ one }) => ({
-  user: one(user, {
-    fields: [timeEntry.userId],
-    references: [user.id],
-  }),
-}))
-
-export const calendarSyncStateRelations = relations(calendarSyncState, ({ one }) => ({
-  user: one(user, {
-    fields: [calendarSyncState.userId],
-    references: [user.id],
-  }),
-  account: one(account, {
-    fields: [calendarSyncState.accountId],
-    references: [account.id],
-  }),
-}))

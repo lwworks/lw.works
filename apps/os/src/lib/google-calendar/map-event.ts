@@ -1,44 +1,13 @@
-import type { TimeEntryAttendee } from '@/db/time-tracking-schema'
 import type { GoogleEvent } from './client'
 
 export const SYNC_START = new Date('2026-01-01T00:00:00+01:00')
 
 const EXCLUDED_EVENT_TYPES = new Set(['outOfOffice', 'focusTime', 'workingLocation', 'birthday'])
 
-export type TimeEntryValues = {
-  googleEventId: string
-  googleRecurringEventId: string | null
-  googleICalUid: string | null
-  title: string
-  description: string | null
-  location: string | null
-  attendees: TimeEntryAttendee[]
-  startAt: Date
-  endAt: Date
-  timeZone: string | null
-  htmlLink: string | null
-  googleStatus: string
-  googleUpdatedAt: Date
-}
+export type TimeEntryValues = NonNullable<ReturnType<typeof toTimeEntryValues>>
 
-const toAttendees = (event: GoogleEvent): TimeEntryAttendee[] =>
-  (event.attendees ?? [])
-    .filter((attendee) => attendee.email)
-    .map((attendee) => ({
-      email: attendee.email as string,
-      displayName: attendee.displayName,
-      responseStatus: attendee.responseStatus,
-      organizer: attendee.organizer,
-      self: attendee.self,
-      optional: attendee.optional,
-    }))
-
-/**
- * Returns the time entry values for an event that should be tracked, or `null`
- * when the event is cancelled, all-day, free, declined, of an excluded type, or
- * has not started yet (start must lie in `[SYNC_START, now]`).
- */
-export const toTimeEntryValues = (event: GoogleEvent, now: Date): TimeEntryValues | null => {
+/** Values for an event that counts as tracked time, or `null` if it doesn't (or hasn't started yet). */
+export const toTimeEntryValues = (event: GoogleEvent, now: Date) => {
   if (event.status === 'cancelled') return null
   if (!event.start?.dateTime || !event.end?.dateTime) return null
   if (event.transparency === 'transparent') return null
@@ -46,8 +15,6 @@ export const toTimeEntryValues = (event: GoogleEvent, now: Date): TimeEntryValue
   if (event.attendees?.some((attendee) => attendee.self && attendee.responseStatus === 'declined')) return null
 
   const startAt = new Date(event.start.dateTime)
-  const endAt = new Date(event.end.dateTime)
-  if (Number.isNaN(startAt.getTime()) || Number.isNaN(endAt.getTime())) return null
   if (startAt < SYNC_START || startAt > now) return null
 
   return {
@@ -57,9 +24,11 @@ export const toTimeEntryValues = (event: GoogleEvent, now: Date): TimeEntryValue
     title: event.summary?.trim() || '(Kein Titel)',
     description: event.description ?? null,
     location: event.location ?? null,
-    attendees: toAttendees(event),
+    attendees: (event.attendees ?? []).flatMap(({ email, displayName, responseStatus, organizer, self, optional }) =>
+      email ? [{ email, displayName, responseStatus, organizer, self, optional }] : [],
+    ),
     startAt,
-    endAt,
+    endAt: new Date(event.end.dateTime),
     timeZone: event.start.timeZone ?? null,
     htmlLink: event.htmlLink ?? null,
     googleStatus: event.status ?? 'confirmed',

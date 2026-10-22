@@ -6,16 +6,14 @@ import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment } from 'react'
 import { EntryDescription } from './entry-description'
-import { formatDay, formatDuration, formatTime, getTrackedMs } from './format'
+import { formatDay, formatDuration, formatTime, sumTrackedMs } from './format'
 
-export const TimeEntriesTable = ({ entries, dayKeys, now }: { entries: TimeEntryDTO[]; dayKeys: string[]; now: Date }) => {
-  const days = dayKeys
-    .map((key) => ({ key, entries: entries.filter((entry) => toZonedDateKey(entry.startAt) === key) }))
-    .filter((day) => day.entries.length > 0)
-
-  if (days.length === 0) {
+export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; now: Date }) => {
+  if (entries.length === 0) {
     return <p className="px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Keine Einträge in dieser Woche.</p>
   }
+
+  const days = Map.groupBy(entries, (entry) => toZonedDateKey(entry.startAt))
 
   return (
     <Table>
@@ -28,16 +26,16 @@ export const TimeEntriesTable = ({ entries, dayKeys, now }: { entries: TimeEntry
         </TableRow>
       </TableHeader>
       <TableBody>
-        {days.map((day) => (
-          <Fragment key={day.key}>
+        {[...days].map(([day, dayEntries]) => (
+          <Fragment key={day}>
             <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-              <TableCell colSpan={2} className="pl-16 font-medium text-black dark:text-white">{formatDay(day.entries[0].startAt)}</TableCell>
+              <TableCell colSpan={2} className="pl-16 font-medium text-black dark:text-white">{formatDay(dayEntries[0].startAt)}</TableCell>
               <TableCell className="text-right font-medium text-black dark:text-white tabular-nums">
-                {formatDuration(day.entries.reduce((sum, entry) => sum + getTrackedMs(entry, now), 0))}
+                {formatDuration(sumTrackedMs(dayEntries, now))}
               </TableCell>
               <TableCell className="pr-16" />
             </TableRow>
-            {day.entries.map((entry) => {
+            {dayEntries.map((entry) => {
               const running = entry.endAt > now
               return (
                 <TableRow key={entry.id}>
@@ -65,7 +63,7 @@ export const TimeEntriesTable = ({ entries, dayKeys, now }: { entries: TimeEntry
                     ) : null}
                   </TableCell>
                   <TableCell className={cn('text-right tabular-nums align-top', running && 'text-black dark:text-white')}>
-                    {running ? 'läuft' : formatDuration(getTrackedMs(entry, now))}
+                    {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
                   </TableCell>
                   <TableCell className="pr-16 text-right align-top">
                     {entry.htmlLink ? (

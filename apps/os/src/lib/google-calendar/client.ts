@@ -1,23 +1,11 @@
 import 'server-only'
 
-const EVENTS_URL = 'https://www.googleapis.com/calendar/v3/calendars'
-const MAX_RESULTS = 2500
-const RATE_LIMIT_ATTEMPTS = 3
+import type { TimeEntryAttendee } from '@/db/time-tracking-schema'
 
-export type GoogleEventDateTime = {
-  date?: string
-  dateTime?: string
-  timeZone?: string
-}
+const CALENDARS_URL = 'https://www.googleapis.com/calendar/v3/calendars'
+const MAX_ATTEMPTS = 3
 
-export type GoogleEventAttendee = {
-  email?: string
-  displayName?: string
-  responseStatus?: string
-  organizer?: boolean
-  self?: boolean
-  optional?: boolean
-}
+type EventTime = { date?: string; dateTime?: string; timeZone?: string }
 
 export type GoogleEvent = {
   id: string
@@ -25,28 +13,18 @@ export type GoogleEvent = {
   summary?: string
   description?: string
   location?: string
-  start?: GoogleEventDateTime
-  end?: GoogleEventDateTime
+  start?: EventTime
+  end?: EventTime
   recurringEventId?: string
   iCalUID?: string
   htmlLink?: string
   updated?: string
   transparency?: 'opaque' | 'transparent'
   eventType?: string
-  attendees?: GoogleEventAttendee[]
+  attendees?: Partial<TimeEntryAttendee>[]
 }
 
-type EventsListResponse = {
-  items?: GoogleEvent[]
-  nextPageToken?: string
-}
-
-export type ListEventsParams = {
-  timeMin?: Date
-  timeMax?: Date
-  updatedMin?: Date
-  showDeleted?: boolean
-}
+export type ListEventsParams = { timeMin?: Date; timeMax?: Date; updatedMin?: Date; showDeleted?: boolean }
 
 export class GoogleCalendarError extends Error {
   constructor(
@@ -55,7 +33,6 @@ export class GoogleCalendarError extends Error {
     message: string,
   ) {
     super(message)
-    this.name = 'GoogleCalendarError'
   }
 
   get isRateLimited() {
@@ -67,61 +44,44 @@ export class GoogleCalendarError extends Error {
   }
 }
 
-const toGoogleCalendarError = async (response: Response) => {
-  const body = (await response.json().catch(() => null)) as {
-    error?: { message?: string; errors?: { reason?: string }[]; details?: { reason?: string }[] }
-  } | null
-  const reasons = [...(body?.error?.errors ?? []), ...(body?.error?.details ?? [])]
-    .map((item) => item.reason)
-    .filter((reason): reason is string => Boolean(reason))
-  return new GoogleCalendarError(response.status, reasons, body?.error?.message ?? `Google Calendar API responded with ${response.status}`)
-}
+type ErrorBody = { error?: { message?: string; errors?: { reason?: string }[]; details?: { reason?: string }[] } }
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+const fetchEventsPage = async (url: string, accessToken: string) => {
+  for (let attempt = 1; ; attempt++) {
+    const response = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` }, cache: 'no-store' })
+    if (response.ok) return (await response.json()) as { items?: GoogleEvent[]; nextPageToken?: string }
 
-const fetchEventsPage = async (accessToken: string, calendarId: string, search: URLSearchParams) => {
-  for (let attempt = 0; attempt < RATE_LIMIT_ATTEMPTS; attempt++) {
-    const response = await fetch(`${EVENTS_URL}/${encodeURIComponent(calendarId)}/events?${search}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      cache: 'no-store',
-    })
-    if (response.ok) return (await response.json()) as EventsListResponse
-
-    const error = await toGoogleCalendarError(response)
-    if (!error.isRateLimited || attempt === RATE_LIMIT_ATTEMPTS - 1) throw error
-    await sleep(1000 * 2 ** attempt)
+    const body = (await response.json().catch(() => null)) as ErrorBody | null
+    const reasons = [...(body?.error?.errors ?? []), ...(body?.error?.details ?? [])].flatMap((item) => item.reason ?? [])
+    const error = new GoogleCalendarError(response.status, reasons, body?.error?.message ?? `Google Calendar API responded with ${response.status}`)
+    if (!error.isRateLimited || attempt === MAX_ATTEMPTS) throw error
+    await new Promise((resolve) => setTimeout(resolve, 1000 * 2 ** (attempt - 1)))
   }
-  throw new GoogleCalendarError(429, ['rateLimitExceeded'], 'Google Calendar API responded with 429')
 }
 
+/** Pages through `events.list`; on a 401 the access token is force-refreshed once and the page retried. */
 export const listEvents = async (
   getAccessToken: (forceRefresh: boolean) => Promise<string>,
   calendarId: string,
   params: ListEventsParams,
   onPage: (events: GoogleEvent[]) => Promise<void>,
 ) => {
-  const search = new URLSearchParams({ singleEvents: 'true', maxResults: String(MAX_RESULTS) })
-  if (params.timeMin) search.set('timeMin', params.timeMin.toISOString())
-  if (params.timeMax) search.set('timeMax', params.timeMax.toISOString())
-  if (params.updatedMin) search.set('updatedMin', params.updatedMin.toISOString())
-  if (params.showDeleted) search.set('showDeleted', 'true')
+  const search = new URLSearchParams({ singleEvents: 'true', maxResults: '2500' })
+  for (const [key, value] of Object.entries(params)) search.set(key, value instanceof Date ? value.toISOString() : String(value))
 
   let accessToken = await getAccessToken(false)
   let refreshed = false
-
   for (;;) {
-    let page: EventsListResponse
+    const url = `${CALENDARS_URL}/${encodeURIComponent(calendarId)}/events?${search}`
+    let page
     try {
-      page = await fetchEventsPage(accessToken, calendarId, search)
+      page = await fetchEventsPage(url, accessToken)
     } catch (error) {
-      if (error instanceof GoogleCalendarError && error.status === 401 && !refreshed) {
-        accessToken = await getAccessToken(true)
-        refreshed = true
-        continue
-      }
-      throw error
+      if (!(error instanceof GoogleCalendarError && error.status === 401) || refreshed) throw error
+      accessToken = await getAccessToken(true)
+      refreshed = true
+      continue
     }
-
     await onPage(page.items ?? [])
     if (!page.nextPageToken) return
     search.set('pageToken', page.nextPageToken)

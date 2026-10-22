@@ -7,8 +7,6 @@ import { toast } from '@lw/ui/components/sonner'
 import { Calendar } from '@mynaui/icons-react'
 import { useState } from 'react'
 
-const connectError = 'Google Kalender konnte nicht verbunden werden. Bitte versuche es erneut.'
-
 export const ConnectCalendarButton = () => {
   const [pending, setPending] = useState(false)
 
@@ -18,20 +16,12 @@ export const ConnectCalendarButton = () => {
       disabled={pending}
       onClick={async () => {
         setPending(true)
-        try {
-          const { data, error } = await authClient.linkSocial({
-            provider: 'google',
-            scopes: [GOOGLE_CALENDAR_SCOPE],
-            callbackURL: '/zeiterfassung',
-          })
-          if (error || !data?.url) {
-            setPending(false)
-            toast.error(connectError)
-          }
-        } catch {
-          setPending(false)
-          toast.error(connectError)
-        }
+        const { error } = await authClient
+          .linkSocial({ provider: 'google', scopes: [GOOGLE_CALENDAR_SCOPE], callbackURL: '/zeiterfassung' })
+          .catch(() => ({ error: true }))
+        if (!error) return
+        setPending(false)
+        toast.error('Google Kalender konnte nicht verbunden werden. Bitte versuche es erneut.')
       }}
     >
       <Calendar data-icon="inline-start" strokeWidth={1.5} />

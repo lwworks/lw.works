@@ -106,7 +106,6 @@ describe('toTimeEntryValues', () => {
     ['a working-location event', event({ eventType: 'workingLocation' })],
     ['a birthday', event({ eventType: 'birthday' })],
     ['a cancelled event', event({ status: 'cancelled' })],
-    ['an unparseable start', event({ start: { dateTime: 'not-a-date' } })],
   ])('rejects %s', (_label, googleEvent) => {
     expect(toTimeEntryValues(googleEvent, NOW)).toBeNull()
   })

@@ -1,7 +1,7 @@
 import { TimeTrackingPage } from '@/components/pages/time-tracking'
 import { getOwnCalendarSync, getOwnTimeEntries } from '@/data/time-entries'
 import { getSession } from '@/lib/auth'
-import { formatIsoWeek, getCurrentIsoWeek, getIsoWeekRange, parseIsoWeek, shiftIsoWeek } from '@/lib/week'
+import { formatIsoWeek, getCurrentIsoWeek, getIsoWeekRange, parseIsoWeek } from '@/lib/week'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
@@ -20,14 +20,11 @@ export default async function Page({ searchParams }: PageProps<'/zeiterfassung'>
   const currentWeek = getCurrentIsoWeek(now)
   const week = parseIsoWeek(typeof woche === 'string' ? woche : undefined) ?? currentWeek
   const range = getIsoWeekRange(week)
-
   const [entries, sync] = await Promise.all([getOwnTimeEntries(range), getOwnCalendarSync()])
 
   return (
     <TimeTrackingPage
       week={week}
-      previousWeek={shiftIsoWeek(week, -1)}
-      nextWeek={shiftIsoWeek(week, 1)}
       isCurrentWeek={formatIsoWeek(week) === formatIsoWeek(currentWeek)}
       range={range}
       entries={entries}

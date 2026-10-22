@@ -1,64 +1,31 @@
 'use client'
 
 import { Button } from '@lw/ui/components/button'
+import { cn } from '@lw/ui/lib/utils'
 import { useState } from 'react'
 
-const PREVIEW_LENGTH = 180
+const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", nbsp: ' ' }
 
-const namedEntities: Record<string, string> = {
-  amp: '&',
-  lt: '<',
-  gt: '>',
-  quot: '"',
-  apos: "'",
-  nbsp: '\u00a0',
-}
+// Google Calendar descriptions are HTML; render them as plain text.
+const toPlainText = (html: string) =>
+  html
+    .replace(/<br\s*\/?>|<\/(p|div|li|h\d)>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&(\w+|#39);/g, (match, name: string) => ENTITIES[name] ?? match)
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
 
-const decodeEntity = (body: string) => {
-  if (body.startsWith('#')) {
-    const code = body[1] === 'x' || body[1] === 'X' ? Number.parseInt(body.slice(2), 16) : Number.parseInt(body.slice(1), 10)
-    if (!Number.isFinite(code) || code < 0 || code > 0x10ffff) return `&${body};`
-    return String.fromCodePoint(code)
-  }
-  return namedEntities[body.toLowerCase()] ?? `&${body};`
-}
-
-const toPlainDescription = (value: string) => value
-  .replace(/<\s*br\s*\/?\s*>/gi, '\n')
-  .replace(/<\s*\/\s*(?:p|div|h[1-6]|li|tr)\s*>/gi, '\n')
-  .replace(/<\s*li[^>]*>/gi, '\n• ')
-  .replace(/<[^>]+>/g, '')
-  .replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (_, body: string) => decodeEntity(body))
-  .replace(/[ \t]+\n/g, '\n')
-  .replace(/\n{3,}/g, '\n\n')
-  .trim()
-
-const previewText = (text: string) => {
-  const cut = text.slice(0, PREVIEW_LENGTH)
-  const boundary = cut.lastIndexOf(' ')
-  const preview = boundary > 120 ? cut.slice(0, boundary) : cut
-  return `${preview.trimEnd()}…`
-}
-
-export const EntryDescription = ({ description }: { description: string | null }) => {
-  const text = description ? toPlainDescription(description) : ''
+export const EntryDescription = ({ description }: { description: string }) => {
   const [expanded, setExpanded] = useState(false)
+  const text = toPlainText(description)
   if (!text) return null
-
-  const long = text.length > PREVIEW_LENGTH
+  const long = text.length > 180 || text.split('\n').length > 3
 
   return (
     <div className="mt-1 flex flex-col items-start gap-0.5">
-      <p className="text-xs whitespace-pre-wrap">{long && !expanded ? previewText(text) : text}</p>
+      <p className={cn('text-xs whitespace-pre-wrap', long && !expanded && 'line-clamp-3')}>{text}</p>
       {long ? (
-        <Button
-          type="button"
-          variant="link"
-          size="xs"
-          className="h-auto px-0"
-          aria-expanded={expanded}
-          onClick={() => setExpanded((open) => !open)}
-        >
+        <Button type="button" variant="link" size="xs" className="h-auto px-0" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>
           {expanded ? 'Weniger' : 'Mehr anzeigen'}
         </Button>
       ) : null}
