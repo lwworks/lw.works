@@ -1,6 +1,6 @@
 'use client'
 
-import { authClient } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth/auth-client'
 import { GOOGLE_CALENDAR_SCOPE } from '@/lib/google-calendar/scope'
 import { Button } from '@lw/ui/components/button'
 import { toast } from '@lw/ui/components/sonner'

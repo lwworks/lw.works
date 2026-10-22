@@ -1,7 +1,8 @@
-import { calendarSyncState, timeEntry } from '@/db/time-tracking-schema'
-import { GoogleCalendarError, type GoogleEvent, type ListEventsParams } from '@/lib/google-calendar/client'
-import { SYNC_START } from '@/lib/google-calendar/map-event'
-import { syncCalendarState } from '@/lib/google-calendar/sync'
+import { calendarSyncState, timeEntry } from '@/lib/db/schema/time-tracking'
+import { GoogleCalendarError } from '@/lib/google-calendar/google-calendar-error'
+import type { GoogleEvent, ListEventsParams } from '@/lib/google-calendar/list-events'
+import { syncCalendarState } from '@/lib/google-calendar/sync-calendar-state'
+import { SYNC_START } from '@/lib/google-calendar/to-time-entry-values'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const NOW = new Date('2026-06-15T12:00:00.000Z')
@@ -19,10 +20,10 @@ const fake = vi.hoisted(() => ({
 }))
 
 vi.mock('server-only', () => ({}))
-vi.mock('@/lib/auth', () => ({
+vi.mock('@/lib/auth/auth', () => ({
   auth: { api: { getAccessToken: async () => ({ accessToken: 'token' }), refreshToken: async () => ({ accessToken: 'token' }) } },
 }))
-vi.mock('@/db', () => ({
+vi.mock('@/lib/db/get-db', () => ({
   getDb: () => ({
     insert: (table: unknown) => ({
       values: (values: Record<string, unknown>[]) => ({
@@ -39,8 +40,7 @@ vi.mock('@/db', () => ({
     }),
   }),
 }))
-vi.mock('@/lib/google-calendar/client', async (importActual) => ({
-  ...(await importActual<object>()),
+vi.mock('@/lib/google-calendar/list-events', () => ({
   listEvents: async (getAccessToken: (force: boolean) => Promise<string>, _calendarId: string, params: ListEventsParams, onPage: (events: GoogleEvent[]) => Promise<void>) => {
     fake.requests.push(params)
     await getAccessToken(false)

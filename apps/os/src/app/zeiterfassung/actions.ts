@@ -1,7 +1,7 @@
 'use server'
 
-import { getSession } from '@/lib/auth'
-import { syncCalendarForUser } from '@/lib/google-calendar/sync'
+import { getSession } from '@/lib/auth/get-session'
+import { syncCalendarForUser } from '@/lib/google-calendar/sync-calendar-for-user'
 import { refresh } from 'next/cache'
 import { redirect } from 'next/navigation'
 

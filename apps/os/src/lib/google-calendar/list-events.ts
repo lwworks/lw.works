@@ -1,6 +1,7 @@
 import 'server-only'
 
-import type { TimeEntryAttendee } from '@/db/time-tracking-schema'
+import type { TimeEntryAttendee } from '@/lib/db/schema/time-tracking'
+import { GoogleCalendarError } from '@/lib/google-calendar/google-calendar-error'
 
 const CALENDARS_URL = 'https://www.googleapis.com/calendar/v3/calendars'
 const MAX_ATTEMPTS = 3
@@ -25,24 +26,6 @@ export type GoogleEvent = {
 }
 
 export type ListEventsParams = { timeMin?: Date; timeMax?: Date; updatedMin?: Date; showDeleted?: boolean }
-
-export class GoogleCalendarError extends Error {
-  constructor(
-    readonly status: number,
-    readonly reasons: string[],
-    message: string,
-  ) {
-    super(message)
-  }
-
-  get isRateLimited() {
-    return this.status === 429 || this.reasons.some((reason) => reason === 'rateLimitExceeded' || reason === 'userRateLimitExceeded')
-  }
-
-  get isMissingScope() {
-    return this.status === 403 && this.reasons.some((reason) => reason === 'insufficientPermissions' || reason === 'ACCESS_TOKEN_SCOPE_INSUFFICIENT')
-  }
-}
 
 type ErrorBody = { error?: { message?: string; errors?: { reason?: string }[]; details?: { reason?: string }[] } }
 

@@ -22,6 +22,8 @@ packages/
 - Add dependencies to the package that imports them: `pnpm add <pkg> --filter @lw/web`. Versions shared across packages live in the `catalog` of `pnpm-workspace.yaml` (`"next": "catalog:"`).
 - Each app has its own `.env.local`. New env vars used at build time must be listed in that app's `turbo.json`.
 - Within an app, `@/*` maps to that app's `src/*`.
+- `pnpm test` runs Vitest (currently `apps/os`, `src/**/*.test.ts`).
+- `apps/os` keeps all logic in `src/lib/<service>/`, one function per file — see `apps/os/AGENTS.md`.
 
 ## `@lw/ui`
 

@@ -1,12 +1,14 @@
-import type { TimeEntryDTO } from '@/data/time-entries'
-import { toZonedDateKey } from '@/lib/week'
+import type { TimeEntryDTO } from '@/lib/db/time-entries/get-own-time-entries'
+import { formatDay, formatTime } from '@/lib/format/format-date-time'
+import { formatDuration } from '@/lib/format/format-duration'
+import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
+import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
 import { Button } from '@lw/ui/components/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment } from 'react'
 import { EntryDescription } from './entry-description'
-import { formatDay, formatDuration, formatTime, sumTrackedMs } from './format'
 
 export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; now: Date }) => {
   if (entries.length === 0) {

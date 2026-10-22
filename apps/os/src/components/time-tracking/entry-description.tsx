@@ -1,23 +1,13 @@
 'use client'
 
+import { htmlToPlainText } from '@/lib/format/html-to-plain-text'
 import { Button } from '@lw/ui/components/button'
 import { cn } from '@lw/ui/lib/utils'
 import { useState } from 'react'
 
-const ENTITIES: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", nbsp: ' ' }
-
-// Google Calendar descriptions are HTML; render them as plain text.
-const toPlainText = (html: string) =>
-  html
-    .replace(/<br\s*\/?>|<\/(p|div|li|h\d)>/gi, '\n')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&(\w+|#39);/g, (match, name: string) => ENTITIES[name] ?? match)
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
-
 export const EntryDescription = ({ description }: { description: string }) => {
   const [expanded, setExpanded] = useState(false)
-  const text = toPlainText(description)
+  const text = htmlToPlainText(description)
   if (!text) return null
   const long = text.length > 180 || text.split('\n').length > 3
 

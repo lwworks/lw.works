@@ -1,11 +1,9 @@
-import { getDb } from '@/db'
-import * as schema from '@/db/auth-schema'
+import * as schema from '@/lib/db/schema/auth'
+import { getDb } from '@/lib/db/get-db'
 import { GOOGLE_CALENDAR_SCOPE } from '@/lib/google-calendar/scope'
 import { drizzleAdapter } from '@better-auth/drizzle-adapter'
 import { betterAuth } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { headers } from 'next/headers'
-import { cache } from 'react'
 
 export const auth = betterAuth({
   database: drizzleAdapter(getDb(), {
@@ -32,10 +30,4 @@ export const auth = betterAuth({
     },
   },
   plugins: [nextCookies()],
-})
-
-export const getSession = cache(async () => {
-  return auth.api.getSession({
-    headers: await headers(),
-  })
 })

@@ -1,7 +1,10 @@
 import { TimeTrackingPage } from '@/components/pages/time-tracking'
-import { getOwnCalendarSync, getOwnTimeEntries } from '@/data/time-entries'
-import { getSession } from '@/lib/auth'
-import { formatIsoWeek, getCurrentIsoWeek, getIsoWeekRange, parseIsoWeek } from '@/lib/week'
+import { getOwnCalendarSync } from '@/lib/db/calendar-sync-states/get-own-calendar-sync'
+import { getOwnTimeEntries } from '@/lib/db/time-entries/get-own-time-entries'
+import { getSession } from '@/lib/auth/get-session'
+import { getCurrentIsoWeek } from '@/lib/iso-week/get-current-iso-week'
+import { getIsoWeekRange } from '@/lib/iso-week/get-iso-week-range'
+import { formatIsoWeek, parseIsoWeek } from '@/lib/iso-week/iso-week'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 

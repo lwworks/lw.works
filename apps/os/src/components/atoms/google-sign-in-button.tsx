@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@lw/ui/components/button'
-import { authClient } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth/auth-client'
 import { useState } from 'react'
 
 export const GoogleSignInButton = () => {

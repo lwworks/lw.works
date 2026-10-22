@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import type { GoogleEvent } from './client'
-import { SYNC_START, toTimeEntryValues } from './map-event'
+import type { GoogleEvent } from '@/lib/google-calendar/list-events'
+import { SYNC_START, toTimeEntryValues } from '@/lib/google-calendar/to-time-entry-values'
 
 const NOW = new Date('2026-06-15T12:00:00.000Z')
 

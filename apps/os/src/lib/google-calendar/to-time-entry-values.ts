@@ -1,4 +1,4 @@
-import type { GoogleEvent } from './client'
+import type { GoogleEvent } from '@/lib/google-calendar/list-events'
 
 export const SYNC_START = new Date('2026-01-01T00:00:00+01:00')
 

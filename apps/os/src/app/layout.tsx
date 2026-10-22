@@ -1,5 +1,5 @@
 import { Header } from '@/components/header'
-import { getSession } from '@/lib/auth'
+import { getSession } from '@/lib/auth/get-session'
 import { geist, geistMono, safiro } from '@/lib/fonts'
 import { Toaster } from '@lw/ui/components/sonner'
 import { cn } from '@lw/ui/lib/utils'

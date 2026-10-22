@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { formatIsoWeek, getCurrentIsoWeek, getIsoWeekRange, parseIsoWeek, shiftIsoWeek, toZonedDateKey } from './week'
+import { getCurrentIsoWeek } from '@/lib/iso-week/get-current-iso-week'
+import { getIsoWeekRange } from '@/lib/iso-week/get-iso-week-range'
+import { formatIsoWeek, parseIsoWeek, shiftIsoWeek } from '@/lib/iso-week/iso-week'
+import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
 
 const range = (year: number, week: number) => {
   const { start, end } = getIsoWeekRange({ year, week })

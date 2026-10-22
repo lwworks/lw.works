@@ -1,5 +1,5 @@
 import { index, jsonb, pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
-import { account, user } from './auth-schema'
+import { account, user } from './auth'
 
 export type TimeEntryAttendee = {
   email: string
@@ -76,3 +76,5 @@ export const calendarSyncState = pgTable(
   },
   (table) => [uniqueIndex('calendar_sync_state_user_calendar_idx').on(table.userId, table.calendarId)],
 )
+
+export type CalendarSyncState = typeof calendarSyncState.$inferSelect
