@@ -10,7 +10,7 @@ Every `get*` function and every other piece of core logic — database queries, 
 
 ```
 src/lib/
-├── auth/              # better-auth instance + client, getSession, requireUserId, isCronRequest
+├── auth/              # better-auth instance + client, getSession, requireUserId, isCronRequest, preview OAuth proxy helpers
 ├── crypto/            # safeEqual
 ├── db/
 │   ├── get-db.ts
