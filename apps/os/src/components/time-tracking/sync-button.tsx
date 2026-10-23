@@ -36,9 +36,9 @@ export const SyncButton = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" disabled={pending}>
-          <Refresh data-icon="inline-start" strokeWidth={1.5} className={cn(pending && 'animate-spin')} />
-          <span>{pending ? 'Synchronisiere …' : 'Jetzt synchronisieren'}</span>
+        <Button disabled={pending}>
+          <Refresh strokeWidth={1.5} className={cn('size-4', pending && 'animate-spin')} />
+          <span>Sync</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-auto flex flex-col gap-3">

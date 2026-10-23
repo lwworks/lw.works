@@ -6,7 +6,7 @@ import { formatIsoWeek, shiftIsoWeek, type IsoWeek } from '@/lib/iso-week/iso-we
 import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
 import { Heading } from '@lw/ui/atoms/heading'
 import { Button } from '@lw/ui/components/button'
-import { ChevronLeft, ChevronRight, DangerTriangle } from '@mynaui/icons-react'
+import { ChevronLeft, ChevronRight, DangerTriangle, Plus } from '@mynaui/icons-react'
 import Link from 'next/link'
 import { Layout } from '../molecules/layout'
 import { ConnectCalendarButton } from '../time-tracking/connect-calendar-button'
@@ -34,7 +34,13 @@ export const TimeTrackingPage = ({ week, isCurrentWeek, range, entries, sync, no
               <Heading as="h1" size="h3">Zeiterfassung</Heading>
               <p className="text-sm mt-1">Deine Termine aus dem Google Kalender, sobald sie begonnen haben.</p>
             </div>
-            {needsConnect ? null : <SyncButton />}
+            <div className="flex items-center gap-2">
+              {needsConnect ? null : <SyncButton />}
+              <Button>
+                <Plus strokeWidth={1.5} className="size-4" />
+                <span>Erfassen</span>
+              </Button>
+            </div>
           </div>
 
           {needsConnect ? (

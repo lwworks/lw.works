@@ -41,10 +41,10 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
               const running = entry.endAt > now
               return (
                 <TableRow key={entry.id}>
-                  <TableCell className="pl-16 tabular-nums align-top">
+                  <TableCell className="pl-16 tabular-nums">
                     {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
                   </TableCell>
-                  <TableCell className="whitespace-normal align-top">
+                  <TableCell className="whitespace-normal">
                     <div className="font-medium text-black dark:text-white">{entry.title}</div>
                     {entry.description ? <EntryDescription description={entry.description} /> : null}
                     {entry.location || entry.attendeeCount > 0 ? (
@@ -64,10 +64,10 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
                       </div>
                     ) : null}
                   </TableCell>
-                  <TableCell className={cn('text-right tabular-nums align-top', running && 'text-black dark:text-white')}>
+                  <TableCell className={cn('text-right tabular-nums', running && 'text-black dark:text-white')}>
                     {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
                   </TableCell>
-                  <TableCell className="pr-16 text-right align-top">
+                  <TableCell className="pr-16 text-right">
                     {entry.htmlLink ? (
                       <Button variant="ghost" size="icon-xs" asChild>
                         <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">
