@@ -9,10 +9,11 @@ import { nextCookies } from 'better-auth/next-js'
 import { oAuthProxy } from 'better-auth/plugins/oauth-proxy'
 
 const previewOrigins = getPreviewOrigins()
-const isPreview = previewOrigins.length > 0
+// A preview with its own BETTER_AUTH_URL handles its Google callback itself (needs its redirect URI registered).
+const proxiesThroughProduction = previewOrigins.length > 0 && !process.env.BETTER_AUTH_URL
 // Production must run the proxy too: it handles the Google callback for previews and hands the profile back.
 // Off locally, where the plugin would otherwise proxy every non-production origin, localhost included.
-const isVercel = process.env.VERCEL_ENV === 'production' || process.env.VERCEL_ENV === 'preview'
+const usesOAuthProxy = process.env.VERCEL_ENV === 'production' || proxiesThroughProduction
 
 export const auth = betterAuth({
   database: drizzleAdapter(getDb(), {
@@ -33,12 +34,12 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: isPreview ? `${PRODUCTION_URL}/api/auth/callback/google` : undefined,
+      redirectURI: proxiesThroughProduction ? `${PRODUCTION_URL}/api/auth/callback/google` : undefined,
       hd: 'lw.works',
       prompt: 'select_account consent',
       accessType: 'offline',
       scope: [GOOGLE_CALENDAR_SCOPE],
     },
   },
-  plugins: [...(isVercel ? [oAuthProxy({ productionURL: PRODUCTION_URL })] : []), nextCookies()],
+  plugins: [...(usesOAuthProxy ? [oAuthProxy({ productionURL: PRODUCTION_URL })] : []), nextCookies()],
 })
