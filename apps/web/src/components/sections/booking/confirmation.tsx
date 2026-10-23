@@ -24,7 +24,7 @@ export const BookingConfirmationSection = ({ fallback }: { fallback: string }) =
     if (!hasConfirmationParams) {
       router.replace(fallback)
     }
-  }, [hasConfirmationParams, router])
+  }, [fallback, hasConfirmationParams, router])
 
   if (!hasConfirmationParams) return null
 

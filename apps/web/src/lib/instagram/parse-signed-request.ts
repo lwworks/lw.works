@@ -1,7 +1,9 @@
 import {createHmac} from 'crypto'
 import {decodeUrl} from './decode-url'
 
-export const parseSignedRequest = (signedRequest: string, appSecret: string): Record<string, any> | null => {
+type SignedRequestPayload = {user_id: string} & Record<string, unknown>
+
+export const parseSignedRequest = (signedRequest: string, appSecret: string): SignedRequestPayload | null => {
   const [encodedSig, payload] = signedRequest.split('.')
   if (!encodedSig || !payload) throw new Error('Invalid signed request format')
   const sig = decodeUrl(encodedSig)

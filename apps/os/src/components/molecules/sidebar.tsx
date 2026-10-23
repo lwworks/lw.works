@@ -19,7 +19,7 @@ export const Sidebar = () => {
           </Link>
         </Button>
         <Button variant="ghost" asChild className="justify-start">
-          <Link href="/">
+          <Link href="/zeiterfassung">
             <Clock3 strokeWidth={1.5} />
             <span>Zeiterfassung</span>
           </Link>

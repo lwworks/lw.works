@@ -1,6 +1,7 @@
 import { Header } from '@/components/header'
-import { getSession } from '@/lib/auth'
+import { getSession } from '@/lib/auth/get-session'
 import { geist, geistMono, safiro } from '@/lib/fonts'
+import { Toaster } from '@lw/ui/components/sonner'
 import { cn } from '@lw/ui/lib/utils'
 import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
@@ -36,6 +37,7 @@ export default async function Layout({ children }: LayoutProps<'/'>) {
             userImage={session?.user.image}
           />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

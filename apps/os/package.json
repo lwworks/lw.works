@@ -8,10 +8,11 @@
     "start": "next start --port 3001",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
     "db:generate": "dotenv -e .env.local -- drizzle-kit generate",
     "db:migrate": "dotenv -e .env.local -- drizzle-kit migrate",
     "db:push": "dotenv -e .env.local -- drizzle-kit push",
-    "auth:generate": "dotenv -e .env.local -- pnpm dlx auth@latest generate --yes"
+    "auth:generate": "dotenv -e .env.local -- pnpm dlx auth@latest generate --yes --config src/lib/auth/auth.ts --output src/lib/db/schema/auth.ts"
   },
   "dependencies": {
     "@better-auth/drizzle-adapter": "^1.7.2",
@@ -23,7 +24,9 @@
     "next": "catalog:",
     "next-themes": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-day-picker": "^10.0.2",
+    "react-dom": "catalog:",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@lw/eslint-config": "workspace:*",
@@ -36,6 +39,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "catalog:",
     "tailwindcss": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "^5.0.5"
   }
 }

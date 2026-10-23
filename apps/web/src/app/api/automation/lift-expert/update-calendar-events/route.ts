@@ -13,8 +13,8 @@ export async function POST(request: NextRequest) {
 
     const calendarId = process.env.LIFT_EXPERT_CALENDAR_ID!
     const events = await getEvents(calendarId)
-    let eventsCreated = []
-    let eventsUpdated = []
+    const eventsCreated = []
+    const eventsUpdated = []
 
     for (const {json: project} of projects) {
       const eventData: CalendarEvent = {

@@ -18,7 +18,7 @@ export const ContactDetails = () => {
             <ArrowLeft strokeWidth={1.5} className="size-4" />
             <span>Kontakte</span>
           </Link>
-          <span>//</span>
+          <span>{'//'}</span>
           <span className="font-mono">#0002</span>
         </div>
         <div className="flex items-center gap-3">
