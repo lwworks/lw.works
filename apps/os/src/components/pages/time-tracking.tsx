@@ -84,7 +84,7 @@ export const TimeTrackingPage = ({ week, isCurrentWeek, range, entries, sync, no
             {sync.status === 'error' ? ' Die letzte Synchronisierung ist fehlgeschlagen.' : null}
           </p>
         </div>
-        <TimeEntriesTable entries={entries} now={now} />
+        <TimeEntriesTable key={formatIsoWeek(week)} entries={entries} now={now} />
       </section>
     </Layout>
   )
