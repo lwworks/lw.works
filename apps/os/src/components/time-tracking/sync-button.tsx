@@ -36,7 +36,7 @@ export const SyncButton = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="secondary" disabled={pending}>
+        <Button variant="outline" disabled={pending}>
           <Refresh strokeWidth={1.5} className={cn('size-4', pending && 'animate-spin')} />
           <span>Sync</span>
         </Button>
