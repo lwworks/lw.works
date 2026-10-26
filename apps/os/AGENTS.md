@@ -10,7 +10,7 @@ Every `get*` function and every other piece of core logic — database queries, 
 
 ```
 src/lib/
-├── auth/              # better-auth instance + client, getSession, requireUserId, isCronRequest
+├── auth/              # better-auth instance + client, getSession, requireUserId, isCronRequest, preview OAuth proxy helpers
 ├── crypto/            # safeEqual
 ├── db/
 │   ├── get-db.ts
@@ -20,7 +20,7 @@ src/lib/
 ├── format/            # format-duration.ts, …
 ├── google-calendar/   # list-events.ts, sync-calendar-state.ts, …
 ├── iso-week/          # ISO weeks in Europe/Berlin: get-current-iso-week.ts, get-iso-week-range.ts, …
-├── time-tracking/     # parse-sync-range.ts, sum-tracked-ms.ts
+├── time-tracking/     # parse-sync-range.ts, sum-tracked-ms.ts, toggle-row-selection.ts, …
 └── fonts.ts           # next/font loaders: Geist, Geist Mono, Safiro
 ```
 

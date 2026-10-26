@@ -27,8 +27,8 @@ export const Section = ({ verticalPadding = "default", horizontalPadding = "defa
           <Image src="/images/paint/paint-1-light.jpg" width={1728} height={1117} alt="Paint Background Light" className="dark:hidden absolute inset-x-0 bottom-0" loading="eager" />
           <Image src="/images/paint/paint-1-dark.jpg" width={1728} height={1117} alt="Paint Background Dark" className="hidden dark:block absolute inset-x-0 bottom-0" loading="eager" />
         </>)}
-        <div className="absolute top-0 right-0 bottom-px w-px bg-black/10 dark:bg-white/10" />
-        <div className="absolute top-0 left-0 bottom-px w-px bg-black/10 dark:bg-white/10" />
+        <div className="absolute top-0 right-0 bottom-px w-px bg-black/10 dark:bg-white/10 z-20 pointer-events-none" />
+        <div className="absolute top-0 left-0 bottom-px w-px bg-black/10 dark:bg-white/10 z-20 pointer-events-none" />
         <div className="relative z-10">
           {children}
         </div>

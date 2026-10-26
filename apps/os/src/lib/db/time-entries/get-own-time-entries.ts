@@ -14,7 +14,6 @@ export const getOwnTimeEntries = async ({ start, end }: { start: Date; end: Date
     .select({
       id: timeEntry.id,
       title: timeEntry.title,
-      description: timeEntry.description,
       location: timeEntry.location,
       attendeeCount: sql<number>`jsonb_array_length(${timeEntry.attendees})`.mapWith(Number),
       startAt: timeEntry.startAt,
