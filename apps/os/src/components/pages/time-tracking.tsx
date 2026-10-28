@@ -4,11 +4,11 @@ import { formatDate, formatDateTime, formatShortDate } from '@/lib/format/format
 import { formatDuration } from '@/lib/format/format-duration'
 import { formatIsoWeek, shiftIsoWeek, type IsoWeek } from '@/lib/iso-week/iso-week'
 import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
-import { Heading } from '@lw/ui/atoms/heading'
 import { Button } from '@lw/ui/components/button'
 import { ChevronLeft, ChevronRight, DangerTriangle, Plus } from '@mynaui/icons-react'
 import Link from 'next/link'
 import { Layout } from '../molecules/layout'
+import { PageHeader } from '../molecules/page-header'
 import { ConnectCalendarButton } from '../time-tracking/connect-calendar-button'
 import { SyncButton } from '../time-tracking/sync-button'
 import { TimeEntriesTable } from '../time-tracking/time-entries-table'
@@ -28,20 +28,14 @@ export const TimeTrackingPage = ({ week, isCurrentWeek, range, entries, sync, no
   return (
     <Layout>
       <section>
-        <div className="px-16 py-8 flex flex-col gap-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <Heading as="h1" size="h3">Zeiterfassung</Heading>
-              <p className="text-sm mt-1">Deine Termine aus dem Google Kalender, sobald sie begonnen haben.</p>
-            </div>
-            <div className="flex items-center gap-2">
-              {needsConnect ? null : <SyncButton />}
-              <Button>
-                <Plus strokeWidth={1.5} className="size-4" />
-                <span>Erfassen</span>
-              </Button>
-            </div>
-          </div>
+        <PageHeader title="Zeiterfassung" description="Deine Termine aus dem Google Kalender, sobald sie begonnen haben.">
+          {needsConnect ? null : <SyncButton />}
+          <Button>
+            <Plus strokeWidth={1.5} className="size-4" />
+            <span>Erfassen</span>
+          </Button>
+        </PageHeader>
+        <div className="px-16 pb-8 flex flex-col gap-6">
 
           {needsConnect ? (
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
