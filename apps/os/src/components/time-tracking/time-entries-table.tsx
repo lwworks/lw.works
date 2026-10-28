@@ -6,6 +6,7 @@ import { formatDuration } from '@/lib/format/format-duration'
 import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
 import { getSelectAllState } from '@/lib/time-tracking/get-select-all-state'
 import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
+import { toggleGroupSelection } from '@/lib/time-tracking/toggle-group-selection'
 import { toggleRowSelection } from '@/lib/time-tracking/toggle-row-selection'
 import { Button } from '@lw/ui/components/button'
 import { Checkbox } from '@lw/ui/components/checkbox'
@@ -54,65 +55,76 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
         </TableRow>
       </TableHeader>
       <TableBody>
-        {[...days].map(([day, dayEntries]) => (
-          <Fragment key={day}>
-            <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-              <TableCell colSpan={3} className="pl-16 font-medium text-black dark:text-white">{formatDay(dayEntries[0].startAt)}</TableCell>
-              <TableCell className="text-right font-medium text-black dark:text-white tabular-nums">
-                {formatDuration(sumTrackedMs(dayEntries, now))}
-              </TableCell>
-              <TableCell className="pr-16" />
-            </TableRow>
-            {dayEntries.map((entry) => {
-              const running = entry.endAt > now
-              const isSelected = selected.has(entry.id)
-              return (
-                <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
-                  <TableCell className="pl-16">
-                    <Checkbox
-                      aria-label={`${entry.title} auswählen`}
-                      checked={isSelected}
-                      onMouseDown={preventShiftTextSelection}
-                      onClick={(event) => toggleRow(entry.id, event.shiftKey)}
-                    />
-                  </TableCell>
-                  <TableCell className="tabular-nums">
-                    {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
-                  </TableCell>
-                  <TableCell className="w-full max-w-0">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="font-medium text-black dark:text-white truncate">{entry.title}</span>
-                      {entry.location ? (
-                        <span className="inline-flex items-center gap-1 min-w-0 text-xs">
-                          <MapPin strokeWidth={1.5} className="size-3.5 shrink-0" />
-                          <span className="truncate max-w-60">{entry.location}</span>
-                        </span>
+        {[...days].map(([day, dayEntries]) => {
+          const dayIds = dayEntries.map((entry) => entry.id)
+          const dayLabel = formatDay(dayEntries[0].startAt)
+          return (
+            <Fragment key={day}>
+              <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
+                <TableCell className="pl-16">
+                  <Checkbox
+                    aria-label={`Alle Einträge am ${dayLabel} auswählen`}
+                    checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
+                    onCheckedChange={() => setSelected(toggleGroupSelection({ selected, groupIds: dayIds }))}
+                  />
+                </TableCell>
+                <TableCell colSpan={2} className="font-medium text-black dark:text-white">{dayLabel}</TableCell>
+                <TableCell className="text-right font-medium text-black dark:text-white tabular-nums">
+                  {formatDuration(sumTrackedMs(dayEntries, now))}
+                </TableCell>
+                <TableCell className="pr-16" />
+              </TableRow>
+              {dayEntries.map((entry) => {
+                const running = entry.endAt > now
+                const isSelected = selected.has(entry.id)
+                return (
+                  <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
+                    <TableCell className="pl-16">
+                      <Checkbox
+                        aria-label={`${entry.title} auswählen`}
+                        checked={isSelected}
+                        onMouseDown={preventShiftTextSelection}
+                        onClick={(event) => toggleRow(entry.id, event.shiftKey)}
+                      />
+                    </TableCell>
+                    <TableCell className="tabular-nums">
+                      {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
+                    </TableCell>
+                    <TableCell className="w-full max-w-0">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="font-medium text-black dark:text-white truncate">{entry.title}</span>
+                        {entry.location ? (
+                          <span className="inline-flex items-center gap-1 min-w-0 text-xs">
+                            <MapPin strokeWidth={1.5} className="size-3.5 shrink-0" />
+                            <span className="truncate max-w-60">{entry.location}</span>
+                          </span>
+                        ) : null}
+                        {entry.attendeeCount > 0 ? (
+                          <span className="inline-flex items-center gap-1 shrink-0 text-xs" title={`${entry.attendeeCount} ${entry.attendeeCount === 1 ? 'Teilnehmer' : 'Teilnehmende'}`}>
+                            <Users strokeWidth={1.5} className="size-3.5" />
+                            <span>{entry.attendeeCount}</span>
+                          </span>
+                        ) : null}
+                      </div>
+                    </TableCell>
+                    <TableCell className={cn('text-right tabular-nums', running && 'text-black dark:text-white')}>
+                      {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
+                    </TableCell>
+                    <TableCell className="pr-16 text-right">
+                      {entry.htmlLink ? (
+                        <Button variant="ghost" size="icon-xs" asChild>
+                          <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">
+                            <ExternalLink strokeWidth={1.5} />
+                          </a>
+                        </Button>
                       ) : null}
-                      {entry.attendeeCount > 0 ? (
-                        <span className="inline-flex items-center gap-1 shrink-0 text-xs" title={`${entry.attendeeCount} ${entry.attendeeCount === 1 ? 'Teilnehmer' : 'Teilnehmende'}`}>
-                          <Users strokeWidth={1.5} className="size-3.5" />
-                          <span>{entry.attendeeCount}</span>
-                        </span>
-                      ) : null}
-                    </div>
-                  </TableCell>
-                  <TableCell className={cn('text-right tabular-nums', running && 'text-black dark:text-white')}>
-                    {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
-                  </TableCell>
-                  <TableCell className="pr-16 text-right">
-                    {entry.htmlLink ? (
-                      <Button variant="ghost" size="icon-xs" asChild>
-                        <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">
-                          <ExternalLink strokeWidth={1.5} />
-                        </a>
-                      </Button>
-                    ) : null}
-                  </TableCell>
-                </TableRow>
-              )
-            })}
-          </Fragment>
-        ))}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </Fragment>
+          )
+        })}
       </TableBody>
     </Table>
   )
