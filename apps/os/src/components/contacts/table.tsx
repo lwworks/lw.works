@@ -1,24 +1,20 @@
 import { WhatsAppIcon } from "@lw/ui/atoms/custom-icons/whatsapp"
-import { Heading } from "@lw/ui/atoms/heading"
 import { Avatar } from "@lw/ui/components/avatar"
 import { Button } from "@lw/ui/components/button"
 import { Mail, Plus, Telephone } from "@mynaui/icons-react"
 import Image from "next/image"
 import Link from "next/link"
+import { PageHeader } from "../molecules/page-header"
 
 export const ContactsTable = () => {
   return (
     <section>
-      <div className="px-16 py-8">
-        <div className="flex items-center justify-between">
-          <Heading as="h1" size="h3">Kontakte</Heading>
-          <Button>
-            <Plus strokeWidth={1.5} className="size-4" />
-            <span>Neuer Kontakt</span>
-          </Button>
-        </div>
-        <p className="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
-      </div>
+      <PageHeader title="Kontakte" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.">
+        <Button>
+          <Plus strokeWidth={1.5} className="size-4" />
+          <span>Neuer Kontakt</span>
+        </Button>
+      </PageHeader>
       <table className="text-sm w-full">
         <thead>
           <tr className="h-10 border-y border-neutral-200 dark:border-neutral-800">

@@ -10,7 +10,6 @@
         "DATABASE_URL",
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
-        "NEXT_PUBLIC_VERCEL_ENV",
         "VERCEL_ENV"
       ],
       "passThroughEnv": ["VERCEL_BRANCH_URL", "VERCEL_URL"]

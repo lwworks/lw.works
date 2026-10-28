@@ -6,7 +6,7 @@ import { toast } from '@lw/ui/components/sonner'
 import { Calendar } from '@mynaui/icons-react'
 import { useState } from 'react'
 
-export const ConnectCalendarButton = () => {
+export const ConnectCalendarButton = ({ proxied }: { proxied: boolean }) => {
   const [pending, setPending] = useState(false)
 
   return (
@@ -15,7 +15,7 @@ export const ConnectCalendarButton = () => {
       disabled={pending}
       onClick={async () => {
         setPending(true)
-        const { error } = await connectGoogleCalendar({ callbackURL: '/zeiterfassung' }).catch(() => ({ error: true }))
+        const { error } = await connectGoogleCalendar({ callbackURL: '/zeiterfassung', proxied }).catch(() => ({ error: true }))
         if (!error) return
         setPending(false)
         toast.error('Google Kalender konnte nicht verbunden werden. Bitte versuche es erneut.')
