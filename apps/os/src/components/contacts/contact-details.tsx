@@ -5,6 +5,7 @@ import { XIcon } from "@lw/ui/atoms/custom-icons/x"
 import { Heading } from "@lw/ui/atoms/heading"
 import { Avatar } from "@lw/ui/components/avatar"
 import { Button } from "@lw/ui/components/button"
+import { Skeleton } from "@lw/ui/components/skeleton"
 import { ArrowLeft, At, Gift, Pencil, Telephone, UserSquare } from "@mynaui/icons-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -115,6 +116,39 @@ export const ContactDetails = () => {
         </div>
         <div className="p-8 pr-16">
         </div>
+      </div>
+    </section>
+  )
+}
+
+export const ContactDetailsSkeleton = () => {
+  return (
+    <section aria-busy="true">
+      <div className="px-16 pb-8 pt-9 border-b border-neutral-200 dark:border-neutral-800">
+        <div className="flex items-center text-sm gap-2 mb-4">
+          <Link href="/kontakte" className="flex items-center gap-1 hover:text-black dark:hover:text-white">
+            <ArrowLeft strokeWidth={1.5} className="size-4" />
+            <span>Kontakte</span>
+          </Link>
+        </div>
+        <div className="flex items-center gap-3">
+          <Skeleton className="size-15 rounded-full" />
+          <div className="flex flex-col gap-2">
+            <Skeleton className="h-8 w-64" />
+            <Skeleton className="h-6 w-28 rounded-full" />
+          </div>
+        </div>
+      </div>
+      <div className="border-b border-neutral-200 dark:border-neutral-800 grid grid-cols-2 divide-x divide-neutral-200 dark:divide-neutral-800">
+        <div className="p-8 pl-16 flex flex-col gap-4">
+          <Skeleton className="h-6 w-24" />
+          <div className="flex flex-col gap-4">
+            {Array.from({ length: 8 }, (_, row) => (
+              <Skeleton key={row} className="h-4 w-full" />
+            ))}
+          </div>
+        </div>
+        <div className="p-8 pr-16" />
       </div>
     </section>
   )

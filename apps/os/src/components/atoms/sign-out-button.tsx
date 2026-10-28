@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@lw/ui/components/button'
-import { authClient } from '@/lib/auth/auth-client'
 import { Logout } from '@mynaui/icons-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -17,6 +16,7 @@ export const SignOutButton = () => {
       disabled={pending}
       onClick={async () => {
         setPending(true)
+        const { authClient } = await import('@/lib/auth/auth-client')
         await authClient.signOut({
           fetchOptions: {
             onSuccess: () => {

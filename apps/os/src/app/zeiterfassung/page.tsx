@@ -5,7 +5,7 @@ import { getSession } from '@/lib/auth/get-session'
 import { proxiesThroughProduction } from '@/lib/auth/proxies-through-production'
 import { getCurrentIsoWeek } from '@/lib/iso-week/get-current-iso-week'
 import { getIsoWeekRange } from '@/lib/iso-week/get-iso-week-range'
-import { formatIsoWeek, parseIsoWeek } from '@/lib/iso-week/iso-week'
+import { parseIsoWeek } from '@/lib/iso-week/iso-week'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
@@ -29,8 +29,7 @@ export default async function Page({ searchParams }: PageProps<'/zeiterfassung'>
   return (
     <TimeTrackingPage
       week={week}
-      isCurrentWeek={formatIsoWeek(week) === formatIsoWeek(currentWeek)}
-      range={range}
+      currentWeek={currentWeek}
       entries={entries}
       sync={sync}
       now={now}

@@ -1,15 +1,19 @@
 import { WhatsAppIcon } from "@lw/ui/atoms/custom-icons/whatsapp"
 import { Avatar } from "@lw/ui/components/avatar"
 import { Button } from "@lw/ui/components/button"
+import { Skeleton } from "@lw/ui/components/skeleton"
 import { Mail, Plus, Telephone } from "@mynaui/icons-react"
 import Image from "next/image"
 import Link from "next/link"
 import { PageHeader } from "../molecules/page-header"
 
+const title = "Kontakte"
+const description = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."
+
 export const ContactsTable = () => {
   return (
     <section>
-      <PageHeader title="Kontakte" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.">
+      <PageHeader title={title} description={description}>
         <Button>
           <Plus strokeWidth={1.5} className="size-4" />
           <span>Neuer Kontakt</span>
@@ -115,5 +119,49 @@ export const ContactsTable = () => {
         </tbody>
       </table>
     </section >
+  )
+}
+
+export const ContactsTableSkeleton = () => {
+  return (
+    <section aria-busy="true">
+      <PageHeader title={title} description={description}>
+        <Skeleton className="h-9 w-36" />
+      </PageHeader>
+      <table className="text-sm w-full">
+        <thead>
+          <tr className="h-10 border-y border-neutral-200 dark:border-neutral-800">
+            <td className="pl-16 pr-2 w-0"><Skeleton className="size-4" /></td>
+            <td className="pr-2">ID</td>
+            <td className="pr-2">Name</td>
+            <td className="pr-2">Unternehmen</td>
+            <td className="pr-2">Tags</td>
+            <td className="pr-16 text-right">Aktionen</td>
+          </tr>
+        </thead>
+        <tbody>
+          {[0, 1].map((row) => (
+            <tr key={row} className="h-10 border-b border-neutral-200 dark:border-neutral-800">
+              <td className="pl-16 pr-2"><Skeleton className="size-4" /></td>
+              <td className="pr-2"><Skeleton className="h-4 w-12" /></td>
+              <td className="pr-2">
+                <div className="flex items-center gap-1.5">
+                  <Skeleton className="size-6 rounded-full" />
+                  <Skeleton className="h-4 w-28" />
+                </div>
+              </td>
+              <td className="pr-2"><Skeleton className="h-6 w-32 rounded-full" /></td>
+              <td className="pr-2"><Skeleton className="h-6 w-24 rounded-full" /></td>
+              <td className="pr-16">
+                <div className="flex justify-end items-center gap-2">
+                  <Skeleton className="size-7" />
+                  <Skeleton className="size-7" />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
   )
 }

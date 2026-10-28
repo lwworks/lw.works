@@ -3,16 +3,22 @@
 import { syncOwnCalendar } from '@/app/zeiterfassung/actions'
 import { formatDateKey } from '@/lib/format/format-date-key'
 import { Button } from '@lw/ui/components/button'
-import { Calendar } from '@lw/ui/components/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@lw/ui/components/popover'
+import { Skeleton } from '@lw/ui/components/skeleton'
 import { toast } from '@lw/ui/components/sonner'
 import { cn } from '@lw/ui/lib/utils'
 import { Refresh } from '@mynaui/icons-react'
+import dynamic from 'next/dynamic'
 import { useState, useTransition } from 'react'
 import type { DateRange } from 'react-day-picker'
-import { de } from 'react-day-picker/locale'
 
-const FIRST_DAY = new Date(2026, 0, 1)
+// react-day-picker is the biggest client dependency on the page; load it with the popover, not the page.
+const SyncRangeCalendar = dynamic(() => import('./sync-range-calendar').then((m) => m.SyncRangeCalendar), {
+  loading: () => <Skeleton className="h-[258px] w-[212px]" />,
+})
+const preloadCalendar = () => {
+  import('./sync-range-calendar').catch(() => {})
+}
 
 const lastSevenDays = (): DateRange => {
   const to = new Date()
@@ -36,20 +42,13 @@ export const SyncButton = () => {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" disabled={pending}>
+        <Button variant="outline" disabled={pending} onPointerEnter={preloadCalendar} onFocus={preloadCalendar}>
           <Refresh strokeWidth={1.5} className={cn('size-4', pending && 'animate-spin')} />
           <span>Sync</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-auto flex flex-col gap-3">
-        <Calendar
-          mode="range"
-          locale={de}
-          selected={range}
-          onSelect={setRange}
-          defaultMonth={range?.from}
-          disabled={{ before: FIRST_DAY, after: new Date() }}
-        />
+        <SyncRangeCalendar range={range} onRangeChange={setRange} />
         <Button size="sm" disabled={!range?.from} onClick={() => range?.from && sync(range.from, range.to ?? range.from)}>
           Zeitraum synchronisieren
         </Button>

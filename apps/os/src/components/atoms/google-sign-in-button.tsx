@@ -1,7 +1,6 @@
 'use client'
 
 import { Button } from '@lw/ui/components/button'
-import { authClient } from '@/lib/auth/auth-client'
 import { useState } from 'react'
 
 export const GoogleSignInButton = () => {
@@ -13,6 +12,7 @@ export const GoogleSignInButton = () => {
       disabled={pending}
       onClick={async () => {
         setPending(true)
+        const { authClient } = await import('@/lib/auth/auth-client')
         await authClient.signIn.social({
           provider: 'google',
           callbackURL: '/',
