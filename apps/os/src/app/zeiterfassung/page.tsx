@@ -2,6 +2,7 @@ import { TimeTrackingPage } from '@/components/pages/time-tracking'
 import { getOwnCalendarSync } from '@/lib/db/calendar-sync-states/get-own-calendar-sync'
 import { getOwnTimeEntries } from '@/lib/db/time-entries/get-own-time-entries'
 import { getSession } from '@/lib/auth/get-session'
+import { proxiesThroughProduction } from '@/lib/auth/proxies-through-production'
 import { getCurrentIsoWeek } from '@/lib/iso-week/get-current-iso-week'
 import { getIsoWeekRange } from '@/lib/iso-week/get-iso-week-range'
 import { formatIsoWeek, parseIsoWeek } from '@/lib/iso-week/iso-week'
@@ -33,6 +34,7 @@ export default async function Page({ searchParams }: PageProps<'/zeiterfassung'>
       entries={entries}
       sync={sync}
       now={now}
+      authProxied={proxiesThroughProduction()}
     />
   )
 }

@@ -26,7 +26,19 @@ describe('getPreviewOrigins', () => {
     expect(getPreviewOrigins({ ...preview, VERCEL_ENV: undefined })).toEqual([])
   })
 
-  it('ignores hosts of other projects or teams', () => {
+  it('ignores project aliases and hosts without a 9-character deployment hash', () => {
+    for (const host of [
+      'lw-website-lw-works.vercel.app',
+      'lw-os-lw-works.vercel.app',
+      'lw-x-lw-works.vercel.app',
+      'lw-pv4vsqnb-lw-works.vercel.app',
+      'lw-pv4vsqnbpx-lw-works.vercel.app',
+    ]) {
+      expect(getPreviewOrigins({ VERCEL_ENV: 'preview', VERCEL_URL: host })).toEqual([])
+    }
+  })
+
+  it('ignores deployments of other projects or teams', () => {
     expect(
       getPreviewOrigins({
         VERCEL_ENV: 'preview',

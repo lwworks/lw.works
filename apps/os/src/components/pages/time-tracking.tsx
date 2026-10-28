@@ -20,9 +20,11 @@ type TimeTrackingPageProps = {
   entries: TimeEntryDTO[]
   sync: CalendarSyncDTO
   now: Date
+  /** Google sign-in goes through production's OAuth proxy (see `proxiesThroughProduction`). */
+  authProxied: boolean
 }
 
-export const TimeTrackingPage = ({ week, isCurrentWeek, range, entries, sync, now }: TimeTrackingPageProps) => {
+export const TimeTrackingPage = ({ week, isCurrentWeek, range, entries, sync, now, authProxied }: TimeTrackingPageProps) => {
   const needsConnect = sync.status === 'reauth_required' || sync.status === 'missing_scope'
 
   return (
@@ -36,14 +38,13 @@ export const TimeTrackingPage = ({ week, isCurrentWeek, range, entries, sync, no
           </Button>
         </PageHeader>
         <div className="px-16 pb-8 flex flex-col gap-6">
-
           {needsConnect ? (
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
               <div className="flex items-start gap-2">
                 <DangerTriangle strokeWidth={1.5} className="size-5 shrink-0" />
                 <p>Verbinde deinen Google Kalender, damit deine Termine als Zeiteinträge übernommen werden.</p>
               </div>
-              <ConnectCalendarButton />
+              <ConnectCalendarButton proxied={authProxied} />
             </div>
           ) : null}
 
