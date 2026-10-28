@@ -26,13 +26,11 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: LayoutProps<'/'>) {
-  const user = getSession().then((session) => session && { name: session.user.name, image: session.user.image })
-
   return (
     <html lang="de" className={cn(geist.variable, geistMono.variable, safiro.variable, 'h-full antialiased', 'font-sans')} suppressHydrationWarning>
       <body className="min-h-full flex flex-col text-neutral-600 dark:text-neutral-400">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header user={user} />
+          <Header session={getSession()} />
           {children}
           <Toaster />
         </ThemeProvider>

@@ -14,6 +14,7 @@ import type { DateRange } from 'react-day-picker'
 
 // react-day-picker is the biggest client dependency on the page; load it with the popover, not the page.
 const SyncRangeCalendar = dynamic(() => import('./sync-range-calendar').then((m) => m.SyncRangeCalendar), {
+  // Size of the rendered calendar (five-week month), so the popover doesn't jump when it loads.
   loading: () => <Skeleton className="h-[258px] w-[212px]" />,
 })
 const preloadCalendar = () => {

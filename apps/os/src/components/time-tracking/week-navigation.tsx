@@ -1,7 +1,7 @@
 'use client'
 
-import { formatDate, formatShortDate } from '@/lib/format/format-date-time'
-import { getIsoWeekRange } from '@/lib/iso-week/get-iso-week-range'
+import { formatIsoWeekLabel } from '@/lib/iso-week/format-iso-week-label'
+import { isSameIsoWeek } from '@/lib/iso-week/is-same-iso-week'
 import { formatIsoWeek, shiftIsoWeek, type IsoWeek } from '@/lib/iso-week/iso-week'
 import { Button } from '@lw/ui/components/button'
 import { ChevronLeft, ChevronRight } from '@mynaui/icons-react'
@@ -12,8 +12,10 @@ import { createContext, use, useOptimistic, useTransition, type ComponentProps, 
 type WeekNavigationState = {
   /** The week being shown, or being navigated to while `pending`. */
   week: IsoWeek
+  currentWeek: IsoWeek
   pending: boolean
-  goTo: (week: IsoWeek, href: string) => void
+  hrefFor: (week: IsoWeek) => string
+  goTo: (week: IsoWeek) => void
 }
 
 const WeekNavigationContext = createContext<WeekNavigationState | null>(null)
@@ -28,18 +30,25 @@ const useWeekNavigation = () => {
  * Week links navigate inside a transition: the label switches to the target week right away and `WeekPending`
  * shows its fallback until the server has rendered that week.
  */
-export const WeekNavigationProvider = ({ week, children }: { week: IsoWeek; children: ReactNode }) => {
+export const WeekNavigationProvider = ({ week, currentWeek, children }: { week: IsoWeek; currentWeek: IsoWeek; children: ReactNode }) => {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [optimisticWeek, setOptimisticWeek] = useOptimistic(week)
 
-  const goTo = (target: IsoWeek, href: string) =>
+  const hrefFor = (target: IsoWeek) =>
+    isSameIsoWeek(target, currentWeek) ? '/zeiterfassung' : `/zeiterfassung?woche=${formatIsoWeek(target)}`
+
+  const goTo = (target: IsoWeek) =>
     startTransition(() => {
       setOptimisticWeek(target)
-      router.push(href)
+      router.push(hrefFor(target))
     })
 
-  return <WeekNavigationContext value={{ week: optimisticWeek, pending, goTo }}>{children}</WeekNavigationContext>
+  return (
+    <WeekNavigationContext value={{ week: optimisticWeek, currentWeek, pending, hrefFor, goTo }}>
+      {children}
+    </WeekNavigationContext>
+  )
 }
 
 /** Renders `fallback` instead of `children` while another week is loading. */
@@ -48,46 +57,39 @@ export const WeekPending = ({ fallback, children }: { fallback: ReactNode; child
   return pending ? fallback : children
 }
 
-const WeekLink = ({ week, href, ...props }: { week: IsoWeek; href: string } & Omit<ComponentProps<typeof Link>, 'href'>) => {
-  const { goTo } = useWeekNavigation()
+const WeekLink = ({ week, ...props }: { week: IsoWeek } & Omit<ComponentProps<typeof Link>, 'href' | 'onNavigate'>) => {
+  const { hrefFor, goTo } = useWeekNavigation()
   return (
     <Link
-      href={href}
+      {...props}
+      href={hrefFor(week)}
       onNavigate={(event) => {
         event.preventDefault()
-        goTo(week, href)
+        goTo(week)
       }}
-      {...props}
     />
   )
 }
 
-const weekHref = (week: IsoWeek) => `/zeiterfassung?woche=${formatIsoWeek(week)}`
-
-export const WeekNavigation = ({ currentWeek }: { currentWeek: IsoWeek }) => {
-  const { week } = useWeekNavigation()
-  const previous = shiftIsoWeek(week, -1)
-  const next = shiftIsoWeek(week, 1)
-  const range = getIsoWeekRange(week)
+export const WeekNavigation = () => {
+  const { week, currentWeek } = useWeekNavigation()
 
   return (
     <div className="flex items-center gap-2">
       <Button variant="outline" size="icon-sm" asChild>
-        <WeekLink week={previous} href={weekHref(previous)} aria-label="Vorherige Woche">
+        <WeekLink week={shiftIsoWeek(week, -1)} aria-label="Vorherige Woche">
           <ChevronLeft strokeWidth={1.5} />
         </WeekLink>
       </Button>
       <Button variant="outline" size="icon-sm" asChild>
-        <WeekLink week={next} href={weekHref(next)} aria-label="Nächste Woche">
+        <WeekLink week={shiftIsoWeek(week, 1)} aria-label="Nächste Woche">
           <ChevronRight strokeWidth={1.5} />
         </WeekLink>
       </Button>
-      <span className="text-sm font-medium text-black dark:text-white">
-        KW {week.week} · {formatShortDate(range.start)}–{formatDate(new Date(range.end.getTime() - 1))}
-      </span>
-      {formatIsoWeek(week) === formatIsoWeek(currentWeek) ? null : (
+      <span className="text-sm font-medium text-black dark:text-white">{formatIsoWeekLabel(week)}</span>
+      {isSameIsoWeek(week, currentWeek) ? null : (
         <Button variant="ghost" size="sm" asChild>
-          <WeekLink week={currentWeek} href="/zeiterfassung">Heute</WeekLink>
+          <WeekLink week={currentWeek}>Heute</WeekLink>
         </Button>
       )}
     </div>

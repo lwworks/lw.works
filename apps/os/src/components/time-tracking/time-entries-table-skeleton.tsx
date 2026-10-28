@@ -1,7 +1,8 @@
 import { Skeleton } from '@lw/ui/components/skeleton'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@lw/ui/components/table'
+import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { Fragment } from 'react'
+import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 const DAYS = [3, 2]
 
@@ -9,17 +10,7 @@ const DAYS = [3, 2]
 export const TimeEntriesTableSkeleton = () => {
   return (
     <Table aria-busy="true" aria-label="Einträge werden geladen">
-      <TableHeader>
-        <TableRow className="border-t border-neutral-200 dark:border-neutral-800 hover:bg-transparent">
-          <TableHead className="pl-16 w-0">
-            <Skeleton className="size-4 rounded-[4px]" />
-          </TableHead>
-          <TableHead>Zeit</TableHead>
-          <TableHead>Termin</TableHead>
-          <TableHead className="text-right">Dauer</TableHead>
-          <TableHead className="pr-16 w-0"><span className="sr-only">Link</span></TableHead>
-        </TableRow>
-      </TableHeader>
+      <TimeEntriesTableHeader selectAll={<Skeleton className="size-4 rounded-[4px]" />} />
       <TableBody>
         {DAYS.map((rows, day) => (
           <Fragment key={day}>

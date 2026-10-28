@@ -1,6 +1,8 @@
 'use client'
 
+import { signInWithGoogle } from '@/lib/auth/sign-in-with-google'
 import { Button } from '@lw/ui/components/button'
+import { toast } from '@lw/ui/components/sonner'
 import { useState } from 'react'
 
 export const GoogleSignInButton = () => {
@@ -12,11 +14,9 @@ export const GoogleSignInButton = () => {
       disabled={pending}
       onClick={async () => {
         setPending(true)
-        const { authClient } = await import('@/lib/auth/auth-client')
-        await authClient.signIn.social({
-          provider: 'google',
-          callbackURL: '/',
-        })
+        if (await signInWithGoogle({ callbackURL: '/' })) return
+        setPending(false)
+        toast.error('Die Anmeldung konnte nicht gestartet werden. Bitte versuche es erneut.')
       }}
     >
       <GoogleMark data-icon="inline-start" />

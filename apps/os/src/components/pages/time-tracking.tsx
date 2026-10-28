@@ -18,6 +18,15 @@ import { WeekNavigation, WeekNavigationProvider, WeekPending } from '../time-tra
 const title = 'Zeiterfassung'
 const description = 'Deine Termine aus dem Google Kalender, sobald sie begonnen haben.'
 
+const CreateEntryButton = () => {
+  return (
+    <Button>
+      <Plus strokeWidth={1.5} className="size-4" />
+      <span>Erfassen</span>
+    </Button>
+  )
+}
+
 type TimeTrackingPageProps = {
   week: IsoWeek
   currentWeek: IsoWeek
@@ -36,12 +45,9 @@ export const TimeTrackingPage = ({ week, currentWeek, entries, sync, now, authPr
       <section>
         <PageHeader title={title} description={description}>
           {needsConnect ? null : <SyncButton />}
-          <Button>
-            <Plus strokeWidth={1.5} className="size-4" />
-            <span>Erfassen</span>
-          </Button>
+          <CreateEntryButton />
         </PageHeader>
-        <WeekNavigationProvider week={week}>
+        <WeekNavigationProvider week={week} currentWeek={currentWeek}>
           <div className="px-16 pb-8 flex flex-col gap-6">
             {needsConnect ? (
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
@@ -54,7 +60,7 @@ export const TimeTrackingPage = ({ week, currentWeek, entries, sync, now, authPr
             ) : null}
 
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <WeekNavigation currentWeek={currentWeek} />
+              <WeekNavigation />
               <div className="flex items-center gap-1 text-sm">
                 Woche gesamt:
                 <WeekPending fallback={<Skeleton className="h-4 w-12" />}>
@@ -83,7 +89,7 @@ export const TimeTrackingPageSkeleton = () => {
       <section aria-busy="true">
         <PageHeader title={title} description={description}>
           <Skeleton className="h-9 w-20" />
-          <Skeleton className="h-9 w-28" />
+          <CreateEntryButton />
         </PageHeader>
         <div className="px-16 pb-8 flex flex-col gap-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
