@@ -10,10 +10,11 @@ import { toggleGroupSelection } from '@/lib/time-tracking/toggle-group-selection
 import { toggleRowSelection } from '@/lib/time-tracking/toggle-row-selection'
 import { Button } from '@lw/ui/components/button'
 import { Checkbox } from '@lw/ui/components/checkbox'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@lw/ui/components/table'
+import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment, useState, type MouseEvent } from 'react'
+import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 /** Keeps Shift+click from also selecting the text between the clicked checkboxes. */
 const preventShiftTextSelection = (event: MouseEvent) => {
@@ -39,21 +40,15 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
 
   return (
     <Table>
-      <TableHeader>
-        <TableRow className="border-t border-neutral-200 dark:border-neutral-800 hover:bg-transparent">
-          <TableHead className="pl-16 w-0">
-            <Checkbox
-              aria-label="Alle Einträge auswählen"
-              checked={getSelectAllState(selectedCount, ids.length)}
-              onCheckedChange={() => setSelected(new Set(selectedCount === ids.length ? [] : ids))}
-            />
-          </TableHead>
-          <TableHead>Zeit</TableHead>
-          <TableHead>Termin</TableHead>
-          <TableHead className="text-right">Dauer</TableHead>
-          <TableHead className="pr-16 w-0"><span className="sr-only">Link</span></TableHead>
-        </TableRow>
-      </TableHeader>
+      <TimeEntriesTableHeader
+        selectAll={
+          <Checkbox
+            aria-label="Alle Einträge auswählen"
+            checked={getSelectAllState(selectedCount, ids.length)}
+            onCheckedChange={() => setSelected(new Set(selectedCount === ids.length ? [] : ids))}
+          />
+        }
+      />
       <TableBody>
         {[...days].map(([day, dayEntries]) => {
           const dayIds = dayEntries.map((entry) => entry.id)

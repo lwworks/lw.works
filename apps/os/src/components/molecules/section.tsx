@@ -24,8 +24,9 @@ export const Section = ({ verticalPadding = "default", horizontalPadding = "defa
       <div className="absolute bottom-0 inset-x-0 h-px bg-black/10 dark:bg-white/10 z-10" />
       <div className={cn("relative mx-auto grow w-full max-w-4xl", background && "bg-neutral-50 dark:bg-[#0F0F0F]", verticalPaddings[verticalPadding], horizontalPaddings[horizontalPadding])}>
         {background === "paint-1" && (<>
-          <Image src="/images/paint/paint-1-light.jpg" width={1728} height={1117} alt="Paint Background Light" className="dark:hidden absolute inset-x-0 bottom-0" loading="eager" />
-          <Image src="/images/paint/paint-1-dark.jpg" width={1728} height={1117} alt="Paint Background Dark" className="hidden dark:block absolute inset-x-0 bottom-0" loading="eager" />
+          {/* Lazy: browsers skip lazy images that are `display: none`, so only the active theme's variant downloads. */}
+          <Image src="/images/paint/paint-1-light.jpg" width={1728} height={1117} sizes="(min-width: 896px) 896px, 100vw" alt="Paint Background Light" className="dark:hidden absolute inset-x-0 bottom-0" />
+          <Image src="/images/paint/paint-1-dark.jpg" width={1728} height={1117} sizes="(min-width: 896px) 896px, 100vw" alt="Paint Background Dark" className="hidden dark:block absolute inset-x-0 bottom-0" />
         </>)}
         <div className="absolute top-0 right-0 bottom-px w-px bg-black/10 dark:bg-white/10 z-20 pointer-events-none" />
         <div className="absolute top-0 left-0 bottom-px w-px bg-black/10 dark:bg-white/10 z-20 pointer-events-none" />

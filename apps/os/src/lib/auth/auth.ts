@@ -24,6 +24,10 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || previewOrigins[0],
   basePath: '/api/auth',
   trustedOrigins: previewOrigins,
+  // Session + user in one query: every page load awaits this lookup, and each query is a Neon HTTP round trip.
+  advanced: {
+    database: { joins: true },
+  },
   emailAndPassword: {
     enabled: false,
   },

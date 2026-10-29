@@ -3,7 +3,8 @@ import localFont from 'next/font/local'
 
 export const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 
-export const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+// Only used for small IDs, so it isn't worth a preload on every page.
+export const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono', preload: false })
 
 export const safiro = localFont({
   src: '../../../../packages/ui/src/fonts/safiro-semibold-italic.woff2',
