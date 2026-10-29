@@ -5,6 +5,7 @@ import { getSession } from '@/lib/auth/get-session'
 import { proxiesThroughProduction } from '@/lib/auth/proxies-through-production'
 import { getCurrentIsoWeek } from '@/lib/iso-week/get-current-iso-week'
 import { getIsoWeekRange } from '@/lib/iso-week/get-iso-week-range'
+import { isAfterIsoWeek } from '@/lib/iso-week/is-after-iso-week'
 import { parseIsoWeek } from '@/lib/iso-week/iso-week'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
@@ -23,6 +24,7 @@ export default async function Page({ searchParams }: PageProps<'/zeiterfassung'>
   const now = new Date()
   const currentWeek = getCurrentIsoWeek(now)
   const week = parseIsoWeek(typeof woche === 'string' ? woche : undefined) ?? currentWeek
+  if (isAfterIsoWeek(week, currentWeek)) redirect('/zeiterfassung')
   const range = getIsoWeekRange(week)
   const [entries, sync] = await Promise.all([getOwnTimeEntries(range), getOwnCalendarSync()])
 

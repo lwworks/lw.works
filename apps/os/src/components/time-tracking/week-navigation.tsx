@@ -1,6 +1,7 @@
 'use client'
 
 import { formatIsoWeekLabel } from '@/lib/iso-week/format-iso-week-label'
+import { isAfterIsoWeek } from '@/lib/iso-week/is-after-iso-week'
 import { isSameIsoWeek } from '@/lib/iso-week/is-same-iso-week'
 import { formatIsoWeek, shiftIsoWeek, type IsoWeek } from '@/lib/iso-week/iso-week'
 import { Button } from '@lw/ui/components/button'
@@ -81,11 +82,17 @@ export const WeekNavigation = () => {
           <ChevronLeft strokeWidth={1.5} />
         </WeekLink>
       </Button>
-      <Button variant="outline" size="icon-sm" asChild>
-        <WeekLink week={shiftIsoWeek(week, 1)} aria-label="Nächste Woche">
+      {isAfterIsoWeek(currentWeek, week) ? (
+        <Button variant="outline" size="icon-sm" asChild>
+          <WeekLink week={shiftIsoWeek(week, 1)} aria-label="Nächste Woche">
+            <ChevronRight strokeWidth={1.5} />
+          </WeekLink>
+        </Button>
+      ) : (
+        <Button variant="outline" size="icon-sm" disabled aria-label="Nächste Woche">
           <ChevronRight strokeWidth={1.5} />
-        </WeekLink>
-      </Button>
+        </Button>
+      )}
       <span className="text-sm font-medium text-black dark:text-white">{formatIsoWeekLabel(week)}</span>
       {isSameIsoWeek(week, currentWeek) ? null : (
         <Button variant="ghost" size="sm" asChild>
