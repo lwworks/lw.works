@@ -59,14 +59,14 @@ export const WeekPending = ({ fallback, children }: { fallback: ReactNode; child
 }
 
 export const WeekLink = ({ week, ...props }: { week: IsoWeek } & Omit<ComponentProps<typeof Link>, 'href' | 'onNavigate'>) => {
-  const { hrefFor, goTo } = useWeekNavigation()
+  const { hrefFor, goTo, week: shownWeek } = useWeekNavigation()
   return (
     <Link
       {...props}
       href={hrefFor(week)}
       onNavigate={(event) => {
         event.preventDefault()
-        goTo(week)
+        if (!isSameIsoWeek(week, shownWeek)) goTo(week)
       }}
     />
   )

@@ -4,7 +4,12 @@ import { buildActivityGrid } from '@/lib/time-tracking/build-activity-grid'
 describe('buildActivityGrid', () => {
   it('lays out ISO week columns from Monday to Sunday and leaves days outside the range empty', () => {
     // 2026-01-01 is a Thursday in ISO week 2026-W01 (Monday 2025-12-29).
-    const grid = buildActivityGrid({ from: '2026-01-01', to: '2026-01-13', trackedMs: new Map([['2026-01-02', 3 * 60 * 60 * 1000]]) })
+    const grid = buildActivityGrid({
+      from: '2026-01-01',
+      to: '2026-01-13',
+      today: '2026-01-13',
+      trackedMs: new Map([['2026-01-02', 3 * 60 * 60 * 1000]]),
+    })
 
     expect(grid.weeks.map(({ week }) => week)).toEqual([
       { year: 2026, week: 1 },
@@ -18,15 +23,25 @@ describe('buildActivityGrid', () => {
   })
 
   it('labels each month at the column of its first shown day', () => {
-    const grid = buildActivityGrid({ from: '2026-01-01', to: '2026-03-02', trackedMs: new Map() })
+    const grid = buildActivityGrid({ from: '2026-01-01', to: '2026-03-02', today: '2026-03-02', trackedMs: new Map() })
 
     expect(grid.months).toEqual([
-      { label: 'Jan', column: 0 },
-      { label: 'Feb', column: 4 },
-      { label: 'Mär', column: 8 },
+      { month: 1, column: 0 },
+      { month: 2, column: 4 },
+      { month: 3, column: 8 },
     ])
     expect(grid.weeks[4].days[6]?.date).toBe('2026-02-01')
     expect(grid.weeks.at(-1)?.days[0]?.date).toBe('2026-03-02')
+  })
+
+  it('keeps the later month when one week contains two month starts', () => {
+    // 2026-01-26 is a Monday. That week includes 2026-02-01, so the column is February, not January.
+    const grid = buildActivityGrid({ from: '2026-01-26', to: '2026-03-02', today: '2026-03-02', trackedMs: new Map() })
+
+    expect(grid.months).toEqual([
+      { month: 2, column: 0 },
+      { month: 3, column: 4 },
+    ])
   })
 
   it('includes days after today through the end of the range', () => {
@@ -41,7 +56,7 @@ describe('buildActivityGrid', () => {
   })
 
   it('spans DST changes with exactly seven days per week', () => {
-    const grid = buildActivityGrid({ from: '2026-03-23', to: '2026-04-05', trackedMs: new Map() })
+    const grid = buildActivityGrid({ from: '2026-03-23', to: '2026-04-05', today: '2026-04-05', trackedMs: new Map() })
 
     expect(grid.weeks.map((week) => week.days.map((day) => day?.date))).toEqual([
       ['2026-03-23', '2026-03-24', '2026-03-25', '2026-03-26', '2026-03-27', '2026-03-28', '2026-03-29'],

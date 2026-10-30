@@ -3,10 +3,12 @@ import { ActivityChartSlotProvider } from '@/components/time-tracking/activity-c
 import { getOwnActivityGrid } from '@/lib/time-tracking/get-own-activity-grid'
 import { Suspense } from 'react'
 
+const ActivityChartLoader = async () => <ActivityChart grid={await getOwnActivityGrid(new Date())} />
+
 export default function Layout({ children }: LayoutProps<'/zeiterfassung'>) {
   const chart = (
     <Suspense fallback={<ActivityChartSkeleton />}>
-      <ActivityChart grid={getOwnActivityGrid(new Date())} />
+      <ActivityChartLoader />
     </Suspense>
   )
   return <ActivityChartSlotProvider chart={chart}>{children}</ActivityChartSlotProvider>

@@ -12,4 +12,8 @@ export const ActivityChartSlotProvider = ({ chart, children }: { chart: ReactNod
   return <ActivityChartSlotContext value={chart}>{children}</ActivityChartSlotContext>
 }
 
-export const ActivityChartSlot = () => use(ActivityChartSlotContext)
+export const ActivityChartSlot = () => {
+  const chart = use(ActivityChartSlotContext)
+  if (chart == null) throw new Error('ActivityChartSlot must be used inside <ActivityChartSlotProvider>')
+  return chart
+}
