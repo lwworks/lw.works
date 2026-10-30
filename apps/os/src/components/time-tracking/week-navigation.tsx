@@ -21,7 +21,7 @@ type WeekNavigationState = {
 
 const WeekNavigationContext = createContext<WeekNavigationState | null>(null)
 
-const useWeekNavigation = () => {
+export const useWeekNavigation = () => {
   const state = use(WeekNavigationContext)
   if (!state) throw new Error('useWeekNavigation must be used inside <WeekNavigationProvider>')
   return state
@@ -58,15 +58,15 @@ export const WeekPending = ({ fallback, children }: { fallback: ReactNode; child
   return pending ? fallback : children
 }
 
-const WeekLink = ({ week, ...props }: { week: IsoWeek } & Omit<ComponentProps<typeof Link>, 'href' | 'onNavigate'>) => {
-  const { hrefFor, goTo } = useWeekNavigation()
+export const WeekLink = ({ week, ...props }: { week: IsoWeek } & Omit<ComponentProps<typeof Link>, 'href' | 'onNavigate'>) => {
+  const { hrefFor, goTo, week: shownWeek } = useWeekNavigation()
   return (
     <Link
       {...props}
       href={hrefFor(week)}
       onNavigate={(event) => {
         event.preventDefault()
-        goTo(week)
+        if (!isSameIsoWeek(week, shownWeek)) goTo(week)
       }}
     />
   )

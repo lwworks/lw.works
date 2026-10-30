@@ -9,6 +9,8 @@ import { Skeleton } from '@lw/ui/components/skeleton'
 import { DangerTriangle, Plus } from '@mynaui/icons-react'
 import { Layout } from '../molecules/layout'
 import { PageHeader } from '../molecules/page-header'
+import { ActivityChartSkeleton } from '../time-tracking/activity-chart'
+import { ActivityChartSlot } from '../time-tracking/activity-chart-slot'
 import { ConnectCalendarButton } from '../time-tracking/connect-calendar-button'
 import { SyncButton } from '../time-tracking/sync-button'
 import { TimeEntriesTable } from '../time-tracking/time-entries-table'
@@ -59,6 +61,8 @@ export const TimeTrackingPage = ({ week, currentWeek, entries, sync, now, authPr
               </div>
             ) : null}
 
+            <ActivityChartSlot />
+
             <div className="flex flex-wrap items-center justify-between gap-4">
               <WeekNavigation />
               <div className="flex items-center gap-1 text-sm">
@@ -92,6 +96,7 @@ export const TimeTrackingPageSkeleton = () => {
           <CreateEntryButton />
         </PageHeader>
         <div className="px-16 pb-8 flex flex-col gap-6">
+          <ActivityChartSkeleton />
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Skeleton className="size-7" />
