@@ -9,6 +9,8 @@ export type ActivityGrid = {
   /** First and last day shown (`YYYY-MM-DD`). */
   from: string
   to: string
+  /** Last day that can be opened (`YYYY-MM-DD`). Later days are shown but are not links. */
+  today: string
   weeks: ActivityWeek[]
   /** Month labels and the index of the week column in which the month's first shown day lies. */
   months: { label: string; column: number }[]
@@ -17,7 +19,17 @@ export type ActivityGrid = {
 const MONTHS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
 
 /** Week columns for the days `from` to `to` (inclusive, `YYYY-MM-DD`) with each day's tracked time from `trackedMs`. */
-export const buildActivityGrid = ({ from, to, trackedMs }: { from: string; to: string; trackedMs: ReadonlyMap<string, number> }): ActivityGrid => {
+export const buildActivityGrid = ({
+  from,
+  to,
+  today = to,
+  trackedMs,
+}: {
+  from: string
+  to: string
+  today?: string
+  trackedMs: ReadonlyMap<string, number>
+}): ActivityGrid => {
   const weeks: ActivityWeek[] = []
   const months: ActivityGrid['months'] = []
   const firstMonday = new Date(mondayOf(isoWeekOf(Date.parse(from)))).toISOString().slice(0, 10)
@@ -34,5 +46,5 @@ export const buildActivityGrid = ({ from, to, trackedMs }: { from: string; to: s
     weeks.push({ week: isoWeekOf(Date.parse(monday)), days })
   }
 
-  return { from, to, weeks, months }
+  return { from, to, today, weeks, months }
 }

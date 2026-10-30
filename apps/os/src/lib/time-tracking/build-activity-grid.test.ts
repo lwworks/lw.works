@@ -29,6 +29,17 @@ describe('buildActivityGrid', () => {
     expect(grid.weeks.at(-1)?.days[0]?.date).toBe('2026-03-02')
   })
 
+  it('includes days after today through the end of the range', () => {
+    const grid = buildActivityGrid({ from: '2026-01-01', to: '2026-12-31', today: '2026-10-30', trackedMs: new Map() })
+    const dates = grid.weeks.flatMap((week) => week.days.map((day) => day?.date))
+
+    expect(grid.today).toBe('2026-10-30')
+    expect(grid.to).toBe('2026-12-31')
+    expect(dates).toContain('2026-10-30')
+    expect(dates).toContain('2026-12-31')
+    expect(dates).not.toContain('2027-01-01')
+  })
+
   it('spans DST changes with exactly seven days per week', () => {
     const grid = buildActivityGrid({ from: '2026-03-23', to: '2026-04-05', trackedMs: new Map() })
 
