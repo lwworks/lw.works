@@ -1,5 +1,5 @@
 import { Button } from "@lw/ui/components/button"
-import { Activity, Clock3, CreditCard, Folder, User } from "@mynaui/icons-react"
+import { Activity, Building, Clock3, CreditCard, Folder, User } from "@mynaui/icons-react"
 import Link from "next/link"
 
 export const Sidebar = () => {
@@ -16,6 +16,12 @@ export const Sidebar = () => {
           <Link href="/kontakte">
             <User strokeWidth={1.5} />
             <span>Kontakte</span>
+          </Link>
+        </Button>
+        <Button variant="ghost" asChild className="justify-start">
+          <Link href="/unternehmen">
+            <Building strokeWidth={1.5} />
+            <span>Unternehmen</span>
           </Link>
         </Button>
         <Button variant="ghost" asChild className="justify-start">

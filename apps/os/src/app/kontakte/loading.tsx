@@ -1,6 +1,10 @@
-import { ContactsPage } from '@/components/pages/contacts'
+import { Layout } from '@/components/molecules/layout'
+import { PageHeader } from '@/components/molecules/page-header'
 
-// Static mock content, so the page itself is the instant loading state. Switch to a skeleton once it loads data.
 export default function Loading() {
-  return <ContactsPage />
+  return (
+    <Layout>
+      <PageHeader title="Kontakte" description="Adressbuch wird geladen …" />
+    </Layout>
+  )
 }

@@ -4,6 +4,7 @@ import { PRODUCTION_URL } from '@/lib/auth/production-url'
 import { proxiesThroughProduction } from '@/lib/auth/proxies-through-production'
 import { getDb } from '@/lib/db/get-db'
 import { GOOGLE_CALENDAR_SCOPE } from '@/lib/google-calendar/scope'
+import { GOOGLE_CONTACTS_SCOPE } from '@/lib/google-contacts-sync/scope'
 import { drizzleAdapter } from '@better-auth/drizzle-adapter'
 import { betterAuth } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
@@ -42,7 +43,7 @@ export const auth = betterAuth({
       hd: 'lw.works',
       prompt: 'select_account consent',
       accessType: 'offline',
-      scope: [GOOGLE_CALENDAR_SCOPE],
+      scope: [GOOGLE_CALENDAR_SCOPE, GOOGLE_CONTACTS_SCOPE],
     },
   },
   plugins: [...(usesOAuthProxy ? [oAuthProxy({ productionURL: PRODUCTION_URL })] : []), nextCookies()],
