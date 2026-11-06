@@ -1,121 +1,131 @@
+import { RemoteImage } from "@/components/atoms/remote-image"
+import { DeleteContactButton } from "@/components/contacts/delete-contact-button"
+import { EditContactDialog } from "@/components/contacts/contact-form"
+import { PrivacySwitch } from "@/components/contacts/privacy-switch"
+import { formatBirthday } from "@/lib/contacts/format-birthday"
+import { formatContactName } from "@/lib/contacts/format-contact-name"
+import { formatDisplayId } from "@/lib/contacts/format-display-id"
+import type { CompanyListItem } from "@/lib/db/companies/list-companies"
+import type { ContactDetail } from "@/lib/db/contacts/get-visible-contact"
+import type { TagListItem } from "@/lib/db/tags/list-tags"
+import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
 import { InstagramIcon } from "@lw/ui/atoms/custom-icons/instagram"
 import { LinkedInIcon } from "@lw/ui/atoms/custom-icons/linkedin"
 import { WhatsAppIcon } from "@lw/ui/atoms/custom-icons/whatsapp"
 import { XIcon } from "@lw/ui/atoms/custom-icons/x"
 import { Heading } from "@lw/ui/atoms/heading"
-import { Avatar } from "@lw/ui/components/avatar"
-import { Button } from "@lw/ui/components/button"
-import { ArrowLeft, At, Gift, Pencil, Telephone, UserSquare } from "@mynaui/icons-react"
-import Image from "next/image"
+import { Avatar, AvatarFallback, AvatarImage } from "@lw/ui/components/avatar"
+import { ArrowLeft, At, Gift, Telephone, UserSquare } from "@mynaui/icons-react"
 import Link from "next/link"
+import type { ReactNode } from "react"
 
-export const ContactDetails = () => {
+export const ContactDetails = ({
+  contact,
+  companies,
+  tags,
+}: {
+  contact: ContactDetail
+  companies: CompanyListItem[]
+  tags: TagListItem[]
+}) => {
+  const name = formatContactName(contact.firstName, contact.lastName)
   return (
     <section>
-      <div className="px-16 pb-8 pt-9 border-b border-neutral-200 dark:border-neutral-800">
-        <div className="flex items-center text-sm gap-2 mb-4">
+      <div className="border-b border-neutral-200 px-16 pt-9 pb-8 dark:border-neutral-800">
+        <div className="mb-4 flex items-center gap-2 text-sm">
           <Link href="/kontakte" className="flex items-center gap-1 hover:text-black dark:hover:text-white">
             <ArrowLeft strokeWidth={1.5} className="size-4" />
             <span>Kontakte</span>
           </Link>
-          <span>{'//'}</span>
-          <span className="font-mono">#0002</span>
+          <span>{"//"}</span>
+          <span className="font-mono">{formatDisplayId(contact.displayId)}</span>
         </div>
         <div className="flex items-center gap-3">
           <Avatar className="size-15 border">
-            <Image src="https://bni-bremen.de/web/open/appsCmsImageDownload?imageObjectId=6a16bab78e03e60001bd8811" alt="Jörn Lehmann" fill className="object-cover object-center" />
+            {contact.avatarUrl ? <AvatarImage src={contact.avatarUrl} alt="" /> : null}
+            <AvatarFallback>{initials(contact.firstName, contact.lastName)}</AvatarFallback>
           </Avatar>
           <div>
-            <div className="flex items-center justify-between">
-              <Heading as="h1" size="h2">Christoph Nienaber</Heading>
-            </div>
-            <Link href="/unternehmen/1" className="inline-flex items-center h-6 gap-1.5 pl-1.5 pr-2 border rounded-full hover:bg-neutral-100 hover:text-black dark:hover:text-white text-sm">
-              <Image src="https://res2.weblium.site/res/69e8982280915637dee8804d/6a86f9885b2845794e0701b9_optimized" alt="LMB GmbH & Co. KG" width={32} height={32} className="size-3.5" />
-              <span className="truncate">Drehimpuls</span>
-            </Link>
+            <Heading as="h1" size="h2">{name}</Heading>
+            {contact.company ? (
+              <Link href={`/unternehmen/${contact.company.id}`} className="inline-flex h-6 items-center gap-1.5 rounded-full border pr-2 pl-1.5 text-sm hover:bg-neutral-100 hover:text-black dark:hover:text-white">
+                {contact.company.logoUrl ? <RemoteImage src={contact.company.logoUrl} alt="" width={14} height={14} className="size-3.5" /> : null}
+                <span className="truncate">{contact.company.name}</span>
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>
-      <div className="border-b border-neutral-200 dark:border-neutral-800 grid grid-cols-2 divide-x divide-neutral-200 dark:divide-neutral-800">
+      <div className="grid grid-cols-1 divide-y divide-neutral-200 border-b border-neutral-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-neutral-800 dark:border-neutral-800">
         <div className="p-8 pl-16">
           <div className="flex items-center justify-between">
             <Heading as="h2" size="h4">Details</Heading>
-            <Button variant="ghost" size="sm">
-              <Pencil strokeWidth={1.5} className="size-4" />
-              <span>Bearbeiten</span>
-            </Button>
+            <EditContactDialog
+              companies={companies}
+              tags={tags}
+              contact={{
+                displayId: contact.displayId,
+                firstName: contact.firstName,
+                lastName: contact.lastName,
+                email: contact.email,
+                phone: contact.phone,
+                whatsApp: contact.whatsApp,
+                linkedIn: contact.linkedIn,
+                instagram: contact.instagram,
+                x: contact.x,
+                avatarUrl: contact.avatarUrl,
+                birthday: contact.birthday,
+                companyId: contact.companyId,
+                tagIds: contact.tagIds,
+                isPrivate: contact.isPrivate,
+              }}
+              canTogglePrivacy={contact.canEditPrivacy}
+            />
           </div>
-          <table className="text-sm w-full mt-4">
+          <table className="mt-4 w-full text-sm">
             <tbody>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <UserSquare strokeWidth={1.5} className="size-4 inline mr-1 mb-0.5" />
-                  <span>Vorname</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">Christoph</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <UserSquare strokeWidth={1.5} className="size-4 inline mr-1 mb-0.5" />
-                  <span>Nachname</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">Nienaber</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <Gift className="size-4 inline mr-1 mb-0.5" />
-                  <span>Geburtstag</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">17.03.1996</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <At strokeWidth={1.5} className="size-4 inline mr-1 mb-0.5" />
-                  <span>E-Mail</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">christoph@nienaber.de</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <Telephone strokeWidth={1.5} className="size-4 inline mr-1 mb-0.5" />
-                  <span>Telefon</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">+49 123 456 789</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <WhatsAppIcon className="size-4 inline mr-1 mb-0.5" />
-                  <span>WhatsApp</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">+49 123 456 789</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <LinkedInIcon className="size-4 inline mr-1 mb-0.5" />
-                  <span>LinkedIn</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">Christoph Nienaber</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <InstagramIcon className="size-4 inline mr-1 mb-0.5" />
-                  <span>Instagram</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">@christophnienaber</td>
-              </tr>
-              <tr className="h-8">
-                <td className="pr-4">
-                  <XIcon className="size-4 inline mr-1 mb-0.5" />
-                  <span>Twitter</span>
-                </td>
-                <td className="font-medium text-black dark:text-white">@christophnienaber</td>
-              </tr>
+              <Detail icon={<UserSquare strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Vorname" value={contact.firstName} />
+              <Detail icon={<UserSquare strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Nachname" value={contact.lastName} />
+              <Detail icon={<Gift className="mb-0.5 inline size-4" />} label="Geburtstag" value={formatBirthday(contact.birthday)} />
+              <Detail icon={<At strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="E-Mail" value={contact.email} />
+              <Detail icon={<Telephone strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Telefon" value={contact.phone} />
+              <Detail icon={<WhatsAppIcon className="mb-0.5 inline size-4" />} label="WhatsApp" value={contact.whatsApp} />
+              <Detail icon={<LinkedInIcon className="mb-0.5 inline size-4" />} label="LinkedIn" value={contact.linkedIn} />
+              <Detail icon={<InstagramIcon className="mb-0.5 inline size-4" />} label="Instagram" value={contact.instagram} />
+              <Detail icon={<XIcon className="mb-0.5 inline size-4" />} label="X" value={contact.x} />
             </tbody>
           </table>
         </div>
-        <div className="p-8 pr-16">
+        <div className="flex flex-col gap-6 p-8 pr-16">
+          <div>
+            <Heading as="h2" size="h4">Tags</Heading>
+            <div className="mt-3 flex flex-wrap gap-1">
+              {contact.tags.length === 0 ? <p className="text-sm">Keine Tags.</p> : null}
+              {contact.tags.map((tag) => (
+                <div key={tag.id} className="flex h-6 items-center gap-1.5 rounded-full border px-2 text-sm">
+                  <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
+                  <span>{tag.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          {contact.canEditPrivacy ? <PrivacySwitch displayId={contact.displayId} isPrivate={contact.isPrivate} /> : null}
+          <DeleteContactButton displayId={contact.displayId} />
         </div>
       </div>
     </section>
   )
 }
+
+const Detail = ({ icon, label, value }: { icon: ReactNode; label: string; value: string | null }) => (
+  <tr className="h-8">
+    <td className="pr-4">
+      {icon}
+      <span className="ml-1">{label}</span>
+    </td>
+    <td className="font-medium text-black dark:text-white">{value || "—"}</td>
+  </tr>
+)
+
+const initials = (firstName: string, lastName: string) =>
+  [firstName, lastName].flatMap((part) => (part ? [part.slice(0, 1).toUpperCase()] : [])).join("")
