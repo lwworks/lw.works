@@ -1,42 +1,35 @@
 import { RemoteImage } from "@/components/atoms/remote-image"
-import { CreateContactDialog } from "@/components/contacts/contact-form"
 import { ConnectContactsButton } from "@/components/contacts/connect-contacts-button"
-import { TagManager } from "@/components/contacts/tag-manager"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
 import { whatsAppHref } from "@/lib/contacts/whatsapp-href"
-import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { ContactListItem } from "@/lib/db/contacts/list-visible-contacts"
-import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
 import { WhatsAppIcon } from "@lw/ui/atoms/custom-icons/whatsapp"
 import { Avatar, AvatarFallback, AvatarImage } from "@lw/ui/components/avatar"
 import { Button } from "@lw/ui/components/button"
-import { Mail, Telephone } from "@mynaui/icons-react"
+import { Mail, Plus, Telephone } from "@mynaui/icons-react"
 import Link from "next/link"
 import { PageHeader } from "../molecules/page-header"
 
 export const ContactsTable = ({
   contacts,
-  companies,
-  tags,
   needsContactsScope,
   proxied,
 }: {
   contacts: ContactListItem[]
-  companies: CompanyListItem[]
-  tags: TagListItem[]
   needsContactsScope: boolean
   proxied: boolean
 }) => {
   return (
     <section>
       <PageHeader title="Kontakte" description="Gemeinsames Adressbuch. Name, E-Mail, Telefon, WhatsApp und Geburtstag folgen in Google Kontakte.">
-        <Button variant="outline" asChild>
-          <Link href="/unternehmen">Unternehmen</Link>
+        <Button asChild>
+          <Link href="/kontakte/new">
+            <Plus strokeWidth={1.5} className="size-4" />
+            <span>Neuer Kontakt</span>
+          </Link>
         </Button>
-        <TagManager tags={tags} />
-        <CreateContactDialog companies={companies} tags={tags} />
       </PageHeader>
       {needsContactsScope ? (
         <div className="mx-16 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3 text-sm">

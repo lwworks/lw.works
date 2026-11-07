@@ -1,6 +1,6 @@
 "use client"
 
-import { createContactAction, saveContactAction } from "@/app/kontakte/actions"
+import { saveContactAction } from "@/app/kontakte/actions"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
@@ -10,7 +10,7 @@ import { Input } from "@lw/ui/components/input"
 import { Label } from "@lw/ui/components/label"
 import { Switch } from "@lw/ui/components/switch"
 import { cn } from "@lw/ui/lib/utils"
-import { Pencil, Plus } from "@mynaui/icons-react"
+import { Pencil } from "@mynaui/icons-react"
 import { useActionState, useEffect, useState } from "react"
 
 export type ContactFormValues = {
@@ -39,6 +39,7 @@ export const ContactForm = ({
   action,
   onSaved,
   canTogglePrivacy = true,
+  layout = "dialog",
 }: {
   companies: CompanyListItem[]
   tags: TagListItem[]
@@ -46,6 +47,7 @@ export const ContactForm = ({
   action: (prev: { ok: true } | { ok: false; message: string } | null, formData: FormData) => Promise<{ ok: true } | { ok: false; message: string } | null>
   onSaved?: () => void
   canTogglePrivacy?: boolean
+  layout?: "dialog" | "page"
 }) => {
   const [state, formAction, pending] = useActionState(action, null)
   const [isPrivate, setIsPrivate] = useState(contact?.isPrivate ?? false)
@@ -104,9 +106,15 @@ export const ContactForm = ({
         </div>
       ) : null}
       {state && !state.ok ? <p className="text-sm text-destructive">{state.message}</p> : null}
-      <DialogFooter>
-        <Button type="submit" disabled={pending}>{pending ? "Speichert …" : "Speichern"}</Button>
-      </DialogFooter>
+      {layout === "page" ? (
+        <div className={cn("flex justify-end")}>
+          <Button type="submit" disabled={pending}>{pending ? "Speichert …" : "Speichern"}</Button>
+        </div>
+      ) : (
+        <DialogFooter>
+          <Button type="submit" disabled={pending}>{pending ? "Speichert …" : "Speichern"}</Button>
+        </DialogFooter>
+      )}
     </form>
   )
 }
@@ -116,23 +124,6 @@ const Field = ({ label, name, defaultValue, type = "text" }: { label: string; na
     <Label htmlFor={name}>{label}</Label>
     <Input id={name} name={name} type={type} defaultValue={defaultValue ?? ""} />
   </div>
-)
-
-export const CreateContactDialog = ({ companies, tags }: { companies: CompanyListItem[]; tags: TagListItem[] }) => (
-  <Dialog>
-    <DialogTrigger asChild>
-      <Button>
-        <Plus strokeWidth={1.5} className="size-4" />
-        <span>Neuer Kontakt</span>
-      </Button>
-    </DialogTrigger>
-    <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle>Neuer Kontakt</DialogTitle>
-      </DialogHeader>
-      <ContactForm companies={companies} tags={tags} action={createContactAction} />
-    </DialogContent>
-  </Dialog>
 )
 
 export const EditContactDialog = ({
