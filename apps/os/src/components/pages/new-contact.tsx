@@ -1,20 +1,15 @@
 import { createContactAction } from "@/app/kontakte/actions"
+import { CompanySelect, TagChoices } from "@/components/contacts/contact-option-fields"
 import { ContactForm } from "@/components/contacts/contact-form"
-import type { CompanyListItem } from "@/lib/db/companies/list-companies"
-import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { Heading } from "@lw/ui/atoms/heading"
+import { Skeleton } from "@lw/ui/components/skeleton"
 import { cn } from "@lw/ui/lib/utils"
 import { ArrowLeft } from "@mynaui/icons-react"
 import Link from "next/link"
+import { Suspense } from "react"
 import { Layout } from "../molecules/layout"
 
-export const NewContactPage = ({
-  companies,
-  tags,
-}: {
-  companies: CompanyListItem[]
-  tags: TagListItem[]
-}) => {
+export const NewContactPage = () => {
   return (
     <Layout>
       <section>
@@ -26,7 +21,20 @@ export const NewContactPage = ({
           <Heading as="h1" size="h3">Neuer Kontakt</Heading>
         </div>
         <div className={cn("max-w-lg px-16 py-8")}>
-          <ContactForm companies={companies} tags={tags} action={createContactAction} layout="page" />
+          <ContactForm
+            action={createContactAction}
+            layout="page"
+            companyField={
+              <Suspense fallback={<Skeleton className={cn("h-8 w-full rounded-lg")} />}>
+                <CompanySelect />
+              </Suspense>
+            }
+            tagsField={
+              <Suspense fallback={<Skeleton className={cn("h-8 w-full rounded-lg")} />}>
+                <TagChoices />
+              </Suspense>
+            }
+          />
         </div>
       </section>
     </Layout>

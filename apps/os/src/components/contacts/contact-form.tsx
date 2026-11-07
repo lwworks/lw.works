@@ -33,21 +33,25 @@ export type ContactFormValues = {
 const fieldClass = "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-black outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:text-white"
 
 export const ContactForm = ({
-  companies,
-  tags,
+  companies = [],
+  tags = [],
   contact,
   action,
   onSaved,
   canTogglePrivacy = true,
   layout = "dialog",
+  companyField,
+  tagsField,
 }: {
-  companies: CompanyListItem[]
-  tags: TagListItem[]
+  companies?: CompanyListItem[]
+  tags?: TagListItem[]
   contact?: ContactFormValues
   action: (prev: { ok: true } | { ok: false; message: string } | null, formData: FormData) => Promise<{ ok: true } | { ok: false; message: string } | null>
   onSaved?: () => void
   canTogglePrivacy?: boolean
   layout?: "dialog" | "page"
+  companyField?: React.ReactNode
+  tagsField?: React.ReactNode
 }) => {
   const [state, formAction, pending] = useActionState(action, null)
   const [isPrivate, setIsPrivate] = useState(contact?.isPrivate ?? false)
@@ -79,25 +83,31 @@ export const ContactForm = ({
       </fieldset>
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="companyId">Unternehmen</Label>
-        <select id="companyId" name="companyId" defaultValue={contact?.companyId ?? ""} className={cn(fieldClass)}>
-          <option value="">Kein Unternehmen</option>
-          {companies.map((company) => (
-            <option key={company.id} value={company.id}>{company.name}</option>
-          ))}
-        </select>
+        {companyField ?? (
+          <select id="companyId" name="companyId" defaultValue={contact?.companyId ?? ""} className={cn(fieldClass)}>
+            <option value="">Kein Unternehmen</option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.id}>{company.name}</option>
+            ))}
+          </select>
+        )}
       </div>
       <fieldset className="flex flex-col gap-2">
         <legend className="text-sm">Tags</legend>
-        {tags.length === 0 ? <p className="text-sm">Noch keine Tags.</p> : null}
-        <div className="flex max-h-32 flex-col gap-1.5 overflow-y-auto">
-          {tags.map((tag) => (
-            <label key={tag.id} className="flex items-center gap-2 text-sm">
-              <input type="checkbox" name="tagIds" value={tag.id} defaultChecked={selected.has(tag.id)} className="size-4 accent-black" />
-              <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
-              <span>{tag.name}</span>
-            </label>
-          ))}
-        </div>
+        {tagsField ?? (
+          <>
+            {tags.length === 0 ? <p className="text-sm">Noch keine Tags.</p> : null}
+            <div className="flex max-h-32 flex-col gap-1.5 overflow-y-auto">
+              {tags.map((tag) => (
+                <label key={tag.id} className="flex items-center gap-2 text-sm">
+                  <input type="checkbox" name="tagIds" value={tag.id} defaultChecked={selected.has(tag.id)} className="size-4 accent-black" />
+                  <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
+                  <span>{tag.name}</span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
       </fieldset>
       {canTogglePrivacy ? (
         <div className="flex items-center justify-between gap-3">
