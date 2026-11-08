@@ -1,20 +1,11 @@
+import { CompanyCombobox } from "@/components/contacts/company-combobox"
 import { listCompanies } from "@/lib/db/companies/list-companies"
 import { listTags } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
-import { cn } from "@lw/ui/lib/utils"
-
-const fieldClass = "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-black outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:text-white"
 
 export const CompanySelect = async () => {
   const companies = await listCompanies()
-  return (
-    <select id="companyId" name="companyId" defaultValue="" className={cn(fieldClass)}>
-      <option value="">Kein Unternehmen</option>
-      {companies.map((company) => (
-        <option key={company.id} value={company.id}>{company.name}</option>
-      ))}
-    </select>
-  )
+  return <CompanyCombobox companies={companies.map(({ id, name }) => ({ id, name }))} />
 }
 
 export const TagChoices = async () => {
