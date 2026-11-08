@@ -1,5 +1,6 @@
 "use client"
 
+import { useCompanyDraft, type CompanyFields, type CompanySelection } from "@/components/contacts/company-draft"
 import {
   Combobox,
   ComboboxContent,
@@ -17,22 +18,46 @@ const newCompany = { id: "new", name: "Neues Unternehmen" }
 
 type CompanyOption = { id: string; name: string }
 
+const emptyFields = (): CompanyFields => ({
+  name: "",
+  logoUrl: "",
+  website: "",
+  street: "",
+  postalCode: "",
+  city: "",
+  country: "",
+})
+
 const matchesQuery = (name: string, query: string) => name.toLocaleLowerCase("de").includes(query.trim().toLocaleLowerCase("de"))
 
 export const CompanyCombobox = ({ companies }: { companies: CompanyOption[] }) => {
-  const [value, setValue] = useState<CompanyOption | null>(null)
-  const creating = value?.id === newCompany.id
+  const draft = useCompanyDraft()
+  const [localSelected, setLocalSelected] = useState<CompanySelection>(null)
+  const [localFields, setLocalFields] = useState(emptyFields)
+  const selected = draft ? draft.draft.selected : localSelected
+  const fields = draft ? draft.draft.fields : localFields
+  const creating = selected?.id === newCompany.id
+
+  const setSelected = (next: CompanySelection) => {
+    if (draft) draft.setDraft((current) => ({ ...current, selected: next }))
+    else setLocalSelected(next)
+  }
+
+  const setField = (name: keyof CompanyFields, value: string) => {
+    if (draft) draft.setDraft((current) => ({ ...current, fields: { ...current.fields, [name]: value } }))
+    else setLocalFields((current) => ({ ...current, [name]: value }))
+  }
 
   return (
     <div className={cn("flex flex-col gap-3")}>
       <input type="hidden" name="newCompany" value={creating ? "true" : "false"} />
-      <input type="hidden" name="companyId" value={creating || !value ? "" : value.id} />
+      <input type="hidden" name="companyId" value={creating || !selected ? "" : selected.id} />
       <Combobox
         items={[...companies, newCompany]}
-        value={value}
-        onValueChange={setValue}
+        value={selected}
+        onValueChange={setSelected}
         autoHighlight
-        isItemEqualToValue={(item, selected) => item.id === selected.id}
+        isItemEqualToValue={(item, selectedItem) => item.id === selectedItem.id}
         itemToStringLabel={(item) => item.name}
         filter={(item, query) => item.id === newCompany.id || matchesQuery(item.name, query)}
       >
@@ -52,12 +77,12 @@ export const CompanyCombobox = ({ companies }: { companies: CompanyOption[] }) =
           </ComboboxList>
         </ComboboxContent>
       </Combobox>
-      {creating ? <NewCompanyFields /> : null}
+      {creating ? <NewCompanyFields fields={fields} onChange={setField} /> : null}
     </div>
   )
 }
 
-const fields = [
+const companyFields = [
   { label: "Name", name: "name", required: true },
   { label: "Logo-URL", name: "logoUrl", required: false },
   { label: "Website", name: "website", required: false },
@@ -67,14 +92,20 @@ const fields = [
   { label: "Land", name: "country", required: false },
 ] as const
 
-const NewCompanyFields = () => (
+const NewCompanyFields = ({ fields, onChange }: { fields: CompanyFields; onChange: (name: keyof CompanyFields, value: string) => void }) => (
   <fieldset className={cn("flex flex-col gap-3 border-t border-border pt-3")}>
     <legend className={cn("text-sm")}>Neues Unternehmen</legend>
     <p className={cn("text-sm text-muted-foreground")}>Wird zusammen mit dem Kontakt gespeichert.</p>
-    {fields.map((field) => (
+    {companyFields.map((field) => (
       <div key={field.name} className={cn("flex flex-col gap-1.5")}>
         <Label htmlFor={`company-${field.name}`}>{field.label}</Label>
-        <Input id={`company-${field.name}`} name={field.name} required={field.required} />
+        <Input
+          id={`company-${field.name}`}
+          name={field.name}
+          required={field.required}
+          value={fields[field.name]}
+          onChange={(event) => onChange(field.name, event.target.value)}
+        />
       </div>
     ))}
   </fieldset>

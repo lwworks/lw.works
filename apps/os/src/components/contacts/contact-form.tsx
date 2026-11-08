@@ -1,6 +1,7 @@
 "use client"
 
 import { saveContactAction } from "@/app/kontakte/actions"
+import { CompanyDraftProvider } from "@/components/contacts/company-draft"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
@@ -11,7 +12,7 @@ import { Label } from "@lw/ui/components/label"
 import { Switch } from "@lw/ui/components/switch"
 import { cn } from "@lw/ui/lib/utils"
 import { Pencil } from "@mynaui/icons-react"
-import { useActionState, useEffect, useState } from "react"
+import { useActionState, useEffect, useRef, useState } from "react"
 
 export type ContactFormValues = {
   displayId?: number
@@ -31,6 +32,49 @@ export type ContactFormValues = {
 }
 
 const fieldClass = "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-black outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:text-white"
+
+type FormSnapshot = {
+  entries: [string, string][]
+  companyLabel: string
+}
+
+const snapshotForm = (form: HTMLFormElement): FormSnapshot => {
+  const entries: [string, string][] = []
+  for (const [key, value] of new FormData(form).entries()) {
+    if (typeof value === "string") entries.push([key, value])
+  }
+  const companyInput = form.querySelector<HTMLInputElement>("#companyId")
+  return { entries, companyLabel: companyInput?.value ?? "" }
+}
+
+/** Puts back values a failed save cleared. Leaves a field alone when the user still has something in it. */
+const restoreClearedFields = (form: HTMLFormElement, snapshot: FormSnapshot) => {
+  const grouped = new Map<string, string[]>()
+  for (const [key, value] of snapshot.entries) {
+    const list = grouped.get(key) ?? []
+    list.push(value)
+    grouped.set(key, list)
+  }
+  const seen = new Set<string>()
+  for (const element of form.elements) {
+    if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement)) continue
+    if (!element.name) continue
+    const list = grouped.get(element.name) ?? []
+    if (element instanceof HTMLInputElement && (element.type === "checkbox" || element.type === "radio")) {
+      if (seen.has(element.name)) continue
+      seen.add(element.name)
+      const boxes = form.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(element.name)}"], input[type="radio"][name="${CSS.escape(element.name)}"]`)
+      const anyChecked = [...boxes].some((box) => box.checked)
+      if (!anyChecked && list.length > 0) {
+        for (const box of boxes) box.checked = list.includes(box.value)
+      }
+      continue
+    }
+    if (element.value === "" && list[0]) element.value = list[0]
+  }
+  const companyInput = form.querySelector<HTMLInputElement>("#companyId")
+  if (companyInput && companyInput.value === "" && snapshot.companyLabel) companyInput.value = snapshot.companyLabel
+}
 
 export const ContactForm = ({
   companies = [],
@@ -56,13 +100,34 @@ export const ContactForm = ({
   const [state, formAction, pending] = useActionState(action, null)
   const [isPrivate, setIsPrivate] = useState(contact?.isPrivate ?? false)
   const selected = new Set(contact?.tagIds ?? [])
+  const formRef = useRef<HTMLFormElement>(null)
+  const snapshotRef = useRef<FormSnapshot | null>(null)
 
   useEffect(() => {
     if (state && state.ok) onSaved?.()
   }, [state, onSaved])
 
+  useEffect(() => {
+    const form = formRef.current
+    const snapshot = snapshotRef.current
+    if (!form || !snapshot || !state || state.ok) return
+    restoreClearedFields(form, snapshot)
+  }, [state])
+
   return (
-    <form action={formAction} className="flex flex-col gap-3">
+    <CompanyDraftProvider>
+    <form
+      ref={formRef}
+      action={formAction}
+      className="flex flex-col gap-3"
+      onSubmit={(event) => {
+        snapshotRef.current = snapshotForm(event.currentTarget)
+      }}
+      onReset={(event) => {
+        // React resets the form after every action, including a failed save.
+        event.preventDefault()
+      }}
+    >
       <input type="hidden" name="isPrivate" value={isPrivate ? "true" : "false"} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Vorname" name="firstName" defaultValue={contact?.firstName} />
@@ -126,6 +191,7 @@ export const ContactForm = ({
         </DialogFooter>
       )}
     </form>
+    </CompanyDraftProvider>
   )
 }
 

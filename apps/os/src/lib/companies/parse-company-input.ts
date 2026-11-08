@@ -1,4 +1,3 @@
-import { parseHttpsUrl } from '@/lib/contacts/parse-https-url'
 import { readOptionalText } from '@/lib/contacts/read-optional-text'
 
 export type CompanyInput = {
@@ -11,22 +10,17 @@ export type CompanyInput = {
   country: string | null
 }
 
-/** Name, logo, postal address, and website. There is no phone field. */
+/** Name, logo, postal address, and website. Logo and website are stored as entered. There is no phone field. */
 export const parseCompanyInput = (formData: FormData): { ok: true; value: CompanyInput } | { ok: false; message: string } => {
   const name = readOptionalText(formData.get('name'), 200)
   if (!name) return { ok: false, message: 'Name ist erforderlich.' }
-
-  const logo = parseHttpsUrl(formData.get('logoUrl'))
-  if (!logo.ok) return { ok: false, message: 'Logo muss eine https-URL sein.' }
-  const website = parseHttpsUrl(formData.get('website'))
-  if (!website.ok) return { ok: false, message: 'Website muss eine https-URL sein.' }
 
   return {
     ok: true,
     value: {
       name,
-      logoUrl: logo.value,
-      website: website.value,
+      logoUrl: readOptionalText(formData.get('logoUrl'), 500),
+      website: readOptionalText(formData.get('website'), 500),
       street: readOptionalText(formData.get('street'), 200),
       postalCode: readOptionalText(formData.get('postalCode'), 20),
       city: readOptionalText(formData.get('city'), 100),

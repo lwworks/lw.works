@@ -36,7 +36,7 @@ describe('readCompanySubmission', () => {
       value: {
         name: 'Drehimpuls',
         logoUrl: 'https://example.com/logo.png',
-        website: 'https://drehimpuls.de/',
+        website: 'https://drehimpuls.de',
         street: 'Hafen 1',
         postalCode: '28195',
         city: 'Bremen',
@@ -45,11 +45,22 @@ describe('readCompanySubmission', () => {
     })
   })
 
-  it('rejects a new company website that is not https', () => {
+  it('keeps a website that is not an https url', () => {
     expect(readCompanySubmission(form({
       newCompany: 'true',
       name: 'Drehimpuls',
-      website: 'http://drehimpuls.de',
-    }))).toEqual({ kind: 'invalid', message: 'Website muss eine https-URL sein.' })
+      website: 'autor@-brunkhorst.de',
+    }))).toEqual({
+      kind: 'new',
+      value: {
+        name: 'Drehimpuls',
+        logoUrl: null,
+        website: 'autor@-brunkhorst.de',
+        street: null,
+        postalCode: null,
+        city: null,
+        country: null,
+      },
+    })
   })
 })

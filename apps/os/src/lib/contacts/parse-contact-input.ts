@@ -1,4 +1,3 @@
-import { parseHttpsUrl } from '@/lib/contacts/parse-https-url'
 import { readOptionalText } from '@/lib/contacts/read-optional-text'
 import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-contact-fields'
 
@@ -38,9 +37,6 @@ export const parseContactInput = (formData: FormData): { ok: true; value: Contac
   const lastName = readOptionalText(formData.get('lastName'), 100) ?? ''
   if (!firstName && !lastName) return { ok: false, message: 'Vorname oder Nachname ist erforderlich.' }
 
-  const avatar = parseHttpsUrl(formData.get('avatarUrl'))
-  if (!avatar.ok) return { ok: false, message: 'Avatar muss eine https-URL sein.' }
-
   const birthday = parseBirthday(formData)
   if (!birthday.ok) return birthday
 
@@ -59,7 +55,7 @@ export const parseContactInput = (formData: FormData): { ok: true; value: Contac
       linkedIn: readOptionalText(formData.get('linkedIn'), 200),
       instagram: readOptionalText(formData.get('instagram'), 200),
       x: readOptionalText(formData.get('x'), 200),
-      avatarUrl: avatar.value,
+      avatarUrl: readOptionalText(formData.get('avatarUrl'), 500),
       birthday: birthday.value,
       companyId,
       tagIds,
