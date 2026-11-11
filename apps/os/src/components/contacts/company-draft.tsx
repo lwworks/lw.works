@@ -14,7 +14,7 @@ export type CompanyFields = {
 
 export type CompanySelection = { id: string; name: string } | null
 
-type CompanyDraft = {
+export type CompanyDraft = {
   selected: CompanySelection
   fields: CompanyFields
 }
@@ -34,8 +34,8 @@ const CompanyDraftContext = createContext<{
   setDraft: Dispatch<SetStateAction<CompanyDraft>>
 } | null>(null)
 
-export const CompanyDraftProvider = ({ children }: { children: ReactNode }) => {
-  const [draft, setDraft] = useState<CompanyDraft>({ selected: null, fields: emptyFields() })
+export const CompanyDraftProvider = ({ children, initial }: { children: ReactNode; initial?: CompanyDraft }) => {
+  const [draft, setDraft] = useState<CompanyDraft>(() => initial ?? { selected: null, fields: emptyFields() })
   return <CompanyDraftContext.Provider value={{ draft, setDraft }}>{children}</CompanyDraftContext.Provider>
 }
 
