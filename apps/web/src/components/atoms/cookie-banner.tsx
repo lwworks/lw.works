@@ -1,47 +1,24 @@
 "use client"
 
 import { horizontalPaddings, verticalPaddings } from "@/components/sections"
+import { consentCategories, storeConsent, useStoredConsent } from "@/lib/consent"
 import { deleteAllCookies } from "@/lib/cookies"
 import { cn } from "@lw/ui/lib/utils"
 import { Dialog } from "radix-ui"
-import { useMemo, useState, useSyncExternalStore } from "react"
+import { useState } from "react"
 import { Link } from "../link"
 import { Button } from "@lw/ui/components/button"
 import { Checkbox } from "@lw/ui/components/checkbox"
 import { CTA } from "@lw/ui/atoms/cta"
 import { GoogleAnalyticsScript } from "./google-analytics-script"
 
-const cookies = ['necessary', 'analytics']
-const CONSENT_KEY = 'consent'
-const CONSENT_CHANGE_EVENT = 'consent-change'
-
-const subscribeToConsent = (onChange: () => void) => {
-  window.addEventListener('storage', onChange)
-  window.addEventListener(CONSENT_CHANGE_EVENT, onChange)
-  return () => {
-    window.removeEventListener('storage', onChange)
-    window.removeEventListener(CONSENT_CHANGE_EVENT, onChange)
-  }
-}
-
-const getStoredConsent = () => localStorage.getItem(CONSENT_KEY)
-
-// `undefined` while rendering on the server and hydrating, `null` when no consent was stored yet.
-const getServerConsent = () => undefined
-
-const storeConsent = (consent: string[]) => {
-  localStorage.setItem(CONSENT_KEY, JSON.stringify(consent))
-  window.dispatchEvent(new Event(CONSENT_CHANGE_EVENT))
-}
-
 export const CookieBanner = () => {
-  const storedConsentJson = useSyncExternalStore<string | null | undefined>(subscribeToConsent, getStoredConsent, getServerConsent)
-  const storedConsent = useMemo<string[] | null>(() => (storedConsentJson ? JSON.parse(storedConsentJson) : null), [storedConsentJson])
+  const storedConsent = useStoredConsent()
   const [openedManually, setOpenedManually] = useState(false)
   const [draftConsent, setDraftConsent] = useState<string[] | null>(null)
 
-  const open = openedManually || storedConsentJson === null
-  const consent = draftConsent ?? storedConsent ?? cookies
+  const open = openedManually || storedConsent === null
+  const consent = draftConsent ?? storedConsent ?? [...consentCategories]
 
   const handleCheckedChange = (id: string) => {
     if (consent.includes(id)) {
@@ -53,7 +30,7 @@ export const CookieBanner = () => {
 
   const closeDialog = async (all: boolean = false) => {
     if (all) {
-      storeConsent(cookies)
+      storeConsent([...consentCategories])
     } else {
       storeConsent(consent)
       await deleteAllCookies()
@@ -98,6 +75,13 @@ export const CookieBanner = () => {
                   <label htmlFor="analytics">
                     <span className="font-semibold text-black dark:text-white text-sm">Analyse</span>
                     <span className="block text-sm text-neutral-500">Wir verwenden Analysetools wie Google Analytics, um die Nutzung unserer Website besser zu verstehen und Optimierungen vorzunehmen. Hierbei werden insbesondere von Google entsprechende Cookies gesetzt.</span>
+                  </label>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Checkbox id="maps" checked={consent.includes('maps')} onCheckedChange={() => handleCheckedChange('maps')} className="mt-1.25" />
+                  <label htmlFor="maps">
+                    <span className="font-semibold text-black dark:text-white text-sm">Google Maps</span>
+                    <span className="block text-sm text-neutral-500">Wir binden Karten von Google Maps ein. Beim Laden einer Karte werden Daten wie Deine IP-Adresse an Google übertragen und ggf. Cookies gesetzt.</span>
                   </label>
                 </li>
               </ul>
