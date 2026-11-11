@@ -1,5 +1,6 @@
 import 'server-only'
 
+import { listActiveProjectKeys } from '@/lib/db/projects/list-active-project-keys'
 import { lockCalendarSyncState } from '@/lib/db/calendar-sync-states/lock-calendar-sync-state'
 import { updateCalendarSyncState } from '@/lib/db/calendar-sync-states/update-calendar-sync-state'
 import { timeEntry, type CalendarSyncStatus } from '@/lib/db/schema/time-tracking'
@@ -41,11 +42,12 @@ export const syncCalendarState = async (stateId: string, range?: SyncRange): Pro
   }
 
   try {
+    const projectKeys = await listActiveProjectKeys()
     await listEvents(
       (forceRefresh) => getAccessToken(state, forceRefresh),
       state.calendarId,
       { timeMin: from, timeMax: to },
-      (events) => upsertTimeEntries(state, events.flatMap((event) => toTimeEntryValues(event, runStartedAt) ?? []), runStartedAt),
+      (events) => upsertTimeEntries(state, events.flatMap((event) => toTimeEntryValues(event, runStartedAt) ?? []), runStartedAt, projectKeys),
     )
     await softDeleteTimeEntries(state, and(gte(timeEntry.startAt, from), lt(timeEntry.startAt, to), lt(timeEntry.lastSeenAt, runStartedAt)))
     await updateCalendarSyncState(state.id, { status: 'ok', lastError: null, lastSyncedAt: new Date() })
