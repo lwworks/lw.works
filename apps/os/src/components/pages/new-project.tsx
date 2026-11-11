@@ -17,14 +17,14 @@ export const NewProjectPage = ({
   return (
     <Layout>
       <section>
-        <div className={cn("border-b border-neutral-200 px-16 pt-9 pb-8 dark:border-neutral-800")}>
+        <div className={cn("border-b border-neutral-200 px-4 sm:px-8 lg:px-16 pt-9 pb-8 dark:border-neutral-800")}>
           <Link href="/projekte" className={cn("mb-4 flex w-fit items-center gap-1 text-sm hover:text-black dark:hover:text-white")}>
             <ArrowLeft strokeWidth={1.5} className={cn("size-4")} />
             <span>Projekte</span>
           </Link>
           <Heading as="h1" size="h3">Neues Projekt</Heading>
         </div>
-        <div className={cn("max-w-xl px-16 py-8")}>
+        <div className={cn("max-w-xl px-4 sm:px-8 lg:px-16 py-8")}>
           <ProjectForm companies={companies} contactOptions={contactOptions} action={createProjectAction} />
         </div>
       </section>

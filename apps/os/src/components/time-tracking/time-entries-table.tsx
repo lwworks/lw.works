@@ -30,7 +30,7 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
   const [anchorId, setAnchorId] = useState<string | null>(null)
 
   if (entries.length === 0) {
-    return <p className="px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Keine Einträge in dieser Woche.</p>
+    return <p className="px-4 sm:px-8 lg:px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Keine Einträge in dieser Woche.</p>
   }
 
   // Newest day first; entries within a day stay chronological (morning to evening).
@@ -46,7 +46,7 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
 
   return (
     <>
-    <Table>
+    <Table className="min-w-xl">
       <TimeEntriesTableHeader
         selectAll={
           <Checkbox
@@ -63,7 +63,7 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
           return (
             <Fragment key={day}>
               <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-                <TableCell className="pl-16">
+                <TableCell className="pl-4 sm:pl-8 lg:pl-16">
                   <Checkbox
                     aria-label={`Alle Einträge am ${dayLabel} auswählen`}
                     checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
@@ -74,14 +74,14 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
                 <TableCell className="text-right font-medium text-black dark:text-white tabular-nums">
                   {formatDuration(sumTrackedMs(dayEntries, now))}
                 </TableCell>
-                <TableCell className="pr-16" />
+                <TableCell className="pr-4 sm:pr-8 lg:pr-16" />
               </TableRow>
               {dayEntries.map((entry) => {
                 const running = entry.endAt > now
                 const isSelected = selected.has(entry.id)
                 return (
                   <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
-                    <TableCell className="pl-16">
+                    <TableCell className="pl-4 sm:pl-8 lg:pl-16">
                       <Checkbox
                         aria-label={`${entry.title} auswählen`}
                         checked={isSelected}
@@ -119,7 +119,7 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
                     <TableCell className={cn('text-right tabular-nums', running && 'text-black dark:text-white')}>
                       {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
                     </TableCell>
-                    <TableCell className="pr-16 text-right">
+                    <TableCell className="pr-4 sm:pr-8 lg:pr-16 text-right">
                       {entry.htmlLink ? (
                         <Button variant="ghost" size="icon-xs" asChild>
                           <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">

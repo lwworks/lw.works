@@ -15,14 +15,14 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
   const address = formatAddress(company)
   return (
     <section>
-      <div className="border-b border-neutral-200 px-16 pt-9 pb-8 dark:border-neutral-800">
+      <div className="border-b border-neutral-200 px-4 sm:px-8 lg:px-16 pt-9 pb-8 dark:border-neutral-800">
         <div className="mb-4 flex items-center gap-2 text-sm">
           <Link href="/unternehmen" className="flex items-center gap-1 hover:text-black dark:hover:text-white">
             <ArrowLeft strokeWidth={1.5} className="size-4" />
             <span>Unternehmen</span>
           </Link>
         </div>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             {company.logoUrl ? <RemoteImage src={company.logoUrl} alt="" width={40} height={40} className="size-10 rounded-lg border object-contain" /> : null}
             <Heading as="h1" size="h2">{company.name}</Heading>
@@ -44,7 +44,7 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-8 border-b border-neutral-200 px-16 py-8 md:grid-cols-2 dark:border-neutral-800">
+      <div className="grid grid-cols-1 gap-8 border-b border-neutral-200 px-4 sm:px-8 lg:px-16 py-8 md:grid-cols-2 dark:border-neutral-800">
         <div>
           <Heading as="h2" size="h4">Adresse</Heading>
           {address.length === 0 ? <p className="mt-3 text-sm">Keine Adresse.</p> : (

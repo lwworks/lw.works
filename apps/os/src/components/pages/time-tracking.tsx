@@ -52,7 +52,7 @@ export const TimeTrackingPage = ({ week, currentWeek, entries, projects, sync, n
           <CreateEntryButton />
         </PageHeader>
         <WeekNavigationProvider week={week} currentWeek={currentWeek}>
-          <div className="px-16 pb-8 flex flex-col gap-6">
+          <div className="px-4 sm:px-8 lg:px-16 pb-8 flex flex-col gap-6">
             {needsConnect ? (
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
                 <div className="flex items-start gap-2">
@@ -97,7 +97,7 @@ export const TimeTrackingPageSkeleton = () => {
           <Skeleton className="h-9 w-20" />
           <CreateEntryButton />
         </PageHeader>
-        <div className="px-16 pb-8 flex flex-col gap-6">
+        <div className="px-4 sm:px-8 lg:px-16 pb-8 flex flex-col gap-6">
           <ActivityChartSkeleton />
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2">

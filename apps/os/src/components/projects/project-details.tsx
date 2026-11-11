@@ -33,12 +33,12 @@ export const ProjectDetails = ({
   const period = formatProjectPeriod(project)
   return (
     <section>
-      <div className={cn("border-b border-neutral-200 px-16 pt-9 pb-8 dark:border-neutral-800")}>
+      <div className={cn("border-b border-neutral-200 px-4 sm:px-8 lg:px-16 pt-9 pb-8 dark:border-neutral-800")}>
         <Link href={archived ? "/projekte?archiviert=1" : "/projekte"} className={cn("mb-4 flex w-fit items-center gap-1 text-sm hover:text-black dark:hover:text-white")}>
           <ArrowLeft strokeWidth={1.5} className={cn("size-4")} />
           <span>Projekte</span>
         </Link>
-        <div className={cn("flex items-center justify-between gap-4")}>
+        <div className={cn("flex flex-wrap items-center justify-between gap-4")}>
           <div className={cn("flex min-w-0 items-center gap-3")}>
             <ProjectBadge projectKey={project.key} className={cn("h-6 px-2.5 text-sm")} />
             <Heading as="h1" size="h2" className={cn("truncate")}>{project.title}</Heading>
@@ -78,7 +78,7 @@ export const ProjectDetails = ({
         ) : null}
       </div>
 
-      <dl className={cn("grid grid-cols-1 gap-x-8 gap-y-6 border-b border-neutral-200 px-16 py-8 text-sm sm:grid-cols-3 dark:border-neutral-800")}>
+      <dl className={cn("grid grid-cols-1 gap-x-8 gap-y-6 border-b border-neutral-200 px-4 sm:px-8 lg:px-16 py-8 text-sm sm:grid-cols-3 dark:border-neutral-800")}>
         <Item label="Kunde">
           <Link href={`/unternehmen/${project.company.id}`} className={cn("inline-flex items-center gap-1.5 hover:underline")}>
             {project.company.logoUrl ? <RemoteImage src={project.company.logoUrl} alt="" width={14} height={14} className={cn("size-3.5")} /> : null}
@@ -114,35 +114,37 @@ export const ProjectDetails = ({
         ) : null}
       </dl>
 
-      <div className={cn("px-16 pt-8 pb-4")}>
+      <div className={cn("px-4 sm:px-8 lg:px-16 pt-8 pb-4")}>
         <Heading as="h2" size="h4">Zeiteinträge</Heading>
         <p className={cn("mt-1 text-sm")}>
           Die letzten {entries.length === 50 ? "50 " : ""}Einträge aller Nutzer. Termine mit <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
         </p>
       </div>
-      <table className={cn("w-full text-sm")}>
-        <tbody>
-          {entries.length === 0 ? (
-            <tr className={cn("h-16 border-y border-neutral-200 dark:border-neutral-800")}>
-              <td className={cn("px-16")}>Noch keine Zeiteinträge.</td>
-            </tr>
-          ) : null}
-          {entries.map((entry, index) => (
-            <tr key={entry.id} className={cn("h-10 border-b border-neutral-200 dark:border-neutral-800", index === 0 && "border-t")}>
-              <td className={cn("pr-2 pl-16 tabular-nums whitespace-nowrap")}>
-                {formatDate(entry.startAt)} · {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
-              </td>
-              <td className={cn("w-full max-w-0 truncate pr-2 font-medium text-black dark:text-white")}>
-                {stripProjectPrefix(entry.title, project.key)}
-              </td>
-              <td className={cn("pr-2 whitespace-nowrap")}>{entry.userName}</td>
-              <td className={cn("pr-16 text-right tabular-nums whitespace-nowrap")}>
-                {entry.endAt > now ? "läuft" : formatDuration(sumTrackedMs([entry], now))}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-xl">
+          <tbody>
+            {entries.length === 0 ? (
+              <tr className={cn("h-16 border-y border-neutral-200 dark:border-neutral-800")}>
+                <td className={cn("px-4 sm:px-8 lg:px-16")}>Noch keine Zeiteinträge.</td>
+              </tr>
+            ) : null}
+            {entries.map((entry, index) => (
+              <tr key={entry.id} className={cn("h-10 border-b border-neutral-200 dark:border-neutral-800", index === 0 && "border-t")}>
+                <td className={cn("pr-2 pl-4 sm:pl-8 lg:pl-16 tabular-nums whitespace-nowrap")}>
+                  {formatDate(entry.startAt)} · {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
+                </td>
+                <td className={cn("w-full max-w-0 truncate pr-2 font-medium text-black dark:text-white")}>
+                  {stripProjectPrefix(entry.title, project.key)}
+                </td>
+                <td className={cn("pr-2 whitespace-nowrap")}>{entry.userName}</td>
+                <td className={cn("pr-4 sm:pr-8 lg:pr-16 text-right tabular-nums whitespace-nowrap")}>
+                  {entry.endAt > now ? "läuft" : formatDuration(sumTrackedMs([entry], now))}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   )
 }
