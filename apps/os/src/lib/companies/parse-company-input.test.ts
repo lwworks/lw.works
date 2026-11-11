@@ -24,7 +24,7 @@ describe('parseCompanyInput', () => {
     expect(parsed.value).toEqual({
       name: 'Drehimpuls',
       logoUrl: 'https://example.com/logo.png',
-      website: 'https://drehimpuls.de/',
+      website: 'https://drehimpuls.de',
       street: 'Hafen 1',
       postalCode: '28195',
       city: 'Bremen',
@@ -33,8 +33,23 @@ describe('parseCompanyInput', () => {
     expect(parsed.value).not.toHaveProperty('phone')
   })
 
-  it('rejects a logo that is not https', () => {
-    const parsed = parseCompanyInput(form({ name: 'Drehimpuls', logoUrl: 'http://example.com/logo.png' }))
-    expect(parsed).toEqual({ ok: false, message: 'Logo muss eine https-URL sein.' })
+  it('stores logo and website as entered, including values that are not https urls', () => {
+    const parsed = parseCompanyInput(form({
+      name: 'Drehimpuls',
+      logoUrl: 'http://example.com/logo.png',
+      website: 'autor@-brunkhorst.de',
+    }))
+    expect(parsed).toEqual({
+      ok: true,
+      value: {
+        name: 'Drehimpuls',
+        logoUrl: 'http://example.com/logo.png',
+        website: 'autor@-brunkhorst.de',
+        street: null,
+        postalCode: null,
+        city: null,
+        country: null,
+      },
+    })
   })
 })

@@ -21,6 +21,16 @@ describe('parseContactInput', () => {
     expect(parsed.value).not.toHaveProperty('role')
   })
 
+  it('stores an avatar as entered', () => {
+    const form = new FormData()
+    form.set('firstName', 'Ada')
+    form.set('avatarUrl', 'autor@-brunkhorst.de')
+    const parsed = parseContactInput(form)
+    expect(parsed.ok).toBe(true)
+    if (!parsed.ok) return
+    expect(parsed.value.avatarUrl).toBe('autor@-brunkhorst.de')
+  })
+
   it('rejects an impossible birthday', () => {
     const form = new FormData()
     form.set('firstName', 'Ada')

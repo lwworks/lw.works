@@ -1,6 +1,7 @@
 "use client"
 
-import { createContactAction, saveContactAction } from "@/app/kontakte/actions"
+import { saveContactAction } from "@/app/kontakte/actions"
+import { CompanyDraftProvider } from "@/components/contacts/company-draft"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
@@ -10,8 +11,8 @@ import { Input } from "@lw/ui/components/input"
 import { Label } from "@lw/ui/components/label"
 import { Switch } from "@lw/ui/components/switch"
 import { cn } from "@lw/ui/lib/utils"
-import { Pencil, Plus } from "@mynaui/icons-react"
-import { useActionState, useEffect, useState } from "react"
+import { Pencil } from "@mynaui/icons-react"
+import { useActionState, useEffect, useRef, useState } from "react"
 
 export type ContactFormValues = {
   displayId?: number
@@ -32,31 +33,101 @@ export type ContactFormValues = {
 
 const fieldClass = "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm text-black outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:text-white"
 
+type FormSnapshot = {
+  entries: [string, string][]
+  companyLabel: string
+}
+
+const snapshotForm = (form: HTMLFormElement): FormSnapshot => {
+  const entries: [string, string][] = []
+  for (const [key, value] of new FormData(form).entries()) {
+    if (typeof value === "string") entries.push([key, value])
+  }
+  const companyInput = form.querySelector<HTMLInputElement>("#companyId")
+  return { entries, companyLabel: companyInput?.value ?? "" }
+}
+
+/** Puts back values a failed save cleared. Leaves a field alone when the user still has something in it. */
+const restoreClearedFields = (form: HTMLFormElement, snapshot: FormSnapshot) => {
+  const grouped = new Map<string, string[]>()
+  for (const [key, value] of snapshot.entries) {
+    const list = grouped.get(key) ?? []
+    list.push(value)
+    grouped.set(key, list)
+  }
+  const seen = new Set<string>()
+  for (const element of form.elements) {
+    if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement)) continue
+    if (!element.name) continue
+    const list = grouped.get(element.name) ?? []
+    if (element instanceof HTMLInputElement && (element.type === "checkbox" || element.type === "radio")) {
+      if (seen.has(element.name)) continue
+      seen.add(element.name)
+      const boxes = form.querySelectorAll<HTMLInputElement>(`input[type="checkbox"][name="${CSS.escape(element.name)}"], input[type="radio"][name="${CSS.escape(element.name)}"]`)
+      const anyChecked = [...boxes].some((box) => box.checked)
+      if (!anyChecked && list.length > 0) {
+        for (const box of boxes) box.checked = list.includes(box.value)
+      }
+      continue
+    }
+    if (element.value === "" && list[0]) element.value = list[0]
+  }
+  const companyInput = form.querySelector<HTMLInputElement>("#companyId")
+  if (companyInput && companyInput.value === "" && snapshot.companyLabel) companyInput.value = snapshot.companyLabel
+}
+
 export const ContactForm = ({
-  companies,
-  tags,
+  companies = [],
+  tags = [],
   contact,
   action,
   onSaved,
   canTogglePrivacy = true,
+  layout = "dialog",
+  companyField,
+  tagsField,
 }: {
-  companies: CompanyListItem[]
-  tags: TagListItem[]
+  companies?: CompanyListItem[]
+  tags?: TagListItem[]
   contact?: ContactFormValues
   action: (prev: { ok: true } | { ok: false; message: string } | null, formData: FormData) => Promise<{ ok: true } | { ok: false; message: string } | null>
   onSaved?: () => void
   canTogglePrivacy?: boolean
+  layout?: "dialog" | "page"
+  companyField?: React.ReactNode
+  tagsField?: React.ReactNode
 }) => {
   const [state, formAction, pending] = useActionState(action, null)
   const [isPrivate, setIsPrivate] = useState(contact?.isPrivate ?? false)
   const selected = new Set(contact?.tagIds ?? [])
+  const formRef = useRef<HTMLFormElement>(null)
+  const snapshotRef = useRef<FormSnapshot | null>(null)
 
   useEffect(() => {
     if (state && state.ok) onSaved?.()
   }, [state, onSaved])
 
+  useEffect(() => {
+    const form = formRef.current
+    const snapshot = snapshotRef.current
+    if (!form || !snapshot || !state || state.ok) return
+    restoreClearedFields(form, snapshot)
+  }, [state])
+
   return (
-    <form action={formAction} className="flex flex-col gap-3">
+    <CompanyDraftProvider>
+    <form
+      ref={formRef}
+      action={formAction}
+      className="flex flex-col gap-3"
+      onSubmit={(event) => {
+        snapshotRef.current = snapshotForm(event.currentTarget)
+      }}
+      onReset={(event) => {
+        // React resets the form after every action, including a failed save.
+        event.preventDefault()
+      }}
+    >
       <input type="hidden" name="isPrivate" value={isPrivate ? "true" : "false"} />
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Vorname" name="firstName" defaultValue={contact?.firstName} />
@@ -77,25 +148,31 @@ export const ContactForm = ({
       </fieldset>
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="companyId">Unternehmen</Label>
-        <select id="companyId" name="companyId" defaultValue={contact?.companyId ?? ""} className={cn(fieldClass)}>
-          <option value="">Kein Unternehmen</option>
-          {companies.map((company) => (
-            <option key={company.id} value={company.id}>{company.name}</option>
-          ))}
-        </select>
+        {companyField ?? (
+          <select id="companyId" name="companyId" defaultValue={contact?.companyId ?? ""} className={cn(fieldClass)}>
+            <option value="">Kein Unternehmen</option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.id}>{company.name}</option>
+            ))}
+          </select>
+        )}
       </div>
       <fieldset className="flex flex-col gap-2">
         <legend className="text-sm">Tags</legend>
-        {tags.length === 0 ? <p className="text-sm">Noch keine Tags.</p> : null}
-        <div className="flex max-h-32 flex-col gap-1.5 overflow-y-auto">
-          {tags.map((tag) => (
-            <label key={tag.id} className="flex items-center gap-2 text-sm">
-              <input type="checkbox" name="tagIds" value={tag.id} defaultChecked={selected.has(tag.id)} className="size-4 accent-black" />
-              <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
-              <span>{tag.name}</span>
-            </label>
-          ))}
-        </div>
+        {tagsField ?? (
+          <>
+            {tags.length === 0 ? <p className="text-sm">Noch keine Tags.</p> : null}
+            <div className="flex max-h-32 flex-col gap-1.5 overflow-y-auto">
+              {tags.map((tag) => (
+                <label key={tag.id} className="flex items-center gap-2 text-sm">
+                  <input type="checkbox" name="tagIds" value={tag.id} defaultChecked={selected.has(tag.id)} className="size-4 accent-black" />
+                  <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
+                  <span>{tag.name}</span>
+                </label>
+              ))}
+            </div>
+          </>
+        )}
       </fieldset>
       {canTogglePrivacy ? (
         <div className="flex items-center justify-between gap-3">
@@ -104,10 +181,17 @@ export const ContactForm = ({
         </div>
       ) : null}
       {state && !state.ok ? <p className="text-sm text-destructive">{state.message}</p> : null}
-      <DialogFooter>
-        <Button type="submit" disabled={pending}>{pending ? "Speichert …" : "Speichern"}</Button>
-      </DialogFooter>
+      {layout === "page" ? (
+        <div className={cn("flex justify-end")}>
+          <Button type="submit" disabled={pending}>{pending ? "Speichert …" : "Speichern"}</Button>
+        </div>
+      ) : (
+        <DialogFooter>
+          <Button type="submit" disabled={pending}>{pending ? "Speichert …" : "Speichern"}</Button>
+        </DialogFooter>
+      )}
     </form>
+    </CompanyDraftProvider>
   )
 }
 
@@ -116,23 +200,6 @@ const Field = ({ label, name, defaultValue, type = "text" }: { label: string; na
     <Label htmlFor={name}>{label}</Label>
     <Input id={name} name={name} type={type} defaultValue={defaultValue ?? ""} />
   </div>
-)
-
-export const CreateContactDialog = ({ companies, tags }: { companies: CompanyListItem[]; tags: TagListItem[] }) => (
-  <Dialog>
-    <DialogTrigger asChild>
-      <Button>
-        <Plus strokeWidth={1.5} className="size-4" />
-        <span>Neuer Kontakt</span>
-      </Button>
-    </DialogTrigger>
-    <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle>Neuer Kontakt</DialogTitle>
-      </DialogHeader>
-      <ContactForm companies={companies} tags={tags} action={createContactAction} />
-    </DialogContent>
-  </Dialog>
 )
 
 export const EditContactDialog = ({
