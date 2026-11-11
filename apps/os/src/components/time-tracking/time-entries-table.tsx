@@ -29,9 +29,11 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
     return <p className="px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Keine Einträge in dieser Woche.</p>
   }
 
-  const ids = entries.map((entry) => entry.id)
+  // Newest day first; entries within a day stay chronological (morning to evening).
+  const days = [...Map.groupBy(entries, (entry) => toZonedDateKey(entry.startAt))].reverse()
+  // Visual order, so Shift+click ranges match what the user sees.
+  const ids = days.flatMap(([, dayEntries]) => dayEntries.map((entry) => entry.id))
   const selectedCount = ids.filter((id) => selected.has(id)).length
-  const days = Map.groupBy(entries, (entry) => toZonedDateKey(entry.startAt))
 
   const toggleRow = (targetId: string, extendRange: boolean) => {
     setSelected(toggleRowSelection({ ids, selected, anchorId, targetId, extendRange }))
@@ -50,7 +52,7 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
         }
       />
       <TableBody>
-        {[...days].map(([day, dayEntries]) => {
+        {days.map(([day, dayEntries]) => {
           const dayIds = dayEntries.map((entry) => entry.id)
           const dayLabel = formatDay(dayEntries[0].startAt)
           return (
