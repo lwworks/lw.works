@@ -1,9 +1,11 @@
 import { RemoteImage } from "@/components/atoms/remote-image"
 import { DeleteCompanyButton } from "@/components/companies/delete-company-button"
 import { EditCompanyDialog } from "@/components/companies/company-form"
+import { ProjectBadge } from "@/components/projects/project-badge"
 import { formatAddress } from "@/lib/companies/format-address"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
+import { projectStatusLabel } from "@/lib/projects/project-status-label"
 import type { CompanyDetail } from "@/lib/db/companies/get-company"
 import { Heading } from "@lw/ui/atoms/heading"
 import { ArrowLeft } from "@mynaui/icons-react"
@@ -66,6 +68,20 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
                     <span className="mr-2 font-mono text-neutral-400">{formatDisplayId(contact.displayId)}</span>
                     {formatContactName(contact.firstName, contact.lastName)}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="md:col-span-2">
+          <Heading as="h2" size="h4">Projekte</Heading>
+          {company.projects.length === 0 ? <p className="mt-3 text-sm">Keine Projekte.</p> : (
+            <ul className="mt-3 flex flex-col gap-2 text-sm">
+              {company.projects.map((project) => (
+                <li key={project.id} className="flex items-center gap-2">
+                  <ProjectBadge projectKey={project.key} />
+                  <Link href={`/projekte/${project.slug}`} className="font-medium text-black hover:underline dark:text-white">{project.title}</Link>
+                  <span>· {projectStatusLabel(project.status)}</span>
                 </li>
               ))}
             </ul>

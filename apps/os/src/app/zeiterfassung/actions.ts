@@ -3,6 +3,7 @@
 import { requireUserId } from '@/lib/auth/require-user-id'
 import { syncCalendarForUser } from '@/lib/google-calendar/sync-calendar-for-user'
 import type { SyncResult } from '@/lib/google-calendar/sync-calendar-state'
+import { assignTimeEntries } from '@/lib/time-tracking/assign-time-entries'
 import { parseSyncRange } from '@/lib/time-tracking/parse-sync-range'
 import { refresh } from 'next/cache'
 
@@ -15,5 +16,12 @@ export async function syncOwnCalendar(days: { from: string; to: string }): Promi
 
   const result = await syncCalendarForUser(userId, range)
   refresh()
+  return result
+}
+
+/** Assigns the signed-in user's selected entries to a project, or to none. */
+export async function assignTimeEntriesAction(ids: string[], projectId: string | null) {
+  const result = await assignTimeEntries(ids, projectId)
+  if (result.ok) refresh()
   return result
 }

@@ -1,4 +1,5 @@
 import type { CalendarSyncDTO } from '@/lib/db/calendar-sync-states/get-own-calendar-sync'
+import type { AssignableProject } from '@/lib/db/projects/list-assignable-projects'
 import type { TimeEntryDTO } from '@/lib/db/time-entries/get-own-time-entries'
 import { formatDateTime } from '@/lib/format/format-date-time'
 import { formatDuration } from '@/lib/format/format-duration'
@@ -33,13 +34,14 @@ type TimeTrackingPageProps = {
   week: IsoWeek
   currentWeek: IsoWeek
   entries: TimeEntryDTO[]
+  projects: AssignableProject[]
   sync: CalendarSyncDTO
   now: Date
   /** Google sign-in goes through production's OAuth proxy (see `proxiesThroughProduction`). */
   authProxied: boolean
 }
 
-export const TimeTrackingPage = ({ week, currentWeek, entries, sync, now, authProxied }: TimeTrackingPageProps) => {
+export const TimeTrackingPage = ({ week, currentWeek, entries, projects, sync, now, authProxied }: TimeTrackingPageProps) => {
   const needsConnect = sync.status === 'reauth_required' || sync.status === 'missing_scope'
 
   return (
@@ -79,7 +81,7 @@ export const TimeTrackingPage = ({ week, currentWeek, entries, sync, now, authPr
             </p>
           </div>
           <WeekPending fallback={<TimeEntriesTableSkeleton />}>
-            <TimeEntriesTable key={formatIsoWeek(week)} entries={entries} now={now} />
+            <TimeEntriesTable key={formatIsoWeek(week)} entries={entries} projects={projects} now={now} />
           </WeekPending>
         </WeekNavigationProvider>
       </section>

@@ -1,9 +1,12 @@
 'use client'
 
+import { ProjectBadge } from '@/components/projects/project-badge'
+import type { AssignableProject } from '@/lib/db/projects/list-assignable-projects'
 import type { TimeEntryDTO } from '@/lib/db/time-entries/get-own-time-entries'
 import { formatDay, formatTime } from '@/lib/format/format-date-time'
 import { formatDuration } from '@/lib/format/format-duration'
 import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
+import { stripProjectPrefix } from '@/lib/projects/strip-project-prefix'
 import { getSelectAllState } from '@/lib/time-tracking/get-select-all-state'
 import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
 import { toggleGroupSelection } from '@/lib/time-tracking/toggle-group-selection'
@@ -14,6 +17,7 @@ import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment, useState, type MouseEvent } from 'react'
+import { SelectionActionBar } from './selection-action-bar'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 /** Keeps Shift+click from also selecting the text between the clicked checkboxes. */
@@ -21,7 +25,7 @@ const preventShiftTextSelection = (event: MouseEvent) => {
   if (event.shiftKey) event.preventDefault()
 }
 
-export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; now: Date }) => {
+export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntryDTO[]; projects: AssignableProject[]; now: Date }) => {
   const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
   const [anchorId, setAnchorId] = useState<string | null>(null)
 
@@ -41,6 +45,7 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
   }
 
   return (
+    <>
     <Table>
       <TimeEntriesTableHeader
         selectAll={
@@ -89,7 +94,14 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
                     </TableCell>
                     <TableCell className="w-full max-w-0">
                       <div className="flex items-center gap-3 min-w-0">
-                        <span className="font-medium text-black dark:text-white truncate">{entry.title}</span>
+                        {entry.project ? (
+                          <ProjectBadge
+                            projectKey={entry.project.key}
+                            slug={entry.project.slug}
+                            title={entry.projectAssignment === 'manual' ? `${entry.project.title} (manuell zugeordnet)` : entry.project.title}
+                          />
+                        ) : null}
+                        <span className="font-medium text-black dark:text-white truncate">{stripProjectPrefix(entry.title, entry.project?.key)}</span>
                         {entry.location ? (
                           <span className="inline-flex items-center gap-1 min-w-0 text-xs">
                             <MapPin strokeWidth={1.5} className="size-3.5 shrink-0" />
@@ -124,5 +136,9 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
         })}
       </TableBody>
     </Table>
+    {selectedCount > 0 ? (
+      <SelectionActionBar selectedIds={ids.filter((id) => selected.has(id))} projects={projects} onDone={() => setSelected(new Set())} />
+    ) : null}
+    </>
   )
 }

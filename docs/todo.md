@@ -20,3 +20,16 @@
 - [ ] Evaluate Cache Components (`cacheComponents`, `unstable_instant`) to prerender the static shells instead of `loading.tsx`
 - [ ] Clear a stale/revoked session cookie on `/login`, so the proxy 307s instead of the page streaming a redirect
 - [ ] Check LCP on `/login` with the lazily loaded paint background
+
+# Projekte (siehe `docs/plan.md`)
+
+- [x] Schema `project`, `project_contact`, `time_entry.project_id`/`project_assignment` + Migration
+- [x] `parseProjectKey`, `slugify`, `parseProjectInput` (+ Tests)
+- [x] DB-Funktionen Projekte (list, get, insert, update, archive, restore, contacts, keys, slug)
+- [x] Sync: automatische Zuordnung über `KÜRZEL:`; Rückwirkend beim Anlegen
+- [x] Projekte-UI: Liste, Neu, Detail/Bearbeiten, Archivieren/Wiederherstellen
+- [x] Unternehmensseite: Projekte; Löschen blockiert bei Projekten
+- [x] Zeiterfassung: Projekt-Badge, Aktionsleiste (zuordnen, entfernen, automatisch)
+- [x] Sidebar-Link, Typecheck, Lint, Tests
+- [ ] Migration `0004_projects` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
+- [ ] Im Browser durchklicken: Projekt anlegen, rückwirkende Zuordnung, Sync, Mehrfachauswahl, Archivieren/Wiederherstellen

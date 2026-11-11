@@ -2,12 +2,13 @@ import 'server-only'
 
 import { requireUserId } from '@/lib/auth/require-user-id'
 import { getDb } from '@/lib/db/get-db'
+import { project } from '@/lib/db/schema/projects'
 import { timeEntry } from '@/lib/db/schema/time-tracking'
 import { and, asc, eq, gte, isNull, lt, sql } from 'drizzle-orm'
 
 export type TimeEntryDTO = Awaited<ReturnType<typeof getOwnTimeEntries>>[number]
 
-/** The signed-in user's non-deleted entries starting in `[start, end)`. */
+/** The signed-in user's non-deleted entries starting in `[start, end)`, with their project. */
 export const getOwnTimeEntries = async ({ start, end }: { start: Date; end: Date }) => {
   const userId = await requireUserId()
   return getDb()
@@ -19,8 +20,11 @@ export const getOwnTimeEntries = async ({ start, end }: { start: Date; end: Date
       startAt: timeEntry.startAt,
       endAt: timeEntry.endAt,
       htmlLink: timeEntry.htmlLink,
+      projectAssignment: timeEntry.projectAssignment,
+      project: { key: project.key, title: project.title, slug: project.slug },
     })
     .from(timeEntry)
+    .leftJoin(project, eq(project.id, timeEntry.projectId))
     .where(and(eq(timeEntry.userId, userId), isNull(timeEntry.deletedAt), gte(timeEntry.startAt, start), lt(timeEntry.startAt, end)))
     .orderBy(asc(timeEntry.startAt))
 }
