@@ -1,5 +1,6 @@
 import { TimeTrackingPage } from '@/components/pages/time-tracking'
 import { getOwnCalendarSync } from '@/lib/db/calendar-sync-states/get-own-calendar-sync'
+import { listAssignableProjects } from '@/lib/db/projects/list-assignable-projects'
 import { getOwnTimeEntries } from '@/lib/db/time-entries/get-own-time-entries'
 import { getSession } from '@/lib/auth/get-session'
 import { proxiesThroughProduction } from '@/lib/auth/proxies-through-production'
@@ -26,13 +27,14 @@ export default async function Page({ searchParams }: PageProps<'/zeiterfassung'>
   const week = parseIsoWeek(typeof woche === 'string' ? woche : undefined) ?? currentWeek
   if (isAfterIsoWeek(week, currentWeek)) redirect('/zeiterfassung')
   const range = getIsoWeekRange(week)
-  const [entries, sync] = await Promise.all([getOwnTimeEntries(range), getOwnCalendarSync()])
+  const [entries, sync, projects] = await Promise.all([getOwnTimeEntries(range), getOwnCalendarSync(), listAssignableProjects()])
 
   return (
     <TimeTrackingPage
       week={week}
       currentWeek={currentWeek}
       entries={entries}
+      projects={projects}
       sync={sync}
       now={now}
       authProxied={proxiesThroughProduction()}

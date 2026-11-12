@@ -39,6 +39,9 @@ vi.mock('@/lib/db/get-db', () => ({
     }),
   }),
 }))
+vi.mock('@/lib/db/projects/list-active-project-keys', () => ({
+  listActiveProjectKeys: async () => new Map([['BR', 'project-br']]),
+}))
 vi.mock('@/lib/google-calendar/list-events', () => ({
   listEvents: async (getAccessToken: (force: boolean) => Promise<string>, _calendarId: string, params: ListEventsParams, onPage: (events: GoogleEvent[]) => Promise<void>) => {
     fake.requests.push(params)
@@ -107,6 +110,25 @@ describe('syncCalendarState', () => {
     const sweep = softDeletes()[0]?.where
     for (const needle of ['user-1', 'primary', 'start_at', 'last_seen_at', 'deleted_at']) expect(mentions(sweep, needle)).toBe(true)
     expect(finalState()).toMatchObject({ status: 'ok', lastError: null, lastSyncedAt: NOW, lockedUntil: null })
+  })
+
+  it('assigns entries by their `KEY:` title prefix and keeps manual assignments', async () => {
+    fake.pages = () => [
+      event('br', '2026-06-15T08:00:00.000Z', { summary: 'BR: Abstimmung' }),
+      event('no-colon', '2026-06-15T09:00:00.000Z', { summary: 'BR Abstimmung' }),
+      event('unknown', '2026-06-15T10:00:00.000Z', { summary: 'XY: Abstimmung' }),
+    ]
+
+    await syncCalendarState('state-1')
+
+    expect(upserts()[0]?.values?.map(({ googleEventId, projectId, projectAssignment }) => ({ googleEventId, projectId, projectAssignment }))).toEqual([
+      { googleEventId: 'br', projectId: 'project-br', projectAssignment: 'auto' },
+      { googleEventId: 'no-colon', projectId: null, projectAssignment: null },
+      { googleEventId: 'unknown', projectId: null, projectAssignment: null },
+    ])
+    const set = (upserts()[0]?.conflict as { set: Record<string, unknown> }).set
+    expect(mentions(set.projectId, "'manual'")).toBe(true)
+    expect(mentions(set.projectAssignment, "'manual'")).toBe(true)
   })
 
   it('covers everything since 2026-01-01 on the first sync', async () => {

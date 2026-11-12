@@ -1,5 +1,7 @@
-import { index, jsonb, pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
+import { check, index, jsonb, pgTable, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { account, user } from './auth'
+import { project } from './projects'
 
 export type TimeEntryAttendee = {
   email: string
@@ -11,6 +13,12 @@ export type TimeEntryAttendee = {
 }
 
 const timestamptz = (name: string) => timestamp(name, { withTimezone: true })
+
+/**
+ * `auto`: set by the sync from a `KEY:` title prefix and recomputed on every sync.
+ * `manual`: set by hand (or frozen when the project was archived); the sync never changes it.
+ */
+export type TimeEntryProjectAssignment = 'auto' | 'manual'
 
 export const timeEntry = pgTable(
   'time_entry',
@@ -35,6 +43,8 @@ export const timeEntry = pgTable(
     googleUpdatedAt: timestamptz('google_updated_at').notNull(),
     lastSeenAt: timestamptz('last_seen_at').notNull(),
     deletedAt: timestamptz('deleted_at'),
+    projectId: text('project_id').references(() => project.id, { onDelete: 'set null' }),
+    projectAssignment: text('project_assignment').$type<TimeEntryProjectAssignment>(),
     createdAt: timestamptz('created_at').defaultNow().notNull(),
     updatedAt: timestamptz('updated_at')
       .defaultNow()
@@ -44,6 +54,8 @@ export const timeEntry = pgTable(
   (table) => [
     uniqueIndex('time_entry_user_calendar_event_idx').on(table.userId, table.calendarId, table.googleEventId),
     index('time_entry_user_start_idx').on(table.userId, table.startAt),
+    index('time_entry_project_idx').on(table.projectId),
+    check('time_entry_project_assignment', sql`${table.projectAssignment} IS NULL OR ${table.projectAssignment} IN ('auto', 'manual')`),
   ],
 )
 

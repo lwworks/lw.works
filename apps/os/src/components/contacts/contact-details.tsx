@@ -31,7 +31,7 @@ export const ContactDetails = ({
   const name = formatContactName(contact.firstName, contact.lastName)
   return (
     <section>
-      <div className="border-b border-neutral-200 px-16 pt-9 pb-8 dark:border-neutral-800">
+      <div className="border-b border-neutral-200 px-4 sm:px-8 lg:px-16 pt-9 pb-8 dark:border-neutral-800">
         <div className="mb-4 flex items-center gap-2 text-sm">
           <Link href="/kontakte" className="flex items-center gap-1 hover:text-black dark:hover:text-white">
             <ArrowLeft strokeWidth={1.5} className="size-4" />
@@ -57,8 +57,8 @@ export const ContactDetails = ({
         </div>
       </div>
       <div className="grid grid-cols-1 divide-y divide-neutral-200 border-b border-neutral-200 md:grid-cols-2 md:divide-x md:divide-y-0 dark:divide-neutral-800 dark:border-neutral-800">
-        <div className="p-8 pl-16">
-          <div className="flex items-center justify-between">
+        <div className="px-4 py-8 sm:px-8 lg:pl-16">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <Heading as="h2" size="h4">Details</Heading>
             <EditContactDialog
               companies={companies}
@@ -96,7 +96,7 @@ export const ContactDetails = ({
             </tbody>
           </table>
         </div>
-        <div className="flex flex-col gap-6 p-8 pr-16">
+        <div className="flex flex-col gap-6 px-4 py-8 sm:px-8 lg:pr-16">
           <div>
             <Heading as="h2" size="h4">Tags</Heading>
             <div className="mt-3 flex flex-wrap gap-1">

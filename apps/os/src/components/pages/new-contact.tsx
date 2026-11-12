@@ -12,14 +12,14 @@ export const NewContactPage = () => {
   return (
     <Layout>
       <section>
-        <div className={cn("border-b border-neutral-200 px-16 pt-9 pb-8 dark:border-neutral-800")}>
+        <div className={cn("border-b border-neutral-200 px-4 sm:px-8 lg:px-16 pt-9 pb-8 dark:border-neutral-800")}>
           <Link href="/kontakte" className={cn("mb-4 flex w-fit items-center gap-1 text-sm hover:text-black dark:hover:text-white")}>
             <ArrowLeft strokeWidth={1.5} className="size-4" />
             <span>Kontakte</span>
           </Link>
           <Heading as="h1" size="h3">Neuer Kontakt</Heading>
         </div>
-        <div className={cn("max-w-lg px-16 py-8")}>
+        <div className={cn("max-w-lg px-4 sm:px-8 lg:px-16 py-8")}>
           <NewContactForm
             companyField={
               <Suspense fallback={<Skeleton className={cn("h-8 w-full rounded-lg")} />}>

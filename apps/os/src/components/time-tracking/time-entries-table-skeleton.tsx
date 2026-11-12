@@ -9,13 +9,13 @@ const DAYS = [3, 2]
 /** Placeholder for `TimeEntriesTable` with the same columns and row heights. */
 export const TimeEntriesTableSkeleton = () => {
   return (
-    <Table aria-busy="true" aria-label="Einträge werden geladen">
+    <Table className="min-w-xl" aria-busy="true" aria-label="Einträge werden geladen">
       <TimeEntriesTableHeader selectAll={<Skeleton className="size-4 rounded-[4px]" />} />
       <TableBody>
         {DAYS.map((rows, day) => (
           <Fragment key={day}>
             <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-              <TableCell className="pl-16">
+              <TableCell className="pl-4 sm:pl-8 lg:pl-16">
                 <Skeleton className="size-4 rounded-[4px]" />
               </TableCell>
               <TableCell colSpan={2}>
@@ -24,11 +24,11 @@ export const TimeEntriesTableSkeleton = () => {
               <TableCell>
                 <Skeleton className="h-4 w-12 ml-auto" />
               </TableCell>
-              <TableCell className="pr-16" />
+              <TableCell className="pr-4 sm:pr-8 lg:pr-16" />
             </TableRow>
             {Array.from({ length: rows }, (_, row) => (
               <TableRow key={row} className="hover:bg-transparent">
-                <TableCell className="pl-16">
+                <TableCell className="pl-4 sm:pl-8 lg:pl-16">
                   <Skeleton className="size-4 rounded-[4px]" />
                 </TableCell>
                 <TableCell>
@@ -40,7 +40,7 @@ export const TimeEntriesTableSkeleton = () => {
                 <TableCell>
                   <Skeleton className="h-4 w-12 ml-auto" />
                 </TableCell>
-                <TableCell className="pr-16">
+                <TableCell className="pr-4 sm:pr-8 lg:pr-16">
                   <Skeleton className="size-6" />
                 </TableCell>
               </TableRow>

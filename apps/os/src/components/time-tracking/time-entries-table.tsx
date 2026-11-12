@@ -1,9 +1,12 @@
 'use client'
 
+import { ProjectBadge } from '@/components/projects/project-badge'
+import type { AssignableProject } from '@/lib/db/projects/list-assignable-projects'
 import type { TimeEntryDTO } from '@/lib/db/time-entries/get-own-time-entries'
 import { formatDay, formatTime } from '@/lib/format/format-date-time'
 import { formatDuration } from '@/lib/format/format-duration'
 import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
+import { stripProjectPrefix } from '@/lib/projects/strip-project-prefix'
 import { getSelectAllState } from '@/lib/time-tracking/get-select-all-state'
 import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
 import { toggleGroupSelection } from '@/lib/time-tracking/toggle-group-selection'
@@ -14,6 +17,7 @@ import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment, useState, type MouseEvent } from 'react'
+import { SelectionActionBar } from './selection-action-bar'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 /** Keeps Shift+click from also selecting the text between the clicked checkboxes. */
@@ -21,12 +25,12 @@ const preventShiftTextSelection = (event: MouseEvent) => {
   if (event.shiftKey) event.preventDefault()
 }
 
-export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; now: Date }) => {
+export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntryDTO[]; projects: AssignableProject[]; now: Date }) => {
   const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
   const [anchorId, setAnchorId] = useState<string | null>(null)
 
   if (entries.length === 0) {
-    return <p className="px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Keine Einträge in dieser Woche.</p>
+    return <p className="px-4 sm:px-8 lg:px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Keine Einträge in dieser Woche.</p>
   }
 
   // Newest day first; entries within a day stay chronological (morning to evening).
@@ -41,7 +45,8 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
   }
 
   return (
-    <Table>
+    <>
+    <Table className="min-w-xl">
       <TimeEntriesTableHeader
         selectAll={
           <Checkbox
@@ -58,7 +63,7 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
           return (
             <Fragment key={day}>
               <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-                <TableCell className="pl-16">
+                <TableCell className="pl-4 sm:pl-8 lg:pl-16">
                   <Checkbox
                     aria-label={`Alle Einträge am ${dayLabel} auswählen`}
                     checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
@@ -69,14 +74,14 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
                 <TableCell className="text-right font-medium text-black dark:text-white tabular-nums">
                   {formatDuration(sumTrackedMs(dayEntries, now))}
                 </TableCell>
-                <TableCell className="pr-16" />
+                <TableCell className="pr-4 sm:pr-8 lg:pr-16" />
               </TableRow>
               {dayEntries.map((entry) => {
                 const running = entry.endAt > now
                 const isSelected = selected.has(entry.id)
                 return (
                   <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
-                    <TableCell className="pl-16">
+                    <TableCell className="pl-4 sm:pl-8 lg:pl-16">
                       <Checkbox
                         aria-label={`${entry.title} auswählen`}
                         checked={isSelected}
@@ -89,7 +94,14 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
                     </TableCell>
                     <TableCell className="w-full max-w-0">
                       <div className="flex items-center gap-3 min-w-0">
-                        <span className="font-medium text-black dark:text-white truncate">{entry.title}</span>
+                        {entry.project ? (
+                          <ProjectBadge
+                            projectKey={entry.project.key}
+                            slug={entry.project.slug}
+                            title={entry.projectAssignment === 'manual' ? `${entry.project.title} (manuell zugeordnet)` : entry.project.title}
+                          />
+                        ) : null}
+                        <span className="font-medium text-black dark:text-white truncate">{stripProjectPrefix(entry.title, entry.project?.key)}</span>
                         {entry.location ? (
                           <span className="inline-flex items-center gap-1 min-w-0 text-xs">
                             <MapPin strokeWidth={1.5} className="size-3.5 shrink-0" />
@@ -107,7 +119,7 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
                     <TableCell className={cn('text-right tabular-nums', running && 'text-black dark:text-white')}>
                       {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
                     </TableCell>
-                    <TableCell className="pr-16 text-right">
+                    <TableCell className="pr-4 sm:pr-8 lg:pr-16 text-right">
                       {entry.htmlLink ? (
                         <Button variant="ghost" size="icon-xs" asChild>
                           <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">
@@ -124,5 +136,9 @@ export const TimeEntriesTable = ({ entries, now }: { entries: TimeEntryDTO[]; no
         })}
       </TableBody>
     </Table>
+    {selectedCount > 0 ? (
+      <SelectionActionBar selectedIds={ids.filter((id) => selected.has(id))} projects={projects} onDone={() => setSelected(new Set())} />
+    ) : null}
+    </>
   )
 }
