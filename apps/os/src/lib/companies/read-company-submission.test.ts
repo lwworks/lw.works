@@ -37,10 +37,7 @@ describe('readCompanySubmission', () => {
         name: 'Drehimpuls',
         logoUrl: 'https://example.com/logo.png',
         website: 'https://drehimpuls.de',
-        street: 'Hafen 1',
-        postalCode: '28195',
-        city: 'Bremen',
-        country: 'Deutschland',
+        locations: [{ id: null, label: null, street: 'Hafen 1', postalCode: '28195', city: 'Bremen', country: 'Deutschland' }],
       },
     })
   })
@@ -56,10 +53,7 @@ describe('readCompanySubmission', () => {
         name: 'Drehimpuls',
         logoUrl: null,
         website: 'autor@-brunkhorst.de',
-        street: null,
-        postalCode: null,
-        city: null,
-        country: null,
+        locations: [],
       },
     })
   })

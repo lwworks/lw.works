@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { generateText, Output } from 'ai'
+import { APICallError, generateText, Output } from 'ai'
 import { z } from 'zod'
 
 // Routed through Vercel AI Gateway: OIDC on Vercel, AI_GATEWAY_API_KEY or `vercel env pull` locally.
@@ -85,7 +85,10 @@ export const extractBusinessCard = async (formData: FormData): Promise<{ ok: tru
     })
     return { ok: true, value: output }
   } catch (error) {
-    console.error('extractBusinessCard', error)
+    // Log only the error type and status: AI SDK errors carry the response text and request body, i.e. the card's contents.
+    const name = error instanceof Error ? error.name : typeof error
+    const status = APICallError.isInstance(error) ? ` ${error.statusCode ?? ''}` : ''
+    console.error(`extractBusinessCard failed: ${name}${status}`)
     return { ok: false, message: 'Die Visitenkarte konnte nicht ausgelesen werden. Bitte später erneut versuchen.' }
   }
 }

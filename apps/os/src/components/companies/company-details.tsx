@@ -12,7 +12,9 @@ import { ArrowLeft } from "@mynaui/icons-react"
 import Link from "next/link"
 
 export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
-  const address = formatAddress(company)
+  const locations = company.locations
+    .map((location) => ({ ...location, lines: formatAddress(location) }))
+    .filter((location) => location.label || location.lines.length > 0)
   return (
     <section>
       <div className="border-b border-neutral-200 px-4 sm:px-8 lg:px-16 pt-9 pb-8 dark:border-neutral-800">
@@ -34,10 +36,7 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
                 name: company.name,
                 logoUrl: company.logoUrl,
                 website: company.website,
-                street: company.street,
-                postalCode: company.postalCode,
-                city: company.city,
-                country: company.country,
+                locations: company.locations,
               }}
             />
             <DeleteCompanyButton id={company.id} />
@@ -46,13 +45,20 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
       </div>
       <div className="grid grid-cols-1 gap-8 border-b border-neutral-200 px-4 sm:px-8 lg:px-16 py-8 md:grid-cols-2 dark:border-neutral-800">
         <div>
-          <Heading as="h2" size="h4">Adresse</Heading>
-          {address.length === 0 ? <p className="mt-3 text-sm">Keine Adresse.</p> : (
-            <p className="mt-3 text-sm font-medium text-black dark:text-white">
-              {address.map((line) => (
-                <span key={line} className="block">{line}</span>
+          <Heading as="h2" size="h4">{locations.length > 1 ? "Standorte" : "Adresse"}</Heading>
+          {locations.length === 0 ? <p className="mt-3 text-sm">Keine Adresse.</p> : (
+            <ul className="mt-3 flex flex-col gap-4">
+              {locations.map((location) => (
+                <li key={location.id} className="text-sm">
+                  {location.label ? <span className="mb-0.5 block">{location.label}</span> : null}
+                  <p className="font-medium text-black dark:text-white">
+                    {location.lines.map((line) => (
+                      <span key={line} className="block">{line}</span>
+                    ))}
+                  </p>
+                </li>
               ))}
-            </p>
+            </ul>
           )}
           {company.website ? (
             <a href={company.website} className="mt-3 inline-block text-sm hover:underline" rel="noreferrer" target="_blank">{company.website}</a>
