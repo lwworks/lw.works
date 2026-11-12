@@ -1,6 +1,5 @@
-import { createContactAction } from "@/app/kontakte/actions"
 import { CompanySelect, TagChoices } from "@/components/contacts/contact-option-fields"
-import { ContactForm } from "@/components/contacts/contact-form"
+import { NewContactForm } from "@/components/contacts/new-contact-form"
 import { Heading } from "@lw/ui/atoms/heading"
 import { Skeleton } from "@lw/ui/components/skeleton"
 import { cn } from "@lw/ui/lib/utils"
@@ -21,9 +20,7 @@ export const NewContactPage = () => {
           <Heading as="h1" size="h3">Neuer Kontakt</Heading>
         </div>
         <div className={cn("max-w-lg px-4 sm:px-8 lg:px-16 py-8")}>
-          <ContactForm
-            action={createContactAction}
-            layout="page"
+          <NewContactForm
             companyField={
               <Suspense fallback={<Skeleton className={cn("h-8 w-full rounded-lg")} />}>
                 <CompanySelect />

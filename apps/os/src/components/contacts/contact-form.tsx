@@ -1,7 +1,7 @@
 "use client"
 
 import { saveContactAction } from "@/app/kontakte/actions"
-import { CompanyDraftProvider } from "@/components/contacts/company-draft"
+import { CompanyDraftProvider, type CompanyDraft } from "@/components/contacts/company-draft"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
@@ -86,6 +86,7 @@ export const ContactForm = ({
   layout = "dialog",
   companyField,
   tagsField,
+  initialCompany,
 }: {
   companies?: CompanyListItem[]
   tags?: TagListItem[]
@@ -96,6 +97,7 @@ export const ContactForm = ({
   layout?: "dialog" | "page"
   companyField?: React.ReactNode
   tagsField?: React.ReactNode
+  initialCompany?: CompanyDraft
 }) => {
   const [state, formAction, pending] = useActionState(action, null)
   const [isPrivate, setIsPrivate] = useState(contact?.isPrivate ?? false)
@@ -115,7 +117,7 @@ export const ContactForm = ({
   }, [state])
 
   return (
-    <CompanyDraftProvider>
+    <CompanyDraftProvider initial={initialCompany}>
     <form
       ref={formRef}
       action={formAction}

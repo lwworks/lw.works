@@ -1,5 +1,6 @@
 'use server'
 
+import { readBusinessCard } from '@/lib/business-card/read-business-card'
 import { createContact } from '@/lib/contacts/create-contact'
 import { deleteContact } from '@/lib/contacts/delete-contact'
 import { saveContact } from '@/lib/contacts/save-contact'
@@ -51,4 +52,8 @@ export async function removeTagAction(id: string) {
   if (!result.ok) return result
   refresh()
   return { ok: true as const }
+}
+
+export async function readBusinessCardAction(formData: FormData) {
+  return readBusinessCard(formData)
 }
