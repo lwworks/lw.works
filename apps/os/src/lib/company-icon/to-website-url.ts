@@ -1,7 +1,7 @@
 /**
  * A company website as entered (`example.com`, `https://www.example.com/de`) → its http(s) URL, or null.
- * Rejects hosts that are not public domain names (localhost, IP literals, single labels), so the icon fetch can't be
- * pointed at internal services.
+ * Rejects hosts that are not public domain names (localhost, IP literals, single labels, custom ports). This is only a
+ * first filter on the text: `safeGet` also checks the resolved IP address at connect time and re-checks every redirect.
  */
 export const toWebsiteUrl = (website: string | null): URL | null => {
   const trimmed = website?.trim()
