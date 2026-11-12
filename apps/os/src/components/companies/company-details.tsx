@@ -1,4 +1,4 @@
-import { RemoteImage } from "@/components/atoms/remote-image"
+import { CompanyIcon } from "@/components/atoms/company-icon"
 import { DeleteCompanyButton } from "@/components/companies/delete-company-button"
 import { EditCompanyDialog } from "@/components/companies/company-form"
 import { ProjectBadge } from "@/components/projects/project-badge"
@@ -26,15 +26,15 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            {company.logoUrl ? <RemoteImage src={company.logoUrl} alt="" width={40} height={40} className="size-10 rounded-lg border object-contain" /> : null}
+            <CompanyIcon companyId={company.id} logoKey={company.logoKey} size={40} className="rounded-lg border p-1" />
             <Heading as="h1" size="h2">{company.name}</Heading>
           </div>
           <div className="flex items-center gap-2">
             <EditCompanyDialog
               company={{
                 id: company.id,
+                logoKey: company.logoKey,
                 name: company.name,
-                logoUrl: company.logoUrl,
                 website: company.website,
                 locations: company.locations,
               }}
@@ -85,7 +85,7 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
             <ul className="mt-3 flex flex-col gap-2 text-sm">
               {company.projects.map((project) => (
                 <li key={project.id} className="flex items-center gap-2">
-                  <ProjectBadge projectKey={project.key} />
+                  <ProjectBadge projectKey={project.key} companyId={project.companyId} logoKey={company.logoKey} />
                   <Link href={`/projekte/${project.slug}`} className="font-medium text-black hover:underline dark:text-white">{project.title}</Link>
                   <span>· {projectStatusLabel(project.status)}</span>
                 </li>

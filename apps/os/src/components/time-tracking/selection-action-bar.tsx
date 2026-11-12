@@ -1,6 +1,7 @@
 "use client"
 
 import { assignTimeEntriesAction } from "@/app/zeiterfassung/actions"
+import { CompanyIcon } from "@/components/atoms/company-icon"
 import type { AssignableProject } from "@/lib/db/projects/list-assignable-projects"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@lw/ui/components/select"
 import { toast } from "@lw/ui/components/sonner"
@@ -47,6 +48,7 @@ export const SelectionActionBar = ({
         <SelectContent>
           {projects.map((project) => (
             <SelectItem key={project.id} value={project.id}>
+              <CompanyIcon companyId={project.companyId} logoKey={project.companyLogoKey} />
               <span className={cn("font-mono text-xs")}>{project.key}</span>
               <span>{project.title}</span>
             </SelectItem>

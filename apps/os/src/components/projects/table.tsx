@@ -1,3 +1,4 @@
+import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ProjectBadge } from "@/components/projects/project-badge"
 import type { ProjectListItem } from "@/lib/db/projects/list-projects"
 import { formatDuration } from "@/lib/format/format-duration"
@@ -53,11 +54,16 @@ export const ProjectsTable = ({ projects, archived }: { projects: ProjectListIte
               <tr key={project.id} className={cn("h-10 border-b border-neutral-200 dark:border-neutral-800")}>
                 <td className={cn("pr-2 pl-4 sm:pl-8 lg:pl-16")}>
                   <Link href={`/projekte/${project.slug}`} className={cn("inline-flex items-center gap-2 font-medium text-black hover:underline dark:text-white")}>
-                    <ProjectBadge projectKey={project.key} />
+                    <ProjectBadge projectKey={project.key} companyId={project.companyId} logoKey={project.companyLogoKey} />
                     <span>{project.title}</span>
                   </Link>
                 </td>
-                <td className={cn("pr-2")}>{project.companyName}</td>
+                <td className={cn("pr-2")}>
+                  <Link href={`/unternehmen/${project.companyId}`} className={cn("inline-flex items-center gap-1.5 hover:underline")}>
+                    <CompanyIcon companyId={project.companyId} logoKey={project.companyLogoKey} />
+                    <span>{project.companyName}</span>
+                  </Link>
+                </td>
                 <td className={cn("pr-2")}>{projectStatusLabel(project.status)}</td>
                 <td className={cn("pr-2")}>{formatBilling({ billing: project.billing })}</td>
                 <td className={cn("pr-2 tabular-nums")}>{formatProjectPeriod(project)}</td>

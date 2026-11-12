@@ -1,4 +1,4 @@
-import { RemoteImage } from "@/components/atoms/remote-image"
+import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ArchiveProjectButton } from "@/components/projects/archive-project-button"
 import { EditProjectDialog } from "@/components/projects/edit-project-dialog"
 import { ProjectBadge } from "@/components/projects/project-badge"
@@ -40,7 +40,7 @@ export const ProjectDetails = ({
         </Link>
         <div className={cn("flex flex-wrap items-center justify-between gap-4")}>
           <div className={cn("flex min-w-0 items-center gap-3")}>
-            <ProjectBadge projectKey={project.key} className={cn("h-6 px-2.5 text-sm")} />
+            <ProjectBadge projectKey={project.key} companyId={project.companyId} logoKey={project.company.logoKey} className={cn("h-6 px-2.5 text-sm")} />
             <Heading as="h1" size="h2" className={cn("truncate")}>{project.title}</Heading>
           </div>
           <div className={cn("flex shrink-0 items-center gap-2")}>
@@ -81,7 +81,7 @@ export const ProjectDetails = ({
       <dl className={cn("grid grid-cols-1 gap-x-8 gap-y-6 border-b border-neutral-200 px-4 sm:px-8 lg:px-16 py-8 text-sm sm:grid-cols-3 dark:border-neutral-800")}>
         <Item label="Kunde">
           <Link href={`/unternehmen/${project.company.id}`} className={cn("inline-flex items-center gap-1.5 hover:underline")}>
-            {project.company.logoUrl ? <RemoteImage src={project.company.logoUrl} alt="" width={14} height={14} className={cn("size-3.5")} /> : null}
+            <CompanyIcon companyId={project.company.id} logoKey={project.company.logoKey} />
             <span>{project.company.name}</span>
           </Link>
         </Item>

@@ -1,4 +1,4 @@
 import { GOOGLE_CONTACTS_SCOPE } from '@/lib/google-contacts-sync/scope'
 
-/** Space-separated OAuth scope string, as better-auth stores it on the account. */
-export const hasContactsScope = (scope: string | null) => (scope ?? '').split(/\s+/).includes(GOOGLE_CONTACTS_SCOPE)
+/** OAuth scope string as stored on the account: better-auth joins with commas, Google itself uses spaces — accept both. */
+export const hasContactsScope = (scope: string | null) => (scope ?? '').split(/[\s,]+/).includes(GOOGLE_CONTACTS_SCOPE)

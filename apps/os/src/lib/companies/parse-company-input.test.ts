@@ -8,7 +8,7 @@ const form = (entries: [string, string][]) => {
 }
 
 describe('parseCompanyInput', () => {
-  it('keeps name, logo, website, and a location, and has no phone', () => {
+  it('keeps name, website, and a location, and ignores phone and logo fields', () => {
     const parsed = parseCompanyInput(form([
       ['name', 'Drehimpuls'],
       ['logoUrl', 'https://example.com/logo.png'],
@@ -23,12 +23,12 @@ describe('parseCompanyInput', () => {
       ok: true,
       value: {
         name: 'Drehimpuls',
-        logoUrl: 'https://example.com/logo.png',
         website: 'https://drehimpuls.de',
         locations: [{ id: null, label: null, street: 'Hafen 1', postalCode: '28195', city: 'Bremen', country: 'Deutschland' }],
       },
     })
     if (parsed.ok) expect(parsed.value).not.toHaveProperty('phone')
+    if (parsed.ok) expect(parsed.value).not.toHaveProperty('logoUrl')
   })
 
   it('reads several locations by position and drops empty ones', () => {
@@ -44,15 +44,14 @@ describe('parseCompanyInput', () => {
     ])
   })
 
-  it('stores logo and website as entered, including values that are not https urls', () => {
+  it('stores the website as entered, including values that are not https urls', () => {
     const parsed = parseCompanyInput(form([
       ['name', 'Drehimpuls'],
-      ['logoUrl', 'http://example.com/logo.png'],
       ['website', 'autor@-brunkhorst.de'],
     ]))
     expect(parsed).toEqual({
       ok: true,
-      value: { name: 'Drehimpuls', logoUrl: 'http://example.com/logo.png', website: 'autor@-brunkhorst.de', locations: [] },
+      value: { name: 'Drehimpuls', website: 'autor@-brunkhorst.de', locations: [] },
     })
   })
 

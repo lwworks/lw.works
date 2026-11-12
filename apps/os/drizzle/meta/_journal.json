@@ -43,6 +43,13 @@
       "when": 1794469963055,
       "tag": "0005_company-locations",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794474517679,
+      "tag": "0006_company-logos",
+      "breakpoints": true
     }
   ]
 }

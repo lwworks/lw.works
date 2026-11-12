@@ -6,11 +6,22 @@ const timestamptz = (name: string) => timestamp(name, { withTimezone: true })
 
 export type ContactGoogleLinkStatus = 'pending' | 'ok' | 'reauth_required' | 'missing_scope'
 
-/** Shared company. Nothing here is sent to Google. No phone. Addresses live in `company_location`. */
+export type CompanyLogoSource = 'favicon' | 'upload' | 'legacy_url'
+
+/**
+ * Shared company. Nothing here is sent to Google. No phone. Addresses live in `company_location`.
+ * The logo is an object in the logo bucket (`logoKey`). It is imported once, in the background, from the website's
+ * favicon (`logoCheckedAt` marks that attempt, successful or not) and can be replaced by an upload.
+ * `logoUrl` is the old manually entered logo URL: no longer editable, only read by that one-time import. Drop it once
+ * every company has been checked.
+ */
 export const company = pgTable('company', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   logoUrl: text('logo_url'),
+  logoKey: text('logo_key'),
+  logoSource: text('logo_source').$type<CompanyLogoSource>(),
+  logoCheckedAt: timestamptz('logo_checked_at'),
   website: text('website'),
   createdAt: timestamptz('created_at').defaultNow().notNull(),
   updatedAt: timestamptz('updated_at')

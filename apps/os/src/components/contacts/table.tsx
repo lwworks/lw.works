@@ -1,4 +1,4 @@
-import { RemoteImage } from "@/components/atoms/remote-image"
+import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ConnectContactsButton } from "@/components/contacts/connect-contacts-button"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@lw/ui/components/avatar"
 import { Button } from "@lw/ui/components/button"
 import { Mail, Plus, Telephone } from "@mynaui/icons-react"
 import Link from "next/link"
+import { NoticeBar } from "../molecules/notice-bar"
 import { PageHeader } from "../molecules/page-header"
 
 export const ContactsTable = ({
@@ -32,10 +33,9 @@ export const ContactsTable = ({
         </Button>
       </PageHeader>
       {needsContactsScope ? (
-        <div className="mx-4 sm:mx-8 lg:mx-16 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3 text-sm">
-          <p>Google Kontakte ist noch nicht verbunden. Neue Kontakte bleiben im OS, bis du den Zugriff erlaubst.</p>
-          <ConnectContactsButton proxied={proxied} />
-        </div>
+        <NoticeBar action={<ConnectContactsButton proxied={proxied} />}>
+          Google Kontakte ist noch nicht verbunden. Neue Kontakte bleiben im OS, bis du den Zugriff erlaubst.
+        </NoticeBar>
       ) : null}
       <div className="overflow-x-auto">
         <table className="w-full text-sm min-w-2xl">
@@ -72,7 +72,7 @@ export const ContactsTable = ({
                   <td className="pr-2">
                     {contact.company ? (
                       <Link href={`/unternehmen/${contact.company.id}`} className="inline-flex h-6 items-center gap-1.5 rounded-full border pr-2 pl-1.5 hover:bg-neutral-100 hover:text-black dark:hover:text-white">
-                        {contact.company.logoUrl ? <RemoteImage src={contact.company.logoUrl} alt="" width={14} height={14} className="size-3.5" /> : null}
+                        <CompanyIcon companyId={contact.company.id} logoKey={contact.company.logoKey} />
                         <span className="truncate">{contact.company.name}</span>
                       </Link>
                     ) : null}

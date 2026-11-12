@@ -8,7 +8,7 @@ import type { ContactPrefill } from "@/lib/business-card/to-contact-prefill"
 import { cn } from "@lw/ui/lib/utils"
 import { useState } from "react"
 
-const emptyCompanyFields = { name: "", logoUrl: "", website: "", street: "", postalCode: "", city: "", country: "" }
+const emptyCompanyFields = { name: "", website: "", street: "", postalCode: "", city: "", country: "" }
 
 const toFormValues = (prefill: ContactPrefill): ContactFormValues => ({
   firstName: prefill.firstName,
@@ -39,17 +39,21 @@ export const NewContactForm = ({ companyField, tagsField }: { companyField: Reac
   const [prefill, setPrefill] = useState<{ key: number; value: ContactPrefill } | null>(null)
 
   return (
-    <div className={cn("flex flex-col gap-8")}>
-      <BusinessCardScan onRead={(value) => setPrefill((current) => ({ key: (current?.key ?? 0) + 1, value }))} />
-      <ContactForm
-        key={prefill?.key ?? 0}
-        action={createContactAction}
-        layout="page"
-        contact={prefill ? toFormValues(prefill.value) : undefined}
-        initialCompany={prefill ? toCompanyDraft(prefill.value) : undefined}
-        companyField={companyField}
-        tagsField={tagsField}
-      />
-    </div>
+    <>
+      <div className={cn("border-b border-neutral-200 px-4 py-8 sm:px-8 lg:px-16 dark:border-neutral-800")}>
+        <BusinessCardScan onRead={(value) => setPrefill((current) => ({ key: (current?.key ?? 0) + 1, value }))} />
+      </div>
+      <div className={cn("max-w-lg px-4 py-8 sm:px-8 lg:px-16")}>
+        <ContactForm
+          key={prefill?.key ?? 0}
+          action={createContactAction}
+          layout="page"
+          contact={prefill ? toFormValues(prefill.value) : undefined}
+          initialCompany={prefill ? toCompanyDraft(prefill.value) : undefined}
+          companyField={companyField}
+          tagsField={tagsField}
+        />
+      </div>
+    </>
   )
 }

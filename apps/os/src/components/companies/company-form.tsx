@@ -1,6 +1,7 @@
 "use client"
 
 import { createCompanyAction, saveCompanyAction } from "@/app/unternehmen/actions"
+import { CompanyLogoField } from "@/components/companies/company-logo-field"
 import { Button } from "@lw/ui/components/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@lw/ui/components/dialog"
 import { Input } from "@lw/ui/components/input"
@@ -20,7 +21,6 @@ type LocationValues = {
 
 type CompanyFormValues = {
   name: string
-  logoUrl: string | null
   website: string | null
   locations: LocationValues[]
 }
@@ -57,8 +57,7 @@ const CompanyFields = ({
       }}
     >
       <Field label="Name" name="name" defaultValue={company?.name} required />
-      <Field label="Logo-URL" name="logoUrl" defaultValue={company?.logoUrl} />
-      <Field label="Website" name="website" defaultValue={company?.website} />
+      <Field label="Website" name="website" defaultValue={company?.website} placeholder="example.com" />
       {rows.map(({ key, location }, index) => (
         <fieldset key={key} className={cn("flex flex-col gap-3 border-t border-border pt-3")}>
           <div className={cn("flex items-center justify-between gap-2")}>
@@ -138,7 +137,7 @@ export const CreateCompanyDialog = () => (
   </Dialog>
 )
 
-export const EditCompanyDialog = ({ company }: { company: CompanyFormValues & { id: string } }) => {
+export const EditCompanyDialog = ({ company }: { company: CompanyFormValues & { id: string; logoKey: string | null } }) => {
   const [open, setOpen] = useState(false)
   const [formKey, setFormKey] = useState(0)
   return (
@@ -156,6 +155,7 @@ export const EditCompanyDialog = ({ company }: { company: CompanyFormValues & { 
         <DialogHeader>
           <DialogTitle>Unternehmen bearbeiten</DialogTitle>
         </DialogHeader>
+        <CompanyLogoField companyId={company.id} logoKey={company.logoKey} hasWebsite={Boolean(company.website)} />
         <CompanyFields key={formKey} company={company} action={saveCompanyAction.bind(null, company.id)} onSaved={() => setOpen(false)} />
       </DialogContent>
     </Dialog>

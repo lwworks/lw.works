@@ -49,7 +49,7 @@ export const BusinessCardScan = ({ onRead }: { onRead: (prefill: ContactPrefill)
   }
 
   return (
-    <section className={cn("flex flex-col gap-3 rounded-xl border border-border p-4")}>
+    <section className={cn("flex max-w-lg flex-col gap-3")}>
       <div className={cn("flex flex-col gap-0.5")}>
         <h2 className={cn("text-sm font-medium text-black dark:text-white")}>Visitenkarte scannen</h2>
         <p className={cn("text-sm text-muted-foreground")}>Fotos von Vorder- und Rückseite hochladen, um das Formular vorauszufüllen.</p>

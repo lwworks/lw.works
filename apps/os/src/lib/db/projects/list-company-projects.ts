@@ -9,7 +9,7 @@ import { and, asc, eq, isNull } from 'drizzle-orm'
 export const listCompanyProjects = async (companyId: string) => {
   await requireUserId()
   return getDb()
-    .select({ id: project.id, key: project.key, slug: project.slug, title: project.title, status: project.status })
+    .select({ id: project.id, key: project.key, slug: project.slug, title: project.title, status: project.status, companyId: project.companyId })
     .from(project)
     .where(and(eq(project.companyId, companyId), isNull(project.archivedAt)))
     .orderBy(asc(project.key))

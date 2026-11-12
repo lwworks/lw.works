@@ -19,8 +19,7 @@ export const NewContactPage = () => {
           </Link>
           <Heading as="h1" size="h3">Neuer Kontakt</Heading>
         </div>
-        <div className={cn("max-w-lg px-4 sm:px-8 lg:px-16 py-8")}>
-          <NewContactForm
+        <NewContactForm
             companyField={
               <Suspense fallback={<Skeleton className={cn("h-8 w-full rounded-lg")} />}>
                 <CompanySelect />
@@ -32,7 +31,6 @@ export const NewContactPage = () => {
               </Suspense>
             }
           />
-        </div>
       </section>
     </Layout>
   )

@@ -97,6 +97,8 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
                         {entry.project ? (
                           <ProjectBadge
                             projectKey={entry.project.key}
+                            companyId={entry.project.companyId}
+                            logoKey={entry.projectLogoKey}
                             slug={entry.project.slug}
                             title={entry.projectAssignment === 'manual' ? `${entry.project.title} (manuell zugeordnet)` : entry.project.title}
                           />
