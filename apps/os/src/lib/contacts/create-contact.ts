@@ -2,6 +2,7 @@ import 'server-only'
 
 import { readCompanySubmission } from '@/lib/companies/read-company-submission'
 import { companyExists } from '@/lib/db/companies/company-exists'
+import { importCompanyLogo } from '@/lib/company-logo/import-company-logo'
 import { insertCompany } from '@/lib/db/companies/insert-company'
 import { findMissingTagIds } from '@/lib/db/tags/find-missing-tag-ids'
 import { insertContact } from '@/lib/db/contacts/insert-contact'
@@ -9,6 +10,7 @@ import { replaceContactTags } from '@/lib/db/contacts/replace-contact-tags'
 import { parseContactInput } from '@/lib/contacts/parse-contact-input'
 import { pushContact } from '@/lib/google-contacts-sync/push-contact'
 import { requireUserId } from '@/lib/auth/require-user-id'
+import { after } from 'next/server'
 
 /** Creates a new company first when the form asks for one, then saves the contact and pushes its synced fields. Companies are not synced to Google. A Google failure does not undo the save. */
 export const createContact = async (formData: FormData) => {
@@ -21,7 +23,9 @@ export const createContact = async (formData: FormData) => {
     return { ok: false as const, message: 'Ein Tag wurde nicht gefunden.' }
   }
   if (company.kind === 'new') {
-    parsed.value.companyId = (await insertCompany(company.value)).id
+    const companyId = (await insertCompany(company.value)).id
+    parsed.value.companyId = companyId
+    after(() => importCompanyLogo(companyId))
   } else if (company.kind === 'existing') {
     if (!(await companyExists(company.companyId))) {
       return { ok: false as const, message: 'Unternehmen wurde nicht gefunden.' }

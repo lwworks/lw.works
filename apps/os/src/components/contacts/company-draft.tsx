@@ -4,7 +4,6 @@ import { createContext, useContext, useState, type Dispatch, type ReactNode, typ
 
 export type CompanyFields = {
   name: string
-  logoUrl: string
   website: string
   street: string
   postalCode: string
@@ -21,7 +20,6 @@ export type CompanyDraft = {
 
 const emptyFields = (): CompanyFields => ({
   name: "",
-  logoUrl: "",
   website: "",
   street: "",
   postalCode: "",

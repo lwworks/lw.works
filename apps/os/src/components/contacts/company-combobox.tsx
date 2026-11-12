@@ -20,7 +20,6 @@ type CompanyOption = { id: string; name: string }
 
 const emptyFields = (): CompanyFields => ({
   name: "",
-  logoUrl: "",
   website: "",
   street: "",
   postalCode: "",
@@ -84,7 +83,6 @@ export const CompanyCombobox = ({ companies }: { companies: CompanyOption[] }) =
 
 const companyFields = [
   { label: "Name", name: "name", required: true },
-  { label: "Logo-URL", name: "logoUrl", required: false },
   { label: "Website", name: "website", required: false },
   { label: "Straße", name: "street", required: false },
   { label: "Postleitzahl", name: "postalCode", required: false },

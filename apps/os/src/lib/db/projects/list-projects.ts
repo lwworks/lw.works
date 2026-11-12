@@ -20,7 +20,9 @@ export const listProjects = async ({ archived }: { archived: boolean }) => {
       billing: project.billing,
       startDate: project.startDate,
       endDate: project.endDate,
+      companyId: project.companyId,
       companyName: company.name,
+      companyLogoKey: company.logoKey,
       trackedMs: trackedMsSql(),
     })
     .from(project)

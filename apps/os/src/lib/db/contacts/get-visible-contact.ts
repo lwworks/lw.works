@@ -15,7 +15,7 @@ export type ContactDetail = ContactInput & {
   canEditPrivacy: boolean
   syncedFieldsEditedAt: Date | null
   lastInboundAt: Date | null
-  company: { id: string; name: string; logoUrl: string | null } | null
+  company: { id: string; name: string; logoKey: string | null } | null
   tags: { id: string; name: string; color: string }[]
 }
 
@@ -44,7 +44,7 @@ export const getVisibleContact = async (displayId: number): Promise<ContactDetai
       syncedFieldsEditedAt: contact.syncedFieldsEditedAt,
       lastInboundAt: contact.lastInboundAt,
       companyName: company.name,
-      companyLogoUrl: company.logoUrl,
+      companyLogoKey: company.logoKey,
     })
     .from(contact)
     .leftJoin(company, eq(contact.companyId, company.id))
@@ -84,7 +84,7 @@ export const getVisibleContact = async (displayId: number): Promise<ContactDetai
     canEditPrivacy: row.createdByUserId === userId,
     syncedFieldsEditedAt: row.syncedFieldsEditedAt,
     lastInboundAt: row.lastInboundAt,
-    company: row.companyId ? { id: row.companyId, name: row.companyName ?? '', logoUrl: row.companyLogoUrl } : null,
+    company: row.companyId ? { id: row.companyId, name: row.companyName ?? '', logoKey: row.companyLogoKey } : null,
     tags,
   }
 }

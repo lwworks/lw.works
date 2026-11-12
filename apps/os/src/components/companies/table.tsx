@@ -1,4 +1,4 @@
-import { RemoteImage } from "@/components/atoms/remote-image"
+import { CompanyIcon } from "@/components/atoms/company-icon"
 import { CreateCompanyDialog } from "@/components/companies/company-form"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import Link from "next/link"
@@ -29,7 +29,7 @@ export const CompaniesTable = ({ companies }: { companies: CompanyListItem[] }) 
               <tr key={company.id} className="h-10 border-b border-neutral-200 dark:border-neutral-800">
                 <td className="pr-2 pl-4 sm:pl-8 lg:pl-16">
                   <Link href={`/unternehmen/${company.id}`} className="inline-flex items-center gap-1.5 font-medium text-black hover:underline dark:text-white">
-                    {company.logoUrl ? <RemoteImage src={company.logoUrl} alt="" width={14} height={14} className="size-3.5" /> : null}
+                    <CompanyIcon companyId={company.id} logoKey={company.logoKey} />
                     <span>{company.name}</span>
                   </Link>
                 </td>

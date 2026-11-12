@@ -14,7 +14,7 @@ export const getProjectBySlug = async (slug: string) => {
   const [row] = await getDb()
     .select({
       project,
-      company: { id: company.id, name: company.name, logoUrl: company.logoUrl },
+      company: { id: company.id, name: company.name, logoKey: company.logoKey },
       trackedMs: trackedMsSql(),
     })
     .from(project)

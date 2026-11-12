@@ -2,7 +2,7 @@ import type { BusinessCard } from '@/lib/business-card/extract-business-card'
 
 export type CompanyPrefill =
   | { kind: 'existing'; id: string; name: string }
-  | { kind: 'new'; fields: { name: string; logoUrl: string; website: string; street: string; postalCode: string; city: string; country: string } }
+  | { kind: 'new'; fields: { name: string; website: string; street: string; postalCode: string; city: string; country: string } }
 
 export type ContactPrefill = {
   firstName: string
@@ -34,7 +34,6 @@ export const toContactPrefill = (card: BusinessCard, companies: { id: string; na
           kind: 'new',
           fields: {
             name: companyName,
-            logoUrl: '',
             website: card.company.website ?? '',
             street: card.company.street ?? '',
             postalCode: card.company.postalCode ?? '',

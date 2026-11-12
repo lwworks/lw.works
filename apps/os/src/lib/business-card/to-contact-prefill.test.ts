@@ -23,7 +23,7 @@ describe('toContactPrefill', () => {
     const prefill = toContactPrefill(card, [{ id: 'c1', name: 'Andere AG' }])
     expect(prefill.company).toEqual({
       kind: 'new',
-      fields: { name: 'Beispiel GmbH', logoUrl: '', website: 'https://beispiel.de', street: 'Hauptstr. 1', postalCode: '28195', city: 'Bremen', country: 'Deutschland' },
+      fields: { name: 'Beispiel GmbH', website: 'https://beispiel.de', street: 'Hauptstr. 1', postalCode: '28195', city: 'Bremen', country: 'Deutschland' },
     })
   })
 

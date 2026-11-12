@@ -12,7 +12,6 @@ export type CompanyLocationInput = {
 
 export type CompanyInput = {
   name: string
-  logoUrl: string | null
   website: string | null
   locations: CompanyLocationInput[]
 }
@@ -20,7 +19,7 @@ export type CompanyInput = {
 const maxLocations = 50
 
 /**
- * Name, logo, website, and any number of locations. Logo and website are stored as entered. There is no phone field.
+ * Name, website, and any number of locations. The website is stored as entered; the logo is handled separately (`company-logo`). There is no phone field.
  * Location fields repeat once per location (`locationId`, `locationLabel`, `street`, `postalCode`, `city`, `country`) and are read by position.
  * Locations with no label and no address are dropped.
  */
@@ -55,7 +54,6 @@ export const parseCompanyInput = (formData: FormData): { ok: true; value: Compan
     ok: true,
     value: {
       name,
-      logoUrl: readOptionalText(formData.get('logoUrl'), 500),
       website: readOptionalText(formData.get('website'), 500),
       locations,
     },

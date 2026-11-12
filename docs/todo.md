@@ -33,3 +33,18 @@
 - [x] Sidebar-Link, Typecheck, Lint, Tests
 - [ ] Migration `0004_projects` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
 - [ ] Im Browser durchklicken: Projekt anlegen, rückwirkende Zuordnung, Sync, Mehrfachauswahl, Archivieren/Wiederherstellen
+
+# OS: Kontakt-Sidebar, Favicons, Projekt-Icons
+
+- [x] Google-Kontakte-Hinweis: Scope-Prüfung liest better-auths komma-getrennte Scopes (betraf auch Pull/Push-Sync)
+- [x] Hinweise/Karten in Sections → volle Breite mit horizontaler Border (`NoticeBar`, Visitenkarten-Scan)
+- [x] Kontaktdetails: Sidebar mit Eigenschaften (Unternehmen, Privat), Tags-Picker (umschalten + neu anlegen), Löschen
+- [x] Unternehmens-Icons aus dem Favicon der Website (`/unternehmen/[id]/icon`)
+- [x] Logos in Neon Object Storage: einmaliger Favicon-Import im Hintergrund nach dem Anlegen (`after()`), Upload + „Favicon der Website“ im Bearbeiten-Dialog, versionierte Icon-URLs
+- [x] Bestehende Unternehmen: Import beim ersten Icon-Abruf (alte Logo-URL zuerst, sonst Favicon)
+- [x] Projekte zeigen immer das Icon ihres Unternehmens (`ProjectBadge`, Projekttabelle, Zuordnen-Menü)
+- [x] Bucket `uploads` in Neon angelegt (`neon.ts`, lokal `AWS_*` aus `neon deploy`)
+- [ ] `OBJECT_STORAGE_*` in Vercel setzen (Production + Preview)
+- [x] Migration `0006_company-logos` ausgeführt
+- [ ] Im Browser prüfen (eingeloggt): Sidebar-Layout, Tag-Picker, Logo-Upload, Favicons in Hell/Dunkel
+- [ ] Später: Spalte `company.logo_url` entfernen, sobald alle Unternehmen `logo_checked_at` haben

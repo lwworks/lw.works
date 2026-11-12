@@ -14,7 +14,7 @@ export type ContactListItem = {
   phone: string | null
   whatsApp: string | null
   avatarUrl: string | null
-  company: { id: string; name: string; logoUrl: string | null } | null
+  company: { id: string; name: string; logoKey: string | null } | null
   tags: { id: string; name: string; color: string }[]
 }
 
@@ -33,7 +33,7 @@ export const listVisibleContacts = async (): Promise<ContactListItem[]> => {
       avatarUrl: contact.avatarUrl,
       companyId: company.id,
       companyName: company.name,
-      companyLogoUrl: company.logoUrl,
+      companyLogoKey: company.logoKey,
     })
     .from(contact)
     .leftJoin(company, eq(contact.companyId, company.id))
@@ -49,7 +49,7 @@ export const listVisibleContacts = async (): Promise<ContactListItem[]> => {
     phone: row.phone,
     whatsApp: row.whatsApp,
     avatarUrl: row.avatarUrl,
-    company: row.companyId ? { id: row.companyId, name: row.companyName ?? '', logoUrl: row.companyLogoUrl } : null,
+    company: row.companyId ? { id: row.companyId, name: row.companyName ?? '', logoKey: row.companyLogoKey } : null,
     tags: tagsByContact.get(row.id) ?? [],
   }))
 }

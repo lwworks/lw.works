@@ -19,7 +19,7 @@ describe('readCompanySubmission', () => {
     expect(readCompanySubmission(form({}))).toEqual({ kind: 'none' })
   })
 
-  it('reads a new company created with the contact and ignores a phone field', () => {
+  it('reads a new company created with the contact and ignores phone and logo fields', () => {
     expect(readCompanySubmission(form({
       newCompany: 'true',
       companyId: 'ignored',
@@ -35,7 +35,6 @@ describe('readCompanySubmission', () => {
       kind: 'new',
       value: {
         name: 'Drehimpuls',
-        logoUrl: 'https://example.com/logo.png',
         website: 'https://drehimpuls.de',
         locations: [{ id: null, label: null, street: 'Hafen 1', postalCode: '28195', city: 'Bremen', country: 'Deutschland' }],
       },
@@ -51,7 +50,6 @@ describe('readCompanySubmission', () => {
       kind: 'new',
       value: {
         name: 'Drehimpuls',
-        logoUrl: null,
         website: 'autor@-brunkhorst.de',
         locations: [],
       },

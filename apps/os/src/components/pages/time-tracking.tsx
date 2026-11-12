@@ -9,6 +9,7 @@ import { Button } from '@lw/ui/components/button'
 import { Skeleton } from '@lw/ui/components/skeleton'
 import { DangerTriangle, Plus } from '@mynaui/icons-react'
 import { Layout } from '../molecules/layout'
+import { NoticeBar } from '../molecules/notice-bar'
 import { PageHeader } from '../molecules/page-header'
 import { ActivityChartSkeleton } from '../time-tracking/activity-chart'
 import { ActivityChartSlot } from '../time-tracking/activity-chart-slot'
@@ -51,18 +52,18 @@ export const TimeTrackingPage = ({ week, currentWeek, entries, projects, sync, n
           {needsConnect ? null : <SyncButton />}
           <CreateEntryButton />
         </PageHeader>
+        {needsConnect ? (
+          <NoticeBar
+            tone="warning"
+            className="mb-6 border-b"
+            icon={<DangerTriangle strokeWidth={1.5} className="size-5 shrink-0" />}
+            action={<ConnectCalendarButton proxied={authProxied} />}
+          >
+            Verbinde deinen Google Kalender, damit deine Termine als Zeiteinträge übernommen werden.
+          </NoticeBar>
+        ) : null}
         <WeekNavigationProvider week={week} currentWeek={currentWeek}>
           <div className="px-4 sm:px-8 lg:px-16 pb-8 flex flex-col gap-6">
-            {needsConnect ? (
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
-                <div className="flex items-start gap-2">
-                  <DangerTriangle strokeWidth={1.5} className="size-5 shrink-0" />
-                  <p>Verbinde deinen Google Kalender, damit deine Termine als Zeiteinträge übernommen werden.</p>
-                </div>
-                <ConnectCalendarButton proxied={authProxied} />
-              </div>
-            ) : null}
-
             <ActivityChartSlot />
 
             <div className="flex flex-wrap items-center justify-between gap-4">

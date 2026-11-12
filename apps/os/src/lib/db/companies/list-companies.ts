@@ -11,7 +11,7 @@ export const listCompanies = async () => {
     .select({
       id: company.id,
       name: company.name,
-      logoUrl: company.logoUrl,
+      logoKey: company.logoKey,
       website: company.website,
       /** Distinct cities of all locations, main site first. */
       cities: sql<string | null>`(

@@ -1,5 +1,7 @@
 'use server'
 
+import { applyWebsiteFavicon } from '@/lib/company-logo/apply-website-favicon'
+import { uploadCompanyLogo } from '@/lib/company-logo/upload-company-logo'
 import { createCompany } from '@/lib/companies/create-company'
 import { removeCompany } from '@/lib/companies/remove-company'
 import { saveCompany } from '@/lib/companies/save-company'
@@ -27,4 +29,18 @@ export async function removeCompanyAction(id: string) {
   if (!result.ok) return result
   refresh()
   redirect('/unternehmen')
+}
+
+export async function uploadCompanyLogoAction(id: string, formData: FormData) {
+  const result = await uploadCompanyLogo(id, formData)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
+}
+
+export async function applyWebsiteFaviconAction(id: string) {
+  const result = await applyWebsiteFavicon(id)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
 }

@@ -1,10 +1,12 @@
 'use server'
 
 import { readBusinessCard } from '@/lib/business-card/read-business-card'
+import { addNewTagToContact } from '@/lib/contacts/add-new-tag-to-contact'
 import { createContact } from '@/lib/contacts/create-contact'
 import { deleteContact } from '@/lib/contacts/delete-contact'
 import { saveContact } from '@/lib/contacts/save-contact'
 import { setContactPrivacy } from '@/lib/contacts/set-contact-privacy'
+import { setContactTags } from '@/lib/contacts/set-contact-tags'
 import { createTag } from '@/lib/tags/create-tag'
 import { removeTag } from '@/lib/tags/remove-tag'
 import { refresh } from 'next/cache'
@@ -35,6 +37,20 @@ export async function deleteContactAction(displayId: number) {
 
 export async function setContactPrivacyAction(displayId: number, isPrivate: boolean) {
   const result = await setContactPrivacy(displayId, isPrivate)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
+}
+
+export async function setContactTagsAction(displayId: number, tagIds: string[]) {
+  const result = await setContactTags(displayId, tagIds)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
+}
+
+export async function addNewTagToContactAction(displayId: number, name: string) {
+  const result = await addNewTagToContact(displayId, name)
   if (!result.ok) return result
   refresh()
   return { ok: true as const }
