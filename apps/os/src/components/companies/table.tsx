@@ -33,7 +33,7 @@ export const CompaniesTable = ({ companies }: { companies: CompanyListItem[] }) 
                     <span>{company.name}</span>
                   </Link>
                 </td>
-                <td className="pr-2">{company.city}</td>
+                <td className="pr-2">{company.cities}</td>
                 <td className="pr-4 sm:pr-8 lg:pr-16">
                   {company.website ? (
                     <a href={company.website} className="hover:underline" rel="noreferrer" target="_blank">{company.website}</a>

@@ -6,22 +6,41 @@ const timestamptz = (name: string) => timestamp(name, { withTimezone: true })
 
 export type ContactGoogleLinkStatus = 'pending' | 'ok' | 'reauth_required' | 'missing_scope'
 
-/** Shared company. Nothing here is sent to Google. No phone. */
+/** Shared company. Nothing here is sent to Google. No phone. Addresses live in `company_location`. */
 export const company = pgTable('company', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   logoUrl: text('logo_url'),
   website: text('website'),
-  street: text('street'),
-  postalCode: text('postal_code'),
-  city: text('city'),
-  country: text('country'),
   createdAt: timestamptz('created_at').defaultNow().notNull(),
   updatedAt: timestamptz('updated_at')
     .defaultNow()
     .$onUpdate(() => new Date())
     .notNull(),
 })
+
+/** One site of a company (head office, branch, …). `position` orders them; the first is the main site. */
+export const companyLocation = pgTable(
+  'company_location',
+  {
+    id: text('id').primaryKey(),
+    companyId: text('company_id')
+      .notNull()
+      .references(() => company.id, { onDelete: 'cascade' }),
+    position: integer('position').notNull(),
+    label: text('label'),
+    street: text('street'),
+    postalCode: text('postal_code'),
+    city: text('city'),
+    country: text('country'),
+    createdAt: timestamptz('created_at').defaultNow().notNull(),
+    updatedAt: timestamptz('updated_at')
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [index('company_location_company_idx').on(table.companyId, table.position)],
+)
 
 /** Shared tag. Name is unique case-insensitively. Never synced. */
 export const tag = pgTable(
@@ -130,6 +149,7 @@ export const contactGoogleLink = pgTable(
 )
 
 export type Company = typeof company.$inferSelect
+export type CompanyLocation = typeof companyLocation.$inferSelect
 export type Tag = typeof tag.$inferSelect
 export type Contact = typeof contact.$inferSelect
 export type ContactGoogleLink = typeof contactGoogleLink.$inferSelect
