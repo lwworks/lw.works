@@ -6,6 +6,7 @@ import { PrivacySwitch } from "@/components/contacts/privacy-switch"
 import { formatBirthday } from "@/lib/contacts/format-birthday"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
+import { googleVoiceHref } from "@/lib/contacts/google-voice-href"
 import { formatValueType } from "@/lib/contacts/format-value-type"
 import type { ContactLabeledValue } from "@/lib/db/schema/crm"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
@@ -84,7 +85,7 @@ export const ContactDetails = ({
               <Detail icon={<UserSquare strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Nachname" value={contact.lastName} />
               <Detail icon={<Gift className="mb-0.5 inline size-4" />} label="Geburtstag" value={formatBirthday(contact.birthday)} />
               <LabeledValuesDetail icon={<At strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="E-Mail" values={contact.emails} href={(value) => `mailto:${value}`} />
-              <LabeledValuesDetail icon={<Telephone strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Telefon" values={contact.phones} href={(value) => `tel:${value.replace(/[^\d+]/g, "")}`} />
+              <LabeledValuesDetail icon={<Telephone strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Telefon" values={contact.phones} href={googleVoiceHref} external />
               <Detail icon={<WhatsAppIcon className="mb-0.5 inline size-4" />} label="WhatsApp" value={contact.whatsApp} />
               <Detail icon={<LinkedInIcon className="mb-0.5 inline size-4" />} label="LinkedIn" value={contact.linkedIn} />
               <Detail icon={<InstagramIcon className="mb-0.5 inline size-4" />} label="Instagram" value={contact.instagram} />
@@ -154,14 +155,19 @@ const LabeledValuesDetail = ({
   label,
   values,
   href,
+  external = false,
 }: {
   icon: ReactNode
   label: string
   values: ContactLabeledValue[]
-  href: (value: string) => string
+  href: (value: string) => string | null
+  /** Opens the link in a new tab (e.g. Google Voice). */
+  external?: boolean
 }) => {
   if (values.length === 0) return <Detail icon={icon} label={label} value={null} />
-  return values.map((entry, index) => (
+  return values.map((entry, index) => {
+    const link = href(entry.value)
+    return (
     <tr key={`${entry.value}-${index}`} className="h-8">
       <td className="pr-4">
         {index === 0 ? (
@@ -172,11 +178,22 @@ const LabeledValuesDetail = ({
         ) : null}
       </td>
       <td>
-        <a href={href(entry.value)} className="font-medium text-black hover:underline dark:text-white">{entry.value}</a>
+        {link ? (
+          <a
+            href={link}
+            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className="font-medium text-black hover:underline dark:text-white"
+          >
+            {entry.value}
+          </a>
+        ) : (
+          <span className="font-medium text-black dark:text-white">{entry.value}</span>
+        )}
         {entry.type ? <span className="ml-2 text-neutral-500">{formatValueType(entry.type)}</span> : null}
       </td>
     </tr>
-  ))
+    )
+  })
 }
 
 const initials = (firstName: string, lastName: string) =>

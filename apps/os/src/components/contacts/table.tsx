@@ -1,10 +1,12 @@
 import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ConnectContactsButton } from "@/components/contacts/connect-contacts-button"
+import { ContactTagsPicker } from "@/components/contacts/contact-tags-picker"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
 import { whatsAppHref } from "@/lib/contacts/whatsapp-href"
 import type { ContactListItem } from "@/lib/db/contacts/list-visible-contacts"
-import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
+import { googleVoiceHref } from "@/lib/contacts/google-voice-href"
+import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { WhatsAppIcon } from "@lw/ui/atoms/custom-icons/whatsapp"
 import { Avatar, AvatarFallback, AvatarImage } from "@lw/ui/components/avatar"
 import { Button } from "@lw/ui/components/button"
@@ -15,10 +17,12 @@ import { PageHeader } from "../molecules/page-header"
 
 export const ContactsTable = ({
   contacts,
+  tags,
   needsContactsScope,
   proxied,
 }: {
   contacts: ContactListItem[]
+  tags: TagListItem[]
   needsContactsScope: boolean
   proxied: boolean
 }) => {
@@ -57,6 +61,7 @@ export const ContactsTable = ({
             {contacts.map((contact) => {
               const name = formatContactName(contact.firstName, contact.lastName)
               const whatsApp = contact.whatsApp ? whatsAppHref(contact.whatsApp) : null
+              const voice = contact.phone ? googleVoiceHref(contact.phone) : null
               return (
                 <tr key={contact.displayId} className="h-10 border-b border-neutral-200 dark:border-neutral-800">
                   <td className="pr-2 pl-4 sm:pl-8 lg:pl-16 font-mono text-neutral-400">{formatDisplayId(contact.displayId)}</td>
@@ -78,20 +83,13 @@ export const ContactsTable = ({
                     ) : null}
                   </td>
                   <td className="pr-2">
-                    <div className="inline-flex flex-wrap gap-1">
-                      {contact.tags.map((tag) => (
-                        <div key={tag.id} className="flex h-6 items-center gap-1.5 rounded-full border px-2">
-                          <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
-                          <span>{tag.name}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <ContactTagsPicker displayId={contact.displayId} tags={tags} selectedIds={contact.tags.map((tag) => tag.id)} variant="compact" />
                   </td>
                   <td className="pr-4 sm:pr-8 lg:pr-16">
                     <div className="flex items-center justify-end gap-2">
-                      {contact.phone ? (
+                      {voice ? (
                         <Button variant="outline" size="icon-sm" asChild>
-                          <a href={`tel:${contact.phone}`} aria-label={`${name} anrufen`}>
+                          <a href={voice} target="_blank" rel="noopener noreferrer" aria-label={`${name} mit Google Voice anrufen`}>
                             <Telephone strokeWidth={1.5} className="size-4" />
                           </a>
                         </Button>
@@ -124,3 +122,4 @@ export const ContactsTable = ({
 
 const initials = (firstName: string, lastName: string) =>
   [firstName, lastName].flatMap((part) => (part ? [part.slice(0, 1).toUpperCase()] : [])).join("")
+

@@ -49,8 +49,8 @@ export async function setContactTagsAction(displayId: number, tagIds: string[]) 
   return { ok: true as const }
 }
 
-export async function addNewTagToContactAction(displayId: number, name: string) {
-  const result = await addNewTagToContact(displayId, name)
+export async function addNewTagToContactAction(displayId: number, name: string, color: string) {
+  const result = await addNewTagToContact(displayId, name, color)
   if (!result.ok) return result
   refresh()
   return { ok: true as const }
@@ -61,6 +61,17 @@ export async function createTagAction(_prev: FormActionState, formData: FormData
   if (!result.ok) return result
   refresh()
   return null
+}
+
+/** Creates a tag from the picker and returns its id, so a form can select it before saving. */
+export async function createPickedTagAction(name: string, color: string) {
+  const formData = new FormData()
+  formData.set('name', name)
+  formData.set('color', color)
+  const result = await createTag(formData)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const, id: result.id }
 }
 
 export async function removeTagAction(id: string) {

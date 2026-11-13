@@ -3,11 +3,11 @@
 import { saveContactAction } from "@/app/kontakte/actions"
 import { CompanyDraftProvider, type CompanyDraft } from "@/components/contacts/company-draft"
 import { LabeledValuesField } from "@/components/contacts/labeled-values-field"
+import { TagPickerField } from "@/components/tags/tag-picker-field"
 import { EMAIL_TYPES, PHONE_TYPES } from "@/lib/contacts/value-types"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { ContactLabeledValue } from "@/lib/db/schema/crm"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
-import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
 import { Button } from "@lw/ui/components/button"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@lw/ui/components/dialog"
 import { Input } from "@lw/ui/components/input"
@@ -109,7 +109,6 @@ export const ContactForm = ({
 }) => {
   const [state, formAction, pending] = useActionState(action, null)
   const [isPrivate, setIsPrivate] = useState(contact?.isPrivate ?? false)
-  const selected = new Set(contact?.tagIds ?? [])
   const formRef = useRef<HTMLFormElement>(null)
   const snapshotRef = useRef<FormSnapshot | null>(null)
 
@@ -171,20 +170,7 @@ export const ContactForm = ({
       </div>
       <fieldset className="flex flex-col gap-2">
         <legend className="text-sm">Tags</legend>
-        {tagsField ?? (
-          <>
-            {tags.length === 0 ? <p className="text-sm">Noch keine Tags.</p> : null}
-            <div className="flex max-h-32 flex-col gap-1.5 overflow-y-auto">
-              {tags.map((tag) => (
-                <label key={tag.id} className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" name="tagIds" value={tag.id} defaultChecked={selected.has(tag.id)} className="size-4 accent-black" />
-                  <span className="size-2 rounded-full" style={{ backgroundColor: tagSwatchColor(tag.color) }} />
-                  <span>{tag.name}</span>
-                </label>
-              ))}
-            </div>
-          </>
-        )}
+        {tagsField ?? <TagPickerField tags={tags} defaultSelectedIds={contact?.tagIds ?? []} />}
       </fieldset>
       {canTogglePrivacy ? (
         <div className="flex items-center justify-between gap-3">
