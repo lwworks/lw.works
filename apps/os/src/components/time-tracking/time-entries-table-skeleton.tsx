@@ -2,6 +2,7 @@ import { Skeleton } from '@lw/ui/components/skeleton'
 import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { Fragment } from 'react'
+import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from './table-gutters'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 const DAYS = [3, 2]
@@ -15,33 +16,42 @@ export const TimeEntriesTableSkeleton = () => {
         {DAYS.map((rows, day) => (
           <Fragment key={day}>
             <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-              <TableCell className="pl-4 sm:pl-8 lg:pl-16">
-                <Skeleton className="size-4 rounded-[4px]" />
+              <TableCell className={cn(leadGutterCell)}>
+                <div className={cn(leadGutterInner)}>
+                  <Skeleton className="size-4 rounded-[4px]" />
+                </div>
               </TableCell>
-              <TableCell colSpan={2}>
+              <TableCell colSpan={3} className={cn(firstTextCell)}>
                 <Skeleton className="h-4 w-48" />
               </TableCell>
-              <TableCell>
+              <TableCell className={cn(lastTextCell)}>
                 <Skeleton className="h-4 w-12 ml-auto" />
               </TableCell>
-              <TableCell className="pr-4 sm:pr-8 lg:pr-16" />
+              <TableCell className={cn(trailGutterCell)} />
             </TableRow>
             {Array.from({ length: rows }, (_, row) => (
               <TableRow key={row} className="hover:bg-transparent">
-                <TableCell className="pl-4 sm:pl-8 lg:pl-16">
-                  <Skeleton className="size-4 rounded-[4px]" />
+                <TableCell className={cn(leadGutterCell)}>
+                  <div className={cn(leadGutterInner)}>
+                    <Skeleton className="size-4 rounded-[4px]" />
+                  </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className={cn(firstTextCell)}>
                   <Skeleton className="h-4 w-20" />
                 </TableCell>
                 <TableCell className="w-full max-w-0">
                   <Skeleton className={cn('h-4', row % 2 ? 'w-40' : 'w-64')} />
                 </TableCell>
                 <TableCell>
+                  <Skeleton className="h-6 w-16 ml-auto rounded-full" />
+                </TableCell>
+                <TableCell className={cn(lastTextCell)}>
                   <Skeleton className="h-4 w-12 ml-auto" />
                 </TableCell>
-                <TableCell className="pr-4 sm:pr-8 lg:pr-16">
-                  <Skeleton className="size-6" />
+                <TableCell className={cn(trailGutterCell)}>
+                  <div className={cn(trailGutterInner)}>
+                    <Skeleton className="size-6" />
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

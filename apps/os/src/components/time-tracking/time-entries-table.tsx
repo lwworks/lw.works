@@ -18,6 +18,7 @@ import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
 import { Fragment, useState, type MouseEvent } from 'react'
 import { SelectionActionBar } from './selection-action-bar'
+import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from './table-gutters'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 /** Keeps Shift+click from also selecting the text between the clicked checkboxes. */
@@ -63,46 +64,41 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
           return (
             <Fragment key={day}>
               <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-                <TableCell className="pl-4 sm:pl-8 lg:pl-16">
-                  <Checkbox
-                    aria-label={`Alle Einträge am ${dayLabel} auswählen`}
-                    checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
-                    onCheckedChange={() => setSelected(toggleGroupSelection({ selected, groupIds: dayIds }))}
-                  />
+                <TableCell className={cn(leadGutterCell)}>
+                  <div className={cn(leadGutterInner)}>
+                    <Checkbox
+                      aria-label={`Alle Einträge am ${dayLabel} auswählen`}
+                      checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
+                      onCheckedChange={() => setSelected(toggleGroupSelection({ selected, groupIds: dayIds }))}
+                    />
+                  </div>
                 </TableCell>
-                <TableCell colSpan={2} className="font-medium text-black dark:text-white">{dayLabel}</TableCell>
-                <TableCell className="text-right font-medium text-black dark:text-white tabular-nums">
+                <TableCell colSpan={3} className={cn('font-medium text-black dark:text-white', firstTextCell)}>{dayLabel}</TableCell>
+                <TableCell className={cn('text-right font-medium text-black dark:text-white tabular-nums', lastTextCell)}>
                   {formatDuration(sumTrackedMs(dayEntries, now))}
                 </TableCell>
-                <TableCell className="pr-4 sm:pr-8 lg:pr-16" />
+                <TableCell className={cn(trailGutterCell)} />
               </TableRow>
               {dayEntries.map((entry) => {
                 const running = entry.endAt > now
                 const isSelected = selected.has(entry.id)
                 return (
                   <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
-                    <TableCell className="pl-4 sm:pl-8 lg:pl-16">
-                      <Checkbox
-                        aria-label={`${entry.title} auswählen`}
-                        checked={isSelected}
-                        onMouseDown={preventShiftTextSelection}
-                        onClick={(event) => toggleRow(entry.id, event.shiftKey)}
-                      />
+                    <TableCell className={cn(leadGutterCell)}>
+                      <div className={cn(leadGutterInner)}>
+                        <Checkbox
+                          aria-label={`${entry.title} auswählen`}
+                          checked={isSelected}
+                          onMouseDown={preventShiftTextSelection}
+                          onClick={(event) => toggleRow(entry.id, event.shiftKey)}
+                        />
+                      </div>
                     </TableCell>
-                    <TableCell className="tabular-nums">
+                    <TableCell className={cn('tabular-nums', firstTextCell)}>
                       {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
                     </TableCell>
                     <TableCell className="w-full max-w-0">
                       <div className="flex items-center gap-3 min-w-0">
-                        {entry.project ? (
-                          <ProjectBadge
-                            projectKey={entry.project.key}
-                            companyId={entry.project.companyId}
-                            logoKey={entry.projectLogoKey}
-                            slug={entry.project.slug}
-                            title={entry.projectAssignment === 'manual' ? `${entry.project.title} (manuell zugeordnet)` : entry.project.title}
-                          />
-                        ) : null}
                         <span className="font-medium text-black dark:text-white truncate">{stripProjectPrefix(entry.title, entry.project?.key)}</span>
                         {entry.location ? (
                           <span className="inline-flex items-center gap-1 min-w-0 text-xs">
@@ -118,17 +114,32 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
                         ) : null}
                       </div>
                     </TableCell>
-                    <TableCell className={cn('text-right tabular-nums', running && 'text-black dark:text-white')}>
+                    <TableCell>
+                      <div className="flex justify-end">
+                        {entry.project ? (
+                          <ProjectBadge
+                            projectKey={entry.project.key}
+                            companyId={entry.project.companyId}
+                            logoKey={entry.projectLogoKey}
+                            slug={entry.project.slug}
+                            title={entry.projectAssignment === 'manual' ? `${entry.project.title} (manuell zugeordnet)` : entry.project.title}
+                          />
+                        ) : null}
+                      </div>
+                    </TableCell>
+                    <TableCell className={cn('text-right tabular-nums', lastTextCell, running && 'text-black dark:text-white')}>
                       {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
                     </TableCell>
-                    <TableCell className="pr-4 sm:pr-8 lg:pr-16 text-right">
-                      {entry.htmlLink ? (
-                        <Button variant="ghost" size="icon-xs" asChild>
-                          <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">
-                            <ExternalLink strokeWidth={1.5} />
-                          </a>
-                        </Button>
-                      ) : null}
+                    <TableCell className={cn(trailGutterCell)}>
+                      <div className={cn(trailGutterInner)}>
+                        {entry.htmlLink ? (
+                          <Button variant="ghost" size="icon-xs" asChild>
+                            <a href={entry.htmlLink} target="_blank" rel="noreferrer" aria-label="In Google Kalender öffnen">
+                              <ExternalLink strokeWidth={1.5} />
+                            </a>
+                          </Button>
+                        ) : null}
+                      </div>
                     </TableCell>
                   </TableRow>
                 )
