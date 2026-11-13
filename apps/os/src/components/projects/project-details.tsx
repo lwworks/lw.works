@@ -2,17 +2,16 @@ import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ArchiveProjectButton } from "@/components/projects/archive-project-button"
 import { EditProjectDialog } from "@/components/projects/edit-project-dialog"
 import { ProjectBadge } from "@/components/projects/project-badge"
+import { ProjectTimeEntriesTable } from "@/components/projects/project-time-entries-table"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import type { ProjectContactOption } from "@/lib/db/contacts/list-project-contact-options"
+import type { AssignableProject } from "@/lib/db/projects/list-assignable-projects"
 import type { ProjectDetail } from "@/lib/db/projects/get-project-by-slug"
 import type { ProjectTimeEntry } from "@/lib/db/time-entries/list-project-time-entries"
-import { formatDate, formatTime } from "@/lib/format/format-date-time"
 import { formatDuration } from "@/lib/format/format-duration"
 import { formatBilling } from "@/lib/projects/format-billing"
 import { formatProjectPeriod } from "@/lib/projects/format-project-period"
 import { projectStatusLabel } from "@/lib/projects/project-status-label"
-import { stripProjectPrefix } from "@/lib/projects/strip-project-prefix"
-import { sumTrackedMs } from "@/lib/time-tracking/sum-tracked-ms"
 import { Heading } from "@lw/ui/atoms/heading"
 import { cn } from "@lw/ui/lib/utils"
 import { Archive, ArrowLeft } from "@mynaui/icons-react"
@@ -22,11 +21,13 @@ export const ProjectDetails = ({
   project,
   entries,
   contactOptions,
+  projects,
   now,
 }: {
   project: ProjectDetail
   entries: ProjectTimeEntry[]
   contactOptions: ProjectContactOption[]
+  projects: AssignableProject[]
   now: Date
 }) => {
   const archived = project.archivedAt !== null
@@ -120,31 +121,7 @@ export const ProjectDetails = ({
           Die letzten {entries.length === 50 ? "50 " : ""}Einträge aller Nutzer. Termine mit <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
         </p>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm min-w-xl">
-          <tbody>
-            {entries.length === 0 ? (
-              <tr className={cn("h-16 border-y border-neutral-200 dark:border-neutral-800")}>
-                <td className={cn("px-4 sm:px-8 lg:px-16")}>Noch keine Zeiteinträge.</td>
-              </tr>
-            ) : null}
-            {entries.map((entry, index) => (
-              <tr key={entry.id} className={cn("h-10 border-b border-neutral-200 dark:border-neutral-800", index === 0 && "border-t")}>
-                <td className={cn("pr-2 pl-4 sm:pl-8 lg:pl-16 tabular-nums whitespace-nowrap")}>
-                  {formatDate(entry.startAt)} · {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
-                </td>
-                <td className={cn("w-full max-w-0 truncate pr-2 font-medium text-black dark:text-white")}>
-                  {stripProjectPrefix(entry.title, project.key)}
-                </td>
-                <td className={cn("pr-2 whitespace-nowrap")}>{entry.userName}</td>
-                <td className={cn("pr-4 sm:pr-8 lg:pr-16 text-right tabular-nums whitespace-nowrap")}>
-                  {entry.endAt > now ? "läuft" : formatDuration(sumTrackedMs([entry], now))}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ProjectTimeEntriesTable entries={entries} projectKey={project.key} projects={projects} now={now} />
     </section>
   )
 }

@@ -1,7 +1,7 @@
 import { TableHead, TableHeader, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import type { ReactNode } from 'react'
-import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell } from './table-gutters'
+import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell } from '@/components/molecules/table-gutters'
 
 export const TimeEntriesTableHeader = ({ selectAll }: { selectAll: ReactNode }) => {
   return (

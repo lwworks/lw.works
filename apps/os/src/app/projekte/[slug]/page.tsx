@@ -1,6 +1,7 @@
 import { ProjectPage } from '@/components/pages/project'
 import { getSession } from '@/lib/auth/get-session'
 import { listProjectContactOptions } from '@/lib/db/contacts/list-project-contact-options'
+import { listAssignableProjects } from '@/lib/db/projects/list-assignable-projects'
 import { getProjectBySlug } from '@/lib/db/projects/get-project-by-slug'
 import { listProjectTimeEntries } from '@/lib/db/time-entries/list-project-time-entries'
 import type { Metadata } from 'next'
@@ -14,9 +15,10 @@ export default async function Page({ params }: PageProps<'/projekte/[slug]'>) {
   if (!session) redirect('/login')
   const project = await getProjectBySlug(slug)
   if (!project) notFound()
-  const [entries, contactOptions] = await Promise.all([
+  const [entries, contactOptions, projects] = await Promise.all([
     listProjectTimeEntries(project.id),
     listProjectContactOptions({ companyId: project.companyId }),
+    listAssignableProjects(),
   ])
-  return <ProjectPage project={project} entries={entries} contactOptions={contactOptions} now={new Date()} />
+  return <ProjectPage project={project} entries={entries} contactOptions={contactOptions} projects={projects} now={new Date()} />
 }

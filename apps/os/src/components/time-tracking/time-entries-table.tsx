@@ -1,6 +1,6 @@
 'use client'
 
-import { ProjectBadge } from '@/components/projects/project-badge'
+import { CompanyIcon } from '@/components/atoms/company-icon'
 import type { AssignableProject } from '@/lib/db/projects/list-assignable-projects'
 import type { TimeEntryDTO } from '@/lib/db/time-entries/get-own-time-entries'
 import { formatDay, formatTime } from '@/lib/format/format-date-time'
@@ -16,9 +16,10 @@ import { Checkbox } from '@lw/ui/components/checkbox'
 import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink, MapPin, Users } from '@mynaui/icons-react'
+import Link from 'next/link'
 import { Fragment, useState, type MouseEvent } from 'react'
 import { SelectionActionBar } from './selection-action-bar'
-import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from './table-gutters'
+import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 /** Keeps Shift+click from also selecting the text between the clicked checkboxes. */
@@ -117,13 +118,14 @@ export const TimeEntriesTable = ({ entries, projects, now }: { entries: TimeEntr
                     <TableCell>
                       <div className="flex justify-end">
                         {entry.project ? (
-                          <ProjectBadge
-                            projectKey={entry.project.key}
-                            companyId={entry.project.companyId}
-                            logoKey={entry.projectLogoKey}
-                            slug={entry.project.slug}
+                          <Link
+                            href={`/projekte/${entry.project.slug}`}
                             title={entry.projectAssignment === 'manual' ? `${entry.project.title} (manuell zugeordnet)` : entry.project.title}
-                          />
+                            className="inline-flex h-6 items-center gap-1.5 rounded-full border pr-2 pl-1.5 hover:bg-neutral-100 hover:text-black dark:hover:bg-neutral-900 dark:hover:text-white"
+                          >
+                            <CompanyIcon companyId={entry.project.companyId} logoKey={entry.projectLogoKey} />
+                            <span className="truncate">{entry.project.key}</span>
+                          </Link>
                         ) : null}
                       </div>
                     </TableCell>

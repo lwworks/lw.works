@@ -2,7 +2,7 @@ import { Skeleton } from '@lw/ui/components/skeleton'
 import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { Fragment } from 'react'
-import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from './table-gutters'
+import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 const DAYS = [3, 2]
