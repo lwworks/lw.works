@@ -50,6 +50,13 @@
       "when": 1794474517679,
       "tag": "0006_company-logos",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794551072797,
+      "tag": "0007_contact-emails-phones",
+      "breakpoints": true
     }
   ]
 }

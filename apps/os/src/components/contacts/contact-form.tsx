@@ -2,7 +2,10 @@
 
 import { saveContactAction } from "@/app/kontakte/actions"
 import { CompanyDraftProvider, type CompanyDraft } from "@/components/contacts/company-draft"
+import { LabeledValuesField } from "@/components/contacts/labeled-values-field"
+import { EMAIL_TYPES, PHONE_TYPES } from "@/lib/contacts/value-types"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
+import type { ContactLabeledValue } from "@/lib/db/schema/crm"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { tagSwatchColor } from "@/lib/tags/tag-swatch-color"
 import { Button } from "@lw/ui/components/button"
@@ -18,8 +21,8 @@ export type ContactFormValues = {
   displayId?: number
   firstName: string
   lastName: string
-  email: string | null
-  phone: string | null
+  emails: ContactLabeledValue[]
+  phones: ContactLabeledValue[]
   whatsApp: string | null
   linkedIn: string | null
   instagram: string | null
@@ -56,6 +59,7 @@ const restoreClearedFields = (form: HTMLFormElement, snapshot: FormSnapshot) => 
     grouped.set(key, list)
   }
   const seen = new Set<string>()
+  const positions = new Map<string, number>()
   for (const element of form.elements) {
     if (!(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement)) continue
     if (!element.name) continue
@@ -70,7 +74,11 @@ const restoreClearedFields = (form: HTMLFormElement, snapshot: FormSnapshot) => 
       }
       continue
     }
-    if (element.value === "" && list[0]) element.value = list[0]
+    // Repeated names (emailValue, phoneValue, …) are restored by position.
+    const position = positions.get(element.name) ?? 0
+    positions.set(element.name, position + 1)
+    const previous = list[position]
+    if (element.value === "" && previous) element.value = previous
   }
   const companyInput = form.querySelector<HTMLInputElement>("#companyId")
   if (companyInput && companyInput.value === "" && snapshot.companyLabel) companyInput.value = snapshot.companyLabel
@@ -134,8 +142,10 @@ export const ContactForm = ({
       <div className="grid gap-3 sm:grid-cols-2">
         <Field label="Vorname" name="firstName" defaultValue={contact?.firstName} />
         <Field label="Nachname" name="lastName" defaultValue={contact?.lastName} />
-        <Field label="E-Mail" name="email" type="email" defaultValue={contact?.email} />
-        <Field label="Telefon" name="phone" defaultValue={contact?.phone} />
+      </div>
+      <LabeledValuesField name="email" label="E-Mail" addLabel="E-Mail hinzufügen" types={EMAIL_TYPES} defaultType="work" values={contact?.emails} inputType="email" />
+      <LabeledValuesField name="phone" label="Telefon" addLabel="Telefonnummer hinzufügen" types={PHONE_TYPES} defaultType="mobile" values={contact?.phones} inputType="tel" />
+      <div className="grid gap-3 sm:grid-cols-2">
         <Field label="WhatsApp" name="whatsApp" defaultValue={contact?.whatsApp} />
         <Field label="Avatar-URL" name="avatarUrl" defaultValue={contact?.avatarUrl} />
         <Field label="LinkedIn" name="linkedIn" defaultValue={contact?.linkedIn} />

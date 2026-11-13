@@ -27,9 +27,13 @@ describe('toContactPrefill', () => {
     })
   })
 
-  it('prefers the mobile number', () => {
-    expect(toContactPrefill({ ...card, mobile: '+49 171 1' }, []).phone).toBe('+49 171 1')
-    expect(toContactPrefill(card, []).phone).toBe('+49 421 123456')
+  it('keeps mobile and landline, mobile first', () => {
+    expect(toContactPrefill({ ...card, mobile: '+49 171 1' }, []).phones).toEqual([
+      { value: '+49 171 1', type: 'mobile' },
+      { value: '+49 421 123456', type: 'work' },
+    ])
+    expect(toContactPrefill(card, []).phones).toEqual([{ value: '+49 421 123456', type: 'work' }])
+    expect(toContactPrefill(card, []).emails).toEqual([{ value: 'anna@beispiel.de', type: 'work' }])
   })
 
   it('leaves the company empty when the card has none', () => {

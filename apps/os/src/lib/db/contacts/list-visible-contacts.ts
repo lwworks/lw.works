@@ -10,7 +10,9 @@ export type ContactListItem = {
   displayId: number
   firstName: string
   lastName: string
+  /** Primary email address (the first one), if any. */
   email: string | null
+  /** Primary phone number (the first one), if any. */
   phone: string | null
   whatsApp: string | null
   avatarUrl: string | null
@@ -27,8 +29,8 @@ export const listVisibleContacts = async (): Promise<ContactListItem[]> => {
       displayId: contact.displayId,
       firstName: contact.firstName,
       lastName: contact.lastName,
-      email: contact.email,
-      phone: contact.phone,
+      emails: contact.emails,
+      phones: contact.phones,
       whatsApp: contact.whatsApp,
       avatarUrl: contact.avatarUrl,
       companyId: company.id,
@@ -45,8 +47,8 @@ export const listVisibleContacts = async (): Promise<ContactListItem[]> => {
     displayId: row.displayId,
     firstName: row.firstName,
     lastName: row.lastName,
-    email: row.email,
-    phone: row.phone,
+    email: row.emails[0]?.value ?? null,
+    phone: row.phones[0]?.value ?? null,
     whatsApp: row.whatsApp,
     avatarUrl: row.avatarUrl,
     company: row.companyId ? { id: row.companyId, name: row.companyName ?? '', logoKey: row.companyLogoKey } : null,

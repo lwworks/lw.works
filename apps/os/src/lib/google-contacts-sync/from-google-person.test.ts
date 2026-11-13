@@ -6,16 +6,17 @@ const person: GooglePerson = {
   etag: 'etag',
   metadata: { sources: [{ updateTime: '2026-03-01T00:00:00Z' }, { updateTime: '2026-04-01T00:00:00Z' }] },
   names: [{ givenName: 'Ada', familyName: 'Lovelace' }],
-  emailAddresses: [{ value: 'ada@lw.works' }],
+  emailAddresses: [{ value: 'ada@lw.works', type: 'work' }, { value: 'ada@example.com' }, { value: ' ' }],
   phoneNumbers: [
     { value: '+49 111', type: 'mobile' },
     { value: '+49 222', type: 'WhatsApp' },
+    { value: '+49 333', type: 'Büro' },
   ],
   birthdays: [{ date: { month: 12, day: 10, year: 0 } }],
 }
 
 describe('fromGooglePerson', () => {
-  it('separates WhatsApp from the main phone and drops a missing year', () => {
+  it('keeps every email and phone, separates WhatsApp, and drops a missing year', () => {
     expect(fromGooglePerson(person)).toEqual({
       resourceName: 'people/c1',
       etag: 'etag',
@@ -23,8 +24,14 @@ describe('fromGooglePerson', () => {
       fields: {
         firstName: 'Ada',
         lastName: 'Lovelace',
-        email: 'ada@lw.works',
-        phone: '+49 111',
+        emails: [
+          { value: 'ada@lw.works', type: 'work' },
+          { value: 'ada@example.com', type: null },
+        ],
+        phones: [
+          { value: '+49 111', type: 'mobile' },
+          { value: '+49 333', type: 'Büro' },
+        ],
         whatsApp: '+49 222',
         birthday: { month: 12, day: 10 },
       },

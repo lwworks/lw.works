@@ -1,4 +1,5 @@
 import type { BusinessCard } from '@/lib/business-card/extract-business-card'
+import type { ContactLabeledValue } from '@/lib/db/schema/crm'
 
 export type CompanyPrefill =
   | { kind: 'existing'; id: string; name: string }
@@ -7,8 +8,8 @@ export type CompanyPrefill =
 export type ContactPrefill = {
   firstName: string
   lastName: string
-  email: string | null
-  phone: string | null
+  emails: ContactLabeledValue[]
+  phones: ContactLabeledValue[]
   linkedIn: string | null
   instagram: string | null
   x: string | null
@@ -21,7 +22,7 @@ const normalize = (name: string) =>
     .replace(/\b(gmbh|ag|kg|ug|e\.?\s?k\.?|mbh|co\.?|&|inc\.?|ltd\.?|llc)\b/g, '')
     .replace(/[^\p{L}\p{N}]/gu, '')
 
-/** Maps a read business card to new-contact form values. The mobile number wins over the landline; the company is matched to an existing one by name. */
+/** Maps a read business card to new-contact form values. Both numbers are kept, the mobile one first; the company is matched to an existing one by name. */
 export const toContactPrefill = (card: BusinessCard, companies: { id: string; name: string }[]): ContactPrefill => {
   let company: CompanyPrefill | null = null
   const companyName = card.company?.name?.trim()
@@ -45,8 +46,11 @@ export const toContactPrefill = (card: BusinessCard, companies: { id: string; na
   return {
     firstName: card.firstName ?? '',
     lastName: card.lastName ?? '',
-    email: card.email,
-    phone: card.mobile ?? card.phone,
+    emails: card.email ? [{ value: card.email, type: 'work' }] : [],
+    phones: [
+      ...(card.mobile ? [{ value: card.mobile, type: 'mobile' }] : []),
+      ...(card.phone ? [{ value: card.phone, type: 'work' }] : []),
+    ],
     linkedIn: card.linkedIn,
     instagram: card.instagram,
     x: card.x,

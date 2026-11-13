@@ -45,8 +45,8 @@ export const pushContact = async (contactId: string) => {
   const fields: SyncedContactFields = {
     firstName: row.firstName,
     lastName: row.lastName,
-    email: row.email,
-    phone: row.phone,
+    emails: row.emails,
+    phones: row.phones,
     whatsApp: row.whatsApp,
     birthday:
       row.birthdayMonth && row.birthdayDay

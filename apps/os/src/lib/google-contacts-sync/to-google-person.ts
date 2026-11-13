@@ -1,10 +1,13 @@
+import type { ContactLabeledValue } from '@/lib/db/schema/crm'
 import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-contact-fields'
 import { WHATSAPP_PHONE_TYPE } from '@/lib/google-contacts-sync/whatsapp-phone-type'
 
-/** People API body: name, email, phone, WhatsApp, and birthday. Nothing else. */
+const toGoogleValue = ({ value, type }: ContactLabeledValue) => (type ? { value, type } : { value })
+
+/** People API body: name, all email addresses, all phone numbers plus WhatsApp, and birthday. Nothing else. */
 export const toGooglePerson = (fields: SyncedContactFields) => {
   const phoneNumbers = [
-    ...(fields.phone ? [{ value: fields.phone, type: 'mobile' }] : []),
+    ...fields.phones.map(toGoogleValue),
     ...(fields.whatsApp ? [{ value: fields.whatsApp, type: WHATSAPP_PHONE_TYPE }] : []),
   ]
   const date = fields.birthday
@@ -13,7 +16,7 @@ export const toGooglePerson = (fields: SyncedContactFields) => {
 
   return {
     names: [{ givenName: fields.firstName, familyName: fields.lastName }],
-    emailAddresses: fields.email ? [{ value: fields.email }] : [],
+    emailAddresses: fields.emails.map(toGoogleValue),
     phoneNumbers,
     birthdays: date ? [{ date }] : [],
   }

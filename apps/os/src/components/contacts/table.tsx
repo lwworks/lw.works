@@ -24,7 +24,7 @@ export const ContactsTable = ({
 }) => {
   return (
     <section>
-      <PageHeader title="Kontakte" description="Gemeinsames Adressbuch. Name, E-Mail, Telefon, WhatsApp und Geburtstag folgen in Google Kontakte.">
+      <PageHeader title="Kontakte" description="Gemeinsames Adressbuch. Name, E-Mail-Adressen, Telefonnummern, WhatsApp und Geburtstag folgen in Google Kontakte.">
         <Button asChild>
           <Link href="/kontakte/neu">
             <Plus strokeWidth={1.5} className="size-4" />
