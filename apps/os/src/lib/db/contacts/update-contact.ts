@@ -15,8 +15,8 @@ export const updateContact = async (id: string, input: ContactInput, syncedField
     .set({
       firstName: input.firstName,
       lastName: input.lastName,
-      email: input.email,
-      phone: input.phone,
+      emails: input.emails,
+      phones: input.phones,
       whatsApp: input.whatsApp,
       linkedIn: input.linkedIn,
       instagram: input.instagram,

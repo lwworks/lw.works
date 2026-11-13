@@ -1,5 +1,7 @@
 import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-contact-fields'
 
+const valuesKey = (values: SyncedContactFields['emails']) => JSON.stringify(values.map(({ value, type }) => [value, type]))
+
 const birthdayKey = (birthday: SyncedContactFields['birthday']) =>
   birthday ? `${birthday.year ?? ''}-${birthday.month}-${birthday.day}` : ''
 
@@ -7,7 +9,7 @@ const birthdayKey = (birthday: SyncedContactFields['birthday']) =>
 export const syncedFieldsChanged = (before: SyncedContactFields, after: SyncedContactFields) =>
   before.firstName !== after.firstName ||
   before.lastName !== after.lastName ||
-  before.email !== after.email ||
-  before.phone !== after.phone ||
+  valuesKey(before.emails) !== valuesKey(after.emails) ||
+  valuesKey(before.phones) !== valuesKey(after.phones) ||
   before.whatsApp !== after.whatsApp ||
   birthdayKey(before.birthday) !== birthdayKey(after.birthday)

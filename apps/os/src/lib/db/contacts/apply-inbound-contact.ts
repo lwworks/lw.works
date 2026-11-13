@@ -15,8 +15,8 @@ export const applyInboundContact = async (id: string, fields: SyncedContactField
     .set({
       firstName: fields.firstName,
       lastName: fields.lastName,
-      email: fields.email,
-      phone: fields.phone,
+      emails: fields.emails,
+      phones: fields.phones,
       whatsApp: fields.whatsApp,
       birthdayMonth: fields.birthday?.month ?? null,
       birthdayDay: fields.birthday?.day ?? null,

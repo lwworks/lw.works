@@ -6,6 +6,8 @@ import { PrivacySwitch } from "@/components/contacts/privacy-switch"
 import { formatBirthday } from "@/lib/contacts/format-birthday"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
+import { formatValueType } from "@/lib/contacts/format-value-type"
+import type { ContactLabeledValue } from "@/lib/db/schema/crm"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { ContactDetail } from "@/lib/db/contacts/get-visible-contact"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
@@ -61,8 +63,8 @@ export const ContactDetails = ({
                 displayId: contact.displayId,
                 firstName: contact.firstName,
                 lastName: contact.lastName,
-                email: contact.email,
-                phone: contact.phone,
+                emails: contact.emails,
+                phones: contact.phones,
                 whatsApp: contact.whatsApp,
                 linkedIn: contact.linkedIn,
                 instagram: contact.instagram,
@@ -81,8 +83,8 @@ export const ContactDetails = ({
               <Detail icon={<UserSquare strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Vorname" value={contact.firstName} />
               <Detail icon={<UserSquare strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Nachname" value={contact.lastName} />
               <Detail icon={<Gift className="mb-0.5 inline size-4" />} label="Geburtstag" value={formatBirthday(contact.birthday)} />
-              <Detail icon={<At strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="E-Mail" value={contact.email} />
-              <Detail icon={<Telephone strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Telefon" value={contact.phone} />
+              <LabeledValuesDetail icon={<At strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="E-Mail" values={contact.emails} href={(value) => `mailto:${value}`} />
+              <LabeledValuesDetail icon={<Telephone strokeWidth={1.5} className="mb-0.5 inline size-4" />} label="Telefon" values={contact.phones} href={(value) => `tel:${value.replace(/[^\d+]/g, "")}`} />
               <Detail icon={<WhatsAppIcon className="mb-0.5 inline size-4" />} label="WhatsApp" value={contact.whatsApp} />
               <Detail icon={<LinkedInIcon className="mb-0.5 inline size-4" />} label="LinkedIn" value={contact.linkedIn} />
               <Detail icon={<InstagramIcon className="mb-0.5 inline size-4" />} label="Instagram" value={contact.instagram} />
@@ -145,6 +147,37 @@ const Detail = ({ icon, label, value }: { icon: ReactNode; label: string; value:
     <td className="font-medium text-black dark:text-white">{value || "—"}</td>
   </tr>
 )
+
+/** One table row per email or phone; the label column is only filled on the first. */
+const LabeledValuesDetail = ({
+  icon,
+  label,
+  values,
+  href,
+}: {
+  icon: ReactNode
+  label: string
+  values: ContactLabeledValue[]
+  href: (value: string) => string
+}) => {
+  if (values.length === 0) return <Detail icon={icon} label={label} value={null} />
+  return values.map((entry, index) => (
+    <tr key={`${entry.value}-${index}`} className="h-8">
+      <td className="pr-4">
+        {index === 0 ? (
+          <>
+            {icon}
+            <span className="ml-1">{label}</span>
+          </>
+        ) : null}
+      </td>
+      <td>
+        <a href={href(entry.value)} className="font-medium text-black hover:underline dark:text-white">{entry.value}</a>
+        {entry.type ? <span className="ml-2 text-neutral-500">{formatValueType(entry.type)}</span> : null}
+      </td>
+    </tr>
+  ))
+}
 
 const initials = (firstName: string, lastName: string) =>
   [firstName, lastName].flatMap((part) => (part ? [part.slice(0, 1).toUpperCase()] : [])).join("")

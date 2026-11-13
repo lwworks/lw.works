@@ -1,3 +1,4 @@
+import type { ContactLabeledValue } from '@/lib/db/schema/crm'
 import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-contact-fields'
 import { WHATSAPP_PHONE_TYPE } from '@/lib/google-contacts-sync/whatsapp-phone-type'
 
@@ -6,7 +7,7 @@ export type GooglePerson = {
   etag?: string
   metadata?: { deleted?: boolean; sources?: { updateTime?: string }[] }
   names?: { givenName?: string; familyName?: string }[]
-  emailAddresses?: { value?: string }[]
+  emailAddresses?: { value?: string; type?: string }[]
   phoneNumbers?: { value?: string; type?: string }[]
   birthdays?: { date?: { year?: number; month?: number; day?: number } }[]
 }
@@ -18,6 +19,14 @@ export type ParsedGooglePerson = {
   fields: SyncedContactFields
 }
 
+const toLabeledValues = (entries: { value?: string; type?: string }[]): ContactLabeledValue[] =>
+  entries.flatMap((entry) => {
+    const value = entry.value?.trim()
+    return value ? [{ value, type: entry.type?.trim() || null }] : []
+  })
+
+const isWhatsApp = (phone: { type?: string }) => phone.type?.toLowerCase() === WHATSAPP_PHONE_TYPE.toLowerCase()
+
 const latestUpdateTime = (person: GooglePerson) =>
   person.metadata?.sources?.reduce<string | null>((latest, source) => {
     if (!source.updateTime) return latest
@@ -25,12 +34,11 @@ const latestUpdateTime = (person: GooglePerson) =>
     return latest
   }, null) ?? null
 
-/** Reads the synced fields back out of a People API person. A deleted person is ignored. */
+/** Reads the synced fields back out of a People API person, keeping every email and phone in Google's order. A deleted person is ignored. */
 export const fromGooglePerson = (person: GooglePerson): ParsedGooglePerson | null => {
   if (person.metadata?.deleted || !person.resourceName) return null
   const phones = person.phoneNumbers ?? []
-  const whatsApp = phones.find((phone) => phone.type?.toLowerCase() === WHATSAPP_PHONE_TYPE.toLowerCase())?.value ?? null
-  const phone = phones.find((phone) => phone.type?.toLowerCase() !== WHATSAPP_PHONE_TYPE.toLowerCase())?.value ?? null
+  const whatsApp = phones.find(isWhatsApp)?.value?.trim() || null
   const date = person.birthdays?.[0]?.date
   const year = date?.year && date.year > 0 ? date.year : undefined
   const birthday = date?.month && date.day ? { month: date.month, day: date.day, ...(year ? { year } : {}) } : null
@@ -42,9 +50,9 @@ export const fromGooglePerson = (person: GooglePerson): ParsedGooglePerson | nul
     fields: {
       firstName: person.names?.[0]?.givenName ?? '',
       lastName: person.names?.[0]?.familyName ?? '',
-      email: person.emailAddresses?.[0]?.value ?? null,
-      phone: phone ?? null,
-      whatsApp: whatsApp ?? null,
+      emails: toLabeledValues(person.emailAddresses ?? []),
+      phones: toLabeledValues(phones.filter((phone) => !isWhatsApp(phone))),
+      whatsApp,
       birthday,
     },
   }

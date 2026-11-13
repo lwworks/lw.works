@@ -5,8 +5,8 @@ import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-cont
 const fields = (firstName: string): SyncedContactFields => ({
   firstName,
   lastName: 'Lovelace',
-  email: null,
-  phone: null,
+  emails: [],
+  phones: [],
   whatsApp: null,
   birthday: null,
 })

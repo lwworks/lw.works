@@ -1,10 +1,16 @@
 import { sql } from 'drizzle-orm'
-import { boolean, check, index, integer, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import { boolean, check, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { account, user } from './auth'
 
 const timestamptz = (name: string) => timestamp(name, { withTimezone: true })
 
 export type ContactGoogleLinkStatus = 'pending' | 'ok' | 'reauth_required' | 'missing_scope'
+
+/**
+ * One email address or phone number of a contact. `type` is the Google Contacts type (`work`, `home`, `mobile`, `other`, …)
+ * or a custom label from Google; null when unset. List order is kept and the first entry is the primary one.
+ */
+export type ContactLabeledValue = { value: string; type: string | null }
 
 export type CompanyLogoSource = 'favicon' | 'upload' | 'legacy_url'
 
@@ -83,8 +89,8 @@ export const contact = pgTable(
       .notNull(),
     firstName: text('first_name').notNull(),
     lastName: text('last_name').notNull(),
-    email: text('email'),
-    phone: text('phone'),
+    emails: jsonb('emails').$type<ContactLabeledValue[]>().default([]).notNull(),
+    phones: jsonb('phones').$type<ContactLabeledValue[]>().default([]).notNull(),
     whatsApp: text('whats_app'),
     linkedIn: text('linked_in'),
     instagram: text('instagram'),

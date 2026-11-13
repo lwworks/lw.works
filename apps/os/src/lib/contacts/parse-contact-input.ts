@@ -1,3 +1,4 @@
+import { readLabeledValues } from '@/lib/contacts/read-labeled-values'
 import { readOptionalText } from '@/lib/contacts/read-optional-text'
 import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-contact-fields'
 
@@ -10,6 +11,8 @@ export type ContactInput = SyncedContactFields & {
   tagIds: string[]
   isPrivate: boolean
 }
+
+const maxValues = 10
 
 const daysInMonth = (month: number, year?: number) => new Date(Date.UTC(year ?? 2024, month, 0)).getUTCDate()
 
@@ -31,7 +34,7 @@ const parseBirthday = (formData: FormData): { ok: true; value: SyncedContactFiel
   return { ok: true, value: { month, day, ...(year ? { year } : {}) } }
 }
 
-/** At least one of first or last name. No role. */
+/** At least one of first or last name. No role. Emails and phones repeat as `emailValue`/`emailType` and `phoneValue`/`phoneType`. */
 export const parseContactInput = (formData: FormData): { ok: true; value: ContactInput } | { ok: false; message: string } => {
   const firstName = readOptionalText(formData.get('firstName'), 100) ?? ''
   const lastName = readOptionalText(formData.get('lastName'), 100) ?? ''
@@ -39,6 +42,11 @@ export const parseContactInput = (formData: FormData): { ok: true; value: Contac
 
   const birthday = parseBirthday(formData)
   if (!birthday.ok) return birthday
+
+  const emails = readLabeledValues(formData, 'email', 320)
+  const phones = readLabeledValues(formData, 'phone', 40)
+  if (emails.length > maxValues) return { ok: false, message: `Höchstens ${maxValues} E-Mail-Adressen.` }
+  if (phones.length > maxValues) return { ok: false, message: `Höchstens ${maxValues} Telefonnummern.` }
 
   const companyId = readOptionalText(formData.get('companyId'), 80)
   const tagIds = [...new Set(formData.getAll('tagIds').flatMap((value) => (typeof value === 'string' && value ? [value] : [])))]
@@ -49,8 +57,8 @@ export const parseContactInput = (formData: FormData): { ok: true; value: Contac
     value: {
       firstName,
       lastName,
-      email: readOptionalText(formData.get('email'), 320),
-      phone: readOptionalText(formData.get('phone'), 40),
+      emails,
+      phones,
       whatsApp: readOptionalText(formData.get('whatsApp'), 40),
       linkedIn: readOptionalText(formData.get('linkedIn'), 200),
       instagram: readOptionalText(formData.get('instagram'), 200),
