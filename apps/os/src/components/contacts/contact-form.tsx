@@ -1,6 +1,7 @@
 "use client"
 
 import { saveContactAction } from "@/app/kontakte/actions"
+import { BirthdayPicker } from "@/components/contacts/birthday-picker"
 import { CompanyDraftProvider, type CompanyDraft } from "@/components/contacts/company-draft"
 import { LabeledValuesField } from "@/components/contacts/labeled-values-field"
 import { TagPickerField } from "@/components/tags/tag-picker-field"
@@ -151,12 +152,10 @@ export const ContactForm = ({
         <Field label="Instagram" name="instagram" defaultValue={contact?.instagram} />
         <Field label="X" name="x" defaultValue={contact?.x} />
       </div>
-      <fieldset className="grid grid-cols-3 gap-2">
-        <legend className="mb-1 text-sm">Geburtstag</legend>
-        <Field label="Tag" name="birthdayDay" defaultValue={contact?.birthday?.day} />
-        <Field label="Monat" name="birthdayMonth" defaultValue={contact?.birthday?.month} />
-        <Field label="Jahr" name="birthdayYear" defaultValue={contact?.birthday?.year} />
-      </fieldset>
+      <div className="flex flex-col gap-1.5">
+        <Label htmlFor="birthday">Geburtstag</Label>
+        <BirthdayPicker id="birthday" defaultValue={contact?.birthday} />
+      </div>
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="companyId">Unternehmen</Label>
         {companyField ?? (

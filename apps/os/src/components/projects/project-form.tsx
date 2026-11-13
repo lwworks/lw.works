@@ -1,5 +1,7 @@
 "use client"
 
+import { DatePicker } from "@/components/molecules/date-picker"
+import { parseDateKey } from "@/lib/format/parse-date-key"
 import type { ProjectContactOption } from "@/lib/db/contacts/list-project-contact-options"
 import type { ProjectBilling, ProjectStatus } from "@/lib/db/schema/projects"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
@@ -65,6 +67,10 @@ export const ProjectForm = ({
   const [state, formAction, pending] = useActionState(action, null)
   const [companyId, setCompanyId] = useState(project?.companyId ?? "")
   const [billing, setBilling] = useState<ProjectBilling>(project?.billing ?? "hourly")
+  const [startDate, setStartDate] = useState(project?.startDate ?? null)
+  const [endDate, setEndDate] = useState(project?.endDate ?? null)
+  const startDateValue = parseDateKey(startDate)
+  const endDateValue = parseDateKey(endDate)
   const companyContacts = contactOptions.filter((option) => option.companyId === companyId)
 
   useEffect(() => {
@@ -149,10 +155,22 @@ export const ProjectForm = ({
           </Select>
         </Field>
         <Field label="Start" htmlFor="startDate">
-          <Input id="startDate" name="startDate" type="date" defaultValue={project?.startDate ?? ""} />
+          <DatePicker
+            id="startDate"
+            name="startDate"
+            value={startDate}
+            onValueChange={setStartDate}
+            disabled={endDateValue ? { after: endDateValue } : undefined}
+          />
         </Field>
         <Field label="Ende" htmlFor="endDate">
-          <Input id="endDate" name="endDate" type="date" defaultValue={project?.endDate ?? ""} />
+          <DatePicker
+            id="endDate"
+            name="endDate"
+            value={endDate}
+            onValueChange={setEndDate}
+            disabled={startDateValue ? { before: startDateValue } : undefined}
+          />
         </Field>
       </div>
 
