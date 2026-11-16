@@ -1,10 +1,11 @@
 'use client'
 
 import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
+import { MarkBilledButton, MarkOpenButton } from '@/components/projects/billing-actions'
 import { SelectionActionBar } from '@/components/time-tracking/selection-action-bar'
 import type { AssignableProject } from '@/lib/db/projects/list-assignable-projects'
-import type { ProjectTimeEntry } from '@/lib/db/time-entries/list-project-time-entries'
-import { formatDay, formatTime } from '@/lib/format/format-date-time'
+import type { ProjectTimeEntriesView, ProjectTimeEntry } from '@/lib/db/time-entries/list-project-time-entries'
+import { formatDate, formatDay, formatTime } from '@/lib/format/format-date-time'
 import { formatDuration } from '@/lib/format/format-duration'
 import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
 import { stripProjectPrefix } from '@/lib/projects/strip-project-prefix'
@@ -24,14 +25,21 @@ const preventShiftTextSelection = (event: MouseEvent) => {
   if (event.shiftKey) event.preventDefault()
 }
 
-/** The project's entries by day. Only the signed-in user's own entries can be selected and reassigned. */
+/**
+ * The project's open or billed entries by day. All entries can be selected to mark them billed (or open again);
+ * reassigning to another project is offered only for the signed-in user's own open entries.
+ */
 export const ProjectTimeEntriesTable = ({
   entries,
+  view,
+  projectId,
   projectKey,
   projects,
   now,
 }: {
   entries: ProjectTimeEntry[]
+  view: ProjectTimeEntriesView
+  projectId: string
   projectKey: string
   projects: AssignableProject[]
   now: Date
@@ -40,14 +48,22 @@ export const ProjectTimeEntriesTable = ({
   const [anchorId, setAnchorId] = useState<string | null>(null)
 
   if (entries.length === 0) {
-    return <p className="px-4 sm:px-8 lg:px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">Noch keine Zeiteinträge.</p>
+    return (
+      <p className="px-4 sm:px-8 lg:px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">
+        {view === 'open' ? 'Keine offenen Zeiteinträge.' : 'Noch keine abgerechneten Zeiteinträge.'}
+      </p>
+    )
   }
 
   // Newest day first; entries within a day stay chronological, like the time tracking table.
   const days = [...Map.groupBy(entries, (entry) => toZonedDateKey(entry.startAt))].map(([day, dayEntries]) => [day, [...dayEntries].reverse()] as const)
-  // Selectable ids in visual order, so Shift+click ranges match what the user sees.
-  const ids = days.flatMap(([, dayEntries]) => dayEntries.flatMap((entry) => (entry.isOwn ? [entry.id] : [])))
-  const selectedCount = ids.filter((id) => selected.has(id)).length
+  // Ids in visual order, so Shift+click ranges match what the user sees.
+  const ids = days.flatMap(([, dayEntries]) => dayEntries.map((entry) => entry.id))
+  const selectedEntries = entries.filter((entry) => selected.has(entry.id))
+  const selectedIds = ids.filter((id) => selected.has(id))
+  const selectedCount = selectedIds.length
+  const billed = view === 'billed'
+  const clearSelection = () => setSelected(new Set())
 
   const toggleRow = (targetId: string, extendRange: boolean) => {
     setSelected(toggleRowSelection({ ids, selected, anchorId, targetId, extendRange }))
@@ -62,7 +78,7 @@ export const ProjectTimeEntriesTable = ({
             <TableHead className={cn(leadGutterCell)}>
               <div className={cn(leadGutterInner)}>
                 <Checkbox
-                  aria-label="Alle eigenen Einträge auswählen"
+                  aria-label="Alle Einträge auswählen"
                   checked={getSelectAllState(selectedCount, ids.length)}
                   disabled={ids.length === 0}
                   onCheckedChange={() => setSelected(new Set(selectedCount === ids.length ? [] : ids))}
@@ -72,13 +88,14 @@ export const ProjectTimeEntriesTable = ({
             <TableHead className={cn(firstTextCell)}>Zeit</TableHead>
             <TableHead>Termin</TableHead>
             <TableHead>Person</TableHead>
+            {billed ? <TableHead>Rechnung</TableHead> : null}
             <TableHead className={cn('text-right', lastTextCell)}>Dauer</TableHead>
             <TableHead className={cn(trailGutterCell)}><span className="sr-only">Link</span></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {days.map(([day, dayEntries]) => {
-            const dayIds = dayEntries.flatMap((entry) => (entry.isOwn ? [entry.id] : []))
+            const dayIds = dayEntries.map((entry) => entry.id)
             const dayLabel = formatDay(dayEntries[0].startAt)
             return (
               <Fragment key={day}>
@@ -86,14 +103,13 @@ export const ProjectTimeEntriesTable = ({
                   <TableCell className={cn(leadGutterCell)}>
                     <div className={cn(leadGutterInner)}>
                       <Checkbox
-                        aria-label={`Eigene Einträge am ${dayLabel} auswählen`}
+                        aria-label={`Einträge am ${dayLabel} auswählen`}
                         checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
-                        disabled={dayIds.length === 0}
                         onCheckedChange={() => setSelected(toggleGroupSelection({ selected, groupIds: dayIds }))}
                       />
                     </div>
                   </TableCell>
-                  <TableCell colSpan={3} className={cn('font-medium text-black dark:text-white', firstTextCell)}>{dayLabel}</TableCell>
+                  <TableCell colSpan={billed ? 4 : 3} className={cn('font-medium text-black dark:text-white', firstTextCell)}>{dayLabel}</TableCell>
                   <TableCell className={cn('text-right font-medium text-black dark:text-white tabular-nums', lastTextCell)}>
                     {formatDuration(sumTrackedMs(dayEntries, now))}
                   </TableCell>
@@ -105,11 +121,10 @@ export const ProjectTimeEntriesTable = ({
                   return (
                     <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
                       <TableCell className={cn(leadGutterCell)}>
-                        <div className={cn(leadGutterInner)} title={entry.isOwn ? undefined : 'Nur eigene Einträge lassen sich zuordnen.'}>
+                        <div className={cn(leadGutterInner)}>
                           <Checkbox
                             aria-label={`${entry.title} auswählen`}
                             checked={isSelected}
-                            disabled={!entry.isOwn}
                             onMouseDown={preventShiftTextSelection}
                             onClick={(event) => toggleRow(entry.id, event.shiftKey)}
                           />
@@ -122,6 +137,13 @@ export const ProjectTimeEntriesTable = ({
                         <span className="block truncate font-medium text-black dark:text-white">{stripProjectPrefix(entry.title, projectKey)}</span>
                       </TableCell>
                       <TableCell>{entry.userName}</TableCell>
+                      {billed ? (
+                        <TableCell className="tabular-nums">
+                          {entry.invoiceNumber ? <span className="text-black dark:text-white">{entry.invoiceNumber}</span> : null}
+                          {entry.invoiceNumber ? ' · ' : null}
+                          {entry.billedAt ? formatDate(entry.billedAt) : null}
+                        </TableCell>
+                      ) : null}
                       <TableCell className={cn('text-right tabular-nums', lastTextCell, running && 'text-black dark:text-white')}>
                         {running ? 'läuft' : formatDuration(sumTrackedMs([entry], now))}
                       </TableCell>
@@ -145,7 +167,20 @@ export const ProjectTimeEntriesTable = ({
         </TableBody>
       </Table>
       {selectedCount > 0 ? (
-        <SelectionActionBar selectedIds={ids.filter((id) => selected.has(id))} projects={projects} onDone={() => setSelected(new Set())} />
+        <SelectionActionBar
+          selectedIds={selectedIds}
+          projects={projects}
+          onDone={clearSelection}
+          durationMs={sumTrackedMs(selectedEntries, now)}
+          // Billed entries keep their project, and only own entries can be moved.
+          assignable={!billed && selectedEntries.every((entry) => entry.isOwn)}
+        >
+          {billed ? (
+            <MarkOpenButton projectId={projectId} ids={selectedIds} onDone={clearSelection} />
+          ) : (
+            <MarkBilledButton projectId={projectId} ids={selectedIds} onDone={clearSelection} />
+          )}
+        </SelectionActionBar>
       ) : null}
     </>
   )

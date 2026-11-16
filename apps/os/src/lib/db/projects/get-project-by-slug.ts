@@ -8,7 +8,7 @@ import { company, contact } from '@/lib/db/schema/crm'
 import { project, projectContact } from '@/lib/db/schema/projects'
 import { and, asc, eq } from 'drizzle-orm'
 
-/** Project with its customer, the contact persons the signed-in user may see, and the tracked time of all users. */
+/** Project with its customer, the contact persons the signed-in user may see, and the tracked time of all users, in total and split into open and billed. */
 export const getProjectBySlug = async (slug: string) => {
   const userId = await requireUserId()
   const [row] = await getDb()
@@ -16,6 +16,8 @@ export const getProjectBySlug = async (slug: string) => {
       project,
       company: { id: company.id, name: company.name, logoKey: company.logoKey },
       trackedMs: trackedMsSql(),
+      openMs: trackedMsSql('open'),
+      billedMs: trackedMsSql('billed'),
     })
     .from(project)
     .innerJoin(company, eq(company.id, project.companyId))
@@ -36,7 +38,7 @@ export const getProjectBySlug = async (slug: string) => {
     .where(and(eq(projectContact.projectId, row.project.id), visibleContactWhere(userId)))
     .orderBy(asc(contact.lastName), asc(contact.firstName))
 
-  return { ...row.project, company: row.company, trackedMs: row.trackedMs, contacts }
+  return { ...row.project, company: row.company, trackedMs: row.trackedMs, openMs: row.openMs, billedMs: row.billedMs, contacts }
 }
 
 export type ProjectDetail = NonNullable<Awaited<ReturnType<typeof getProjectBySlug>>>

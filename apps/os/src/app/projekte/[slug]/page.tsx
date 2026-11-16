@@ -9,16 +9,17 @@ import { notFound, redirect } from 'next/navigation'
 
 export const metadata: Metadata = { title: 'Projekt' }
 
-export default async function Page({ params }: PageProps<'/projekte/[slug]'>) {
+export default async function Page({ params, searchParams }: PageProps<'/projekte/[slug]'>) {
   const { slug } = await params
+  const view = (await searchParams).abgerechnet === '1' ? 'billed' : 'open'
   const session = await getSession()
   if (!session) redirect('/login')
   const project = await getProjectBySlug(slug)
   if (!project) notFound()
   const [entries, contactOptions, projects] = await Promise.all([
-    listProjectTimeEntries(project.id),
+    listProjectTimeEntries(project.id, view),
     listProjectContactOptions({ companyId: project.companyId }),
     listAssignableProjects(),
   ])
-  return <ProjectPage project={project} entries={entries} contactOptions={contactOptions} projects={projects} now={new Date()} />
+  return <ProjectPage project={project} entries={entries} view={view} contactOptions={contactOptions} projects={projects} now={new Date()} />
 }

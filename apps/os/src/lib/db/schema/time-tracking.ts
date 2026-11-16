@@ -45,6 +45,9 @@ export const timeEntry = pgTable(
     deletedAt: timestamptz('deleted_at'),
     projectId: text('project_id').references(() => project.id, { onDelete: 'set null' }),
     projectAssignment: text('project_assignment').$type<TimeEntryProjectAssignment>(),
+    /** Set when the entry went out on an invoice; billed entries keep their project. */
+    billedAt: timestamptz('billed_at'),
+    invoiceNumber: text('invoice_number'),
     createdAt: timestamptz('created_at').defaultNow().notNull(),
     updatedAt: timestamptz('updated_at')
       .defaultNow()
@@ -54,7 +57,7 @@ export const timeEntry = pgTable(
   (table) => [
     uniqueIndex('time_entry_user_calendar_event_idx').on(table.userId, table.calendarId, table.googleEventId),
     index('time_entry_user_start_idx').on(table.userId, table.startAt),
-    index('time_entry_project_idx').on(table.projectId),
+    index('time_entry_project_idx').on(table.projectId, table.billedAt),
     check('time_entry_project_assignment', sql`${table.projectAssignment} IS NULL OR ${table.projectAssignment} IN ('auto', 'manual')`),
   ],
 )

@@ -4,6 +4,7 @@ import { archiveProject } from '@/lib/projects/archive-project'
 import { createProject } from '@/lib/projects/create-project'
 import { restoreProject } from '@/lib/projects/restore-project'
 import { saveProject } from '@/lib/projects/save-project'
+import { billTimeEntries } from '@/lib/time-tracking/bill-time-entries'
 import { refresh } from 'next/cache'
 import { redirect } from 'next/navigation'
 
@@ -36,4 +37,11 @@ export async function restoreProjectAction(id: string) {
   if (!result.ok) return result
   refresh()
   return { ok: true as const }
+}
+
+/** Marks the project's selected entries as billed on an invoice, or back to open. */
+export async function setTimeEntriesBilledAction(input: { projectId: string; ids: string[]; billed: boolean; invoiceNumber?: string }) {
+  const result = await billTimeEntries(input)
+  if (result.ok) refresh()
+  return result
 }

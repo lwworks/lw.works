@@ -6,19 +6,27 @@ import type { AssignableProject } from "@/lib/db/projects/list-assignable-projec
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@lw/ui/components/select"
 import { toast } from "@lw/ui/components/sonner"
 import { cn } from "@lw/ui/lib/utils"
-import { useTransition } from "react"
+import { formatDuration } from "@/lib/format/format-duration"
+import { useTransition, type ReactNode } from "react"
 
 const NONE = "none"
 
-/** Floating bar for the selected entries: assign them to a project or to none. */
+/** Floating bar for the selected entries: assign them to a project or to none (unless `assignable` is false), plus any extra actions. */
 export const SelectionActionBar = ({
   selectedIds,
   projects,
   onDone,
+  durationMs,
+  assignable = true,
+  children,
 }: {
   selectedIds: string[]
   projects: AssignableProject[]
   onDone: () => void
+  /** Shown next to the count, e.g. the total to put on an invoice. */
+  durationMs?: number
+  assignable?: boolean
+  children?: ReactNode
 }) => {
   const [pending, startTransition] = useTransition()
 
@@ -40,22 +48,26 @@ export const SelectionActionBar = ({
     >
       <span className={cn("font-medium text-black tabular-nums dark:text-white")}>
         {selectedIds.length === 1 ? "1 Eintrag" : `${selectedIds.length} Einträge`}
+        {durationMs === undefined ? null : <span className={cn("font-normal text-neutral-500")}> · {formatDuration(durationMs)}</span>}
       </span>
-      <Select value="" onValueChange={assign} disabled={pending}>
-        <SelectTrigger className={cn("w-56")}>
-          <SelectValue placeholder={pending ? "Speichert …" : "Projekt zuordnen …"} />
-        </SelectTrigger>
-        <SelectContent>
-          {projects.map((project) => (
-            <SelectItem key={project.id} value={project.id}>
-              <CompanyIcon companyId={project.companyId} logoKey={project.companyLogoKey} />
-              <span className={cn("font-mono text-xs")}>{project.key}</span>
-              <span>{project.title}</span>
-            </SelectItem>
-          ))}
-          <SelectItem value={NONE}>Ohne Projekt</SelectItem>
-        </SelectContent>
-      </Select>
+      {assignable ? (
+        <Select value="" onValueChange={assign} disabled={pending}>
+          <SelectTrigger className={cn("w-56")}>
+            <SelectValue placeholder={pending ? "Speichert …" : "Projekt zuordnen …"} />
+          </SelectTrigger>
+          <SelectContent>
+            {projects.map((project) => (
+              <SelectItem key={project.id} value={project.id}>
+                <CompanyIcon companyId={project.companyId} logoKey={project.companyLogoKey} />
+                <span className={cn("font-mono text-xs")}>{project.key}</span>
+                <span>{project.title}</span>
+              </SelectItem>
+            ))}
+            <SelectItem value={NONE}>Ohne Projekt</SelectItem>
+          </SelectContent>
+        </Select>
+      ) : null}
+      {children}
     </div>
   )
 }

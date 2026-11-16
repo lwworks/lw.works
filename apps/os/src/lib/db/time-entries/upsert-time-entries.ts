@@ -10,12 +10,13 @@ const CHUNK_SIZE = 100
 
 const excluded = (column: string) => sql.raw(`excluded."${column}"`)
 
-const isManual = sql.raw(`"time_entry"."project_assignment" = 'manual'`)
+// Manual assignments and billed entries keep their project.
+const isFrozen = sql.raw(`("time_entry"."project_assignment" = 'manual' or "time_entry"."billed_at" is not null)`)
 
 /**
  * Inserts or updates entries by Google event ID, marking them seen at `seenAt` and restoring soft-deleted ones.
  * Assigns each entry to the project whose key (`projectKeys`: key → project ID) prefixes its title as `KEY:`,
- * or clears an earlier automatic assignment; manual assignments are kept.
+ * or clears an earlier automatic assignment; manual assignments and billed entries are kept.
  */
 export const upsertTimeEntries = async (
   state: CalendarSyncState,
@@ -58,8 +59,8 @@ export const upsertTimeEntries = async (
           googleUpdatedAt: excluded('google_updated_at'),
           lastSeenAt: excluded('last_seen_at'),
           deletedAt: sql`null`,
-          projectId: sql`case when ${isManual} then "time_entry"."project_id" else ${excluded('project_id')} end`,
-          projectAssignment: sql`case when ${isManual} then 'manual' else ${excluded('project_assignment')} end`,
+          projectId: sql`case when ${isFrozen} then "time_entry"."project_id" else ${excluded('project_id')} end`,
+          projectAssignment: sql`case when ${isFrozen} then "time_entry"."project_assignment" else ${excluded('project_assignment')} end`,
           updatedAt: sql`now()`,
         },
         // Never let an older copy of an event (e.g. from an overlapping run) overwrite a newer one.

@@ -7,12 +7,13 @@ import { formatContactName } from "@/lib/contacts/format-contact-name"
 import type { ProjectContactOption } from "@/lib/db/contacts/list-project-contact-options"
 import type { AssignableProject } from "@/lib/db/projects/list-assignable-projects"
 import type { ProjectDetail } from "@/lib/db/projects/get-project-by-slug"
-import type { ProjectTimeEntry } from "@/lib/db/time-entries/list-project-time-entries"
+import type { ProjectTimeEntriesView, ProjectTimeEntry } from "@/lib/db/time-entries/list-project-time-entries"
 import { formatDuration } from "@/lib/format/format-duration"
 import { formatBilling } from "@/lib/projects/format-billing"
 import { formatProjectPeriod } from "@/lib/projects/format-project-period"
 import { projectStatusLabel } from "@/lib/projects/project-status-label"
 import { Heading } from "@lw/ui/atoms/heading"
+import { Button } from "@lw/ui/components/button"
 import { cn } from "@lw/ui/lib/utils"
 import { Archive, ArrowLeft } from "@mynaui/icons-react"
 import Link from "next/link"
@@ -20,12 +21,14 @@ import Link from "next/link"
 export const ProjectDetails = ({
   project,
   entries,
+  view,
   contactOptions,
   projects,
   now,
 }: {
   project: ProjectDetail
   entries: ProjectTimeEntry[]
+  view: ProjectTimeEntriesView
   contactOptions: ProjectContactOption[]
   projects: AssignableProject[]
   now: Date
@@ -106,6 +109,9 @@ export const ProjectDetails = ({
         <Item label="Abrechnung">{formatBilling(project)}</Item>
         <Item label="Erfasst (alle)">
           <span className={cn("tabular-nums")}>{formatDuration(project.trackedMs)}</span>
+          <span className={cn("block font-normal tabular-nums")}>
+            {formatDuration(project.openMs)} offen · {formatDuration(project.billedMs)} abgerechnet
+          </span>
         </Item>
         {project.description ? (
           <div className={cn("sm:col-span-3")}>
@@ -115,13 +121,24 @@ export const ProjectDetails = ({
         ) : null}
       </dl>
 
-      <div className={cn("px-4 sm:px-8 lg:px-16 pt-8 pb-4")}>
-        <Heading as="h2" size="h4">Zeiteinträge</Heading>
-        <p className={cn("mt-1 text-sm")}>
-          Die letzten {entries.length === 50 ? "50 " : ""}Einträge aller Nutzer. Termine mit <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
-        </p>
+      <div className={cn("flex flex-wrap items-end justify-between gap-4 px-4 sm:px-8 lg:px-16 pt-8 pb-4")}>
+        <div>
+          <Heading as="h2" size="h4">Zeiteinträge</Heading>
+          <p className={cn("mt-1 text-sm")}>
+            {view === "open" ? "Noch nicht abgerechnete Einträge aller Nutzer." : "Abgerechnete Einträge aller Nutzer, die neuesten zuerst."} Termine mit{" "}
+            <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
+          </p>
+        </div>
+        <div className={cn("flex items-center gap-1")}>
+          <Button variant={view === "open" ? "secondary" : "ghost"} size="sm" asChild>
+            <Link href={`/projekte/${project.slug}`} scroll={false}>Offen</Link>
+          </Button>
+          <Button variant={view === "billed" ? "secondary" : "ghost"} size="sm" asChild>
+            <Link href={`/projekte/${project.slug}?abgerechnet=1`} scroll={false}>Abgerechnet</Link>
+          </Button>
+        </div>
       </div>
-      <ProjectTimeEntriesTable entries={entries} projectKey={project.key} projects={projects} now={now} />
+      <ProjectTimeEntriesTable key={view} entries={entries} view={view} projectId={project.id} projectKey={project.key} projects={projects} now={now} />
     </section>
   )
 }
