@@ -21,7 +21,7 @@
 - [ ] Clear a stale/revoked session cookie on `/login`, so the proxy 307s instead of the page streaming a redirect
 - [ ] Check LCP on `/login` with the lazily loaded paint background
 
-# Projekte (siehe `docs/plan.md`)
+# Projekte (siehe `docs/plan-projekte.md`)
 
 - [x] Schema `project`, `project_contact`, `time_entry.project_id`/`project_assignment` + Migration
 - [x] `parseProjectKey`, `slugify`, `parseProjectInput` (+ Tests)
@@ -48,3 +48,29 @@
 - [x] Migration `0006_company-logos` ausgeführt
 - [ ] Im Browser prüfen (eingeloggt): Sidebar-Layout, Tag-Picker, Logo-Upload, Favicons in Hell/Dunkel
 - [ ] Später: Spalte `company.logo_url` entfernen, sobald alle Unternehmen `logo_checked_at` haben
+
+# Finanzen / SevDesk (siehe `docs/plan-finanzen.md`)
+
+- [x] SevDesk-API-Token erzeugen, `SEVDESK_API_TOKEN` in `.env.local`
+- [x] `SEVDESK_API_TOKEN` in `.env.example` und `turbo.json`
+- [ ] `SEVDESK_API_TOKEN` in Vercel (Production + Preview)
+- [x] API-Spike: EUR-Beträge bei Fremdwährung, Stornos, Gutschriften, Status, Kontakte, Positionen, PDF, Deep-Links → im Plan eintragen
+- [x] `user.role` (better-auth `additionalFields`), `isAdmin`/`requireAdmin`, eigene Rolle per SQL auf `admin` setzen
+- [x] Schema `sevdesk_contact`, `invoice`, `sevdesk_sync_state`, `company.sevdesk_contact_id` + Migration `0009_finance`
+- [x] `lib/sevdesk`: Fetch, Listen, Mapping (+ Tests), Positionen, PDF, Deep-Links
+- [x] Sync (Vollabgleich, Advisory-Lock, Sync-State), Cron `/api/cron/sevdesk-sync` stündlich, manueller Sync-Button
+- [x] DB-Funktionen Rechnungen, Monatsumsatz, Summen, SevDesk-Kontakte, Verknüpfung
+- [x] `lib/finance`: Zeitraum-Parsing, Vergleichszeitraum, überfällig, Namensvorschlag, `formatMoney` (+ Tests)
+- [x] shadcn `chart` installieren, `lucide-react` ersetzen
+- [x] Sidebar + mobiles Menü: `children`, `adminOnly`, Unterpunkte nur unter `/finanzen`
+- [x] `/finanzen`: Zeitraum, Vergleich, KPIs, Diagramm, Hinweis auf nicht zugeordnete Kunden, Sync-Status
+- [x] `/finanzen/rechnungen`: Tabs, Jahresfilter, Tabelle
+- [x] `/finanzen/rechnungen/[id]`: Detail, Positionen live, PDF-Route, SevDesk-Link
+- [x] Unternehmensseite: SevDesk-Kunde verknüpfen (Vorschlag), Kundennummer + Link, Umsatz, Rechnungen
+- [x] Dashboard-Kachel
+- [x] Typecheck, Lint, Tests, Build; Migration auf Production; erster Sync (72 Kunden, 204 Belege); Abfragen gegen echte Daten geprüft
+- [ ] Im Browser durchklicken: /finanzen (Zeiträume, Vergleich, Balken-Klick), Rechnungen (Tabs, Jahre, PDF), Detail, Unternehmen verknüpfen, Dashboard
+- [ ] Deep-Links in SevDesk prüfen (`get-sevdesk-document-url.ts`, `get-sevdesk-contact-url.ts`)
+- [ ] Nicht-Admin prüfen: kein Menüpunkt, 404 auf /finanzen, keine SevDesk-Sektion
+- [ ] Unternehmen mit SevDesk-Kunden verknüpfen (64 Kunden mit Rechnungen noch offen)
+- [ ] Später: Zeiteinträge → Rechnungsentwurf in SevDesk (`time_entry.invoice_id`)

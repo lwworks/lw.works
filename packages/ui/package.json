@@ -26,6 +26,7 @@
     "next-themes": "catalog:",
     "radix-ui": "catalog:",
     "react-day-picker": "^10.0.2",
+    "recharts": "3.8.0",
     "shadcn": "^4.1.1",
     "sonner": "^2.0.8",
     "tailwind-merge": "^3.5.0",

@@ -64,6 +64,13 @@
       "when": 1794840098713,
       "tag": "0008_time-entry-billing",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794847023474,
+      "tag": "0009_finance",
+      "breakpoints": true
     }
   ]
 }

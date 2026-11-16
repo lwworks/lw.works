@@ -1,6 +1,7 @@
 import { sql } from 'drizzle-orm'
 import { boolean, check, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { account, user } from './auth'
+import { sevdeskContact } from './finance'
 
 const timestamptz = (name: string) => timestamp(name, { withTimezone: true })
 
@@ -29,6 +30,10 @@ export const company = pgTable('company', {
   logoSource: text('logo_source').$type<CompanyLogoSource>(),
   logoCheckedAt: timestamptz('logo_checked_at'),
   website: text('website'),
+  /** The SevDesk customer this company is billed as; one company per customer. */
+  sevdeskContactId: text('sevdesk_contact_id')
+    .unique()
+    .references(() => sevdeskContact.id, { onDelete: 'set null' }),
   createdAt: timestamptz('created_at').defaultNow().notNull(),
   updatedAt: timestamptz('updated_at')
     .defaultNow()

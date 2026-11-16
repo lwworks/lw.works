@@ -29,6 +29,12 @@ export const auth = betterAuth({
   advanced: {
     database: { joins: true },
   },
+  user: {
+    // Never settable through the auth API; set by hand in the database.
+    additionalFields: {
+      role: { type: 'string', required: false, defaultValue: 'member', input: false },
+    },
+  },
   emailAndPassword: {
     enabled: false,
   },

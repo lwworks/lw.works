@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@lw/ui/components/avatar'
 import Link from 'next/link'
 import { LogoOS } from '@lw/ui/atoms/logo-os'
 import type { getSession } from '@/lib/auth/get-session'
+import { isAdmin } from '@/lib/auth/is-admin'
 import { Suspense } from 'react'
 
 const themeSwitcherContent = {
@@ -43,7 +44,10 @@ const UserInfo = async ({ session }: { session: Promise<Session> }) => {
   )
 }
 
-const UserMobileNav = async ({ session }: { session: Promise<Session> }) => ((await session) ? <MobileNav /> : null)
+const UserMobileNav = async ({ session }: { session: Promise<Session> }) => {
+  const resolved = await session
+  return resolved ? <MobileNav isAdmin={isAdmin(resolved)} /> : null
+}
 
 const UserSignOut = async ({ session }: { session: Promise<Session> }) => ((await session) ? <SignOutButton /> : null)
 
