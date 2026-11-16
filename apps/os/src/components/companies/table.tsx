@@ -28,9 +28,9 @@ export const CompaniesTable = ({ companies }: { companies: CompanyListItem[] }) 
             {companies.map((company) => (
               <tr key={company.id} className="h-10 border-b border-neutral-200 dark:border-neutral-800">
                 <td className="pr-2 pl-4 sm:pl-8 lg:pl-16">
-                  <Link href={`/unternehmen/${company.id}`} className="inline-flex items-center gap-1.5 font-medium text-black hover:underline dark:text-white">
+                  <Link href={`/unternehmen/${company.id}`} className="group inline-flex items-center gap-1.5 font-medium text-black dark:text-white">
                     <CompanyIcon companyId={company.id} logoKey={company.logoKey} />
-                    <span>{company.name}</span>
+                    <span className="group-hover:underline">{company.name}</span>
                   </Link>
                 </td>
                 <td className="pr-2">{company.cities}</td>

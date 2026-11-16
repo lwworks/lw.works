@@ -110,12 +110,12 @@ export const ContactsTable = ({
                   </td>
                   <td className="pr-2 font-mono text-neutral-400">{formatDisplayId(contact.displayId)}</td>
                   <td className="pr-2">
-                    <Link href={`/kontakte/${contact.displayId}`} className="flex items-center gap-1.5 font-medium text-black hover:underline dark:text-white">
+                    <Link href={`/kontakte/${contact.displayId}`} className="group flex items-center gap-1.5 font-medium text-black dark:text-white">
                       <Avatar size="sm">
                         {contact.avatarUrl ? <AvatarImage src={contact.avatarUrl} alt="" /> : null}
                         <AvatarFallback>{initials(contact.firstName, contact.lastName)}</AvatarFallback>
                       </Avatar>
-                      <span>{name}</span>
+                      <span className="group-hover:underline">{name}</span>
                     </Link>
                   </td>
                   <td className="pr-2">

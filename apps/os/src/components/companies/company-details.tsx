@@ -70,9 +70,9 @@ export const CompanyDetails = ({ company }: { company: CompanyDetail }) => {
             <ul className="mt-3 flex flex-col gap-2 text-sm">
               {company.contacts.map((contact) => (
                 <li key={contact.displayId}>
-                  <Link href={`/kontakte/${contact.displayId}`} className="font-medium text-black hover:underline dark:text-white">
+                  <Link href={`/kontakte/${contact.displayId}`} className="group font-medium text-black dark:text-white">
                     <span className="mr-2 font-mono text-neutral-400">{formatDisplayId(contact.displayId)}</span>
-                    {formatContactName(contact.firstName, contact.lastName)}
+                    <span className="group-hover:underline">{formatContactName(contact.firstName, contact.lastName)}</span>
                   </Link>
                 </li>
               ))}

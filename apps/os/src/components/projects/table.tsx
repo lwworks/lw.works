@@ -53,15 +53,15 @@ export const ProjectsTable = ({ projects, archived }: { projects: ProjectListIte
             {projects.map((project) => (
               <tr key={project.id} className={cn("h-10 border-b border-neutral-200 dark:border-neutral-800")}>
                 <td className={cn("pr-2 pl-4 sm:pl-8 lg:pl-16")}>
-                  <Link href={`/projekte/${project.slug}`} className={cn("inline-flex items-center gap-2 font-medium text-black hover:underline dark:text-white")}>
+                  <Link href={`/projekte/${project.slug}`} className={cn("group inline-flex items-center gap-2 font-medium text-black dark:text-white")}>
                     <ProjectBadge projectKey={project.key} companyId={project.companyId} logoKey={project.companyLogoKey} />
-                    <span>{project.title}</span>
+                    <span className={cn("group-hover:underline")}>{project.title}</span>
                   </Link>
                 </td>
                 <td className={cn("pr-2")}>
-                  <Link href={`/unternehmen/${project.companyId}`} className={cn("inline-flex items-center gap-1.5 hover:underline")}>
+                  <Link href={`/unternehmen/${project.companyId}`} className={cn("group inline-flex items-center gap-1.5")}>
                     <CompanyIcon companyId={project.companyId} logoKey={project.companyLogoKey} />
-                    <span>{project.companyName}</span>
+                    <span className={cn("group-hover:underline")}>{project.companyName}</span>
                   </Link>
                 </td>
                 <td className={cn("pr-2")}>{projectStatusLabel(project.status)}</td>
