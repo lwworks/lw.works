@@ -10,6 +10,7 @@
         "DATABASE_URL",
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
+        "SEVDESK_API_TOKEN",
         "VERCEL_ENV"
       ],
       "passThroughEnv": ["VERCEL_BRANCH_URL", "VERCEL_URL"]

@@ -7,6 +7,8 @@ export const user = pgTable('user', {
   email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').default(false).notNull(),
   image: text('image'),
+  /** `admin` sees finances; set by hand in the database. */
+  role: text('role').$type<'admin' | 'member'>().default('member').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()

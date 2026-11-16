@@ -5,6 +5,7 @@ import { uploadCompanyLogo } from '@/lib/company-logo/upload-company-logo'
 import { createCompany } from '@/lib/companies/create-company'
 import { removeCompany } from '@/lib/companies/remove-company'
 import { saveCompany } from '@/lib/companies/save-company'
+import { linkCompanySevdeskContact } from '@/lib/finance/link-company-sevdesk-contact'
 import { refresh } from 'next/cache'
 import { redirect } from 'next/navigation'
 
@@ -43,4 +44,10 @@ export async function applyWebsiteFaviconAction(id: string) {
   if (!result.ok) return result
   refresh()
   return { ok: true as const }
+}
+
+export async function linkCompanySevdeskContactAction(companyId: string, sevdeskContactId: string | null) {
+  const result = await linkCompanySevdeskContact(companyId, sevdeskContactId)
+  if (result.ok) refresh()
+  return result
 }
