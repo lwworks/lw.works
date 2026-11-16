@@ -41,10 +41,10 @@ Inside `packages/ui`, import other ui files via `@lw/ui/...`, never via `@/...` 
 
 Keep plans and todo lists as Markdown files in the root `docs/` folder — never in `tasks/`, app folders, or only in chat. Create `docs/` if it does not exist.
 
-- Implementation plans: `docs/plan.md`
-- Todo lists: `docs/todo.md` (checklist style, `- [ ]` / `- [x]`)
+- Implementation plans: one file per feature, named after it — `docs/plan-<feature>.md` (e.g. `docs/plan-projekte.md`, `docs/plan-finanzen.md`). Never overwrite another feature's plan.
+- Todo lists: `docs/todo.md` (checklist style, `- [ ]` / `- [x]`), one `#` section per feature that links its plan (`# Finanzen (siehe \`docs/plan-finanzen.md\`)`).
 
-Before writing either file, check whether it already exists with unchecked items. If it belongs to the same work, update it in place; if it's for different work, ask before overwriting.
+Before writing, check whether a plan for the same feature already exists; if so, update it in place. In `docs/todo.md`, update the feature's section in place or append a new section — never remove other sections with unchecked items.
 
 # UI Components
 
