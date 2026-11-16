@@ -4,18 +4,24 @@ import { requireUserId } from '@/lib/auth/require-user-id'
 import { getDb } from '@/lib/db/get-db'
 import { user } from '@/lib/db/schema/auth'
 import { timeEntry } from '@/lib/db/schema/time-tracking'
-import { and, desc, eq, isNotNull, isNull } from 'drizzle-orm'
+import { and, desc, eq, isNotNull, isNull, type SQL } from 'drizzle-orm'
 
-export type ProjectTimeEntriesView = 'open' | 'billed'
+export type ProjectTimeEntriesView = 'all' | 'open' | 'billed'
 
-const BILLED_LIMIT = 200
+/** Billed entries pile up over time; open ones are what gets invoiced next, so they are never cut off. */
+export const PROJECT_TIME_ENTRIES_LIMIT = 200
 
 /**
- * The project's live entries of all users, newest first: every open (not yet billed) entry, or the most recent billed ones.
+ * The project's live entries of all users, newest first: every open (not yet billed) entry, or the most recent billed or all ones.
  * `isOwn` marks the signed-in user's; only those carry the calendar link.
  */
 export const listProjectTimeEntries = async (projectId: string, view: ProjectTimeEntriesView) => {
   const userId = await requireUserId()
+  const billingWhere: Record<ProjectTimeEntriesView, SQL | undefined> = {
+    all: undefined,
+    open: isNull(timeEntry.billedAt),
+    billed: isNotNull(timeEntry.billedAt),
+  }
   const query = getDb()
     .select({
       id: timeEntry.id,
@@ -30,9 +36,9 @@ export const listProjectTimeEntries = async (projectId: string, view: ProjectTim
     })
     .from(timeEntry)
     .innerJoin(user, eq(user.id, timeEntry.userId))
-    .where(and(eq(timeEntry.projectId, projectId), isNull(timeEntry.deletedAt), view === 'open' ? isNull(timeEntry.billedAt) : isNotNull(timeEntry.billedAt)))
+    .where(and(eq(timeEntry.projectId, projectId), isNull(timeEntry.deletedAt), billingWhere[view]))
     .orderBy(desc(timeEntry.startAt))
-  const rows = view === 'billed' ? await query.limit(BILLED_LIMIT) : await query
+  const rows = view === 'open' ? await query : await query.limit(PROJECT_TIME_ENTRIES_LIMIT)
   return rows.map(({ userId: ownerId, htmlLink, ...row }) => {
     const isOwn = ownerId === userId
     return { ...row, isOwn, htmlLink: isOwn ? htmlLink : null }

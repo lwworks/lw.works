@@ -11,7 +11,8 @@ export const metadata: Metadata = { title: 'Projekt' }
 
 export default async function Page({ params, searchParams }: PageProps<'/projekte/[slug]'>) {
   const { slug } = await params
-  const view = (await searchParams).abgerechnet === '1' ? 'billed' : 'open'
+  const tab = (await searchParams).ansicht
+  const view = tab === 'offen' ? 'open' : tab === 'abgerechnet' ? 'billed' : 'all'
   const session = await getSession()
   if (!session) redirect('/login')
   const project = await getProjectBySlug(slug)

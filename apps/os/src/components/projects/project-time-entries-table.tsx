@@ -26,7 +26,7 @@ const preventShiftTextSelection = (event: MouseEvent) => {
 }
 
 /**
- * The project's open or billed entries by day. All entries can be selected to mark them billed (or open again);
+ * The project's entries (all, open or billed) by day. All entries can be selected to mark them billed (or open again);
  * reassigning to another project is offered only for the signed-in user's own open entries.
  */
 export const ProjectTimeEntriesTable = ({
@@ -50,7 +50,7 @@ export const ProjectTimeEntriesTable = ({
   if (entries.length === 0) {
     return (
       <p className="px-4 sm:px-8 lg:px-16 py-12 text-sm border-t border-neutral-200 dark:border-neutral-800">
-        {view === 'open' ? 'Keine offenen Zeiteinträge.' : 'Noch keine abgerechneten Zeiteinträge.'}
+        {{ all: 'Noch keine Zeiteinträge.', open: 'Keine offenen Zeiteinträge.', billed: 'Noch keine abgerechneten Zeiteinträge.' }[view]}
       </p>
     )
   }
@@ -62,7 +62,10 @@ export const ProjectTimeEntriesTable = ({
   const selectedEntries = entries.filter((entry) => selected.has(entry.id))
   const selectedIds = ids.filter((id) => selected.has(id))
   const selectedCount = selectedIds.length
-  const billed = view === 'billed'
+  // The invoice column is useless when every row is open.
+  const showInvoice = view !== 'open'
+  const openIds = selectedEntries.filter((entry) => !entry.billedAt).map((entry) => entry.id)
+  const billedIds = selectedEntries.filter((entry) => entry.billedAt).map((entry) => entry.id)
   const clearSelection = () => setSelected(new Set())
 
   const toggleRow = (targetId: string, extendRange: boolean) => {
@@ -88,7 +91,7 @@ export const ProjectTimeEntriesTable = ({
             <TableHead className={cn(firstTextCell)}>Zeit</TableHead>
             <TableHead>Termin</TableHead>
             <TableHead>Person</TableHead>
-            {billed ? <TableHead>Rechnung</TableHead> : null}
+            {showInvoice ? <TableHead>Rechnung</TableHead> : null}
             <TableHead className={cn('text-right', lastTextCell)}>Dauer</TableHead>
             <TableHead className={cn(trailGutterCell)}><span className="sr-only">Link</span></TableHead>
           </TableRow>
@@ -109,7 +112,7 @@ export const ProjectTimeEntriesTable = ({
                       />
                     </div>
                   </TableCell>
-                  <TableCell colSpan={billed ? 4 : 3} className={cn('font-medium text-black dark:text-white', firstTextCell)}>{dayLabel}</TableCell>
+                  <TableCell colSpan={showInvoice ? 4 : 3} className={cn('font-medium text-black dark:text-white', firstTextCell)}>{dayLabel}</TableCell>
                   <TableCell className={cn('text-right font-medium text-black dark:text-white tabular-nums', lastTextCell)}>
                     {formatDuration(sumTrackedMs(dayEntries, now))}
                   </TableCell>
@@ -137,7 +140,7 @@ export const ProjectTimeEntriesTable = ({
                         <span className="block truncate font-medium text-black dark:text-white">{stripProjectPrefix(entry.title, projectKey)}</span>
                       </TableCell>
                       <TableCell>{entry.userName}</TableCell>
-                      {billed ? (
+                      {showInvoice ? (
                         <TableCell className="tabular-nums">
                           {entry.invoiceNumber ? <span className="text-black dark:text-white">{entry.invoiceNumber}</span> : null}
                           {entry.invoiceNumber ? ' · ' : null}
@@ -173,13 +176,10 @@ export const ProjectTimeEntriesTable = ({
           onDone={clearSelection}
           durationMs={sumTrackedMs(selectedEntries, now)}
           // Billed entries keep their project, and only own entries can be moved.
-          assignable={!billed && selectedEntries.every((entry) => entry.isOwn)}
+          assignable={billedIds.length === 0 && selectedEntries.every((entry) => entry.isOwn)}
         >
-          {billed ? (
-            <MarkOpenButton projectId={projectId} ids={selectedIds} onDone={clearSelection} />
-          ) : (
-            <MarkBilledButton projectId={projectId} ids={selectedIds} onDone={clearSelection} />
-          )}
+          {billedIds.length > 0 ? <MarkOpenButton projectId={projectId} ids={billedIds} onDone={clearSelection} /> : null}
+          {openIds.length > 0 ? <MarkBilledButton projectId={projectId} ids={openIds} onDone={clearSelection} /> : null}
         </SelectionActionBar>
       ) : null}
     </>

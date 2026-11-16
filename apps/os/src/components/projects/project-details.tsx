@@ -7,16 +7,27 @@ import { formatContactName } from "@/lib/contacts/format-contact-name"
 import type { ProjectContactOption } from "@/lib/db/contacts/list-project-contact-options"
 import type { AssignableProject } from "@/lib/db/projects/list-assignable-projects"
 import type { ProjectDetail } from "@/lib/db/projects/get-project-by-slug"
-import type { ProjectTimeEntriesView, ProjectTimeEntry } from "@/lib/db/time-entries/list-project-time-entries"
+import { PROJECT_TIME_ENTRIES_LIMIT, type ProjectTimeEntriesView, type ProjectTimeEntry } from "@/lib/db/time-entries/list-project-time-entries"
 import { formatDuration } from "@/lib/format/format-duration"
 import { formatBilling } from "@/lib/projects/format-billing"
 import { formatProjectPeriod } from "@/lib/projects/format-project-period"
 import { projectStatusLabel } from "@/lib/projects/project-status-label"
 import { Heading } from "@lw/ui/atoms/heading"
-import { Button } from "@lw/ui/components/button"
 import { cn } from "@lw/ui/lib/utils"
 import { Archive, ArrowLeft } from "@mynaui/icons-react"
 import Link from "next/link"
+
+const VIEW_TABS: { view: ProjectTimeEntriesView; label: string; query: string | null }[] = [
+  { view: "all", label: "Alle", query: null },
+  { view: "open", label: "Offen", query: "offen" },
+  { view: "billed", label: "Abgerechnet", query: "abgerechnet" },
+]
+
+const VIEW_DESCRIPTIONS: Record<ProjectTimeEntriesView, string> = {
+  all: "Alle Einträge aller Nutzer.",
+  open: "Noch nicht abgerechnete Einträge aller Nutzer.",
+  billed: "Abgerechnete Einträge aller Nutzer.",
+}
 
 export const ProjectDetails = ({
   project,
@@ -121,22 +132,30 @@ export const ProjectDetails = ({
         ) : null}
       </dl>
 
-      <div className={cn("flex flex-wrap items-end justify-between gap-4 px-4 sm:px-8 lg:px-16 pt-8 pb-4")}>
-        <div>
-          <Heading as="h2" size="h4">Zeiteinträge</Heading>
-          <p className={cn("mt-1 text-sm")}>
-            {view === "open" ? "Noch nicht abgerechnete Einträge aller Nutzer." : "Abgerechnete Einträge aller Nutzer, die neuesten zuerst."} Termine mit{" "}
-            <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
-          </p>
-        </div>
-        <div className={cn("flex items-center gap-1")}>
-          <Button variant={view === "open" ? "secondary" : "ghost"} size="sm" asChild>
-            <Link href={`/projekte/${project.slug}`} scroll={false}>Offen</Link>
-          </Button>
-          <Button variant={view === "billed" ? "secondary" : "ghost"} size="sm" asChild>
-            <Link href={`/projekte/${project.slug}?abgerechnet=1`} scroll={false}>Abgerechnet</Link>
-          </Button>
-        </div>
+      <div className={cn("px-4 sm:px-8 lg:px-16 pt-8")}>
+        <Heading as="h2" size="h4">Zeiteinträge</Heading>
+        <p className={cn("mt-1 text-sm")}>
+          {VIEW_DESCRIPTIONS[view]}
+          {entries.length === PROJECT_TIME_ENTRIES_LIMIT ? ` Die neuesten ${PROJECT_TIME_ENTRIES_LIMIT}.` : null} Termine mit{" "}
+          <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
+        </p>
+        {/* -mb-px lays the active tab's border onto the table's top border. */}
+        <nav aria-label="Zeiteinträge filtern" className={cn("relative z-10 -mb-px mt-4 flex gap-6 text-sm")}>
+          {VIEW_TABS.map((tab) => (
+            <Link
+              key={tab.view}
+              href={tab.query ? `/projekte/${project.slug}?ansicht=${tab.query}` : `/projekte/${project.slug}`}
+              scroll={false}
+              aria-current={view === tab.view ? "page" : undefined}
+              className={cn(
+                "border-b border-transparent pb-2.5 hover:text-black dark:hover:text-white",
+                view === tab.view && "border-black font-medium text-black dark:border-white dark:text-white",
+              )}
+            >
+              {tab.label}
+            </Link>
+          ))}
+        </nav>
       </div>
       <ProjectTimeEntriesTable key={view} entries={entries} view={view} projectId={project.id} projectKey={project.key} projects={projects} now={now} />
     </section>
