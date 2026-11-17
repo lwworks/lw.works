@@ -11,6 +11,7 @@ export type NoteListItem = {
   id: string
   content: NoteDoc
   authorName: string
+  authorImage: string | null
   canEdit: boolean
   createdAt: Date
   updatedAt: Date
@@ -25,6 +26,7 @@ export const listContactNotes = async (contactId: string): Promise<NoteListItem[
       content: note.content,
       authorId: note.createdByUserId,
       authorName: user.name,
+      authorImage: user.image,
       createdAt: note.createdAt,
       updatedAt: note.updatedAt,
     })

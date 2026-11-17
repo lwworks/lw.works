@@ -1,19 +1,19 @@
+import { Timeline } from "@/components/activity/timeline"
 import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ContactNoteComposer } from "@/components/contacts/contact-notes"
 import { DeleteContactButton } from "@/components/contacts/delete-contact-button"
 import { ContactTagsPicker } from "@/components/contacts/contact-tags-picker"
 import { EditContactDialog } from "@/components/contacts/contact-form"
 import { PrivacySwitch } from "@/components/contacts/privacy-switch"
-import { NoteList } from "@/components/notes/note-list"
 import { formatBirthday } from "@/lib/contacts/format-birthday"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
 import { googleVoiceHref } from "@/lib/contacts/google-voice-href"
 import { formatValueType } from "@/lib/contacts/format-value-type"
 import type { ContactLabeledValue } from "@/lib/db/schema/crm"
+import type { TimelineItem } from "@/lib/contacts/build-contact-timeline"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { ContactDetail } from "@/lib/db/contacts/get-visible-contact"
-import type { NoteListItem } from "@/lib/db/notes/list-contact-notes"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
 import { InstagramIcon } from "@lw/ui/atoms/custom-icons/instagram"
 import { LinkedInIcon } from "@lw/ui/atoms/custom-icons/linkedin"
@@ -29,12 +29,12 @@ export const ContactDetails = ({
   contact,
   companies,
   tags,
-  notes,
+  timeline,
 }: {
   contact: ContactDetail
   companies: CompanyListItem[]
   tags: TagListItem[]
-  notes: NoteListItem[]
+  timeline: TimelineItem[]
 }) => {
   const name = formatContactName(contact.firstName, contact.lastName)
   return (
@@ -97,13 +97,6 @@ export const ContactDetails = ({
               <Detail icon={<XIcon className="mb-0.5 inline size-4" />} label="X" value={contact.x} />
             </tbody>
           </table>
-          <div className="mt-12">
-            <Heading as="h2" size="h4">Notizen</Heading>
-            <div className="mt-4">
-              <ContactNoteComposer displayId={contact.displayId} />
-            </div>
-            <NoteList notes={notes} />
-          </div>
         </div>
         <aside className="flex flex-col gap-8 border-t border-neutral-200 px-4 py-8 sm:px-8 lg:border-t-0 lg:border-l lg:pr-16 lg:pl-6 dark:border-neutral-800">
           <SidebarGroup title="Eigenschaften">
@@ -132,6 +125,12 @@ export const ContactDetails = ({
             <DeleteContactButton displayId={contact.displayId} />
           </div>
         </aside>
+      </div>
+      <div className="border-b border-neutral-200 px-4 py-6 sm:px-8 lg:px-16 dark:border-neutral-800">
+        <ContactNoteComposer displayId={contact.displayId} />
+      </div>
+      <div className="px-4 py-8 sm:px-8 lg:px-16">
+        <Timeline items={timeline} />
       </div>
     </section>
   )

@@ -82,6 +82,8 @@
 - [x] DB-Funktionen: insert, list (Kontakt), getOwn, update, delete
 - [x] Tiptap-Editor (fett, kursiv, Listen, Links), Darstellung ohne HTML
 - [x] Kontaktseite: Notizen anlegen, bearbeiten, löschen
+- [x] Eingabe als eigene Section (volle Breite), Timeline im Linear-Stil mit Aktivitäten (angelegt, bearbeitet, Google)
+- [ ] Aktivitätsprotokoll mit Person pro Änderung
 - [x] Migration `0010_notes` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
 - [ ] Im Browser durchklicken: Notiz anlegen, Formatierung, Link setzen/entfernen, Bearbeiten, Löschen, Hell/Dunkel
 - [ ] Notizen für Unternehmen

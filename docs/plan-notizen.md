@@ -20,8 +20,11 @@ Tabelle `note` (`apps/os/src/lib/db/schema/notes.ts`, Migration `0010_notes`):
 ## UI
 
 - `NoteEditor` (Tiptap 3, StarterKit ohne Überschriften, Code, Zitat, Durchstreichen, Unterstreichen, Linie): Toolbar Fett, Kursiv, Liste, nummerierte Liste, Link (Popover). ⌘/Strg+Enter speichert, Escape bricht ab. Markdown-Kürzel (`- `, `1. `, `**…**`) funktionieren.
-- Kontaktseite: Abschnitt „Notizen“ unter den Details, Eingabe oben, darunter Notizen neueste zuerst mit Datum/Uhrzeit, Autor, „(bearbeitet)“.
+- Kontaktseite: unter Details/Eigenschaften eine eigene Section mit dem Eingabefeld (volle Breite, rahmenlos, Border unten), darunter die Timeline ohne Titel im Linear-Stil: Notizen als Karten (Avatar, Autor, relative Zeit, „(bearbeitet)“, Menü beim Hover), Aktivitäten als einzeilige Einträge, verbunden durch eine senkrechte Linie. Neueste zuerst.
+- Aktivitäten (`buildContactTimeline`) kommen vorerst aus den Zeitstempeln des Kontakts: angelegt (mit Ersteller), zuletzt bearbeitet (`synced_fields_edited_at`, ohne Person), aus Google Kontakte aktualisiert (`last_inbound_at`).
 
 ## Nächste Schritte
+
+- Echtes Aktivitätsprotokoll (Tabelle `activity`: wer hat wann was geändert – Felder, Unternehmen, Tags, Privat), damit jede Änderung mit Person in der Timeline steht statt nur die letzte.
 
 - Unternehmen und Projekte: `list-company-notes.ts` / `list-project-notes.ts`, `add-company-note.ts` / `add-project-note.ts`, Actions + Composer wie bei Kontakten. `NoteList`, `NoteItem`, `NoteEditor`, `editNoteAction`, `removeNoteAction` sind schon generisch.

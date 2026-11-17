@@ -10,7 +10,9 @@ export const ContactNoteComposer = ({ displayId }: { displayId: number }) => {
   const [pending, startTransition] = useTransition()
   return (
     <NoteEditor
-      submitLabel="Notiz hinzufügen"
+      variant="bare"
+      placeholder="Notiz hinzufügen …"
+      submitLabel="Speichern"
       pending={pending}
       onSubmit={(doc) =>
         new Promise((resolve) =>

@@ -4,6 +4,7 @@ import { requireUserId } from '@/lib/auth/require-user-id'
 import type { ContactInput } from '@/lib/contacts/parse-contact-input'
 import { visibleContactWhere } from '@/lib/db/contacts/visible-contact-where'
 import { getDb } from '@/lib/db/get-db'
+import { user } from '@/lib/db/schema/auth'
 import { company, contact, contactTag, tag } from '@/lib/db/schema/crm'
 import type { SyncedContactFields } from '@/lib/google-contacts-sync/synced-contact-fields'
 import { and, asc, eq } from 'drizzle-orm'
@@ -15,6 +16,8 @@ export type ContactDetail = ContactInput & {
   canEditPrivacy: boolean
   syncedFieldsEditedAt: Date | null
   lastInboundAt: Date | null
+  createdAt: Date
+  creator: { name: string; image: string | null }
   company: { id: string; name: string; logoKey: string | null } | null
   tags: { id: string; name: string; color: string }[]
 }
@@ -43,11 +46,15 @@ export const getVisibleContact = async (displayId: number): Promise<ContactDetai
       createdByUserId: contact.createdByUserId,
       syncedFieldsEditedAt: contact.syncedFieldsEditedAt,
       lastInboundAt: contact.lastInboundAt,
+      createdAt: contact.createdAt,
+      creatorName: user.name,
+      creatorImage: user.image,
       companyName: company.name,
       companyLogoKey: company.logoKey,
     })
     .from(contact)
     .leftJoin(company, eq(contact.companyId, company.id))
+    .innerJoin(user, eq(contact.createdByUserId, user.id))
     .where(and(eq(contact.displayId, displayId), visibleContactWhere(userId)))
     .limit(1)
   if (!row) return null
@@ -84,6 +91,8 @@ export const getVisibleContact = async (displayId: number): Promise<ContactDetai
     canEditPrivacy: row.createdByUserId === userId,
     syncedFieldsEditedAt: row.syncedFieldsEditedAt,
     lastInboundAt: row.lastInboundAt,
+    createdAt: row.createdAt,
+    creator: { name: row.creatorName, image: row.creatorImage },
     company: row.companyId ? { id: row.companyId, name: row.companyName ?? '', logoKey: row.companyLogoKey } : null,
     tags,
   }

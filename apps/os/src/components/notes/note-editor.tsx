@@ -24,6 +24,7 @@ const useModifierKey = () =>
  * Rich-text editor for notes: bold, italic, bullet and numbered lists, links. Everything else from Tiptap's
  * StarterKit is switched off, matching what `parseNoteDoc` keeps. ⌘/Ctrl+Enter submits, Escape cancels.
  * `onSubmit` returns true when saved; a composer (no `initialContent`) then clears itself.
+ * `variant="bare"` drops the frame, for a composer that spans a full page section.
  */
 export const NoteEditor = ({
   initialContent,
@@ -33,7 +34,9 @@ export const NoteEditor = ({
   autoFocus = false,
   onSubmit,
   onCancel,
+  variant = "boxed",
 }: {
+  variant?: "boxed" | "bare"
   initialContent?: NoteDoc
   placeholder?: string
   submitLabel: string
@@ -74,7 +77,7 @@ export const NoteEditor = ({
     ],
     editorProps: {
       attributes: {
-        class: cn(noteProseClassName, "min-h-20 px-3 py-2 outline-none"),
+        class: cn(noteProseClassName, "outline-none", variant === "bare" ? "min-h-16 py-1" : "min-h-12 px-3 py-2"),
         "aria-label": placeholder,
       },
       handleKeyDown: (_view, event) => {
@@ -107,15 +110,16 @@ export const NoteEditor = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-neutral-200 bg-white transition-colors focus-within:border-neutral-400 dark:border-neutral-800 dark:bg-neutral-950 dark:focus-within:border-neutral-600",
+        variant === "boxed" &&
+          "rounded-lg border border-neutral-200 bg-white transition-colors focus-within:border-neutral-400 dark:border-neutral-800 dark:bg-neutral-950 dark:focus-within:border-neutral-600",
         "[&_.is-editor-empty:first-child::before]:pointer-events-none [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:text-neutral-400 [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]",
       )}
     >
-      {editor ? <Toolbar editor={editor} modifierKey={modifierKey} /> : <div className="h-10 border-b border-neutral-200 dark:border-neutral-800" />}
       <EditorContent editor={editor} />
-      <div className="flex items-center justify-between gap-2 px-2 pb-2">
-        <span className="hidden pl-1 text-xs text-neutral-400 sm:inline">{modifierKey} + Enter zum Speichern</span>
-        <div className="ml-auto flex items-center gap-2">
+      <div className={cn("flex items-center justify-between gap-2", variant === "bare" ? "pt-2" : "px-2 pb-2")}>
+        {editor ? <Toolbar editor={editor} modifierKey={modifierKey} /> : <div className="h-7" />}
+        <div className="flex items-center gap-2">
+          <span className="hidden text-xs text-neutral-400 sm:inline">{modifierKey} + Enter</span>
           {onCancel ? (
             <Button type="button" variant="ghost" size="sm" onClick={onCancel} disabled={pending}>
               Abbrechen
@@ -145,7 +149,7 @@ const Toolbar = ({ editor, modifierKey }: { editor: Editor; modifierKey: string 
 
   return (
     <TooltipProvider>
-    <div className="flex items-center gap-0.5 border-b border-neutral-200 p-1 dark:border-neutral-800">
+    <div className="-ml-1 flex items-center gap-0.5 text-neutral-500">
       <ToolbarButton label={`Fett (${mod}B)`} active={state.bold} onClick={() => editor.chain().focus().toggleBold().run()}>
         <TypeBold strokeWidth={1.5} />
       </ToolbarButton>
