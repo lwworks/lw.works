@@ -8,15 +8,25 @@ import { NoteEditor } from "@/components/notes/note-editor"
 import type { NoteListItem } from "@/lib/db/notes/list-contact-notes"
 import { formatDateTime } from "@/lib/format/format-date-time"
 import { Button } from "@lw/ui/components/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@lw/ui/components/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@lw/ui/components/alert-dialog"
 import { toast } from "@lw/ui/components/sonner"
-import { DotsVertical, Edit, Trash } from "@mynaui/icons-react"
-import { useState, useTransition } from "react"
+import { Edit, Trash } from "@mynaui/icons-react"
+import { useState, useTransition, type TransitionStartFunction } from "react"
 
 /** Edits within a minute of creating don't count as "bearbeitet". */
 const EDITED_THRESHOLD_MS = 60_000
 
-/** One note in the timeline: author line like the other entries, content indented past the avatar; the author can edit it in place or delete it. */
+/** One note in the timeline: author line like the other entries, content indented past the avatar; the author can edit it in place or delete it (with confirmation). */
 export const NoteItem = ({ note }: { note: NoteListItem }) => {
   const [editing, setEditing] = useState(false)
   const [pending, startTransition] = useTransition()
@@ -36,39 +46,12 @@ export const NoteItem = ({ note }: { note: NoteListItem }) => {
           ) : null}
         </div>
         {note.canEdit && !editing ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-sm"
-                aria-label="Notiz-Aktionen"
-                disabled={pending}
-                className="-mr-2 text-neutral-500 transition-opacity aria-expanded:opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
-              >
-                <DotsVertical strokeWidth={1.5} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onSelect={() => setEditing(true)}>
-                <Edit strokeWidth={1.5} />
-                Bearbeiten
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                variant="destructive"
-                onSelect={() => {
-                  if (!confirm("Notiz löschen?")) return
-                  startTransition(async () => {
-                    const result = await removeNoteAction(note.id)
-                    if (!result.ok) toast.error(result.message)
-                  })
-                }}
-              >
-                <Trash strokeWidth={1.5} />
-                Löschen
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="-mr-2 flex shrink-0 items-center text-neutral-400">
+            <Button type="button" variant="ghost" size="icon-sm" aria-label="Notiz bearbeiten" title="Bearbeiten" disabled={pending} onClick={() => setEditing(true)}>
+              <Edit strokeWidth={1.5} />
+            </Button>
+            <DeleteNoteButton noteId={note.id} pending={pending} startTransition={startTransition} />
+          </div>
         ) : null}
       </header>
       {editing ? (
@@ -100,3 +83,49 @@ export const NoteItem = ({ note }: { note: NoteListItem }) => {
     </article>
   )
 }
+
+const DeleteNoteButton = ({
+  noteId,
+  pending,
+  startTransition,
+}: {
+  noteId: string
+  pending: boolean
+  startTransition: TransitionStartFunction
+}) => (
+  <AlertDialog>
+    <AlertDialogTrigger asChild>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon-sm"
+        aria-label="Notiz löschen"
+        title="Löschen"
+        disabled={pending}
+        className="hover:text-destructive"
+      >
+        <Trash strokeWidth={1.5} />
+      </Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent size="sm">
+      <AlertDialogHeader>
+        <AlertDialogTitle>Notiz löschen?</AlertDialogTitle>
+        <AlertDialogDescription>Die Notiz wird endgültig gelöscht.</AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+        <AlertDialogAction
+          variant="destructive"
+          onClick={() =>
+            startTransition(async () => {
+              const result = await removeNoteAction(noteId)
+              if (!result.ok) toast.error(result.message)
+            })
+          }
+        >
+          Löschen
+        </AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+)
