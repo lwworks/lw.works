@@ -1,4 +1,6 @@
+import { Timeline } from "@/components/activity/timeline"
 import { CompanyIcon } from "@/components/atoms/company-icon"
+import { ContactNoteComposer } from "@/components/contacts/contact-notes"
 import { DeleteContactButton } from "@/components/contacts/delete-contact-button"
 import { ContactTagsPicker } from "@/components/contacts/contact-tags-picker"
 import { EditContactDialog } from "@/components/contacts/contact-form"
@@ -9,6 +11,7 @@ import { formatDisplayId } from "@/lib/contacts/format-display-id"
 import { googleVoiceHref } from "@/lib/contacts/google-voice-href"
 import { formatValueType } from "@/lib/contacts/format-value-type"
 import type { ContactLabeledValue } from "@/lib/db/schema/crm"
+import type { TimelineItem } from "@/lib/contacts/build-contact-timeline"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
 import type { ContactDetail } from "@/lib/db/contacts/get-visible-contact"
 import type { TagListItem } from "@/lib/db/tags/list-tags"
@@ -26,10 +29,12 @@ export const ContactDetails = ({
   contact,
   companies,
   tags,
+  timeline,
 }: {
   contact: ContactDetail
   companies: CompanyListItem[]
   tags: TagListItem[]
+  timeline: TimelineItem[]
 }) => {
   const name = formatContactName(contact.firstName, contact.lastName)
   return (
@@ -120,6 +125,12 @@ export const ContactDetails = ({
             <DeleteContactButton displayId={contact.displayId} />
           </div>
         </aside>
+      </div>
+      <div className="border-b border-neutral-200 px-4 py-6 sm:px-8 lg:px-16 dark:border-neutral-800">
+        <ContactNoteComposer displayId={contact.displayId} />
+      </div>
+      <div className="px-4 py-8 sm:px-8 lg:px-16">
+        <Timeline items={timeline} />
       </div>
     </section>
   )

@@ -1,8 +1,10 @@
 import { ContactPage } from '@/components/pages/contact'
 import { getSession } from '@/lib/auth/get-session'
+import { buildContactTimeline } from '@/lib/contacts/build-contact-timeline'
 import { parseDisplayId } from '@/lib/contacts/parse-display-id'
 import { listCompanies } from '@/lib/db/companies/list-companies'
 import { getVisibleContact } from '@/lib/db/contacts/get-visible-contact'
+import { listContactNotes } from '@/lib/db/notes/list-contact-notes'
 import { listTags } from '@/lib/db/tags/list-tags'
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
@@ -19,6 +21,7 @@ export default async function Page({ params }: PageProps<'/kontakte/[displayId]'
 
   const [contact, companies, tags] = await Promise.all([getVisibleContact(displayId), listCompanies(), listTags()])
   if (!contact) notFound()
+  const timeline = buildContactTimeline(contact, await listContactNotes(contact.id))
 
-  return <ContactPage contact={contact} companies={companies} tags={tags} />
+  return <ContactPage contact={contact} companies={companies} tags={tags} timeline={timeline} />
 }

@@ -7,6 +7,7 @@ import { deleteContact } from '@/lib/contacts/delete-contact'
 import { saveContact } from '@/lib/contacts/save-contact'
 import { setContactPrivacy } from '@/lib/contacts/set-contact-privacy'
 import { setContactTags } from '@/lib/contacts/set-contact-tags'
+import { addContactNote } from '@/lib/notes/add-contact-note'
 import { createTag } from '@/lib/tags/create-tag'
 import { removeTag } from '@/lib/tags/remove-tag'
 import { refresh } from 'next/cache'
@@ -76,6 +77,14 @@ export async function createPickedTagAction(name: string, color: string) {
 
 export async function removeTagAction(id: string) {
   const result = await removeTag(id)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
+}
+
+/** `doc` is the editor's JSON; `addContactNote` validates it. */
+export async function addContactNoteAction(displayId: number, doc: unknown) {
+  const result = await addContactNote(displayId, doc)
   if (!result.ok) return result
   refresh()
   return { ok: true as const }
