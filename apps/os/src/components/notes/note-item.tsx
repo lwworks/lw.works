@@ -8,25 +8,14 @@ import { NoteEditor } from "@/components/notes/note-editor"
 import type { NoteListItem } from "@/lib/db/notes/list-contact-notes"
 import { formatDateTime } from "@/lib/format/format-date-time"
 import { Button } from "@lw/ui/components/button"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@lw/ui/components/alert-dialog"
 import { toast } from "@lw/ui/components/sonner"
 import { Edit, Trash } from "@mynaui/icons-react"
-import { useState, useTransition, type TransitionStartFunction } from "react"
+import { useEffect, useState, useTransition, type TransitionStartFunction } from "react"
 
 /** Edits within a minute of creating don't count as "bearbeitet". */
 const EDITED_THRESHOLD_MS = 60_000
 
-/** One note in the timeline: author line like the other entries, content indented past the avatar; the author can edit it in place or delete it (with confirmation). */
+/** One note in the timeline: author line like the other entries, content indented past the avatar; the author can edit it in place or delete it (second click confirms). */
 export const NoteItem = ({ note }: { note: NoteListItem }) => {
   const [editing, setEditing] = useState(false)
   const [pending, startTransition] = useTransition()
@@ -84,6 +73,10 @@ export const NoteItem = ({ note }: { note: NoteListItem }) => {
   )
 }
 
+/** How long the „Löschen bestätigen“ state waits for the second click. */
+const CONFIRM_TIMEOUT_MS = 4000
+
+/** Trash icon; the first click turns it into „Löschen bestätigen“, the second deletes. Resets after a few seconds or on blur. */
 const DeleteNoteButton = ({
   noteId,
   pending,
@@ -92,40 +85,49 @@ const DeleteNoteButton = ({
   noteId: string
   pending: boolean
   startTransition: TransitionStartFunction
-}) => (
-  <AlertDialog>
-    <AlertDialogTrigger asChild>
+}) => {
+  const [confirming, setConfirming] = useState(false)
+
+  useEffect(() => {
+    if (!confirming) return
+    const timeout = setTimeout(() => setConfirming(false), CONFIRM_TIMEOUT_MS)
+    return () => clearTimeout(timeout)
+  }, [confirming])
+
+  if (confirming || pending) {
+    return (
       <Button
         type="button"
-        variant="ghost"
-        size="icon-sm"
-        aria-label="Notiz löschen"
-        title="Löschen"
+        variant="destructive"
+        size="sm"
+        autoFocus
         disabled={pending}
-        className="hover:text-destructive"
+        onBlur={() => setConfirming(false)}
+        onClick={() =>
+          startTransition(async () => {
+            const result = await removeNoteAction(noteId)
+            if (!result.ok) toast.error(result.message)
+            setConfirming(false)
+          })
+        }
       >
         <Trash strokeWidth={1.5} />
+        {pending ? "Löscht …" : "Löschen bestätigen"}
       </Button>
-    </AlertDialogTrigger>
-    <AlertDialogContent size="sm">
-      <AlertDialogHeader>
-        <AlertDialogTitle>Notiz löschen?</AlertDialogTitle>
-        <AlertDialogDescription>Die Notiz wird endgültig gelöscht.</AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-        <AlertDialogAction
-          variant="destructive"
-          onClick={() =>
-            startTransition(async () => {
-              const result = await removeNoteAction(noteId)
-              if (!result.ok) toast.error(result.message)
-            })
-          }
-        >
-          Löschen
-        </AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
-)
+    )
+  }
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon-sm"
+      aria-label="Notiz löschen"
+      title="Löschen"
+      className="hover:text-destructive"
+      onClick={() => setConfirming(true)}
+    >
+      <Trash strokeWidth={1.5} />
+    </Button>
+  )
+}
