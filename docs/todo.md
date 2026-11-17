@@ -82,7 +82,7 @@
 - [x] DB-Funktionen: insert, list (Kontakt), getOwn, update, delete
 - [x] Tiptap-Editor (fett, kursiv, Listen, Links), Darstellung ohne HTML
 - [x] Kontaktseite: Notizen anlegen, bearbeiten, löschen
-- [ ] Migration `0010_notes` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
+- [x] Migration `0010_notes` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
 - [ ] Im Browser durchklicken: Notiz anlegen, Formatierung, Link setzen/entfernen, Bearbeiten, Löschen, Hell/Dunkel
 - [ ] Notizen für Unternehmen
 - [ ] Notizen für Projekte
