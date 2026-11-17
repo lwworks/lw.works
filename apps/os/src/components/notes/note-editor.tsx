@@ -99,7 +99,10 @@ export const NoteEditor = ({
 
   const submit = async () => {
     if (!editor || pending || editor.isEmpty) return
-    const saved = await onSubmit(editor.getJSON() as NoteDoc)
+    // ProseMirror builds node and mark attrs with `Object.create(null)`, and server actions silently drop objects
+    // without a plain prototype (link hrefs vanished). A JSON round trip turns them into plain objects.
+    const doc = JSON.parse(JSON.stringify(editor.getJSON())) as NoteDoc
+    const saved = await onSubmit(doc)
     if (saved && !initialContent) editor.commands.clearContent(true)
   }
   useLayoutEffect(() => {
