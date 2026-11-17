@@ -1,6 +1,7 @@
 'use client'
 
-import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
+import { SelectableTableGroupRow, SelectableTableHeader, SelectableTableRow } from '@/components/molecules/selectable-table'
+import { firstTextCell, lastTextCell, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
 import { MarkBilledButton, MarkOpenButton } from '@/components/projects/billing-actions'
 import { SelectionActionBar } from '@/components/time-tracking/selection-action-bar'
 import type { AssignableProject } from '@/lib/db/projects/list-assignable-projects'
@@ -9,21 +10,13 @@ import { formatDate, formatDay, formatTime } from '@/lib/format/format-date-time
 import { formatDuration } from '@/lib/format/format-duration'
 import { toZonedDateKey } from '@/lib/iso-week/to-zoned-date-key'
 import { stripProjectPrefix } from '@/lib/projects/strip-project-prefix'
-import { getSelectAllState } from '@/lib/time-tracking/get-select-all-state'
+import { useRowSelection } from '@/lib/selection/use-row-selection'
 import { sumTrackedMs } from '@/lib/time-tracking/sum-tracked-ms'
-import { toggleGroupSelection } from '@/lib/time-tracking/toggle-group-selection'
-import { toggleRowSelection } from '@/lib/time-tracking/toggle-row-selection'
 import { Button } from '@lw/ui/components/button'
-import { Checkbox } from '@lw/ui/components/checkbox'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@lw/ui/components/table'
+import { Table, TableBody, TableCell, TableHead } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { ExternalLink } from '@mynaui/icons-react'
-import { Fragment, useState, type MouseEvent } from 'react'
-
-/** Keeps Shift+click from also selecting the text between the clicked checkboxes. */
-const preventShiftTextSelection = (event: MouseEvent) => {
-  if (event.shiftKey) event.preventDefault()
-}
+import { Fragment } from 'react'
 
 /**
  * The project's entries (all, open or billed) by day. All entries can be selected to mark them billed (or open again);
@@ -44,8 +37,10 @@ export const ProjectTimeEntriesTable = ({
   projects: AssignableProject[]
   now: Date
 }) => {
-  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
-  const [anchorId, setAnchorId] = useState<string | null>(null)
+  // Newest day first; entries within a day stay chronological, like the time tracking table.
+  const days = [...Map.groupBy(entries, (entry) => toZonedDateKey(entry.startAt))].map(([day, dayEntries]) => [day, [...dayEntries].reverse()] as const)
+  // Ids in visual order, so Shift+click ranges match what the user sees.
+  const selection = useRowSelection(days.flatMap(([, dayEntries]) => dayEntries.map((entry) => entry.id)))
 
   if (entries.length === 0) {
     return (
@@ -55,84 +50,43 @@ export const ProjectTimeEntriesTable = ({
     )
   }
 
-  // Newest day first; entries within a day stay chronological, like the time tracking table.
-  const days = [...Map.groupBy(entries, (entry) => toZonedDateKey(entry.startAt))].map(([day, dayEntries]) => [day, [...dayEntries].reverse()] as const)
-  // Ids in visual order, so Shift+click ranges match what the user sees.
-  const ids = days.flatMap(([, dayEntries]) => dayEntries.map((entry) => entry.id))
-  const selectedEntries = entries.filter((entry) => selected.has(entry.id))
-  const selectedIds = ids.filter((id) => selected.has(id))
+  const selectedEntries = entries.filter((entry) => selection.isSelected(entry.id))
+  const selectedIds = selection.selectedIds
   const selectedCount = selectedIds.length
   // The invoice column is useless when every row is open.
   const showInvoice = view !== 'open'
   const openIds = selectedEntries.filter((entry) => !entry.billedAt).map((entry) => entry.id)
   const billedIds = selectedEntries.filter((entry) => entry.billedAt).map((entry) => entry.id)
-  const clearSelection = () => setSelected(new Set())
-
-  const toggleRow = (targetId: string, extendRange: boolean) => {
-    setSelected(toggleRowSelection({ ids, selected, anchorId, targetId, extendRange }))
-    setAnchorId(targetId)
-  }
+  const clearSelection = selection.clear
 
   return (
     <>
       <Table className="min-w-xl">
-        <TableHeader>
-          <TableRow className="border-t border-neutral-200 dark:border-neutral-800 hover:bg-transparent">
-            <TableHead className={cn(leadGutterCell)}>
-              <div className={cn(leadGutterInner)}>
-                <Checkbox
-                  aria-label="Alle Einträge auswählen"
-                  checked={getSelectAllState(selectedCount, ids.length)}
-                  disabled={ids.length === 0}
-                  onCheckedChange={() => setSelected(new Set(selectedCount === ids.length ? [] : ids))}
-                />
-              </div>
-            </TableHead>
-            <TableHead className={cn(firstTextCell)}>Zeit</TableHead>
-            <TableHead>Termin</TableHead>
-            <TableHead>Person</TableHead>
-            {showInvoice ? <TableHead>Rechnung</TableHead> : null}
-            <TableHead className={cn('text-right', lastTextCell)}>Dauer</TableHead>
-            <TableHead className={cn(trailGutterCell)}><span className="sr-only">Link</span></TableHead>
-          </TableRow>
-        </TableHeader>
+        <SelectableTableHeader selection={selection} label="Alle Einträge auswählen">
+          <TableHead className={cn(firstTextCell)}>Zeit</TableHead>
+          <TableHead>Termin</TableHead>
+          <TableHead>Person</TableHead>
+          {showInvoice ? <TableHead>Rechnung</TableHead> : null}
+          <TableHead className={cn('text-right', lastTextCell)}>Dauer</TableHead>
+          <TableHead className={cn(trailGutterCell)}><span className="sr-only">Link</span></TableHead>
+        </SelectableTableHeader>
         <TableBody>
           {days.map(([day, dayEntries]) => {
             const dayIds = dayEntries.map((entry) => entry.id)
             const dayLabel = formatDay(dayEntries[0].startAt)
             return (
               <Fragment key={day}>
-                <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
-                  <TableCell className={cn(leadGutterCell)}>
-                    <div className={cn(leadGutterInner)}>
-                      <Checkbox
-                        aria-label={`Einträge am ${dayLabel} auswählen`}
-                        checked={getSelectAllState(dayIds.filter((id) => selected.has(id)).length, dayIds.length)}
-                        onCheckedChange={() => setSelected(toggleGroupSelection({ selected, groupIds: dayIds }))}
-                      />
-                    </div>
-                  </TableCell>
+                <SelectableTableGroupRow selection={selection} ids={dayIds} label={`Einträge am ${dayLabel} auswählen`}>
                   <TableCell colSpan={showInvoice ? 4 : 3} className={cn('font-medium text-black dark:text-white', firstTextCell)}>{dayLabel}</TableCell>
                   <TableCell className={cn('text-right font-medium text-black dark:text-white tabular-nums', lastTextCell)}>
                     {formatDuration(sumTrackedMs(dayEntries, now))}
                   </TableCell>
                   <TableCell className={cn(trailGutterCell)} />
-                </TableRow>
+                </SelectableTableGroupRow>
                 {dayEntries.map((entry) => {
                   const running = entry.endAt > now
-                  const isSelected = selected.has(entry.id)
                   return (
-                    <TableRow key={entry.id} data-state={isSelected ? 'selected' : undefined} className="hover:bg-transparent">
-                      <TableCell className={cn(leadGutterCell)}>
-                        <div className={cn(leadGutterInner)}>
-                          <Checkbox
-                            aria-label={`${entry.title} auswählen`}
-                            checked={isSelected}
-                            onMouseDown={preventShiftTextSelection}
-                            onClick={(event) => toggleRow(entry.id, event.shiftKey)}
-                          />
-                        </div>
-                      </TableCell>
+                    <SelectableTableRow key={entry.id} selection={selection} id={entry.id} label={`${entry.title} auswählen`}>
                       <TableCell className={cn('tabular-nums', firstTextCell)}>
                         {formatTime(entry.startAt)}–{formatTime(entry.endAt)}
                       </TableCell>
@@ -161,7 +115,7 @@ export const ProjectTimeEntriesTable = ({
                           ) : null}
                         </div>
                       </TableCell>
-                    </TableRow>
+                    </SelectableTableRow>
                   )
                 })}
               </Fragment>

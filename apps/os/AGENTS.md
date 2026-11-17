@@ -23,6 +23,7 @@ src/lib/
 ├── sevdesk/           # SevDesk API v1: sevdesk-fetch.ts, map-sevdesk-invoice.ts, sync-sevdesk.ts, … (only `admin` users see finances: `requireAdmin`)
 ├── notes/             # formatted notes (Tiptap JSON) on contacts/companies/projects: parse-note-doc.ts, safe-note-href.ts, add-contact-note.ts, …
 ├── iso-week/          # ISO weeks in Europe/Berlin: get-current-iso-week.ts, get-iso-week-range.ts, …
+├── selection/         # use-row-selection.ts (checkbox selection of table rows)
 ├── time-tracking/     # parse-sync-range.ts, sum-tracked-ms.ts, toggle-row-selection.ts, toggle-group-selection.ts, …
 └── fonts.ts           # next/font loaders: Geist, Geist Mono, Safiro
 ```
@@ -30,3 +31,7 @@ src/lib/
 - New query → `src/lib/db/<table>/<verb>-<thing>.ts`. New external API → `src/lib/<service>/`.
 - Small private helpers stay in the file that uses them; split them out only when a second file needs them.
 - Server-only modules start with `import 'server-only'`. Reads of user data take the user ID from the session (`requireUserId`), never from arguments passed in by the client.
+
+## List tables
+
+Every list table uses shadcn `Table` with the building blocks in `src/components/molecules/selectable-table.tsx`: `SelectableTableHeader` (select-all checkbox), `SelectableTableRow`, `SelectableTableGroupRow` (e.g. one day), `EmptyTableRow` and `SelectionBar`, with the selection state from `useRowSelection`. The checkbox sits in the leading page gutter; text columns use `firstTextCell` / `lastTextCell` from `table-gutters.ts`, and the last cell is a `trailGutterCell` (empty or with one icon button).

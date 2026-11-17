@@ -12,3 +12,5 @@ export const lastTextCell = 'sm:pr-0'
 export const trailGutterCell = 'pr-4 sm:w-8 sm:min-w-8 sm:px-0 lg:w-16 lg:min-w-16'
 /** Wraps the button inside `trailGutterCell`. */
 export const trailGutterInner = 'flex justify-end sm:justify-start sm:pl-1.5'
+/** Shaded row heading a group of rows, e.g. one day of time entries. */
+export const groupRowClass = 'bg-neutral-50 hover:bg-neutral-50 dark:bg-neutral-900 dark:hover:bg-neutral-900'

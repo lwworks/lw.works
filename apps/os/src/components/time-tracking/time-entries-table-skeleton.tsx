@@ -2,7 +2,7 @@ import { Skeleton } from '@lw/ui/components/skeleton'
 import { Table, TableBody, TableCell, TableRow } from '@lw/ui/components/table'
 import { cn } from '@lw/ui/lib/utils'
 import { Fragment } from 'react'
-import { firstTextCell, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
+import { firstTextCell, groupRowClass, lastTextCell, leadGutterCell, leadGutterInner, trailGutterCell, trailGutterInner } from '@/components/molecules/table-gutters'
 import { TimeEntriesTableHeader } from './time-entries-table-header'
 
 const DAYS = [3, 2]
@@ -15,7 +15,7 @@ export const TimeEntriesTableSkeleton = () => {
       <TableBody>
         {DAYS.map((rows, day) => (
           <Fragment key={day}>
-            <TableRow className="bg-neutral-50 dark:bg-neutral-900 hover:bg-neutral-50 dark:hover:bg-neutral-900">
+            <TableRow className={cn(groupRowClass)}>
               <TableCell className={cn(leadGutterCell)}>
                 <div className={cn(leadGutterInner)}>
                   <Skeleton className="size-4 rounded-[4px]" />

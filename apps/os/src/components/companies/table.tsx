@@ -1,49 +1,53 @@
+"use client"
+
 import { CompanyIcon } from "@/components/atoms/company-icon"
 import { CreateCompanyDialog } from "@/components/companies/company-form"
+import { EmptyTableRow, SelectableTableHeader, SelectableTableRow, SelectionBar } from "@/components/molecules/selectable-table"
+import { firstTextCell, lastTextCell, trailGutterCell } from "@/components/molecules/table-gutters"
 import type { CompanyListItem } from "@/lib/db/companies/list-companies"
+import { useRowSelection } from "@/lib/selection/use-row-selection"
+import { Table, TableBody, TableCell, TableHead } from "@lw/ui/components/table"
+import { cn } from "@lw/ui/lib/utils"
 import Link from "next/link"
 import { PageHeader } from "../molecules/page-header"
 
 export const CompaniesTable = ({ companies }: { companies: CompanyListItem[] }) => {
+  const selection = useRowSelection(companies.map((company) => company.id))
+  const selectedCount = selection.selectedIds.length
   return (
     <section>
       <PageHeader title="Unternehmen" description="Firmen für das ganze Team. Sie werden nicht mit Google Kontakte abgeglichen.">
         <CreateCompanyDialog />
       </PageHeader>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm min-w-xl">
-          <thead>
-            <tr className="h-10 border-y border-neutral-200 dark:border-neutral-800">
-              <td className="pr-2 pl-4 sm:pl-8 lg:pl-16">Name</td>
-              <td className="pr-2">Ort</td>
-              <td className="pr-4 sm:pr-8 lg:pr-16">Website</td>
-            </tr>
-          </thead>
-          <tbody>
-            {companies.length === 0 ? (
-              <tr className="h-16 border-b border-neutral-200 dark:border-neutral-800">
-                <td colSpan={3} className="px-4 sm:px-8 lg:px-16">Noch keine Unternehmen.</td>
-              </tr>
-            ) : null}
-            {companies.map((company) => (
-              <tr key={company.id} className="h-10 border-b border-neutral-200 dark:border-neutral-800">
-                <td className="pr-2 pl-4 sm:pl-8 lg:pl-16">
-                  <Link href={`/unternehmen/${company.id}`} className="group inline-flex items-center gap-1.5 font-medium text-black dark:text-white">
-                    <CompanyIcon companyId={company.id} logoKey={company.logoKey} />
-                    <span className="group-hover:underline">{company.name}</span>
-                  </Link>
-                </td>
-                <td className="pr-2">{company.cities}</td>
-                <td className="pr-4 sm:pr-8 lg:pr-16">
-                  {company.website ? (
-                    <a href={company.website} className="hover:underline" rel="noreferrer" target="_blank">{company.website}</a>
-                  ) : null}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Table className={cn("min-w-xl")}>
+        <SelectableTableHeader selection={selection} label="Alle Unternehmen auswählen">
+          <TableHead className={cn(firstTextCell)}>Name</TableHead>
+          <TableHead>Ort</TableHead>
+          <TableHead className={cn(lastTextCell)}>Website</TableHead>
+          <TableHead className={cn(trailGutterCell)} />
+        </SelectableTableHeader>
+        <TableBody>
+          {companies.length === 0 ? <EmptyTableRow columns={5}>Noch keine Unternehmen.</EmptyTableRow> : null}
+          {companies.map((company) => (
+            <SelectableTableRow key={company.id} selection={selection} id={company.id} label={`${company.name} auswählen`}>
+              <TableCell className={cn(firstTextCell)}>
+                <Link href={`/unternehmen/${company.id}`} className={cn("group inline-flex items-center gap-1.5 font-medium text-black dark:text-white")}>
+                  <CompanyIcon companyId={company.id} logoKey={company.logoKey} />
+                  <span className={cn("group-hover:underline")}>{company.name}</span>
+                </Link>
+              </TableCell>
+              <TableCell>{company.cities}</TableCell>
+              <TableCell className={cn(lastTextCell)}>
+                {company.website ? (
+                  <a href={company.website} className={cn("hover:underline")} rel="noreferrer" target="_blank">{company.website}</a>
+                ) : null}
+              </TableCell>
+              <TableCell className={cn(trailGutterCell)} />
+            </SelectableTableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <SelectionBar selection={selection} label="Ausgewählte Unternehmen" count={selectedCount === 1 ? "1 Unternehmen" : `${selectedCount} Unternehmen`} />
     </section>
   )
 }
