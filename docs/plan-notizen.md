@@ -20,7 +20,7 @@ Tabelle `note` (`apps/os/src/lib/db/schema/notes.ts`, Migration `0010_notes`):
 ## UI
 
 - `NoteEditor` (Tiptap 3, StarterKit ohne Überschriften, Code, Zitat, Durchstreichen, Unterstreichen, Linie): Toolbar Fett, Kursiv, Liste, nummerierte Liste, Link (Popover). ⌘/Strg+Enter speichert, Escape bricht ab. Markdown-Kürzel (`- `, `1. `, `**…**`) funktionieren.
-- Kontaktseite: unter Details/Eigenschaften eine eigene Section mit dem Eingabefeld (volle Breite, rahmenlos, Border unten), darunter die Timeline ohne Titel im Linear-Stil: Notizen als Karten (Avatar, Autor, relative Zeit, „(bearbeitet)“, Menü beim Hover), Aktivitäten als einzeilige Einträge, verbunden durch eine senkrechte Linie. Neueste zuerst.
+- Kontaktseite: unter Details/Eigenschaften eine eigene Section mit dem Eingabefeld (volle Breite, rahmenlos, Border unten), darunter die Timeline ohne Titel im Linear-Stil: ohne Karten: jeder Eintrag beginnt mit Avatar oder Icon auf einer senkrechten Linie; Notizen (Autor, relative Zeit, „(bearbeitet)“, Menü beim Hover) zeigen ihren Inhalt darunter, eingerückt hinter den Avatar; Aktivitäten sind einzeilig. Neueste zuerst.
 - Aktivitäten (`buildContactTimeline`) kommen vorerst aus den Zeitstempeln des Kontakts: angelegt (mit Ersteller), zuletzt bearbeitet (`synced_fields_edited_at`, ohne Person), aus Google Kontakte aktualisiert (`last_inbound_at`).
 
 ## Nächste Schritte

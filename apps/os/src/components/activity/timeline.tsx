@@ -7,12 +7,12 @@ import { Edit, Refresh } from "@mynaui/icons-react"
 import type { ReactNode } from "react"
 
 /**
- * Linear-style activity feed: notes as cards, events as single muted lines, joined by a vertical line that runs
- * through the avatars (left edge 16px padding + half of the 20px avatar).
+ * Linear-style activity feed without cards: every entry starts with an avatar or icon on a vertical line that runs
+ * through them; notes add their content below, indented past the avatar (half of the 20px avatar).
  */
 export const Timeline = ({ items }: { items: TimelineItem[] }) => (
-  <ol className={cn("relative flex flex-col gap-3")}>
-    <span aria-hidden className={cn("absolute top-3 bottom-3 left-[26px] w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-800")} />
+  <ol className={cn("relative flex flex-col gap-4")}>
+    <span aria-hidden className={cn("absolute top-3 bottom-3 left-2.5 w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-800")} />
     {items.map((item) => (
       <li key={`${item.kind}-${item.id}`} className={cn("relative")}>
         {item.kind === "note" ? <NoteItem note={item.note} /> : <EventRow event={item} />}
@@ -24,7 +24,7 @@ export const Timeline = ({ items }: { items: TimelineItem[] }) => (
 const EventRow = ({ event }: { event: TimelineEvent }) => {
   const { icon, text } = describe(event)
   return (
-    <div className={cn("flex min-h-7 items-center gap-2 px-4 text-sm text-neutral-500")}>
+    <div className={cn("flex min-h-7 items-center gap-2 text-sm text-neutral-500")}>
       {icon}
       <p className={cn("min-w-0")}>
         {text}
