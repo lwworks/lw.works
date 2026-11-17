@@ -1,5 +1,6 @@
 "use client"
 
+import { TabButton, TabLink, TabNav } from "@/components/molecules/tabs"
 import { buildRevenueRangeHref } from "@/lib/finance/build-revenue-range-href"
 import { formatMonth } from "@/lib/finance/format-month"
 import type { RevenuePreset, RevenueRange } from "@/lib/finance/revenue-range"
@@ -9,7 +10,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@lw/ui/components/popov
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@lw/ui/components/select"
 import { Switch } from "@lw/ui/components/switch"
 import { cn } from "@lw/ui/lib/utils"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -19,9 +19,6 @@ const PRESETS: { preset: Exclude<RevenuePreset, "frei">; label: string }[] = [
   { preset: "vorjahr", label: "Letztes Jahr" },
   { preset: "alles", label: "Alles" },
 ]
-
-const tabClass = (active: boolean) =>
-  cn("border-b border-transparent pb-2.5 hover:text-black dark:hover:text-white", active && "border-black font-medium text-black dark:border-white dark:text-white")
 
 /**
  * Range tabs, a custom month range and the comparison switch. Everything lives in the URL.
@@ -35,19 +32,18 @@ export const RangeControls = ({ range, compare, canCompare, months }: { range: R
   const options = months.toReversed()
 
   return (
-    // -mb-px lays the active tab's border onto the next section's top border.
-    <div className={cn("relative z-10 -mb-px flex flex-wrap items-end justify-between gap-x-6 gap-y-3 text-sm")}>
-      <nav aria-label="Zeitraum" className={cn("flex flex-wrap gap-x-6")}>
+    <div className={cn("flex flex-wrap items-end justify-between gap-x-6 gap-y-3 text-sm")}>
+      <TabNav aria-label="Zeitraum">
         {PRESETS.map(({ preset, label }) => (
-          <Link key={preset} href={buildRevenueRangeHref({ preset }, compare)} scroll={false} aria-current={range.preset === preset ? "page" : undefined} className={tabClass(range.preset === preset)}>
+          <TabLink key={preset} href={buildRevenueRangeHref({ preset }, compare)} active={range.preset === preset}>
             {label}
-          </Link>
+          </TabLink>
         ))}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <button type="button" className={tabClass(range.preset === "frei")}>
+            <TabButton active={range.preset === "frei"}>
               {range.preset === "frei" ? `${formatMonth(range.from, { short: true })} – ${formatMonth(range.to, { short: true })}` : "Benutzerdefiniert"}
-            </button>
+            </TabButton>
           </PopoverTrigger>
           <PopoverContent align="start" className={cn("flex w-72 flex-col gap-3")}>
             <MonthSelect id="range-from" label="Von" value={from} onChange={setFrom} options={options} />
@@ -62,7 +58,7 @@ export const RangeControls = ({ range, compare, canCompare, months }: { range: R
             </Button>
           </PopoverContent>
         </Popover>
-      </nav>
+      </TabNav>
       {canCompare ? (
         <div className={cn("flex items-center gap-2 pb-2.5")}>
           <Switch id="compare" checked={compare} onCheckedChange={(checked) => router.push(buildRevenueRangeHref(range, checked), { scroll: false })} />

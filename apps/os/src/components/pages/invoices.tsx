@@ -10,6 +10,7 @@ import { cn } from "@lw/ui/lib/utils"
 import { X } from "@mynaui/icons-react"
 import Link from "next/link"
 import { Layout } from "../molecules/layout"
+import { TabLink, TabNav } from "@/components/molecules/tabs"
 
 const VIEW_TABS: { view: InvoiceView; label: string }[] = [
   { view: "all", label: "Alle" },
@@ -60,37 +61,21 @@ export const InvoicesPage = ({
           ) : null}
         </PageHeader>
         <div className={cn("flex flex-wrap items-end justify-between gap-x-6 gap-y-3 px-4 sm:px-8 lg:px-16")}>
-          {/* -mb-px lays the active tab's border onto the table's top border. */}
-          <nav aria-label="Rechnungen filtern" className={cn("relative z-10 -mb-px flex flex-wrap gap-x-6 text-sm")}>
+          <TabNav aria-label="Rechnungen filtern">
             {VIEW_TABS.map((tab) => (
-              <Link
-                key={tab.view}
-                href={buildInvoicesHref({ view: tab.view, year, month })}
-                scroll={false}
-                aria-current={view === tab.view ? "page" : undefined}
-                className={cn(
-                  "border-b border-transparent pb-2.5 hover:text-black dark:hover:text-white",
-                  view === tab.view && "border-black font-medium text-black dark:border-white dark:text-white",
-                )}
-              >
+              <TabLink key={tab.view} href={buildInvoicesHref({ view: tab.view, year, month })} active={view === tab.view}>
                 {tab.label}
-              </Link>
+              </TabLink>
             ))}
-          </nav>
-          {month ? null : (
-            <nav aria-label="Jahr" className={cn("flex flex-wrap gap-x-4 pb-2.5 text-sm")}>
-              {[null, ...years].map((option) => (
-                <Link
-                  key={option ?? "all"}
-                  href={buildInvoicesHref({ view, year: option })}
-                  scroll={false}
-                  aria-current={year === option ? "page" : undefined}
-                  className={cn("tabular-nums hover:text-black dark:hover:text-white", year === option && "font-medium text-black dark:text-white")}
-                >
-                  {option ?? "Alle Jahre"}
-                </Link>
+          </TabNav>
+          {year === null ? null : (
+            <TabNav aria-label="Jahr">
+              {years.map((option) => (
+                <TabLink key={option} href={buildInvoicesHref({ view, year: option })} active={year === option} className={cn("tabular-nums")}>
+                  {option}
+                </TabLink>
               ))}
-            </nav>
+            </TabNav>
           )}
         </div>
         <InvoicesTable invoices={invoices} today={today} empty={EMPTY[view]} />

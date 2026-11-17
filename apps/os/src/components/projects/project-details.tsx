@@ -2,6 +2,7 @@ import { CompanyIcon } from "@/components/atoms/company-icon"
 import { ArchiveProjectButton } from "@/components/projects/archive-project-button"
 import { EditProjectDialog } from "@/components/projects/edit-project-dialog"
 import { ProjectBadge } from "@/components/projects/project-badge"
+import { TabLink, TabNav } from "@/components/molecules/tabs"
 import { ProjectTimeEntriesTable } from "@/components/projects/project-time-entries-table"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import type { ProjectContactOption } from "@/lib/db/contacts/list-project-contact-options"
@@ -139,23 +140,13 @@ export const ProjectDetails = ({
           {entries.length === PROJECT_TIME_ENTRIES_LIMIT ? ` Die neuesten ${PROJECT_TIME_ENTRIES_LIMIT}.` : null} Termine mit{" "}
           <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
         </p>
-        {/* -mb-px lays the active tab's border onto the table's top border. */}
-        <nav aria-label="Zeiteinträge filtern" className={cn("relative z-10 -mb-px mt-4 flex gap-6 text-sm")}>
+        <TabNav aria-label="Zeiteinträge filtern" className={cn("mt-4")}>
           {VIEW_TABS.map((tab) => (
-            <Link
-              key={tab.view}
-              href={tab.query ? `/projekte/${project.slug}?ansicht=${tab.query}` : `/projekte/${project.slug}`}
-              scroll={false}
-              aria-current={view === tab.view ? "page" : undefined}
-              className={cn(
-                "border-b border-transparent pb-2.5 hover:text-black dark:hover:text-white",
-                view === tab.view && "border-black font-medium text-black dark:border-white dark:text-white",
-              )}
-            >
+            <TabLink key={tab.view} href={tab.query ? `/projekte/${project.slug}?ansicht=${tab.query}` : `/projekte/${project.slug}`} active={view === tab.view}>
               {tab.label}
-            </Link>
+            </TabLink>
           ))}
-        </nav>
+        </TabNav>
       </div>
       <ProjectTimeEntriesTable key={view} entries={entries} view={view} projectId={project.id} projectKey={project.key} projects={projects} now={now} />
     </section>

@@ -1,4 +1,5 @@
 import type { InvoiceView } from '@/lib/db/invoices/invoice-view'
+import { spansAllYears } from '@/lib/finance/spans-all-years'
 
 const VIEW_PARAMS: Record<InvoiceView, string | null> = { all: null, draft: 'entwuerfe', open: 'offen', overdue: 'ueberfaellig', paid: 'bezahlt' }
 
@@ -8,7 +9,7 @@ export const buildInvoicesHref = ({ view, year, month }: { view: InvoiceView; ye
   const viewParam = VIEW_PARAMS[view]
   if (viewParam) params.set('ansicht', viewParam)
   if (month) params.set('monat', month)
-  else if (year) params.set('jahr', String(year))
+  else if (year && !spansAllYears(view)) params.set('jahr', String(year))
   const query = params.toString()
   return query ? `/finanzen/rechnungen?${query}` : '/finanzen/rechnungen'
 }
