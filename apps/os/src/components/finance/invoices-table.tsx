@@ -48,9 +48,14 @@ export const InvoicesTable = ({ invoices, today, hideCustomer = false, empty }: 
                 {hideCustomer ? null : (
                   <td className={cn("max-w-48 pr-2")}>
                     {invoice.companyId ? (
-                      <Link href={`/unternehmen/${invoice.companyId}`} className={cn("group inline-flex max-w-full items-center gap-1.5")}>
+                      <Link
+                        href={`/unternehmen/${invoice.companyId}`}
+                        className={cn(
+                          "inline-flex h-6 max-w-full items-center gap-1.5 rounded-full border pr-2 pl-1.5 hover:bg-neutral-100 hover:text-black dark:hover:bg-neutral-900 dark:hover:text-white",
+                        )}
+                      >
                         <CompanyIcon companyId={invoice.companyId} logoKey={invoice.companyLogoKey} />
-                        <span className={cn("truncate group-hover:underline")}>{invoice.companyName}</span>
+                        <span className={cn("truncate")}>{invoice.companyName}</span>
                       </Link>
                     ) : (
                       <span className={cn("block truncate")}>{invoice.contactName}</span>
