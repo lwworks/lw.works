@@ -36,6 +36,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
           protect={[
             { path: '/check', method: 'POST' },
             { path: '/bni', method: 'POST' },
+            { path: '/kontakt', method: 'POST' },
             { path: '/team/*', method: 'POST' },
             { path: '/api/booking/*', method: 'POST' },
           ]}
