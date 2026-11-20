@@ -15,14 +15,15 @@ let cachedToken: { value: string; expiresAt: number } | undefined
 async function getToken(config: RelayConfig, signal: AbortSignal) {
   if (cachedToken && cachedToken.expiresAt - Date.now() > 60_000) return cachedToken
 
-  const credentials = Buffer.from(`${config.LINEAR_CLIENT_ID}:${config.LINEAR_CLIENT_SECRET}`).toString('base64')
   const response = await fetch('https://api.linear.app/oauth/token', {
     method: 'POST',
-    headers: {
-      Authorization: `Basic ${credentials}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({ grant_type: 'client_credentials', scope: config.LINEAR_SCOPES }),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'client_credentials',
+      client_id: config.LINEAR_CLIENT_ID,
+      client_secret: config.LINEAR_CLIENT_SECRET,
+      scope: config.LINEAR_SCOPES,
+    }),
     signal,
     redirect: 'error',
   })

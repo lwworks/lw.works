@@ -109,6 +109,12 @@ describe('Linear agent webhook', () => {
     expect(fakeFetch.mock.calls.map(([url]) => url)).toEqual([
       'https://api.linear.app/oauth/token', graphQL, routineUrl,
     ])
+    expect(Object.fromEntries(new URLSearchParams(String(fakeFetch.mock.calls[0][1].body)))).toEqual({
+      grant_type: 'client_credentials',
+      client_id: 'client',
+      client_secret: 'test-client-secret',
+      scope: 'read,write,app:mentionable,app:assignable',
+    })
     expect(JSON.parse(String(fakeFetch.mock.calls[1][1].body)).variables.input).toEqual({
       agentSessionId: 'session',
       content: { type: 'thought', body: 'Atlas schaut sich das an …' },
