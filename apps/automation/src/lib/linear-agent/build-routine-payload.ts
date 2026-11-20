@@ -1,4 +1,4 @@
-import type { AgentEvent } from './event-schema'
+import type { AgentEvent } from './event-schema.js'
 
 export function buildRoutinePayload(event: AgentEvent) {
   const { agentSession, agentActivity, action } = event

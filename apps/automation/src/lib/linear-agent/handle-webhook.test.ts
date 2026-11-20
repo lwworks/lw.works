@@ -1,7 +1,7 @@
 import { createHmac } from 'node:crypto'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { handleWebhook } from './handle-webhook'
+import { handleWebhook } from './handle-webhook.js'
 
 const secret = 'test-signing-secret'
 const routineUrl = 'https://routine.example/hook'

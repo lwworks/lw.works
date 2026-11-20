@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 
-import { linear } from './routes/linear'
+import { linear } from './routes/linear.js'
 
 const app = new Hono()
 

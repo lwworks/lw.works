@@ -1,6 +1,9 @@
 {
   "extends": "@lw/typescript-config/base.json",
   "compilerOptions": {
+    // Vercel runs the compiled files as ESM without bundling: relative imports need `.js` extensions.
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "types": ["node"],
     "incremental": false
   },
