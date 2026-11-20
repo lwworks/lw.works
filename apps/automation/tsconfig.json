@@ -1,7 +1,6 @@
 {
   "extends": "@lw/typescript-config/base.json",
   "compilerOptions": {
-    "lib": ["esnext"],
     "types": ["node"],
     "incremental": false
   },
