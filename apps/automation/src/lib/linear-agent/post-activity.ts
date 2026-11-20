@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import type { RelayConfig } from './get-relay-config'
+import type { RelayConfig } from './get-relay-config.js'
 
 const tokenResponse = z.object({
   access_token: z.string().min(1),

@@ -21,3 +21,4 @@ src/
 - Every route authenticates its caller itself: provider signature (e.g. Linear HMAC over the raw body), bearer secret for own triggers, `CRON_SECRET` for crons.
 - Log only names and status codes, never payloads, tokens or secrets.
 - No Next.js imports and no `server-only` — this app has no client code.
+- Relative imports end in `.js` (`import { linear } from './routes/linear.js'`). Vercel runs the compiled files as unbundled ESM, so extensionless imports crash at runtime with `ERR_MODULE_NOT_FOUND`; `tsc` (`moduleResolution: nodenext`) rejects them.

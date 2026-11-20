@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
-import { eventSchema } from './event-schema'
-import { getRelayConfig } from './get-relay-config'
-import { relayEvent } from './relay-event'
-import { verifySignature } from './verify-signature'
+import { eventSchema } from './event-schema.js'
+import { getRelayConfig } from './get-relay-config.js'
+import { relayEvent } from './relay-event.js'
+import { verifySignature } from './verify-signature.js'
 
 const envelopeSchema = z.object({
   type: z.string(),

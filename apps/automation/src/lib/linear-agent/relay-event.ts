@@ -1,7 +1,7 @@
-import { buildRoutinePayload } from './build-routine-payload'
-import type { AgentEvent } from './event-schema'
-import type { RelayConfig } from './get-relay-config'
-import { postActivity } from './post-activity'
+import { buildRoutinePayload } from './build-routine-payload.js'
+import type { AgentEvent } from './event-schema.js'
+import type { RelayConfig } from './get-relay-config.js'
+import { postActivity } from './post-activity.js'
 
 export async function relayEvent(event: AgentEvent, config: RelayConfig) {
   const { id } = event.agentSession

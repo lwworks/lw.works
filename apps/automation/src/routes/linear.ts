@@ -1,7 +1,7 @@
 import { waitUntil } from '@vercel/functions'
 import { Hono } from 'hono'
 
-import { handleWebhook } from '../lib/linear-agent/handle-webhook'
+import { handleWebhook } from '../lib/linear-agent/handle-webhook.js'
 
 export const linear = new Hono()
 
