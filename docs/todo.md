@@ -88,3 +88,18 @@
 - [ ] Im Browser durchklicken: Notiz anlegen, Formatierung, Link setzen/entfernen, Bearbeiten, Löschen, Hell/Dunkel
 - [ ] Notizen für Unternehmen
 - [ ] Notizen für Projekte
+
+# Linear-Relay für Atlas (siehe `docs/plan-linear-atlas-agent.md`)
+
+- [x] Route in der OS-App integrieren (inzwischen nach `apps/automation` umgezogen)
+- [x] Vitest-Tests mit Mock-Fetch ergänzen
+- [x] Einrichtung und offene Live-Checks dokumentieren
+
+# Automation-App (siehe `docs/plan-automation.md`)
+
+- [x] Offene Fragen klären (Domain, Pfadschema, Umzug in PR #38)
+- [x] `apps/automation` mit Hono scaffolden (Health-Check, Dev-Server Port 3002, Vitest, ESLint-Preset `node`)
+- [x] Linear-Relay aus `apps/os` umziehen, Route `POST /linear/agent`, OS-Route löschen
+- [x] Doku (`docs/linear-agent.md`, README, AGENTS.md) anpassen
+- [ ] Vercel-Projekt `lw-automation` anlegen, Domain `automation.lw.works`, Env-Variablen umziehen
+- [ ] Erstes Preview-Deployment: Zero-Config-Erkennung im Monorepo prüfen
