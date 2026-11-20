@@ -1,0 +1,27 @@
+{
+  "name": "@lw/automation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env.local src/dev.ts",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vercel/functions": "^3.11.3",
+    "hono": "^4.12.9",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.1.11",
+    "@lw/eslint-config": "workspace:*",
+    "@lw/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "tsx": "^4.23.13",
+    "typescript": "catalog:",
+    "vitest": "^5.0.5"
+  }
+}

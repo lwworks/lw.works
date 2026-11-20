@@ -6,12 +6,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Monorepo
 
-pnpm workspaces + Turborepo. Both apps use Next.js with Turbopack.
+pnpm workspaces + Turborepo. `web` and `os` use Next.js with Turbopack; `automation` is a Hono app without UI.
 
 ```
 apps/
 ├── web/                 # @lw/web — website, www.lw.works (port 3000)
-└── os/                  # @lw/os  — internal OS app, os.lw.works (port 3001)
+├── os/                  # @lw/os  — internal OS app, os.lw.works (port 3001)
+└── automation/          # @lw/automation — Hono webhooks/automations, automation.lw.works (port 3002)
 packages/
 ├── ui/                  # @lw/ui  — shared design system (React only, no Next.js imports)
 ├── typescript-config/   # @lw/typescript-config — base, nextjs, react-library
@@ -22,8 +23,9 @@ packages/
 - Add dependencies to the package that imports them: `pnpm add <pkg> --filter @lw/web`. Versions shared across packages live in the `catalog` of `pnpm-workspace.yaml` (`"next": "catalog:"`).
 - Each app has its own `.env.local`. New env vars used at build time must be listed in that app's `turbo.json`.
 - Within an app, `@/*` maps to that app's `src/*`.
-- `pnpm test` runs Vitest (currently `apps/os`, `src/**/*.test.ts`).
-- `apps/os` keeps all logic in `src/lib/<service>/`, one function per file — see `apps/os/AGENTS.md`.
+- `pnpm test` runs Vitest (`apps/os`, `apps/automation`, `src/**/*.test.ts`).
+- `apps/os` and `apps/automation` keep all logic in `src/lib/<service>/`, one function per file — see their `AGENTS.md`.
+- Webhooks and automations that need neither a login nor OS data go to `apps/automation`, not into `web` or `os`.
 
 ## `@lw/ui`
 

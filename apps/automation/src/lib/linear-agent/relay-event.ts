@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { buildRoutinePayload } from './build-routine-payload'
 import type { AgentEvent } from './event-schema'
 import type { RelayConfig } from './get-relay-config'

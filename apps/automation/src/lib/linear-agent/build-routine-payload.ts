@@ -1,5 +1,3 @@
-import 'server-only'
-
 import type { AgentEvent } from './event-schema'
 
 export function buildRoutinePayload(event: AgentEvent) {

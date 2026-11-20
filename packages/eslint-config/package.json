@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     "./next": "./next.js",
-    "./react": "./react.js"
+    "./react": "./react.js",
+    "./node": "./node.js"
   },
   "dependencies": {
     "eslint-config-next": "catalog:",

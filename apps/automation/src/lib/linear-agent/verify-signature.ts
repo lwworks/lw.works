@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { createHmac, timingSafeEqual } from 'node:crypto'
 
 export function verifySignature(body: Buffer, signature: string | null, secret: string) {

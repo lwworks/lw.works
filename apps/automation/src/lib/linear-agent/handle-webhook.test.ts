@@ -3,8 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { handleWebhook } from './handle-webhook'
 
-vi.mock('server-only', () => ({}))
-
 const secret = 'test-signing-secret'
 const routineUrl = 'https://routine.example/hook'
 const graphQL = 'https://api.linear.app/graphql'
@@ -33,7 +31,7 @@ function sign(body: string) {
 
 function prepare(payload: unknown, signature?: (body: string) => string) {
   const body = JSON.stringify(payload, null, 2)
-  const request = new Request('https://os.lw.works/api/linear-agent', {
+  const request = new Request('https://automation.lw.works/linear/agent', {
     method: 'POST',
     headers: { 'Linear-Signature': (signature ?? sign)(body) },
     body,

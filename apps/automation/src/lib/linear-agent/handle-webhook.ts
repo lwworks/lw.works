@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { z } from 'zod'
 
 import { eventSchema } from './event-schema'
@@ -10,7 +8,7 @@ import { verifySignature } from './verify-signature'
 const envelopeSchema = z.object({
   type: z.string(),
   action: z.string(),
-  webhookTimestamp: z.unknown(),
+  webhookTimestamp: z.unknown().optional(),
 })
 
 export async function handleWebhook(request: Request, schedule: (work: () => Promise<void>) => void) {
