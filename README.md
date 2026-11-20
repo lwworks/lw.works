@@ -33,3 +33,7 @@ The website runs on [http://localhost:3000](http://localhost:3000), the OS on [h
 ## Deployment
 
 Each app is its own Vercel project from this repository, with the Root Directory set to `apps/web` and `apps/os` respectively.
+
+## Integrationen
+
+- [Atlas in Linear einrichten](docs/linear-agent.md)

@@ -88,3 +88,9 @@
 - [ ] Im Browser durchklicken: Notiz anlegen, Formatierung, Link setzen/entfernen, Bearbeiten, Löschen, Hell/Dunkel
 - [ ] Notizen für Unternehmen
 - [ ] Notizen für Projekte
+
+# Linear-Relay für Atlas (siehe `docs/plan-linear-atlas-agent.md`)
+
+- [x] Route in der OS-App integrieren
+- [x] Vitest-Tests mit Mock-Fetch ergänzen
+- [x] Einrichtung und offene Live-Checks dokumentieren
