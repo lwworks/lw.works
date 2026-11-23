@@ -13,7 +13,7 @@ export const HomeHeroSection = () => {
       <div className="relative z-10">
         <Brow color="lavender" className="mb-4">Digitalisierung für den Mittelstand</Brow>
         <Heading as="h1">Dein Potenzial schlummert in Deinen Prozessen</Heading>
-        <p className="mt-8 max-w-lg text-balance"><span className="font-medium text-black dark:text-white">Wir legen sie frei.</span> Mit Schnittstellen, Prozessautomatisierung, KI-Integrationen und individueller Software.</p>
+        <p className="mt-8 max-w-lg text-balance"><span className="font-medium text-black dark:text-white">Wir legen es frei.</span> Mit Schnittstellen, Prozessautomatisierung, KI-Integrationen und individueller Software.</p>
         <p className="mt-4 max-w-lg text-balance"><span className="font-medium text-black dark:text-white">Klingt kompliziert? Ist es gar nicht.</span> Im kostenlosen Prozess-Check finden wir schnell und einfach Optimierungsmöglichkeiten, um Dir Zeit und Geld zurückzuholen. <span className="font-medium text-black dark:text-white">Kostenlos und ohne Verkaufsgespräch.</span></p>
         <CTA>
           <Button asChild>
