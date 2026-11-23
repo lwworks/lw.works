@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildContactTimeline } from '@/lib/contacts/build-contact-timeline'
-import type { NoteListItem } from '@/lib/db/notes/list-contact-notes'
+import type { NoteListItem } from '@/lib/db/notes/list-notes'
 
 const creator = { name: 'Lukas', image: null }
 const note = (id: string, at: string): NoteListItem => ({

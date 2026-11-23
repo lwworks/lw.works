@@ -22,7 +22,7 @@ export const CompanyFinances = ({ companyId, finances }: { companyId: string; fi
     )
   }
   return (
-    <div>
+    <div className={cn("border-b border-neutral-200 dark:border-neutral-800")}>
       <div className={cn("px-4 sm:px-8 lg:px-16 pt-8 pb-6")}>
         <div className={cn("flex flex-wrap items-center justify-between gap-3")}>
           <Heading as="h2" size="h4">SevDesk</Heading>

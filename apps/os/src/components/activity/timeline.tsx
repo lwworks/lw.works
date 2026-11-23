@@ -3,26 +3,28 @@ import { RelativeTime } from "@/components/activity/relative-time"
 import { NoteItem } from "@/components/notes/note-item"
 import type { TimelineEvent, TimelineItem } from "@/lib/contacts/build-contact-timeline"
 import { cn } from "@lw/ui/lib/utils"
-import { Edit, Refresh } from "@mynaui/icons-react"
+import { Edit, Plus, Refresh } from "@mynaui/icons-react"
 import type { ReactNode } from "react"
 
 /**
  * Linear-style activity feed without cards: every entry starts with an avatar or icon on a vertical line that runs
  * through them; notes add their content below, indented past the avatar (half of the 20px avatar).
  */
-export const Timeline = ({ items }: { items: TimelineItem[] }) => (
+export type TimelineSubject = "Kontakt" | "Unternehmen" | "Projekt"
+
+export const Timeline = ({ items, subject }: { items: TimelineItem[]; subject: TimelineSubject }) => (
   <ol className={cn("relative flex flex-col gap-4")}>
     <span aria-hidden className={cn("absolute top-3 bottom-3 left-2.5 w-px -translate-x-1/2 bg-neutral-200 dark:bg-neutral-800")} />
     {items.map((item) => (
       <li key={`${item.kind}-${item.id}`} className={cn("relative")}>
-        {item.kind === "note" ? <NoteItem note={item.note} /> : <EventRow event={item} />}
+        {item.kind === "note" ? <NoteItem note={item.note} /> : <EventRow event={item} subject={subject} />}
       </li>
     ))}
   </ol>
 )
 
-const EventRow = ({ event }: { event: TimelineEvent }) => {
-  const { icon, text } = describe(event)
+const EventRow = ({ event, subject }: { event: TimelineEvent; subject: TimelineSubject }) => {
+  const { icon, text } = describe(event, subject)
   return (
     <div className={cn("flex min-h-7 items-center gap-2 text-sm text-neutral-500")}>
       {icon}
@@ -41,14 +43,24 @@ const IconDot = ({ children }: { children: ReactNode }) => (
   </span>
 )
 
-const describe = (event: TimelineEvent): { icon: ReactNode; text: ReactNode } => {
+const describe = (event: TimelineEvent, subject: TimelineSubject): { icon: ReactNode; text: ReactNode } => {
   switch (event.type) {
     case "created":
+      if (!event.actor) {
+        return {
+          icon: (
+            <IconDot>
+              <Plus strokeWidth={1.5} className={cn("size-3")} />
+            </IconDot>
+          ),
+          text: `${subject} angelegt`,
+        }
+      }
       return {
-        icon: event.actor ? <ActorAvatar name={event.actor.name} image={event.actor.image} className={cn("ring-2 ring-background")} /> : null,
+        icon: <ActorAvatar name={event.actor.name} image={event.actor.image} className={cn("ring-2 ring-background")} />,
         text: (
           <>
-            <span className={cn("font-medium text-black dark:text-white")}>{event.actor?.name ?? "Jemand"}</span> hat den Kontakt angelegt
+            <span className={cn("font-medium text-black dark:text-white")}>{event.actor.name}</span> hat {subject === "Kontakt" ? "den" : "das"} {subject} angelegt
           </>
         ),
       }
@@ -59,7 +71,7 @@ const describe = (event: TimelineEvent): { icon: ReactNode; text: ReactNode } =>
             <Edit strokeWidth={1.5} className={cn("size-3")} />
           </IconDot>
         ),
-        text: "Kontakt zuletzt bearbeitet",
+        text: `${subject} zuletzt bearbeitet`,
       }
     case "google_update":
       return {

@@ -1,4 +1,4 @@
-import type { NoteListItem } from '@/lib/db/notes/list-contact-notes'
+import type { NoteListItem } from '@/lib/db/notes/list-notes'
 
 export type TimelineActor = { name: string; image: string | null }
 

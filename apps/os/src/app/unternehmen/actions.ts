@@ -6,6 +6,7 @@ import { createCompany } from '@/lib/companies/create-company'
 import { removeCompany } from '@/lib/companies/remove-company'
 import { saveCompany } from '@/lib/companies/save-company'
 import { linkCompanySevdeskContact } from '@/lib/finance/link-company-sevdesk-contact'
+import { addCompanyNote } from '@/lib/notes/add-company-note'
 import { refresh } from 'next/cache'
 import { redirect } from 'next/navigation'
 
@@ -50,4 +51,12 @@ export async function linkCompanySevdeskContactAction(companyId: string, sevdesk
   const result = await linkCompanySevdeskContact(companyId, sevdeskContactId)
   if (result.ok) refresh()
   return result
+}
+
+/** `doc` is the editor's JSON; `addCompanyNote` validates it. */
+export async function addCompanyNoteAction(companyId: string, doc: unknown) {
+  const result = await addCompanyNote(companyId, doc)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
 }
