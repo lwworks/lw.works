@@ -32,7 +32,7 @@ project
   key                   text not null                -- "BR", unveränderlich; unique nur unter nicht archivierten Projekten
   slug                  text not null, unique        -- aus dem Titel
   title                 text not null
-  description           text
+  description           jsonb                         -- Rich Text wie Notizen (NoteDoc), seit 0011_project-description-doc; null = leer
   status                text not null default 'planning'
   startDate             date                          -- optional
   endDate               date                          -- optional, check: endDate >= startDate
@@ -112,7 +112,9 @@ Bei ausgewählten Einträgen erscheint unten eine Leiste mit einem Select: Proje
   - Kunde (Combobox, nur beim Anlegen) und Ansprechpartner (Mehrfachauswahl, nur nicht-private Kontakte des gewählten Kunden)
   - Status (Select), Start/Ende (Date Picker)
   - Abrechnungsart (Radio Group) mit den passenden Feldern: Stundensatz, Festpreis oder Retainer-Betrag/Monat + Stunden/Monat
-  - Beschreibung (Textarea)
-- **`/projekte/[slug]`:** dieselben Felder wie beim Anlegen, Kürzel und Kunde nur lesbar. Außerdem Stunden gesamt (alle Nutzer), die letzten Zeiteinträge (mit Nutzer) und ein Button „Archivieren“ bzw. „Wiederherstellen“.
+- **Projektseite:** oben Titel, Bearbeiten (Dialog mit den Feldern vom Anlegen, Kürzel und Kunde nur lesbar), Archivieren/Wiederherstellen und die Basisdaten (Kunde, Status, Zeitraum, Ansprechpartner, Abrechnung, Stunden). Darunter zwei Tabs als eigene URLs:
+  - **Kontext** (`/projekte/[slug]`): Beschreibung wie in Linear, direkt auf der Seite bearbeitet (Tiptap mit denselben Formaten wie Notizen, kein Bearbeiten-Modus, speichert nach einer kurzen Tipppause und beim Verlassen des Felds; Toolbar beim Hover/Fokus). Bei archivierten Projekten nur lesbar. Darunter Notizen und Aktivität wie bei Kontakten und Unternehmen.
+  - **Zeiterfassung** (`/projekte/[slug]/zeiterfassung`): Zeiteinträge aller Nutzer mit den Filtern Alle/Offen/Abgerechnet (`?ansicht=`). Alte Links `/projekte/[slug]?ansicht=…` leiten dorthin weiter.
+- Die Beschreibung steht nicht mehr im Formular für Anlegen/Bearbeiten; sie wird nach dem Anlegen im Kontext-Tab geschrieben.
 - **Unternehmensseite:** Liste der Projekte des Unternehmens.
 - **Zeiterfassung:** Projekt-Badge in der Zeile und die Aktionsleiste für die Mehrfachauswahl.

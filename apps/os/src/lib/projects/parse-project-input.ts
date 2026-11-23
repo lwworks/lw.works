@@ -4,7 +4,6 @@ import { parseEuroCents } from '@/lib/projects/parse-euro-cents'
 
 export type ProjectInput = {
   title: string
-  description: string | null
   status: ProjectStatus
   startDate: string | null
   endDate: string | null
@@ -35,7 +34,10 @@ const readCents = (formData: FormData, name: string) => {
   return text ? parseEuroCents(text) : null
 }
 
-/** The editable project fields. Key and company are set only on create (see `parseNewProjectFields`). */
+/**
+ * The project fields of the create/edit form. Key and company are set only on create (see `parseNewProjectFields`);
+ * the description is edited in place on the Kontext tab (`saveProjectDescription`).
+ */
 export const parseProjectInput = (formData: FormData): Result => {
   const title = readOptionalText(formData.get('title'), 200)
   if (!title) return { ok: false, message: 'Titel ist erforderlich.' }
@@ -80,7 +82,6 @@ export const parseProjectInput = (formData: FormData): Result => {
     ok: true,
     value: {
       title,
-      description: readOptionalText(formData.get('description'), 5000),
       status: status as ProjectStatus,
       startDate,
       endDate,

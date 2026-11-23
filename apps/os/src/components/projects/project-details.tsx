@@ -3,12 +3,9 @@ import { ArchiveProjectButton } from "@/components/projects/archive-project-butt
 import { EditProjectDialog } from "@/components/projects/edit-project-dialog"
 import { ProjectBadge } from "@/components/projects/project-badge"
 import { TabLink, TabNav } from "@/components/molecules/tabs"
-import { ProjectTimeEntriesTable } from "@/components/projects/project-time-entries-table"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import type { ProjectContactOption } from "@/lib/db/contacts/list-project-contact-options"
-import type { AssignableProject } from "@/lib/db/projects/list-assignable-projects"
 import type { ProjectDetail } from "@/lib/db/projects/get-project-by-slug"
-import { PROJECT_TIME_ENTRIES_LIMIT, type ProjectTimeEntriesView, type ProjectTimeEntry } from "@/lib/db/time-entries/list-project-time-entries"
 import { formatDuration } from "@/lib/format/format-duration"
 import { formatBilling } from "@/lib/projects/format-billing"
 import { formatProjectPeriod } from "@/lib/projects/format-project-period"
@@ -17,33 +14,26 @@ import { Heading } from "@lw/ui/atoms/heading"
 import { cn } from "@lw/ui/lib/utils"
 import { Archive, ArrowLeft } from "@mynaui/icons-react"
 import Link from "next/link"
+import type { ReactNode } from "react"
 
-const VIEW_TABS: { view: ProjectTimeEntriesView; label: string; query: string | null }[] = [
-  { view: "all", label: "Alle", query: null },
-  { view: "open", label: "Offen", query: "offen" },
-  { view: "billed", label: "Abgerechnet", query: "abgerechnet" },
+export type ProjectTab = "context" | "time"
+
+const TABS: { tab: ProjectTab; label: string; path: string }[] = [
+  { tab: "context", label: "Kontext", path: "" },
+  { tab: "time", label: "Zeiterfassung", path: "/zeiterfassung" },
 ]
 
-const VIEW_DESCRIPTIONS: Record<ProjectTimeEntriesView, string> = {
-  all: "Alle Einträge aller Nutzer.",
-  open: "Noch nicht abgerechnete Einträge aller Nutzer.",
-  billed: "Abgerechnete Einträge aller Nutzer.",
-}
-
+/** Header and base data of a project, then the tabs; the active tab's content comes in as `children`. */
 export const ProjectDetails = ({
   project,
-  entries,
-  view,
   contactOptions,
-  projects,
-  now,
+  tab,
+  children,
 }: {
   project: ProjectDetail
-  entries: ProjectTimeEntry[]
-  view: ProjectTimeEntriesView
   contactOptions: ProjectContactOption[]
-  projects: AssignableProject[]
-  now: Date
+  tab: ProjectTab
+  children: ReactNode
 }) => {
   const archived = project.archivedAt !== null
   const period = formatProjectPeriod(project)
@@ -69,7 +59,6 @@ export const ProjectDetails = ({
                 project={{
                   key: project.key,
                   title: project.title,
-                  description: project.description,
                   status: project.status,
                   startDate: project.startDate,
                   endDate: project.endDate,
@@ -94,7 +83,7 @@ export const ProjectDetails = ({
         ) : null}
       </div>
 
-      <dl className={cn("grid grid-cols-1 gap-x-8 gap-y-6 border-b border-neutral-200 px-4 sm:px-8 lg:px-16 py-8 text-sm sm:grid-cols-3 dark:border-neutral-800")}>
+      <dl className={cn("grid grid-cols-1 gap-x-8 gap-y-6 px-4 sm:px-8 lg:px-16 py-8 text-sm sm:grid-cols-3")}>
         <Item label="Kunde">
           <Link href={`/unternehmen/${project.company.id}`} className={cn("inline-flex items-center gap-1.5 hover:underline")}>
             <CompanyIcon companyId={project.company.id} logoKey={project.company.logoKey} />
@@ -125,35 +114,23 @@ export const ProjectDetails = ({
             {formatDuration(project.openMs)} offen · {formatDuration(project.billedMs)} abgerechnet
           </span>
         </Item>
-        {project.description ? (
-          <div className={cn("sm:col-span-3")}>
-            <dt>Beschreibung</dt>
-            <dd className={cn("mt-1 whitespace-pre-line text-black dark:text-white")}>{project.description}</dd>
-          </div>
-        ) : null}
       </dl>
 
-      <div className={cn("px-4 sm:px-8 lg:px-16 pt-8")}>
-        <Heading as="h2" size="h4">Zeiteinträge</Heading>
-        <p className={cn("mt-1 text-sm")}>
-          {VIEW_DESCRIPTIONS[view]}
-          {entries.length === PROJECT_TIME_ENTRIES_LIMIT ? ` Die neuesten ${PROJECT_TIME_ENTRIES_LIMIT}.` : null} Termine mit{" "}
-          <span className={cn("font-mono text-black dark:text-white")}>{project.key}:</span> am Anfang des Titels werden automatisch zugeordnet.
-        </p>
-        <TabNav aria-label="Zeiteinträge filtern" className={cn("mt-4")}>
-          {VIEW_TABS.map((tab) => (
-            <TabLink key={tab.view} href={tab.query ? `/projekte/${project.slug}?ansicht=${tab.query}` : `/projekte/${project.slug}`} active={view === tab.view}>
-              {tab.label}
+      <div className={cn("px-4 sm:px-8 lg:px-16")}>
+        <TabNav aria-label="Projektansicht">
+          {TABS.map((item) => (
+            <TabLink key={item.tab} href={`/projekte/${project.slug}${item.path}`} active={tab === item.tab}>
+              {item.label}
             </TabLink>
           ))}
         </TabNav>
       </div>
-      <ProjectTimeEntriesTable key={view} entries={entries} view={view} projectId={project.id} projectKey={project.key} projects={projects} now={now} />
+      <div className={cn("border-t border-neutral-200 dark:border-neutral-800")}>{children}</div>
     </section>
   )
 }
 
-const Item = ({ label, children }: { label: string; children: React.ReactNode }) => (
+const Item = ({ label, children }: { label: string; children: ReactNode }) => (
   <div>
     <dt>{label}</dt>
     <dd className={cn("mt-1 font-medium text-black dark:text-white")}>{children}</dd>
