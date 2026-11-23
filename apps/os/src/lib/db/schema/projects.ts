@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm'
-import { check, date, index, integer, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import { check, date, index, integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import type { NoteDoc } from '../../notes/note-doc'
 import { company, contact } from './crm'
 
 const timestamptz = (name: string) => timestamp(name, { withTimezone: true })
@@ -19,7 +20,8 @@ export const project = pgTable(
     key: text('key').notNull(),
     slug: text('slug').notNull(),
     title: text('title').notNull(),
-    description: text('description'),
+    /** Rich text like notes (`parseNoteDoc`), edited in place on the project's Kontext tab; null when empty. */
+    description: jsonb('description').$type<NoteDoc>(),
     status: text('status').$type<ProjectStatus>().default('planning').notNull(),
     startDate: date('start_date', { mode: 'string' }),
     endDate: date('end_date', { mode: 'string' }),

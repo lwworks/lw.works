@@ -13,14 +13,12 @@ import { Input } from "@lw/ui/components/input"
 import { Label } from "@lw/ui/components/label"
 import { RadioGroup, RadioGroupItem } from "@lw/ui/components/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@lw/ui/components/select"
-import { Textarea } from "@lw/ui/components/textarea"
 import { cn } from "@lw/ui/lib/utils"
 import { useActionState, useEffect, useState } from "react"
 
 export type ProjectFormValues = {
   key: string
   title: string
-  description: string | null
   status: ProjectStatus
   startDate: string | null
   endDate: string | null
@@ -212,10 +210,6 @@ export const ProjectForm = ({
           </div>
         ) : null}
       </fieldset>
-
-      <Field label="Beschreibung" htmlFor="description">
-        <Textarea id="description" name="description" defaultValue={project?.description ?? ""} rows={4} maxLength={5000} />
-      </Field>
 
       {state && !state.ok ? <p className={cn("text-sm text-destructive")}>{state.message}</p> : null}
       <div className={cn("flex justify-end")}>

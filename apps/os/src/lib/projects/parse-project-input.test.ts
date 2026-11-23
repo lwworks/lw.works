@@ -13,12 +13,11 @@ const form = (entries: Record<string, string | string[]>) => {
 const base = { title: 'Website Relaunch', status: 'active', billing: 'hourly', hourlyRate: '95', contactIds: ['c1'] }
 
 describe('parseProjectInput', () => {
-  it('reads an hourly project and clears the other billing fields', () => {
+  it('reads an hourly project, clears the other billing fields and ignores a description', () => {
     expect(parseProjectInput(form({ ...base, fixedPrice: '1000', description: '  Neue Seite  ', startDate: '2026-11-01' }))).toEqual({
       ok: true,
       value: {
         title: 'Website Relaunch',
-        description: 'Neue Seite',
         status: 'active',
         startDate: '2026-11-01',
         endDate: null,

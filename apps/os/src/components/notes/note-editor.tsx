@@ -17,8 +17,35 @@ import { useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode
 const subscribeNoop = () => () => {}
 
 /** ⌘ on Apple devices, Strg elsewhere; Strg on the server, so hydration stays stable. */
-const useModifierKey = () =>
+export const useModifierKey = () =>
   useSyncExternalStore(subscribeNoop, () => (/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Strg"), () => "Strg")
+
+/** Tiptap extensions for note-formatted text; everything StarterKit adds beyond what `parseNoteDoc` keeps is off. */
+export const noteExtensions = (placeholder: string) => [
+  StarterKit.configure({
+    heading: false,
+    blockquote: false,
+    codeBlock: false,
+    code: false,
+    strike: false,
+    underline: false,
+    horizontalRule: false,
+    link: {
+      openOnClick: false,
+      autolink: true,
+      linkOnPaste: true,
+      defaultProtocol: "https",
+      protocols: ["mailto", "tel"],
+      isAllowedUri: (url) => safeNoteHref(url) !== null,
+      HTMLAttributes: { target: "_blank", rel: "noopener noreferrer nofollow" },
+    },
+  }),
+  Placeholder.configure({ placeholder }),
+]
+
+/** Shows the placeholder of an empty editor; goes on an element around `EditorContent`. */
+export const editorPlaceholderClassName =
+  "[&_.is-editor-empty:first-child::before]:pointer-events-none [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:text-neutral-400 [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]"
 
 /**
  * Rich-text editor for notes: bold, italic, bullet and numbered lists, links. Everything else from Tiptap's
@@ -54,27 +81,7 @@ export const NoteEditor = ({
     immediatelyRender: false,
     autofocus: autoFocus ? "end" : false,
     content: initialContent,
-    extensions: [
-      StarterKit.configure({
-        heading: false,
-        blockquote: false,
-        codeBlock: false,
-        code: false,
-        strike: false,
-        underline: false,
-        horizontalRule: false,
-        link: {
-          openOnClick: false,
-          autolink: true,
-          linkOnPaste: true,
-          defaultProtocol: "https",
-          protocols: ["mailto", "tel"],
-          isAllowedUri: (url) => safeNoteHref(url) !== null,
-          HTMLAttributes: { target: "_blank", rel: "noopener noreferrer nofollow" },
-        },
-      }),
-      Placeholder.configure({ placeholder }),
-    ],
+    extensions: noteExtensions(placeholder),
     editorProps: {
       attributes: {
         class: cn(noteProseClassName, "outline-none", variant === "bare" ? "min-h-16 py-1" : "min-h-12 px-3 py-2"),
@@ -115,12 +122,12 @@ export const NoteEditor = ({
       className={cn(
         variant === "boxed" &&
           "rounded-lg border border-neutral-200 bg-white transition-colors focus-within:border-neutral-400 dark:border-neutral-800 dark:bg-neutral-950 dark:focus-within:border-neutral-600",
-        "[&_.is-editor-empty:first-child::before]:pointer-events-none [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:text-neutral-400 [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]",
+        editorPlaceholderClassName,
       )}
     >
       <EditorContent editor={editor} />
       <div className={cn("flex items-center justify-between gap-2", variant === "bare" ? "pt-2" : "px-2 pb-2")}>
-        {editor ? <Toolbar editor={editor} modifierKey={modifierKey} /> : <div className="h-7" />}
+        {editor ? <NoteToolbar editor={editor} modifierKey={modifierKey} /> : <div className="h-7" />}
         <div className="flex items-center gap-2">
           <span className="hidden text-xs text-neutral-400 sm:inline">{modifierKey} + Enter</span>
           {onCancel ? (
@@ -137,7 +144,8 @@ export const NoteEditor = ({
   )
 }
 
-const Toolbar = ({ editor, modifierKey }: { editor: Editor; modifierKey: string }) => {
+/** Bold, italic, lists and link buttons for a note-formatted editor. */
+export const NoteToolbar = ({ editor, modifierKey }: { editor: Editor; modifierKey: string }) => {
   const state = useEditorState({
     editor,
     selector: ({ editor }) => ({

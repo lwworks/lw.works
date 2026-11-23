@@ -33,6 +33,10 @@
 - [x] Sidebar-Link, Typecheck, Lint, Tests
 - [ ] Migration `0004_projects` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
 - [ ] Im Browser durchklicken: Projekt anlegen, rückwirkende Zuordnung, Sync, Mehrfachauswahl, Archivieren/Wiederherstellen
+- [x] Projektseite mit Tabs Kontext (Beschreibung wie in Linear + Notizen) und Zeiterfassung
+- [x] Beschreibung als Rich Text (jsonb) + Migration `0011_project-description-doc` (bestehende Texte werden zu Absätzen)
+- [ ] Migration `0011_project-description-doc` auf der Datenbank ausführen (auch auf Preview-Branch-Datenbanken)
+- [ ] Im Browser durchklicken: Beschreibung tippen/formatieren, Autosave, Tab-Wechsel direkt nach dem Tippen, archiviertes Projekt nur lesbar
 
 # OS: Kontakt-Sidebar, Favicons, Projekt-Icons
 
