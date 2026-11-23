@@ -5,6 +5,7 @@ import { getDb } from '@/lib/db/get-db'
 import { user } from '@/lib/db/schema/auth'
 import { note } from '@/lib/db/schema/notes'
 import type { NoteDoc } from '@/lib/notes/note-doc'
+import type { NoteOwner } from '@/lib/db/notes/insert-note'
 import { desc, eq } from 'drizzle-orm'
 
 export type NoteListItem = {
@@ -17,8 +18,11 @@ export type NoteListItem = {
   updatedAt: Date
 }
 
-/** Notes of one contact, newest first. The caller checks that the contact is visible (`getVisibleContact`). */
-export const listContactNotes = async (contactId: string): Promise<NoteListItem[]> => {
+/**
+ * Notes of one contact, company or project, newest first. For contacts the caller checks that the contact is visible
+ * (`getVisibleContact`); companies and projects are visible to every member.
+ */
+export const listNotes = async (owner: NoteOwner): Promise<NoteListItem[]> => {
   const userId = await requireUserId()
   const rows = await getDb()
     .select({
@@ -32,7 +36,14 @@ export const listContactNotes = async (contactId: string): Promise<NoteListItem[
     })
     .from(note)
     .innerJoin(user, eq(note.createdByUserId, user.id))
-    .where(eq(note.contactId, contactId))
+    .where(ownerWhere(owner))
     .orderBy(desc(note.createdAt))
   return rows.map(({ authorId, ...row }) => ({ ...row, canEdit: authorId === userId }))
 }
+
+const ownerWhere = (owner: NoteOwner) =>
+  'contactId' in owner
+    ? eq(note.contactId, owner.contactId)
+    : 'companyId' in owner
+      ? eq(note.companyId, owner.companyId)
+      : eq(note.projectId, owner.projectId)

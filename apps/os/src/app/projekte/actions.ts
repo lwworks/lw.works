@@ -1,5 +1,6 @@
 'use server'
 
+import { addProjectNote } from '@/lib/notes/add-project-note'
 import { archiveProject } from '@/lib/projects/archive-project'
 import { createProject } from '@/lib/projects/create-project'
 import { restoreProject } from '@/lib/projects/restore-project'
@@ -44,4 +45,12 @@ export async function setTimeEntriesBilledAction(input: { projectId: string; ids
   const result = await billTimeEntries(input)
   if (result.ok) refresh()
   return result
+}
+
+/** `doc` is the editor's JSON; `addProjectNote` validates it. */
+export async function addProjectNoteAction(projectId: string, doc: unknown) {
+  const result = await addProjectNote(projectId, doc)
+  if (!result.ok) return result
+  refresh()
+  return { ok: true as const }
 }

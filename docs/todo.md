@@ -86,8 +86,9 @@
 - [ ] Aktivitätsprotokoll mit Person pro Änderung
 - [x] Migration `0010_notes` auf der Datenbank ausführen (`pnpm --filter @lw/os db:migrate`)
 - [ ] Im Browser durchklicken: Notiz anlegen, Formatierung, Link setzen/entfernen, Bearbeiten, Löschen, Hell/Dunkel
-- [ ] Notizen für Unternehmen
-- [ ] Notizen für Projekte
+- [x] Notizen für Unternehmen
+- [x] Notizen für Projekte
+- [ ] Im Browser durchklicken: Notizen auf Unternehmens- und Projektseite (auch archiviertes Projekt, Admin mit/ohne SevDesk)
 
 # Linear-Relay für Atlas (siehe `docs/plan-linear-atlas-agent.md`)
 

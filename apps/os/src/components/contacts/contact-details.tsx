@@ -1,10 +1,9 @@
-import { Timeline } from "@/components/activity/timeline"
 import { CompanyIcon } from "@/components/atoms/company-icon"
-import { ContactNoteComposer } from "@/components/contacts/contact-notes"
 import { DeleteContactButton } from "@/components/contacts/delete-contact-button"
 import { ContactTagsPicker } from "@/components/contacts/contact-tags-picker"
 import { EditContactDialog } from "@/components/contacts/contact-form"
 import { PrivacySwitch } from "@/components/contacts/privacy-switch"
+import { NotesSection } from "@/components/notes/notes-section"
 import { formatBirthday } from "@/lib/contacts/format-birthday"
 import { formatContactName } from "@/lib/contacts/format-contact-name"
 import { formatDisplayId } from "@/lib/contacts/format-display-id"
@@ -126,12 +125,7 @@ export const ContactDetails = ({
           </div>
         </aside>
       </div>
-      <div className="border-b border-neutral-200 px-4 py-6 sm:px-8 lg:px-16 dark:border-neutral-800">
-        <ContactNoteComposer displayId={contact.displayId} />
-      </div>
-      <div className="px-4 py-8 sm:px-8 lg:px-16">
-        <Timeline items={timeline} />
-      </div>
+      <NotesSection target={{ type: "contact", displayId: contact.displayId }} subject="Kontakt" timeline={timeline} />
     </section>
   )
 }
